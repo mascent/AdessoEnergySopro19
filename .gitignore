@@ -1,0 +1,29 @@
+# InteliJ stuff
+.idea
+.idea/
+*.iml
+*.iws
+*.eml
+
+# Eclipse
+.settings
+.settings/
+bin
+.classpath
+.project
+
+# vs code
+.vscode
+
+# Runtime files
+*.log
+.lock
+*.tmp
+
+# build directories
+**/bin
+**/out
+
+# compiled code
+*.class
+*.exe
