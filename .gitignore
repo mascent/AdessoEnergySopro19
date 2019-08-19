@@ -27,3 +27,14 @@ bin
 # compiled code
 *.class
 *.exe
+
+#latex build files
+*.aux
+*.bbl
+*.blg
+*.fdb
+*.fls
+*.out
+*.synctex.gz
+*.toc
+
