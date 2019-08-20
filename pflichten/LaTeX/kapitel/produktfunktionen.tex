@@ -20,6 +20,32 @@ In  Tabelle~\autoref{fig:akteur-tabelle} werden alle auftretenden Akteure beschr
 	\label{fig:akteur-tabelle}
 \end{figure}
 
+%%%%%%%%%%%%%%%
+%% Eigene Arbeit %%
+%%%%%%%%%%%%%%%
+\section{Features}
+Das folgende Kapitel behandelt alle erdachten Features und unterteilt diese in die Kategorien Muss-, Soll- oder Kann-Features. 
+Die Muss-Features sind dabei essentiell für die Funktionalität der Software und haben höchste Priorität.
+Soll-Features sind Erweiterungen der Grundfunktionen oder Verbesserungen der Muss-Features. Dabei ist die Grundfunktionalität der Software bereits durch die Muss-Features abgedeckt.
+Wenn genug Zeit vorhanden ist, dann werden Funktionalitäten aus der Kategorie der Kann-Features implementiert. 
+Diese stellen eine sinnvolle Erweiterung zum Projek dar, sind aber im Gegensatz zu den Soll-Features nicht Teil der ursprünglichen Anforderungen.
+\subsection{Muss-Features}
+Die folgenden Features sind von uns als grundlegend eingestuft worden und umfassen die Kernfunktionalitäten von App und Anwendung.
+\begin{itemize}
+\item \textbf{History} \hfill \\
+	In der App und auf der Website lassen sich die letzten Zählerstände für einen Account abrufen.
+	Dabei wird der letzte Stand als Bild und weitere als Wert angezeigt.
+\item \textbf{Scannen} \hfill \\
+	In der App können Fotos aufgenommen und anschließend hochgeladen werden. 
+	Wird von Azure ein Zähler auf dem Foto erkannt, dann wird der Zählerstand ausgelesen und an die Datenbank übermittelt.
+	Außerdem wird das Foto gespeichert.
+\item \textbf{Manuelles Eintragen} \hfill \\
+	Auf der Website und in der App lassen sich Zählerart und Zählerstände manuell eintragen.
+\item \textbf{Nutzerverwaltung} \hfill \\
+	Mit Adminstrationsrechten können Kund*innendaten eingesehen, verändert oder neu ins System eingetragen werden.
+	Dabei lassen sich Ergebnisse sortieren und filtern.
+\end{itemize}
+
 
 %%%%%%%%%%%%%%%
 %% Anwendungsfall 1 %%

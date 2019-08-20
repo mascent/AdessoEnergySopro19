@@ -1,4 +1,4 @@
-# Gruppierung Featuers
+# Gruppierung Features
 
 ### Muss
 + App
@@ -10,34 +10,43 @@
 	* Datenbankzugriffe
 + Backend
 	* nicht klassifizierbare behandeln
++  Webside
+  * Account Settings
 ### Soll
 + App
 	* Bearbeitungs-requests 
 	* Bild hochladen -> Galerie
-	* Account Settings
+	* Account Settings (inApp)
 	* mehrere Zähler
 	* push notifications
 	* Nebenläufigkeit
 + Admin-Sicht
-        * requests annehmen
+    
+	* requests annehmen
+	
 	* Fehlerbehandlung
 	* Admin und Support unterteilen
 + Backend
+	
 	* Fehler in den Zahlen (unrealistische Werte)
 ### Kann
 + App
 	* Diagramm
-	* Berechnungen
+	* ~~Berechnungen~~ (Vergleich Vormonat)
 	* Darkmode
-	* Vertragsdetails
+	* ~~Vertragsdetails~~
 	* Language Support (Englisch)
 	* Winstreaks \ Achievements
 + Webside
 	* Erkennt App auf Endgerät
 + Admin-Sicht
-        * Statistik
-        * Vertragsdetails ändern
+    * Statistik
+    * ~~Vertragsdetails ändern~~
 + Backend
 	* Fotos speichern
 
-Abgrenzung
+
+
+### Abgrenzung
+
+* Berechnungen und Vertragsdetails
