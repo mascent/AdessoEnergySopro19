@@ -6,6 +6,7 @@
 \contentsline {chapter}{\numberline {5}Produktfunktionen}{5}{chapter.5}
 \contentsline {section}{\numberline {5.1}Anwendungsfalldiagramm - App}{5}{section.5.1}
 \contentsline {section}{\numberline {5.2}Anwendungsfalldiagramm - Server}{7}{section.5.2}
+\contentsline {section}{\numberline {5.3}Abgrenzungskriterien}{8}{section.5.3}
 \contentsline {chapter}{\numberline {6}Testf\IeC {\"a}lle}{9}{chapter.6}
 \contentsline {chapter}{\numberline {7}Produktdaten}{10}{chapter.7}
 \contentsline {chapter}{\numberline {8}Benutzeroberfl\IeC {\"a}che}{11}{chapter.8}
