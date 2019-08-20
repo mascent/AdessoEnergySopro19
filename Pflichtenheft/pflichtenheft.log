@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2018.10.14)  19 AUG 2019 16:54
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2018.10.13)  20 AUG 2019 15:29
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -869,7 +869,7 @@ LaTeX Info: Redefining \nameref on input line 98.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-<img/logo.png, id=51, 693.792pt x 390.258pt>
+<img/logo.png, id=63, 693.792pt x 390.258pt>
 File: img/logo.png Graphic file (type png)
 <use img/logo.png>
 Package pdftex.def Info: img/logo.png  used on input line 100.
@@ -880,7 +880,7 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <8> on input line 100.
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <6> on input line 100.
-<img/se-logo.png, id=52, 120.9318pt x 37.8213pt>
+<img/se-logo.png, id=64, 120.9318pt x 37.8213pt>
 File: img/se-logo.png Graphic file (type png)
 <use img/se-logo.png>
 Package pdftex.def Info: img/se-logo.png  used on input line 100.
@@ -920,7 +920,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 107--131
  []
 
 Package hyperref Info: bookmark level for unknown todo defaults to 0 on input line 133.
-<img/cau-logo-2017.pdf, id=68, 273.14609pt x 91.04816pt>
+<img/cau-logo-2017.pdf, id=80, 273.14609pt x 91.04816pt>
 File: img/cau-logo-2017.pdf Graphic file (type pdf)
 <use img/cau-logo-2017.pdf>
 Package pdftex.def Info: img/cau-logo-2017.pdf  used on input line 144.
@@ -1072,7 +1072,26 @@ Package babel Info: Redefining german shorthand "|
 (babel)             in language  on input line 153.
 Package babel Info: Redefining german shorthand "~
 (babel)             in language  on input line 153.
-(/home/stu211271/Downloads/SoftwareProjekt/SoSe19_HRS3_105b/Pflichtenheft/kapitel/produkteinsatz.tex)
+(/home/stu211271/Downloads/SoftwareProjekt/SoSe19_HRS3_105b/Pflichtenheft/kapitel/produkteinsatz.tex
+Package babel Info: Redefining german shorthand "f
+(babel)             in language  on input line 13.
+Package babel Info: Redefining german shorthand "|
+(babel)             in language  on input line 13.
+Package babel Info: Redefining german shorthand "~
+(babel)             in language  on input line 13.
+Package babel Info: Redefining german shorthand "f
+(babel)             in language  on input line 18.
+Package babel Info: Redefining german shorthand "|
+(babel)             in language  on input line 18.
+Package babel Info: Redefining german shorthand "~
+(babel)             in language  on input line 18.
+Package babel Info: Redefining german shorthand "f
+(babel)             in language  on input line 23.
+Package babel Info: Redefining german shorthand "|
+(babel)             in language  on input line 23.
+Package babel Info: Redefining german shorthand "~
+(babel)             in language  on input line 23.
+)
 File: img/cau-logo-2017.pdf Graphic file (type pdf)
 <use img/cau-logo-2017.pdf>
 Package pdftex.def Info: img/cau-logo-2017.pdf  used on input line 156.
@@ -1404,21 +1423,21 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 178.
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 178.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 178.
 Package rerunfilecheck Info: File `pflichtenheft.out' has not changed.
-(rerunfilecheck)             Checksum: 4FE1D5BAE635ECB6A58EACD538D3E05B;588.
+(rerunfilecheck)             Checksum: 4372D89083E90259404A3B2656DF2F98;776.
  ) 
 Here is how much of TeX's memory you used:
- 19485 strings out of 492982
- 371718 string characters out of 6134895
- 450046 words of memory out of 5000000
- 22628 multiletter control sequences out of 15000+600000
+ 19491 strings out of 492982
+ 371790 string characters out of 6134895
+ 450049 words of memory out of 5000000
+ 22631 multiletter control sequences out of 15000+600000
  9314 words of font info for 33 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  54i,20n,80p,925b,734s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt8.pfb>
-Output written on /home/stu211271/Downloads/SoftwareProjekt/SoSe19_HRS3_105b/Pflichtenheft/pflichtenheft.pdf (16 pages, 181989 bytes).
+Output written on /home/stu211271/Downloads/SoftwareProjekt/SoSe19_HRS3_105b/Pflichtenheft/pflichtenheft.pdf (16 pages, 183128 bytes).
 PDF statistics:
- 241 PDF objects out of 1000 (max. 8388607)
- 206 compressed objects within 3 object streams
- 63 named destinations out of 1000 (max. 500000)
- 116 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 256 PDF objects out of 1000 (max. 8388607)
+ 221 compressed objects within 3 object streams
+ 66 named destinations out of 1000 (max. 500000)
+ 140 words of extra memory for PDF output out of 10000 (max. 10000000)
 
