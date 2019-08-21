@@ -28,61 +28,11 @@ In  Tabelle~\autoref{fig:akteur-tabelle} werden alle auftretenden Akteure beschr
 \section{Anwendungsfalldiagramm - App}
 
 \begin{figure}[h]
-	\centering
-	\missingfigure{Anwendungsfalldiagramm - App}		
-	\caption{Anwendungsfalldiagramm - App}
-	\label{fig:anwendungsfalldiagramm-app}
-\end{figure}
-
-\newpage
-
-\begin{figure}[h]
-	\centering
-	\begin{tabularx}{\textwidth}{ X | X }
-		\textbf{Anwendungsfall ID} & XX-1 \\ \hline
-		\textbf{Anwendungsfallname} & Hier steht ein Name. \\ \hline
-		\textbf{Initiierender Akteur} & Informatiker \\ \hline
-		\textbf{Weitere Akteure} & Designer, Techniker  \\ \hline
-		\textbf{Kurzbeschreibung} & Hier steht eine Kurzbeschreibung.  \\ \hline
-		\textbf{Vorbedingungen} & -  \\ \hline
-		\textbf{Nachbedingungen} & Y trifft zu.  \\ \hline
-		\textbf{Ablauf} &
-			\begin{enumerate}
-				\item Erster ganzer Satz.
-				\item Zweiter ganzer Satz.
-			\end{enumerate} \\ \hline
-		\textbf{Alternative} &
-				\begin{enumerate}
-					\item Erster ganzer Satz.
-					\item Zweiter ganzer Satz.
-				\end{enumerate}  \\ \hline
-		\textbf{Ausnahme} &
-				\begin{enumerate}
-					\item Erster ganzer Satz.
-					\item Zweiter ganzer Satz.
-				\end{enumerate}  \\ \hline
-		\textbf{Benutzte Anwendungsfälle} & YY-1 (oder Name) \\ \hline
-		\textbf{Spezielle Anforderungen} & - \\ \hline
-		\textbf{Annahmen} & -
-	\end{tabularx}
-	\caption{Anwendungsfall XX-1}
-	\label{fig:anwendungsfall-app-tabelle-xx-1}
-\end{figure}
-
-\newpage
-
-
-%%%%%%%%%%%%%%%
-%% Anwendungsfall 2 %%
-%%%%%%%%%%%%%%%
-
-\section{Anwendungsfalldiagramm - Server}
-
-\begin{figure}[h]
-	\centering
-	\missingfigure{Anwendungsfalldiagramm - Server}		
-	\caption{Anwendungsfalldiagramm - Server}
-	\label{fig:anwendungsfalldiagramm-server}
+	\includegraphics[width=20cm]{./img/mustCase}
+%	\centering
+%	\missingfigure{Anwendungsfalldiagramm - App}		
+%	\caption{Anwendungsfalldiagramm - App}
+%	\label{fig:anwendungsfalldiagramm-app}
 \end{figure}
 
 \newpage
@@ -167,12 +117,12 @@ In  Tabelle~\autoref{fig:akteur-tabelle} werden alle auftretenden Akteure beschr
 		\textbf{Initiierender Akteur} & Benutzer \\ \hline
 		\textbf{Weitere Akteure} & - \\ \hline
 		\textbf{Kurzbeschreibung} & Der Benutzer hat, neben dem Abfotografieren des Zählerstandes, auch noch die Möglichkeit den Zählerstand manuell 									einzugeben.  \\ \hline
-		\textbf{Vorbedingungen} &
+		\textbf{Vorbedingungen} & 
 		\begin {itemize}
 			\item Eingeloggt sein. 
 			\item Hauptbildschirm geöffnet.
 			\item Zähler auswählen.
-			\item Auf Button "Neue manuelle Eingabe" drücken.
+			\item Auf Button 'Neue manuelle Eingabe' drücken.
 		\end{itemize}\\ \hline
 		\textbf{Nachbedingungen} & Zählerstand wurde eingetragen.  \\ \hline
 		\textbf{Ablauf} &
@@ -192,7 +142,7 @@ In  Tabelle~\autoref{fig:akteur-tabelle} werden alle auftretenden Akteure beschr
 			\item Benutzer gibt Zählerstand ein.
 			\item Benutzer bestätigt Zählerstand.
 			\item Zählerstand ist unzulässig. (falsches Format)
-			\item Toast-Benachrichtigung("Dieser Wert ist unzulässig. Bitte erneut eingeben!") wird angezeigt. 
+			\item Toast-Benachrichtigung('Dieser Wert ist unzulässig. Bitte erneut eingeben!') wird angezeigt. 
 		\end{enumerate}  \\ \hline
 		\textbf{Benutzte Anwendungsfälle} & - \\ \hline
 		\textbf{Spezielle Anforderungen} & - \\ \hline
@@ -201,5 +151,45 @@ In  Tabelle~\autoref{fig:akteur-tabelle} werden alle auftretenden Akteure beschr
 	\caption{Zählerstand manuell eingeben.}
 	\label{fig:anwendungsfall-server-tabelle-xx-1}
 \end{figure}
+
+\newpage
+
+\begin{figure}[h]
+	\centering
+	\begin{tabularx}{\textwidth}{ X | X }
+		\textbf{Anwendungsfall ID} & 3 \\ \hline
+		\textbf{Anwendungsfallname} & Fehlermeldung anzeigen. \\ \hline
+		\textbf{Initiierender Akteur} & Benutzer \\ \hline
+		\textbf{Weitere Akteure} & - \\ \hline
+		\textbf{Kurzbeschreibung} & Falls beim Auslesen eines Bildes ein Problem auftritt, wird eine dem User eine Fehlermeldung angezeigt.   \\ \hline
+		\textbf{Vorbedingungen} & 
+		\begin {itemize}
+			\item Eingeloggt sein. 
+			\item Hauptbildschirm geöffnet.
+			\item Bild wurde hochgeladen.
+			\item Azure konnte Bild nicht auswerten.
+		\end{itemize}\\ \hline
+		\textbf{Nachbedingungen} & - \\ \hline
+		\textbf{Ablauf} &
+		\begin{enumerate}
+			\item Meldung 'Scan nicht erfolgreich' wird angezeigt
+			\item Benutzer drückt auf 'Neuer Scan"
+			\item $\lbrack$ Bild hochladen - Foto $\rbrack$
+		\end{enumerate} \\ \hline
+		\textbf{Alternative} & 
+		\begin{enumerate}
+			\item Meldung 'Scan nicht erfolgreich' wird angezeigt
+			\item Benutzer drückt auf 'Abbrechen'
+			\item Benutzer ist wieder auf Startbildschirm
+		\end{enumerate} \\ \hline
+		\textbf{Ausnahme} & -   \\ \hline
+		\textbf{Benutzte Anwendungsfälle} & Bild hochladen - Foto \\ \hline
+		\textbf{Spezielle Anforderungen} & - \\ \hline
+		\textbf{Annahmen} & -
+	\end{tabularx}
+	\caption{Fehlermeldung anzeigen.}
+	\label{fig:anwendungsfall-server-tabelle-xx-1}
+\end{figure}
+
 
 
