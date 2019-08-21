@@ -113,7 +113,7 @@ Die Kann-Features sind weiter Funktionalitäten die nicht zum (erweiterten)-Grun
 			\item Hauptbildschirm geöffnet.
 			\item Auf Kamera FAB gedrückt.
 		\end{itemize} \\ \hline
-		\textbf{Nachbedingungen} & Zählerstand wurde erkannt und eingetragen sowie Foto gespeichert.  \\ \hline
+		\textbf{Nachbedingungen} & Zählerstand wurde erkannt und eingetragen.  \\ \hline
 		\textbf{Ablauf} &
 		\begin{enumerate}
 			\item Benutzer macht Foto.
@@ -152,15 +152,27 @@ Die Kann-Features sind weiter Funktionalitäten die nicht zum (erweiterten)-Grun
 			\item Benutzer bestätigt Senden des Fotos.
 			\item Azure wertet Bild aus
 			\item Fehler beim Auslesen der Zählernummer oder des Zählerstandes.
-			\item $\lbrack$ Fehlermeldung wird angezeigt $\rbrack$
+			\item $\lbrack$ Use-Case: Fehlermeldung wird angezeigt $\rbrack$
 		\end{enumerate} \\ &
 		\begin{enumerate}
 			\item Benutzer macht Foto.
 			\item Benutzer bestätigt Senden des Fotos.
 			\item Azure wertet Bild aus
 			\item Zählernummer und Zählerstand wurden erkannt, aber mindestens einer der beiden Werte ist unzulässig. (falsches Format)
-			\item $\lbrack$ Fehlermeldung wird angezeigt $\rbrack$
-		\end{enumerate}  \\ \hline
+			\item $\lbrack$ Use-Case: Fehlermeldung wird angezeigt $\rbrack$
+		\end{enumerate} \\  &
+		\begin{enumerate}
+			\item Benutzer macht Foto.
+			\item Benutzer bestätigt Senden des Fotos.
+			\item Es liegt ein Serverfehler vor.
+			\item Die App zeigt eine 'Bitte versuche es nochmal'-Meldung.
+		\end{enumerate} \\ \hline &
+		\begin{enumerate}
+			\item Benutzer macht Foto.
+			\item Benutzer bestätigt Senden des Fotos.
+			\item Nutzer hat keine Internetverbindung.
+			\item Die App zeigt eine 'Du bist offline'-Meldung.
+		\end{enumerate} \\ \hline
 		\textbf{Benutzte Anwendungsfälle} & Fehlermeldung wird angezeigt \\ \hline
 		\textbf{Spezielle Anforderungen} & - \\ \hline
 		\textbf{Annahmen} & -
@@ -198,13 +210,36 @@ Die Kann-Features sind weiter Funktionalitäten die nicht zum (erweiterten)-Grun
 		\begin{enumerate}
 			\item Benutzer überprüft ob angezeigte Zählernummer mit der Zählernummer des ausgewählten Zählers übereinstimmt.
 			\item Benutzer bricht Aktion ab.
-		\end{enumerate}
+		\end{enumerate}  \\  &
 		\begin{enumerate}
 			\item Benutzer überprüft ob angezeigte Zählernummer mit der Zählernummer des ausgewählten Zählers übereinstimmt.
 			\item Benutzer gibt Zählerstand ein.
 			\item Benutzer bestätigt Zählerstand.
 			\item Zählerstand ist unzulässig. (falsches Format)
-			\item Toast-Benachrichtigung('Dieser Wert ist unzulässig. Bitte erneut eingeben!') wird angezeigt. 
+			\item 'Dieser Wert ist unzulässig. Bitte erneut eingeben'-Meldung wird angezeigt. 
+		\end{enumerate} \\
+
+
+	\end{tabularx}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\begin{tabularx}{\textwidth}{ X | X }
+	&
+		\begin{enumerate}
+			\item Benutzer überprüft ob angezeigte Zählernummer mit der Zählernummer des ausgewählten Zählers übereinstimmt.
+			\item Benutzer gibt Zählerstand ein.
+			\item Benutzer bestätigt Zählerstand.
+			\item Es liegt ein Serverfehler vor.
+			\item Die App zeigt eine 'Bitte versuche es nochmal'-Meldung. 
+		\end{enumerate} \\  &
+		\begin{enumerate}
+			\item Benutzer überprüft ob angezeigte Zählernummer mit der Zählernummer des ausgewählten Zählers übereinstimmt.
+			\item Benutzer gibt Zählerstand ein.
+			\item Benutzer bestätigt Zählerstand.
+			\item Nutzer hat keine Internetverbindung.
+			\item Die App zeigt eine 'Du bist offline'-Meldung.
 		\end{enumerate}  \\ \hline
 		\textbf{Benutzte Anwendungsfälle} & - \\ \hline
 		\textbf{Spezielle Anforderungen} & - \\ \hline
@@ -236,7 +271,7 @@ Die Kann-Features sind weiter Funktionalitäten die nicht zum (erweiterten)-Grun
 		\begin{enumerate}
 			\item Meldung 'Scan nicht erfolgreich' wird angezeigt
 			\item Benutzer drückt auf 'Neuer Scan"
-			\item $\lbrack$ Bild hochladen - Foto $\rbrack$
+			\item $\lbrack$ Use-Case: Bild hochladen - Foto $\rbrack$
 		\end{enumerate} \\ \hline
 		\textbf{Alternative} & 
 		\begin{enumerate}
