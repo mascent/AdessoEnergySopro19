@@ -82,6 +82,16 @@ Die Kann-Features sind weiter Funktionalitäten die nicht zum (erweiterten)-Grun
 	die Nutzung der App vorgeschlagen.
 \end{itemize}
 
+\section{Abgrenzungskriterien}
+
+Nur das letzte Bild wird für User sichtbar sein, die letzten 10 für Admins.
+Die App wird keine Verträge anzeigen oder ändern können.
+Die Kunden werden nicht über die App bezahlen können.
+Wir, das Entwicklerteam, können nicht für die Richtigkeit der von den Kunden hochgeladenen Zählerstände garantieren.
+Ein Kunde wird nur genau ein Kundenkonto erhalten können.
+Kunden werden sich nicht selbst registrieren können. Admins müssen für jeden Kunden ein Konto manuell erstellen.
+Kunden können Bilder von Messständen nur über die App hochladen und nicht über die Website.
+
 
 %%%%%%%%%%%%%%%
 %% Anwendungsfall 1 %%
@@ -152,32 +162,107 @@ Die Kann-Features sind weiter Funktionalitäten die nicht zum (erweiterten)-Grun
 \begin{figure}[h]
 	\centering
 	\begin{tabularx}{\textwidth}{ X | X }
-		\textbf{Anwendungsfall ID} & XX-1 \\ \hline
-		\textbf{Anwendungsfallname} & Hier steht ein Name. \\ \hline
-		\textbf{Initiierender Akteur} & Informatiker \\ \hline
-		\textbf{Weitere Akteure} & Designer, Techniker  \\ \hline
-		\textbf{Kurzbeschreibung} & Hier steht eine Kurzbeschreibung.  \\ \hline
-		\textbf{Vorbedingungen} & -  \\ \hline
-		\textbf{Nachbedingungen} & Y trifft zu.  \\ \hline
+		\textbf{Anwendungsfall ID} & 1 \\ \hline
+		\textbf{Anwendungsfallname} & Bild hochladen  - Foto \\ \hline
+		\textbf{Initiierender Akteur} & Benutzer \\ \hline
+		\textbf{Weitere Akteure} & - \\ \hline
+		\textbf{Kurzbeschreibung} & Der Benutzer macht in der App ein Foto und lädt dieses hoch.   \\ \hline
+		\textbf{Vorbedingungen} & 
+		\begin {itemize}
+			\item Eingeloggt sein. 
+			\item Hauptbildschirm geöffnet.
+			\item Auf Kamera FAB gedrückt.
+		\end{itemize} \\ \hline
+		\textbf{Nachbedingungen} & Zählerstand wurde erkannt und eingetragen sowie Foto gespeichert.  \\ \hline
 		\textbf{Ablauf} &
 		\begin{enumerate}
-			\item Erster ganzer Satz.
-			\item Zweiter ganzer Satz.
+			\item Benutzer macht Foto.
+			\item Benutzer bestätigt Senden des Fotos.
+			\item Azure wertet Bild aus.
+			\item Erkannte Zählernummer und Zählerstand werden angezeigt.
+			\item Benutzer bestätigt Korrektheit der Zählernummer und des Zählerstandes.
 		\end{enumerate} \\ \hline
 		\textbf{Alternative} &
 		\begin{enumerate}
-			\item Erster ganzer Satz.
-			\item Zweiter ganzer Satz.
-		\end{enumerate}  \\ \hline
+			\item Benutzer macht Foto.
+			\item Benutzer bestätigt Senden des Fotos.
+			\item Azure wertet Bild aus.
+			\item Erkannte Zählernummer und Zählerstand werden angezeigt.
+			\item Benutzer bricht Aktion ab.
+		\end{enumerate} \\ &
+		\begin{enumerate}
+			\item Benutzer macht Foto.
+			\item Benutzer bestätigt Senden des Fotos.
+			\item Azure wertet Bild aus.
+			\item Erkannte Zählernummer und Zählerstand werden angezeigt.
+			\item Benutzer verbessert Eingabe manuell.
+\newpage
+		\end{enumerate} \\ \hline
 		\textbf{Ausnahme} &
 		\begin{enumerate}
-			\item Erster ganzer Satz.
-			\item Zweiter ganzer Satz.
+			\item Benutzer macht Foto.
+			\item Benutzer bestätigt Senden des Fotos.
+			\item Azure wertet Bild aus
+			\item Fehler beim Auslesen der Zählernummer oder des Zählerstandes.
+			\item $\lbrack$ Fehlermeldung wird angezeigt $\rbrack$
+		\end{enumerate} \\ &
+		\begin{enumerate}
+			\item Benutzer macht Foto.
+			\item Benutzer bestätigt Senden des Fotos.
+			\item Azure wertet Bild aus
+			\item Zählernummer und Zählerstand wurden erkannt, aber mindestens einer der beiden Werte ist unzulässig. (falsches Format)
+			\item $\lbrack$ Fehlermeldung wird angezeigt $\rbrack$
 		\end{enumerate}  \\ \hline
-		\textbf{Benutzte Anwendungsfälle} & YY-1 (oder Name) \\ \hline
+		\textbf{Benutzte Anwendungsfälle} & Fehlermeldung wird angezeigt \\ \hline
 		\textbf{Spezielle Anforderungen} & - \\ \hline
 		\textbf{Annahmen} & -
 	\end{tabularx}
-	\caption{Anwendungsfall XX-1}
+	\caption{Anwendungsfall Bildhochladen-1}
 	\label{fig:anwendungsfall-server-tabelle-xx-1}
 \end{figure}
+
+\newpage
+
+\begin{figure}[h]
+	\centering
+	\begin{tabularx}{\textwidth}{ X | X }
+		\textbf{Anwendungsfall ID} & 2 \\ \hline
+		\textbf{Anwendungsfallname} & Zählerstand manuell eingeben. \\ \hline
+		\textbf{Initiierender Akteur} & Benutzer \\ \hline
+		\textbf{Weitere Akteure} & - \\ \hline
+		\textbf{Kurzbeschreibung} & Der Benutzer hat, neben dem Abfotografieren des Zählerstandes, auch noch die Möglichkeit den Zählerstand manuell 									einzugeben.  \\ \hline
+		\textbf{Vorbedingungen} &
+		\begin {itemize}
+			\item Eingeloggt sein. 
+			\item Hauptbildschirm geöffnet.
+			\item Zähler auswählen.
+			\item Auf Button "Neue manuelle Eingabe" drücken.
+		\end{itemize}\\ \hline
+		\textbf{Nachbedingungen} & Zählerstand wurde eingetragen.  \\ \hline
+		\textbf{Ablauf} &
+		\begin{enumerate}
+			\item Benutzer überprüft ob angezeigte Zählernummer mit der Zählernummer des ausgewählten Zählers übereinstimmt.
+			\item Benutzer gibt Zählerstand ein.
+			\item Benutzer bestätigt Zählerstand.
+		\end{enumerate} \\ \hline
+		\textbf{Alternative} & - \\ \hline
+		\textbf{Ausnahme} &
+		\begin{enumerate}
+			\item Benutzer überprüft ob angezeigte Zählernummer mit der Zählernummer des ausgewählten Zählers übereinstimmt.
+			\item Benutzer bricht Aktion ab.
+		\end{enumerate}
+		\begin{enumerate}
+			\item Benutzer überprüft ob angezeigte Zählernummer mit der Zählernummer des ausgewählten Zählers übereinstimmt.
+			\item Benutzer gibt Zählerstand ein.
+			\item Benutzer bestätigt Zählerstand.
+			\item Zählerstand ist unzulässig. (falsches Format)
+			\item Toast-Benachrichtigung("Dieser Wert ist unzulässig. Bitte erneut eingeben!") wird angezeigt. 
+		\end{enumerate}  \\ \hline
+		\textbf{Benutzte Anwendungsfälle} & - \\ \hline
+		\textbf{Spezielle Anforderungen} & - \\ \hline
+		\textbf{Annahmen} & -
+	\end{tabularx}
+	\caption{Zählerstand manuell eingeben.}
+	\label{fig:anwendungsfall-server-tabelle-xx-1}
+\end{figure}
+
