@@ -1,0 +1,7 @@
+﻿Glossar:
+
+
+Zähler:
+Bei dem Zähler handelt es sich um den Überbegriff für Gas-, Strom- und Wasserzähler, die den Verbrauch der jeweils namensgebenden Ressource messen.
+FAB (Floating Action Button)
+Der FAB ist ein Knopf, der in der unteren rechten Ecke einer Android-App sitzt und Zugriff zu essentiellen Funktionen ermöglicht.
