@@ -20,57 +20,6 @@ In  Tabelle~\autoref{fig:akteur-tabelle} werden alle auftretenden Akteure beschr
 	\label{fig:akteur-tabelle}
 \end{figure}
 
-%%%%%%%%%%%%%%%
-%% Eigene Arbeit %%
-%%%%%%%%%%%%%%%
-\section{Features}
-Das folgende Kapitel behandelt alle erdachten Features und unterteilt diese in die Kategorien Muss-, Soll- oder Kann-Features. 
-Die Muss-Features sind dabei essentiell für die Funktionalität der Software und haben höchste Priorität.
-Soll-Features sind Erweiterungen der Grundfunktionen oder Verbesserungen der Muss-Features. Dabei ist die Grundfunktionalität der Software bereits durch die Muss-Features abgedeckt.
-Wenn genug Zeit vorhanden ist, dann werden Funktionalitäten aus der Kategorie der Kann-Features implementiert. 
-Diese stellen eine sinnvolle Erweiterung zum Projekt dar, sind aber im Gegensatz zu den Soll-Features nicht Teil der ursprünglichen Anforderungen.
-\subsection{Muss-Features}
-Die folgenden Features sind von uns als grundlegend eingestuft worden und umfassen die Kernfunktionalitäten von App und Anwendung.
-\begin{itemize}
-\item \textbf{History} \hfill \\
-	In der App und auf der Website lassen sich die letzten Zählerstände für einen Account abrufen.
-	Dabei wird der letzte Stand als Bild und weitere als Wert angezeigt.
-\item \textbf{Scannen} \hfill \\
-	In der App können Fotos aufgenommen und anschließend hochgeladen werden. 
-	Wird von Azure ein Zähler auf dem Foto erkannt, dann wird der Zählerstand ausgelesen und an die Datenbank übermittelt.
-	Außerdem wird das Foto gespeichert.
-\item \textbf{Manuelles Eintragen} \hfill \\
-	Auf der Website und in der App lassen sich Zählerart und Zählerstände manuell eintragen.
-\item \textbf{Nutzerverwaltung} \hfill \\
-	Mit Administrationsrechten können Kund*innendaten eingesehen, verändert oder neu ins System eingetragen werden.
-	Dabei lassen sich Ergebnisse sortieren und filtern.
-\end{itemize}
-
-\subsection{Soll-Features}
-Die Soll-Features sind Erweiterungen der Grundfunktionen oder stellen Verbesserungen bzw. Änderungen an diesen dar.
-\begin{itemize}
-\item \textbf{Bearbeitungs-requests} \hfill \\
-Sobald ein*e Nutzer*in eine nachträgliche Änderung eines eingetragenen 
-Zählerstandes durchführen möchte, ist es möglich eine Anfrage (Request) an einen Admin zu stellen, welcher diese Anfrage
-überprüft.
-\item \textbf{Requests annehmen} \hfill \\
-	Bearbeitungsanfragen werden Admins in der Website angezeigt, damit sie diese überprüfen und annehmen können.
-\item \textbf{Bild aus Galerie} \hfill \\
-	Anstatt Bilder direkt aufzunehmen ist es auch möglich Bilder aus der Galerie des mobilen Endgerätes auszuwählen.
-\item \textbf{Push-Nachrichten} \hfill \\
-	Die App kann Benachrichtigungen schicken, um an das Eintragen von Zählerständen zu erinnern.
-	Diese lassen sich bei Bedarf ausschalten.
-\item \textbf{Mehrere Zähler}\hfill \\
-	Einem Account können mehrere Zähler gleicher Art zugeordnet werden. % TODO Fragestunden 
-\item \textbf{Rollen weiter aufteilen}\hfill \\
-% TODO: Hier ist von Adminrechten die Rede. Oben heißt es Administrationsrechte. Welches Wording ist korrekt? ~C.F.
-	Die Adminrechte werden in IT-Support und Administration aufgeteilt, um die Zugriffsrechte sinnvoll aufzuteilen.
-\item \textbf{Fehlerbehandlung} \hfill \\
-	Falls ein falsches oder unleserliches Bild hochgeladen wird, erkennt die App dies und eine neues Foto wird angefordert.
-\item \textbf{Fehler in Zahlen erkennen} \hfill \\
-	Im Backend wird der hochgeladene Zählerstand auf Plausibilität überprüft. Dies geschieht durch Vergleiche mit den vorigen Zählerständen. 
-\end{itemize}
-
 
 %%%%%%%%%%%%%%%
 %% Anwendungsfall 1 %%
@@ -141,8 +90,117 @@ Zählerstandes durchführen möchte, ist es möglich eine Anfrage (Request) an e
 \begin{figure}[h]
 	\centering
 	\begin{tabularx}{\textwidth}{ X | X }
+		\textbf{Anwendungsfall ID} & 1 \\ \hline
+		\textbf{Anwendungsfallname} & Bild hochladen  - Foto \\ \hline
+		\textbf{Initiierender Akteur} & Benutzer \\ \hline
+		\textbf{Weitere Akteure} & - \\ \hline
+		\textbf{Kurzbeschreibung} & Der Benutzer macht in der App ein Foto und lädt dieses hoch.   \\ \hline
+		\textbf{Vorbedingungen} & 
+		\begin {itemize}
+			\item Eingeloggt sein. 
+			\item Hauptbildschirm geöffnet.
+			\item Auf Kamerasymbol gedrückt.
+		\end{itemize} \\ \hline
+		\textbf{Nachbedingungen} & Zählerstand wurde erkannt und eingetragen sowie Foto gespeichert.  \\ \hline
+		\textbf{Ablauf} &
+		\begin{enumerate}
+			\item Benutzer macht Foto.
+			\item Benutzer bestätigt Senden des Fotos.
+			\item Azure wertet Bild aus.
+			\item Erkannte Zähernummer und Zählerstand werden angezeigt.
+			\item Benutzer bestätigt Korrektheit der Zählernummer und des Zählerstandes.
+		\end{enumerate} \\ \hline
+		\textbf{Alternative} &
+		\begin{enumerate}
+			\item Benutzer macht Foto.
+			\item Benutzer bestätigt Senden des Fotos.
+			\item Azure wertet Bild aus.
+			\item Erkannte Zähernummer und Zählerstand werden angezeigt.
+			\item Benutzer bricht Aktion ab.
+		\end{enumerate} \\ &
+		\begin{enumerate}
+			\item Benutzer macht Foto.
+			\item Benutzer bestätigt Senden des Fotos.
+			\item Azure wertet Bild aus.
+			\item Erkannte Zähernummer und Zählerstand werden angezeigt.
+			\item Benutzer verbessert Eingabe manuell.
+\newpage
+		\end{enumerate} \\ \hline
+		\textbf{Ausnahme} &
+		\begin{enumerate}
+			\item Benutzer macht Foto.
+			\item Benutzer bestätigt Senden des Fotos.
+			\item Azure wertet Bild aus
+			\item Fehler beim Auslesen der Zählernummer oder des Zählerstandes.
+			\item $\lbrack$ Fehlermeldung wird angezeigt $\rbrack$
+		\end{enumerate} \\ &
+		\begin{enumerate}
+			\item Benutzer macht Foto.
+			\item Benutzer bestätigt Senden des Fotos.
+			\item Azure wertet Bild aus
+			\item Zählernummer und Zählerstand wurden erkannt, aber mindestens einer der beiden Werte ist unzulässig. (falsches Format)
+			\item $\lbrack$ Fehlermeldung wird angezeigt $\rbrack$
+		\end{enumerate}  \\ \hline
+		\textbf{Benutzte Anwendungsfälle} & Fehlermeldung wird angezeigt \\ \hline
+		\textbf{Spezielle Anforderungen} & - \\ \hline
+		\textbf{Annahmen} & -
+	\end{tabularx}
+	\caption{Anwendungsfall Bildhochladen-1}
+	\label{fig:anwendungsfall-server-tabelle-xx-1}
+\end{figure}
+
+\newpage
+
+\begin{figure}[h]
+	\centering
+	\begin{tabularx}{\textwidth}{ X | X }
+		\textbf{Anwendungsfall ID} & 2 \\ \hline
+		\textbf{Anwendungsfallname} & Zählerstand manuell eingeben. \\ \hline
+		\textbf{Initiierender Akteur} & Benutzer \\ \hline
+		\textbf{Weitere Akteure} & - \\ \hline
+		\textbf{Kurzbeschreibung} & Der Benutzer hat, neben dem Abfotografieren des Zählerstandes, auch noch die Möglichkeit den Zählerstand manuell 									einzugeben.  \\ \hline
+		\textbf{Vorbedingungen} &
+		\begin {itemize}
+			\item Eingeloggt sein. 
+			\item Hauptbildschirm geöffnet.
+			\item Zähler auswählen.
+			\item Auf Button "Neue manuelle Eingabe" drücken.
+		\end{itemize}\\ \hline
+		\textbf{Nachbedingungen} & Zählerstand wurde eingetragen.  \\ \hline
+		\textbf{Ablauf} &
+		\begin{enumerate}
+			\item Benutzer überprüft ob angezeigte Zählernummer mit der Zählernummer des ausgewählten Zählers übereinstimmt.
+			\item Benutzer gibt Zählerstand ein.
+			\item Benutzer bestätigt Zählerstand.
+		\end{enumerate} \\ \hline
+		\textbf{Alternative} & - \\ \hline
+		\textbf{Ausnahme} &
+		\begin{enumerate}
+			\item Benutzer überprüft ob angezeigte Zählernummer mit der Zählernummer des ausgewählten Zählers übereinstimmt.
+			\item Benutzer bricht Aktion ab.
+		\end{enumerate}
+		\begin{enumerate}
+			\item Benutzer überprüft ob angezeigte Zählernummer mit der Zählernummer des ausgewählten Zählers übereinstimmt.
+			\item Benutzer gibt Zählerstand ein.
+			\item Benutzer bestätigt Zählerstand.
+			\item Zählerstand ist unzulässig. (falsches Format)
+			\item Toast-Benachrichtigung("Dieser Wert ist unzulässig. Bitte erneut eingeben!") wird angezeigt. 
+		\end{enumerate}  \\ \hline
+		\textbf{Benutzte Anwendungsfälle} & - \\ \hline
+		\textbf{Spezielle Anforderungen} & - \\ \hline
+		\textbf{Annahmen} & -
+	\end{tabularx}
+	\caption{Zählerstand manuell eingeben.}
+	\label{fig:anwendungsfall-server-tabelle-xx-1}
+\end{figure}
+
+\newpage
+
+\begin{figure}[h]
+	\centering
+	\begin{tabularx}{\textwidth}{ X | X }
 		\textbf{Anwendungsfall ID} & XX-1 \\ \hline
-		\textbf{Anwendungsfallname} & Hier steht ein Name. \\ \hline
+		\textbf{Anwendungsfallname} & Dies ist ein Test. \\ \hline
 		\textbf{Initiierender Akteur} & Informatiker \\ \hline
 		\textbf{Weitere Akteure} & Designer, Techniker  \\ \hline
 		\textbf{Kurzbeschreibung} & Hier steht eine Kurzbeschreibung.  \\ \hline
@@ -170,3 +228,4 @@ Zählerstandes durchführen möchte, ist es möglich eine Anfrage (Request) an e
 	\caption{Anwendungsfall XX-1}
 	\label{fig:anwendungsfall-server-tabelle-xx-1}
 \end{figure}
+
