@@ -49,26 +49,37 @@ Die folgenden Features sind von uns als grundlegend eingestuft worden und umfass
 \subsection{Soll-Features}
 Die Soll-Features sind Erweiterungen der Grundfunktionen oder stellen Verbesserungen bzw. Änderungen an diesen dar.
 \begin{itemize}
-\item \textbf{Bearbeitungs-requests} \hfill \\
-Sobald ein*e Nutzer*in eine nachträgliche Änderung eines eingetragenen 
-Zählerstandes durchführen möchte, ist es möglich eine Anfrage (Request) an einen Admin zu stellen, welcher diese Anfrage
-überprüft.
-\item \textbf{Requests annehmen} \hfill \\
-	Bearbeitungsanfragen werden Admins in der Website angezeigt, damit sie diese überprüfen und annehmen können.
+\item \textbf{Kontaktformular} \hfill \\
+	Nutzende können über ein Kontaktformular in der App oder auf der Website Anfragen schicken.
+	In der Ansicht der Administrierenden können diese dann angesehen und bearbeitet werden. 
 \item \textbf{Bild aus Galerie} \hfill \\
-	Anstatt Bilder direkt aufzunehmen ist es auch möglich Bilder aus der Galerie des mobilen Endgerätes auszuwählen.
+	Anstatt Bilder zum Auswerten des Zählerstandes in der App aufzunehmen, ist es auch möglich Bilder aus der Galerie des mobilen Endgerätes auszuwählen.
 \item \textbf{Push-Nachrichten} \hfill \\
 	Die App kann Benachrichtigungen schicken, um an das Eintragen von Zählerständen zu erinnern.
 	Diese lassen sich bei Bedarf ausschalten.
 \item \textbf{Mehrere Zähler}\hfill \\
-	Einem Account können mehrere Zähler gleicher Art zugeordnet werden. % TODO Fragestunden 
-\item \textbf{Rollen weiter aufteilen}\hfill \\
-% TODO: Hier ist von Adminrechten die Rede. Oben heißt es Administrationsrechte. Welches Wording ist korrekt? ~C.F.
-	Die Adminrechte werden in IT-Support und Administration aufgeteilt, um die Zugriffsrechte sinnvoll aufzuteilen.
+	Einem Account können mehrere Zähler gleicher Art zugeordnet werden.
 \item \textbf{Fehlerbehandlung} \hfill \\
-	Falls ein falsches oder unleserliches Bild hochgeladen wird, erkennt die App dies und eine neues Foto wird angefordert.
+	Falls ein falsches oder unleserliches Bild hochgeladen wird, erkennt die App dies und ein neues Foto wird angefordert.
 \item \textbf{Fehler in Zahlen erkennen} \hfill \\
 	Im Backend wird der hochgeladene Zählerstand auf Plausibilität überprüft. Dies geschieht durch Vergleiche mit den vorigen Zählerständen. 
+	Bei nicht plausiblem Zählerstand wird der Benutzer zu einer erneuten Bestätigung aufgefordert. 
+\end{itemize}
+
+\subsection{Kann-Features}
+Die Kann-Features sind weiter Funktionalitäten die nicht zum (erweiterten)-Grundumfang gehören und stellen sinnvolle Erweiterungen des Projekts dar.
+\begin{itemize}
+\item  \textbf{Darkmode}
+	In der App wird eine Dunkle Benutzeroberfläche zur verfügung gestellt.
+\item \textbf{Sprachen}
+	Die Sprache der Website und der App lässt sich auf englisch umstellen.
+\item \textbf{Diagramm}
+	Die History wird um eine grafische Darstellung erweitert, die die Zählerstände eines Zeitabschnitts anzeigt.
+\item \textbf{Statistiken}
+	Mit Administrationsrechten können die durchschnittlichen oder spezifische Verbrauchs- und Zählerstatistiken eingesehen werden.
+\item \textbf{App Erkennung}
+	Wenn die Website auf einem Endgerät genutzt wird, welches die App installiert hat, dann wird dies erkannt und
+	die Nutzung der App vorgeschlagen.
 \end{itemize}
 
 
