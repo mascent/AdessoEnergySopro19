@@ -5,3 +5,56 @@ So kann etwa ein Auto mit Hersteller, Modell, Farbe, Hubraum usw. langfristig ge
 Wichtig ist, dass nur tatsächlich benötigte Daten gespeichert werden, und dass Redundanzen vermieden werden.
 Form und Stil des Aufschrieb sind variabel, sollten jedoch sehr klar strukturiert sein.
 \end{tcolorbox}
+Die folgende Aufzählung beschreibt die Attribute verschiedener Datensätze und ihre jeweiligen Beziehungen zueinander.
+
+\subsubsection*{Person}
+	\begin{itemize}
+  		\item Vorname \hfill \\
+  		Jede Person hat mindestens einen Vornamen.
+ 		\item Nachname\hfill \\
+ 		Jeder Person hat einen Nachnamen.
+ 		\item Kund*innennummer\hfill \\
+ 		Eine Person hat eine einzigartige Kund*innennummer
+ 		\item Passwort \hfill \\
+ 		Jeder Person hat ein Passwort.
+		\item Zähler\hfill \\
+		Jeder Person werden eine Menge an Zählern zugeordnet.
+		\item e-Mail Adresse\hfill \\
+		Mit einer Person wird eine e-Mail Adresse assoziiert.
+		\item created at\hfill \\
+		Das Datum an dem der Eintrag angelegt wurde.
+		\item deleted at\hfill \\
+		Das Datum an dem eine Person den Vertrag mit der Firma gekündigt hat. Ist null, falls die Personeinen laufenden Vertrag hat .
+		\item updated at\hfill \\
+		Das Datum der letzten Änderung an dem Eintrag der Person.
+	\end{itemize}
+\subsubsection*{Zähler}
+	\begin{itemize}
+		\item Art\hfill \\
+		Ein Zähler ist entweder ein Gas-,Strom- oder Wasserzähler.
+		\item Zählernummer\hfill \\
+		Ein Zähler hat eine eindeutgie Zählernummer. Diese hat verschiedene Formate für Gas-,Strom- und Wasserzähler.
+		\item created at\hfill \\
+		Das Datum an dem der Eintrag angelegt wurde.
+		\item deleted at\hfill \\
+		Das Datum an dem eine Zähler abgerissen wurde. Ist null, falls der Zähler exisitert.
+		\item updated at\hfill \\
+		Das Datum der letzten Änderung an dem Eintrag des Zählers.
+		\item Zählerstand
+		Jedem Zähler wird eine Menge von Zählerständen zugeordnet.
+	\end{itemize}
+\subsubsection*{Stand}
+	\begin{itemize}
+		\item Wert\hfill \\
+		Ein Zählerstand hat eine Zahl die den Wert des Zählerstands representiert.
+		\item created at\hfill \\
+		Das Datum an dem der Stand gemessen wurde.
+		\item updated at\hfill \\
+		Das Datum an dem der Stand das letzte mal geändert wurde. Nur genutzt sofern korrekturen durchgeführt werden können.
+	\end{itemize}
+\subsubsection*{Adresse}
+	\begin{itemize}
+		\item Straßenname
+		\item PLZ
+		\item Hausnummer
+	\end{itemize}
