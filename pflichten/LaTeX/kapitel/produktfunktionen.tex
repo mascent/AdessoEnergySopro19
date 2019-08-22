@@ -235,7 +235,7 @@ Kunden können Bilder von Messständen nur über die App hochladen und nicht üb
 			\item Eingeloggt sein. 
 			\item Hauptbildschirm geöffnet.
 			\item Zähler auswählen.
-			\item Auf Button "Neue manuelle Eingabe" drücken.
+			\item Auf Button ''Neue manuelle Eingabe'' drücken.
 		\end{itemize}\\ \hline
 		\textbf{Nachbedingungen} & Zählerstand wurde eingetragen.  \\ \hline
 		\textbf{Ablauf} &
@@ -255,7 +255,7 @@ Kunden können Bilder von Messständen nur über die App hochladen und nicht üb
 			\item Benutzer gibt Zählerstand ein.
 			\item Benutzer bestätigt Zählerstand.
 			\item Zählerstand ist unzulässig. (falsches Format)
-			\item Toast-Benachrichtigung("Dieser Wert ist unzulässig. Bitte erneut eingeben!") wird angezeigt. 
+			\item Toast-Benachrichtigung(''Dieser Wert ist unzulässig. Bitte erneut eingeben!'') wird angezeigt. 
 		\end{enumerate}  \\ \hline
 		\textbf{Benutzte Anwendungsfälle} & - \\ \hline
 		\textbf{Spezielle Anforderungen} & - \\ \hline
@@ -277,31 +277,32 @@ Kunden können Bilder von Messständen nur über die App hochladen und nicht üb
 		\textbf{Kurzbeschreibung} & Der User kontaktiert den Service \\ \hline
 		\textbf{Vorbedingungen} &
 		\begin {itemize}
-			\item Der User ist eingeloggt
+			\item Der User ist eingeloggt.
+			\item Der Hauptbildschirm ist geöffnet.
 		\end{itemize}\\ \hline
 		\textbf{Nachbedingungen} & Auf dem Server ist ein Ticket erstellt \\ \hline
 		\textbf{Ablauf} &
 		\begin{enumerate}
-			\item Der User wählt im Menü auf dem Hauptbildschirm "Kontakt" aus 
+			\item Der User wählt im Menü auf dem Hauptbildschirm ''Kontakt'' aus 
 			\item Der User gibt sein Problem und seine Kontaktdaten ein 
-			\item der User drückt auf senden 
-			\item die App schickt die eingegeben Daten an den Server 
+			\item Der User drückt auf senden  
+			\item Die App schickt die eingegeben Daten an den Server 
 			\item Der Server speichert diese Daten
 		\end{enumerate} \\ \hline
 		\textbf{Alternative} & - \\ \hline
 		\textbf{Ausnahme} &
 		\begin{enumerate}
-			\item Der User wählt im Menü auf dem Hauptbildschirm "Kontakt" aus 
+			\item Der User wählt im Menü auf dem Hauptbildschirm ''Kontakt'' aus 
 			\item Der User gibt sein Problem und seine Kontaktdaten ein 
-			\item der User drückt auf senden 
-			\item es besteht keine Internetverbindung 
-			\item der User wird in einer Meldung darauf hingewiesen, dass er offline ist.
-		\end{enumerate}
+			\item Der User drückt auf senden 
+			\item Es besteht keine Internetverbindung 
+			\item Der User wird in einer Meldung darauf hingewiesen, dass er offline ist.
+		\end{enumerate} 
 		\begin{enumerate}
-			\item Der User wählt im Menü auf dem Hauptbildschirm "Kontakt" aus 
+			\item Der User wählt im Menü auf dem Hauptbildschirm ''Kontakt'' aus 
 			\item Der User gibt sein Problem und seine Kontaktdaten ein 
-			\item der User drückt auf senden 
-			\item die App schickt die eingegeben Daten an den Server 
+			\item Der User drückt auf senden 
+			\item Die App schickt die eingegeben Daten an den Server 
 			\item Es gibt ein Problem im Server 
 			\item Der User wird gebeten, das Senden zu wiederholen
 		\end{enumerate} \\ \hline
@@ -319,65 +320,69 @@ Kunden können Bilder von Messständen nur über die App hochladen und nicht üb
 	\centering
 	\begin{tabularx}{\textwidth}{ X | X }
 		\textbf{Anwendungsfall ID} & S2 \\ \hline
-		\textbf{Anwendungsfallname} & Bild Hochladen - Galery \\ \hline
+		\textbf{Anwendungsfallname} & Bild Hochladen - Gallerie \\ \hline
 		\textbf{Initiierender Akteur} & Benutzer \\ \hline
 		\textbf{Weitere Akteure} & - \\ \hline
-		\textbf{Kurzbeschreibung} & Der benutzer lädt ein Foto aus der Galerie zur analyse hoch. \\ \hline
+		\textbf{Kurzbeschreibung} & Der Benutzer lädt ein Foto aus der Gallerie zur Analyse hoch. \\ \hline
 		\textbf{Vorbedingungen} &
 		\begin {itemize}
-			\item Der User ist eingeloggt 
-			\item Der Hauptbildschirm ist geöffnet 
-			\item Auf Galery FAB gedrückt
+			\item Der User ist eingeloggt.
+			\item Der Hauptbildschirm ist geöffnet.
+			\item Auf Gallerie FAB gedrückt.
 		\end{itemize}\\ \hline
 		\textbf{Nachbedingungen} & Zählerstand wurde erkannt und eingetragen. \\ \hline
 		\textbf{Ablauf} &
 		\begin{enumerate}
-			\item wählt Foto aus. 
-			\item Benutzer bestätigt Senden des Fotos. 
-			\item Azure wertet Bild aus. 
+			\item Der Benutzer wählt Foto aus.
+			\item Der Benutzer bestätigt Senden des Fotos. 
+			\item Azure wertet Bild aus.
 			\item Erkannte Zählernummer und Zählerstand werden angezeigt. 
 			\item Benutzer bestätigt Korrektheit der Zählernummer und des Zählerstandes
 		\end{enumerate} \\ \hline
 		\textbf{Alternative} & 
 		\begin{enumerate}
-			\item Benutzer wählt Foto aus. 
-			\item Benutzer bestätigt Senden des Fotos. 
+			\item Der Benutzer wählt Foto aus. 
+			\item Der Benutzer bestätigt Senden des Fotos. 
 			\item Azure wertet Bild aus. 
 			\item Erkannte Zählernummer und Zählerstand werden angezeigt. 
-			\item Benutzer bricht Aktion ab. 
+			\item Der Benutzer bricht Aktion ab. 
 		\end{enumerate}
 		\begin{enumerate}
-			\item Benutzer wählt Foto aus. 
-			\item Benutzer bestätigt Senden des Fotos. 
+			\item Der Benutzer wählt Foto aus. 
+			\item Der Benutzer bestätigt Senden des Fotos. 
 			\item Azure wertet Bild aus.
 			\item Erkannte Zählernummer und Zählerstand werden angezeigt. 
-			\item Benutzer verbessert Eingabe manuell.
-		\end{enumerate}
-		\\ \hline
+			\item Der Benutzer verbessert Eingabe manuell.
+		\end{enumerate} \\
+	\end{tabularx}
+\end{figure}
+\begin{figure}[h]
+	\centering
+	\begin{tabularx}{\textwidth}{ X | X } \hline
 		\textbf{Ausnahme} &
 		\begin{enumerate}
-			\item Benutzer wählt Foto aus. 
-			\item Benutzer bestätigt Senden des Fotos. 
+			\item Der Benutzer wählt Foto aus. 
+			\item Der Benutzer bestätigt Senden des Fotos. 
 			\item Azure wertet Bild aus 
 			\item Fehler beim Auslesen der Zählernummer oder des Zählerstandes. 
-			\item [ Use-Case: Fehlermeldung wird angezeigt ] 
+			\item $\lbrack$ Use-Case: Fehlermeldung wird angezeigt $\rbrack$ 
 		\end{enumerate} 
 		\begin{enumerate}
-			\item Benutzer wählt Foto aus. 
-			\item Benutzer bestätigt Senden des Fotos. 
+			\item Der Benutzer wählt Foto aus. 
+			\item Der Benutzer bestätigt Senden des Fotos. 
 			\item Azure wertet Bild aus 
 			\item Zählernummer und Zählerstand wurden erkannt, aber mindestens einer der beiden Werte ist unzulässig. (falsches Format) 
-			\item [ Use-Case: Fehlermeldung wird angezeigt ] 
-		\end{enumerate} 
+			\item $\lbrack$ Use-Case: Fehlermeldung wird angezeigt $\rbrack$ 
+		\end{enumerate}  
 		\begin{enumerate}
-			\item Benutzer wählt Foto aus. 
-			\item Benutzer bestätigt Senden des Fotos. 
+			\item Der Benutzer wählt Foto aus. 
+			\item Der Benutzer bestätigt Senden des Fotos. 
 			\item Es liegt ein Serverfehler vor. 
 			\item Die App zeigt eine ’Bitte versuche es nochmal’-Meldung. 
 		\end{enumerate}
 		\begin{enumerate}
-			\item Benutzer macht Foto. 
-			\item Benutzer bestätigt Senden des Fotos. 
+			\item Der Benutzer macht Foto. 
+			\item Der Benutzer bestätigt Senden des Fotos. 
 			\item Nutzer hat keine Internetverbindung. 
 			\item Die App zeigt eine ’Du bist offline’- Meldung.
 		\end{enumerate} \\ \hline
@@ -397,7 +402,7 @@ Kunden können Bilder von Messständen nur über die App hochladen und nicht üb
 		\textbf{Anwendungsfall ID} & S3 \\ \hline
 		\textbf{Anwendungsfallname} & Push-Nachrichten \\ \hline
 		\textbf{Initiierender Akteur} & Server \\ \hline
-		\textbf{Weitere Akteure} & Benutzer \\ \hline
+		\textbf{Weitere Akteure} & Der Benutzer \\ \hline
 		\textbf{Kurzbeschreibung} & Der Benutzer bekommt eine Push-Benachrichtigung \\ \hline
 		\textbf{Vorbedingungen} & - \\ \hline
 		\textbf{Nachbedingungen} & Der User hat eine Push-Benachrichtigung erhalten \\ \hline
