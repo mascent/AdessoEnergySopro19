@@ -10,17 +10,33 @@
 		\begin{center}
 			\begin{tabularx}{\textwidth}{ p{.05\textwidth} | p{.25\textwidth} | p{.2\textwidth} | X }
 				\textbf{Nr.} & \textbf{Anwendungsfall ID} & \textbf{Szenario} & \textbf{Erwartetes Verhalten} \\ \hline
-				1 & 1 & Ein eingeloggter Benutzer lädt ein Bild erfolgreich hoch und bestätigt den angezeigten Wert. & Der Wert wurde in der Datenbank gespeichert.    \\ \hline
-				2 & 1 & Ein eingeloggter Benutzer lädt ein Bild erfolgreich hoch und bestätigt den angezeigten Wert. & Der Wert wurde als neuer Eintrag in der History hinzugefügt.    \\ \hline
-				3 & 1 & Der Zählerstand wird nicht auf dem Bild erkannt oder der angezeigte Wert wird nicht durch den Nutzer bestätigt. & Es wurde kein Wert in der Datenbank hinzugefügt. \\ \hline
-				4 & 1 & Ein eingeloggter Benutzer lädt ein Bild erfolgreich hoch und bestätigt den angezeigten Wert.  & Das Datum des neuen Eintrags in der History widerspricht nicht der Aktualisierungswartezeit\\ \hline
-				5 & 2 & Ein eingeloggter Benutzer trägt einen Wert manuell ein. & Der Wert wurde in die Datenbank gespeichert. \\ \hline
-				6 & 2 & Ein eingeloggter Benutzer trägt einen Wert manuell ein. & Der Wert wurde als neuer Eintrag in der History hinzugefügt. \\ \hline
-				7 & 2 & Ein eingeloggter Benutzer trägt einen Wert manuell ein. & Das Datum des neuen Eintrags in der History widerspricht nicht der Aktualisierungswartezeit \\ \hline
-				8 & 4 & Der Admin hat erfolgreich einen neuen Zähler bei einem Nutzer hinzugefügt.   & Dem betroffenen Nutzer wird nun der hinzugefügte Zähler (eindeutig durch Zählernummer) aufgeführt. \\ \hline
+				1 & M1 & Ein eingeloggter Benutzer lädt ein Bild erfolgreich hoch und bestätigt den angezeigten Wert. & Der Wert wurde in der Datenbank gespeichert.    \\ \hline
+				2 & M1 & Ein eingeloggter Benutzer lädt ein Bild erfolgreich hoch und bestätigt den angezeigten Wert. & Der Wert wurde als neuer Eintrag in der History hinzugefügt.    \\ \hline
+				3 & M1 & Der Zählerstand wird nicht auf dem Bild erkannt. & Es wurde kein Wert der Datenbank hinzugefügt. \\ \hline
+				4 & M1 & Die Zählernummer wird nicht auf dem Bild erkannt. & Es wurde kein Wert der Datenbank hinzugefügt. \\ \hline
+				5 & M1 & Der Zählertyp wird nicht auf dem Bild erkannt. & Es wurde kein Wert der Datenbank hinzugefügt. \\ \hline
+				6 & M1 &  Ein eingeloggter Benutzer lädt ein Bild erfolgreich hoch und lehnt den angezeigten Wert ab. & Es wurde kein Wert der Datenbank hinzugefügt. \\ \hline
+				7 & M1 & Der Zählerstand, die Zählernummer und der Zählertyp wurden von Azure erkannt, aber der Zählerstand ist kürzer als das Format für diesen Zählertyp.  & Es wurde kein Wert der Datenbank hinzugefügt. \\ \hline
+				8 & M1 & Der Zählerstand, die Zählernummer und der Zählertyp wurden von Azure erkannt, aber der Zählerstand ist länger als das Format für diesen Zählertyp.  & Es wurde kein Wert der Datenbank hinzugefügt. \\ \hline
+		\end{tabularx}
+	\end{center}
+	\end{figure}
+
+	\begin{figure}[!h]
+		\begin{center}
+			\begin{tabularx}{\textwidth}{ p{.05\textwidth} | p{.25\textwidth} | p{.2\textwidth} | X }
+				\hline
+				9 & M1 & Der Zählerstand, die Zählernummer und der Zählertyp wurden von Azure erkannt, aber die Zählernummer ist kürzer als ihr Format.  & Es wurde kein Wert der Datenbank hinzugefügt. \\ \hline
+				10 & M1 & Der Zählerstand, die Zählernummer und der Zählertyp wurden von Azure erkannt, aber die Zählernummer ist länger als ihr Format.  & Es wurde kein Wert der Datenbank hinzugefügt. \\ \hline
+				11 & M1 & Ein eingeloggter Benutzer lädt ein Bild erfolgreich hoch und bestätigt den angezeigten Wert.  & Das Datum des neuen Eintrags in der History widerspricht nicht aus vorigem Eintrag der Historie und Aktualisierungswartezeit. \\ \hline
+				12 & M2 & Ein eingeloggter Benutzer trägt einen Wert manuell ein und bestätigt diesen. & Der Wert wurde in der Datenbank gespeichert. \\ \hline
+				13 & M2 & Ein eingeloggter Benutzer trägt einen Wert manuell ein und bestätigt diesen. & Der Wert wurde als neuer Eintrag in der History hinzugefügt. \\ \hline
+				14 & M2 & Ein eingeloggter Benutzer trägt einen Wert manuell ein und bestätigt diesen. & Das Datum des neuen Eintrags in der History widerspricht nicht der Kombination aus vorigem Eintrag der Historie und Aktualisierungswartezeit. \\ \hline
+				15 & M2 & Ein eingeloggter Benutzer trägt einen Wert  manuell ein und bricht ab. & Der Wert wurde nicht in die Datenbank eingetragen. \\ \hline
+				16 & M4 & Der Admin hat erfolgreich einen neuen Zähler bei einem Nutzer hinzugefügt.   & Dem betroffenen Nutzer wird nun der hinzugefügte Zähler (eindeutig durch Zählernummer) aufgeführt. \\ \hline
 			\end{tabularx}	
 		\end{center}
-		\caption{Beschreibung der Akteure}
+		\caption{Beschreibung der Testfälle}
 		\label{fig:testfaelle-tabelle}
 	\end{figure}
 	
