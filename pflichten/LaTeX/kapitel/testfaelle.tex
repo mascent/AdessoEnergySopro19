@@ -10,12 +10,14 @@
 		\begin{center}
 			\begin{tabularx}{\textwidth}{ p{.05\textwidth} | p{.25\textwidth} | p{.2\textwidth} | X }
 				\textbf{Nr.} & \textbf{Anwendungsfall ID} & \textbf{Szenario} & \textbf{Erwartetes Verhalten} \\ \hline
-				1 & 1 & Ein eingeloggter Benutzer lädt ein Bild erfolgreich hoch und bestätigt den angezeigten Wert. & Der Wert wurde in der Datenbank gespeichert und als neuer Eintrag in der History hinzugefügt.    \\ \hline
-				2 & 2 & Ein eingeloggter Benutzer trägt einen Wert manuell ein. & Der Wert wurde in die Datenbank gespeichert. \\ \hline
-				3 & 1 & Der Zählerstand wird nicht auf dem Bild erkannt oder der angezeigte Wert wird nicht durch den Nutzer bestätigt. & Es wird kein Wert in die Datenbank hinzugefügt. \\ \hline
-				4 & 1 & Standard-Ablauf des Usecase  & Datum des neuen Eintrags in der History ist größer als das Datum des letzten Eintrags + Aktualisierungswartezeit \\ \hline
-				5 & 2 & Standard-Ablauf des Usecase  & Datum des neuen Eintrags in der History ist größer als das Datum des letzten Eintrags + Aktualisierungswartezeit \\ \hline
-				6 & 1 &  &  \\ \hline
+				1 & 1 & Ein eingeloggter Benutzer lädt ein Bild erfolgreich hoch und bestätigt den angezeigten Wert. & Der Wert wurde in der Datenbank gespeichert.    \\ \hline
+				2 & 1 & Ein eingeloggter Benutzer lädt ein Bild erfolgreich hoch und bestätigt den angezeigten Wert. & Der Wert wurde als neuer Eintrag in der History hinzugefügt.    \\ \hline
+				3 & 1 & Der Zählerstand wird nicht auf dem Bild erkannt oder der angezeigte Wert wird nicht durch den Nutzer bestätigt. & Es wurde kein Wert in der Datenbank hinzugefügt. \\ \hline
+				4 & 1 & Ein eingeloggter Benutzer lädt ein Bild erfolgreich hoch und bestätigt den angezeigten Wert.  & Das Datum des neuen Eintrags in der History widerspricht nicht der Aktualisierungswartezeit\\ \hline
+				5 & 2 & Ein eingeloggter Benutzer trägt einen Wert manuell ein. & Der Wert wurde in die Datenbank gespeichert. \\ \hline
+				6 & 2 & Ein eingeloggter Benutzer trägt einen Wert manuell ein. & Der Wert wurde als neuer Eintrag in der History hinzugefügt. \\ \hline
+				7 & 2 & Ein eingeloggter Benutzer trägt einen Wert manuell ein. & Das Datum des neuen Eintrags in der History widerspricht nicht der Aktualisierungswartezeit \\ \hline
+				8 & 4 & Der Admin hat erfolgreich einen neuen Zähler bei einem Nutzer hinzugefügt.   & Dem betroffenen Nutzer wird nun der hinzugefügte Zähler (eindeutig durch Zählernummer) aufgeführt. \\ \hline
 			\end{tabularx}	
 		\end{center}
 		\caption{Beschreibung der Akteure}

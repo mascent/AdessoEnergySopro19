@@ -33,8 +33,9 @@ bin
 *.bbl
 *.blg
 *.fdb
+*.fdb*
 *.fls
 *.out
 *.synctex.gz
 *.toc
-
+*.pdf
