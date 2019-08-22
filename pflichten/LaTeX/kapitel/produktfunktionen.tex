@@ -303,7 +303,66 @@ In  Tabelle~\autoref{fig:akteur-tabelle} werden alle auftretenden Akteure beschr
 	\caption{Fehlermeldung anzeigen - M4.}
 	\label{fig:anwendungsfall-server-tabelle-xx-1}
 \end{figure}
+\newpage
 
+\begin{figure}[h]
+	\centering
+	\begin{tabularx}{\textwidth}{ X | X }
+		\textbf{Anwendungsfall ID} & S1 \\ \hline
+		\textbf{Anwendungsfallname} & Kontaktaufnahme \\ \hline
+		\textbf{Initiierender Akteur} & Benutzer \\ \hline
+		\textbf{Weitere Akteure} & - \\ \hline
+		\textbf{Kurzbeschreibung} & Der User kontaktiert den Service. \\ \hline
+		\textbf{Vorbedingungen} &
+		\begin {itemize}
+			\item Der Benutzer ist eingeloggt.
+			\item Der Hauptbildschirm ist geöffnet.
+		\end{itemize}\\ \hline
+		\textbf{Nachbedingungen} & Auf dem Server wurde ein Ticket erstellt. \\ \hline
+		\textbf{Ablauf} &
+		\begin{enumerate}
+			\item Der Benutzer wählt im Menü auf dem Hauptbildschirm ''Kontakt'' aus .
+			\item Der Benutzer gibt sein Problem und seine Kontaktdaten ein .
+			\item Der Benutzer drückt auf Senden.
+			\item Die App schickt die eingegeben Daten an den Server. 
+			\item Der Server speichert diese Daten.
+		\end{enumerate} \\ \hline
+		\textbf{Alternative} &
+		\begin{enumerate}
+			\item Der Benutzer wählt im Menü auf dem Hauptbildschirm ''Kontakt'' aus .
+			\item Der Benutzer gibt sein Problem und seine Kontaktdaten ein .
+			\item Der Benutzer bricht die Aktion ab.
+		\end{enumerate}  \\ \hline
+		\textbf{Ausnahme} &
+		\begin{enumerate}
+			\item Der Benutzer wählt im Menü auf dem Hauptbildschirm ''Kontakt'' aus.
+			\item Der Benutzer gibt sein Problem und seine Kontaktdaten ein.
+			\item Der Benutzer drückt auf senden.
+			\item Der Benutzer hat keine Internetverbindung.
+			\item Die App zeigt eine 'Du bist offline' -Meldung.
+		\end{enumerate} 
+	\end{tabularx}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\begin{tabularx}{\textwidth}{ X | X }
+&
+		\begin{enumerate}
+			\item Der Benutzer wählt im Menü auf dem Hauptbildschirm ''Kontakt'' aus. 
+			\item Der Benutzer gibt sein Problem und seine Kontaktdaten ein.
+			\item Der Benutzer drückt auf senden.
+			\item Die App schickt die eingegeben Daten an den Server.
+			\item Es liegt ein Serverfehler vor.
+			\item Die App zeigt eine 'Bitte versuche es nochmal' -Meldung.
+		\end{enumerate} \\ \hline
+		\textbf{Benutzte Anwendungsfälle} & - \\ \hline
+		\textbf{Spezielle Anforderungen} & - \\ \hline
+		\textbf{Annahmen} & -
+	\end{tabularx}
+	\caption{Zählerstand manuell eingeben - S1.}
+	\label{fig:anwendungsfall-server-tabelle-xx-1}
+\end{figure}
 \begin{figure}[h]
 	\centering
 	\begin{tabularx}{\textwidth}{ X | X }
