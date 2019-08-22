@@ -1,19 +1,26 @@
 \begin{tcolorbox}
-In diesem Abschnitt werden Testfälle für die Anwendungsfälle der Produktfunktionen definiert.
-Diese sollen später ebenfalls als \textbf{reale Tests} implementiert werden.
-
-\autoref{fig:testfaelle-tabelle} stellt eine exemplarische Tabelle für die Beschreibung der zu testenden Anwendungsfälle dar. 
-Stil und Formatierung sind variabel.
-\end{tcolorbox}
-
-\begin{figure}[!h]
-	\begin{center}
-		\begin{tabularx}{\textwidth}{ p{.05\textwidth} | p{.25\textwidth} | p{.2\textwidth} | X }
-			\textbf{Nr.} & \textbf{Anwendungsfall ID} & \textbf{Szenario} & \textbf{Erwartetes Verhalten} \\ \hline
-			1 & XX-1 & Der Informatiker programmiert ... & Der Quellcode ist schön.\\ \hline
-			2 & XX-2 & Der Informatiker trinkt Kaffee ... & Die Arbeitsleistung steigt.
-		\end{tabularx}	
-	\end{center}
-	\caption{Beschreibung der Akteure}
-	\label{fig:testfaelle-tabelle}
-\end{figure}
+	In diesem Abschnitt werden Testfälle für die Anwendungsfälle der Produktfunktionen definiert.
+	Diese sollen später ebenfalls als \textbf{reale Tests} implementiert werden.
+	
+	\autoref{fig:testfaelle-tabelle} stellt eine exemplarische Tabelle für die Beschreibung der zu testenden Anwendungsfälle dar. 
+	Stil und Formatierung sind variabel.
+	\end{tcolorbox}
+	
+	\begin{figure}[!h]
+		\begin{center}
+			\begin{tabularx}{\textwidth}{ p{.05\textwidth} | p{.25\textwidth} | p{.2\textwidth} | X }
+				\textbf{Nr.} & \textbf{Anwendungsfall ID} & \textbf{Szenario} & \textbf{Erwartetes Verhalten} \\ \hline
+				1 & 1 & Ein eingeloggter Benutzer lädt ein Bild erfolgreich hoch und bestätigt den angezeigten Wert. & Der Wert wurde in der Datenbank gespeichert.    \\ \hline
+				2 & 1 & Ein eingeloggter Benutzer lädt ein Bild erfolgreich hoch und bestätigt den angezeigten Wert. & Der Wert wurde als neuer Eintrag in der History hinzugefügt.    \\ \hline
+				3 & 1 & Der Zählerstand wird nicht auf dem Bild erkannt oder der angezeigte Wert wird nicht durch den Nutzer bestätigt. & Es wurde kein Wert in der Datenbank hinzugefügt. \\ \hline
+				4 & 1 & Ein eingeloggter Benutzer lädt ein Bild erfolgreich hoch und bestätigt den angezeigten Wert.  & Das Datum des neuen Eintrags in der History widerspricht nicht der Aktualisierungswartezeit\\ \hline
+				5 & 2 & Ein eingeloggter Benutzer trägt einen Wert manuell ein. & Der Wert wurde in die Datenbank gespeichert. \\ \hline
+				6 & 2 & Ein eingeloggter Benutzer trägt einen Wert manuell ein. & Der Wert wurde als neuer Eintrag in der History hinzugefügt. \\ \hline
+				7 & 2 & Ein eingeloggter Benutzer trägt einen Wert manuell ein. & Das Datum des neuen Eintrags in der History widerspricht nicht der Aktualisierungswartezeit \\ \hline
+				8 & 4 & Der Admin hat erfolgreich einen neuen Zähler bei einem Nutzer hinzugefügt.   & Dem betroffenen Nutzer wird nun der hinzugefügte Zähler (eindeutig durch Zählernummer) aufgeführt. \\ \hline
+			\end{tabularx}	
+		\end{center}
+		\caption{Beschreibung der Akteure}
+		\label{fig:testfaelle-tabelle}
+	\end{figure}
+	
