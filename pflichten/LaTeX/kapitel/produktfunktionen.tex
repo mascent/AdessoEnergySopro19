@@ -56,11 +56,11 @@ In  Tabelle~\autoref{fig:akteur-tabelle} werden alle auftretenden Akteure beschr
 			\item Hauptbildschirm geöffnet.
 			\item Auf Kamera FAB gedrückt.
 		\end{itemize} \\ \hline
-		\textbf{Nachbedingungen} & Zählerstand wurde erkannt und eingetragen.  \\ \hline
+		\textbf{Nachbedingungen} & Bei Erfolg: Zählerstand wurde erkannt und eingetragen. \\ \hline
 		\textbf{Ablauf} &
 		\begin{enumerate}
 			\item Benutzer macht Foto.
-			\item Benutzer bestätigt Senden des Fotos.
+			\item Benutzer bestätigt das Senden des Fotos.
 			\item Azure wertet Bild aus.
 			\item Erkannte Zählernummer und Zählerstand werden angezeigt.
 			\item Benutzer bestätigt Korrektheit der Zählernummer und des Zählerstandes.
@@ -68,14 +68,14 @@ In  Tabelle~\autoref{fig:akteur-tabelle} werden alle auftretenden Akteure beschr
 		\textbf{Alternative} &
 		\begin{enumerate}
 			\item Benutzer macht Foto.
-			\item Benutzer bestätigt Senden des Fotos.
+			\item Benutzer bestätigt das Senden des Fotos.
 			\item Azure wertet Bild aus.
 			\item Erkannte Zählernummer und Zählerstand werden angezeigt.
 			\item Benutzer bricht Aktion ab.
 		\end{enumerate} \\ &
 		\begin{enumerate}
 			\item Benutzer macht Foto.
-			\item Benutzer bestätigt Senden des Fotos.
+			\item Benutzer bestätigt das Senden des Fotos.
 			\item Azure wertet Bild aus.
 			\item Erkannte Zählernummer und Zählerstand werden angezeigt.
 			\item Benutzer verändert Eingabe manuell.
@@ -92,35 +92,35 @@ In  Tabelle~\autoref{fig:akteur-tabelle} werden alle auftretenden Akteure beschr
 		\textbf{Ausnahme} &
 		\begin{enumerate}
 			\item Benutzer macht Foto.
-			\item Benutzer bestätigt Senden des Fotos.
+			\item Benutzer bestätigt das Senden des Fotos.
 			\item Azure wertet Bild aus
 			\item Fehler beim Auslesen der Zählernummer oder des Zählerstandes.
 			\item $\lbrack$ Use-Case: Fehlermeldung anzeigen $\rbrack$
 		\end{enumerate} \\ &
 		\begin{enumerate}
 			\item Benutzer macht Foto.
-			\item Benutzer bestätigt Senden des Fotos.
+			\item Benutzer bestätigt das Senden des Fotos.
 			\item Azure wertet Bild aus
 			\item Zählernummer und Zählerstand wurden erkannt, aber mindestens einer der beiden Werte ist unzulässig. (falsches Format)
 			\item $\lbrack$ Use-Case: Fehlermeldung anzeigen $\rbrack$
 		\end{enumerate} \\  &
 		\begin{enumerate}
 			\item Benutzer macht Foto.
-			\item Benutzer bestätigt Senden des Fotos.
+			\item Benutzer bestätigt das Senden des Fotos.
 			\item Es liegt ein Serverfehler vor.
 			\item Die App zeigt eine 'Bitte versuche es nochmal'-Meldung.
 		\end{enumerate} \\  &
 		\begin{enumerate}
 			\item Benutzer macht Foto.
-			\item Benutzer bestätigt Senden des Fotos.
-			\item Nutzer hat keine Internetverbindung.
+			\item Benutzer bestätigt das Senden des Fotos.
+			\item Benutzer hat keine Internetverbindung.
 			\item Die App zeigt eine 'Du bist offline'-Meldung.
 		\end{enumerate} \\ \hline
 		\textbf{Benutzte Anwendungsfälle} & Fehlermeldung angezeigen \\ \hline
 		\textbf{Spezielle Anforderungen} & - \\ \hline
 		\textbf{Annahmen} & -
 	\end{tabularx}
-	\caption{Anwendungsfall Bildhochladen-M1}
+	\caption{Anwendungsfall Bild hochladen - Foto - M1}
 	\label{fig:anwendungsfall-server-tabelle-xx-1}
 \end{figure}
 
@@ -141,19 +141,19 @@ In  Tabelle~\autoref{fig:akteur-tabelle} werden alle auftretenden Akteure beschr
 			\item Zähler auswählen.
 			\item Auf Button 'Neue manuelle Eingabe' drücken.
 		\end{itemize}\\ \hline
-		\textbf{Nachbedingungen} & Zählerstand wurde eingetragen.  \\ \hline
+		\textbf{Nachbedingungen} & Bei Erfolg: Zählerstand wurde eingetragen.  \\ \hline
 		\textbf{Ablauf} &
 		\begin{enumerate}
 			\item Benutzer überprüft ob angezeigte Zählernummer mit der Zählernummer des ausgewählten Zählers übereinstimmt.
 			\item Benutzer gibt Zählerstand ein.
 			\item Benutzer bestätigt Zählerstand.
 		\end{enumerate} \\ \hline
-		\textbf{Alternative} & - \\ \hline
-		\textbf{Ausnahme} &
+		\textbf{Alternative} &
 		\begin{enumerate}
 			\item Benutzer überprüft ob angezeigte Zählernummer mit der Zählernummer des ausgewählten Zählers übereinstimmt.
 			\item Benutzer bricht Aktion ab.
-		\end{enumerate}  \\  &
+		\end{enumerate} \\ \hline
+		\textbf{Ausnahme} &
 		\begin{enumerate}
 			\item Benutzer überprüft ob angezeigte Zählernummer mit der Zählernummer des ausgewählten Zählers übereinstimmt.
 			\item Benutzer gibt Zählerstand ein.
@@ -184,14 +184,14 @@ In  Tabelle~\autoref{fig:akteur-tabelle} werden alle auftretenden Akteure beschr
 			\item Benutzer überprüft ob angezeigte Zählernummer mit der Zählernummer des ausgewählten Zählers übereinstimmt.
 			\item Benutzer gibt Zählerstand ein.
 			\item Benutzer bestätigt Zählerstand.
-			\item Nutzer hat keine Internetverbindung.
+			\item Benutzer hat keine Internetverbindung.
 			\item Die App zeigt eine 'Du bist offline'-Meldung.
 		\end{enumerate}  \\ \hline
 		\textbf{Benutzte Anwendungsfälle} & Zählerstand manuell eingeben - App \\ \hline
 		\textbf{Spezielle Anforderungen} & - \\ \hline
 		\textbf{Annahmen} & -
 	\end{tabularx}
-	\caption{Zählerstand manuell eingeben - M2.}
+	\caption{Anwendungsfall Zählerstand manuell eingeben - M2}
 	\label{fig:anwendungsfall-server-tabelle-xx-1}
 \end{figure}
 
@@ -201,7 +201,7 @@ In  Tabelle~\autoref{fig:akteur-tabelle} werden alle auftretenden Akteure beschr
 	\centering
 	\begin{tabularx}{\textwidth}{ X | X }
 		\textbf{Anwendungsfall ID} & M3 \\ \hline
-		\textbf{Anwendungsfallname} & Fehlermeldung anzeigen. \\ \hline
+		\textbf{Anwendungsfallname} & Fehlermeldung anzeigen \\ \hline
 		\textbf{Initiierender Akteur} & Benutzer \\ \hline
 		\textbf{Weitere Akteure} & - \\ \hline
 		\textbf{Kurzbeschreibung} & Falls beim Auslesen eines Bildes ein Problem auftritt, wird eine dem User eine Fehlermeldung angezeigt.   \\ \hline
@@ -230,7 +230,7 @@ In  Tabelle~\autoref{fig:akteur-tabelle} werden alle auftretenden Akteure beschr
 		\textbf{Spezielle Anforderungen} & - \\ \hline
 		\textbf{Annahmen} & -
 	\end{tabularx}
-	\caption{Fehlermeldung anzeigen - M3.}
+	\caption{Anwendungsfall Fehlermeldung anzeigen - M3}
 	\label{fig:anwendungsfall-server-tabelle-xx-1}
 \end{figure}
 
@@ -250,9 +250,9 @@ In  Tabelle~\autoref{fig:akteur-tabelle} werden alle auftretenden Akteure beschr
 			\item Benutzer ist registriert. 
 			\item Admin ist auf der Website eingeloggt.
 			\item Admin wählt Account des Benutzers aus.
-			\item Admin wählt die Funktion einen neuen Zähler für diesen Nutzer hinzuzufügen aus.
+			\item Admin wählt die Funktion einen neuen Zähler für diesen Benutzer hinzuzufügen aus.
 		\end{itemize}\\ \hline
-		\textbf{Nachbedingungen} & Der Account des Benutzers besitzt einen neuen Zähler. \\ \hline
+		\textbf{Nachbedingungen} & Bei Standardablauf: Der Account des Benutzers besitzt einen neuen Zähler. \\ \hline
 		\textbf{Ablauf} &
 		\begin{enumerate}
 			\item Der Admin wählt die Art des hinzugefügten Zählers aus.
@@ -300,7 +300,7 @@ In  Tabelle~\autoref{fig:akteur-tabelle} werden alle auftretenden Akteure beschr
 		\textbf{Spezielle Anforderungen} & - \\ \hline
 		\textbf{Annahmen} & -
 	\end{tabularx}
-	\caption{Fehlermeldung anzeigen - M4.}
+	\caption{Anwendungsfall Zähler hinzufügen - M4}
 	\label{fig:anwendungsfall-server-tabelle-xx-1}
 \end{figure}
 \newpage
