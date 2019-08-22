@@ -41,12 +41,12 @@ Die folgenden Features sind von uns als grundlegend eingestuft worden und umfass
 	Außerdem wird das Foto gespeichert.
 \item \textbf{Manuelles Eintragen} \hfill \\
 	Auf der Website und in der App lassen sich Zählerart und Zählerstände manuell eintragen.
-\item \textbf{Nutzerverwaltung} \hfill \\
+\item \textbf{Benutzerverwaltung} \hfill \\
 	Mit Administrationsrechten können Kund*innendaten eingesehen, verändert oder neu ins System eingetragen werden.
 	Dabei lassen sich Ergebnisse sortieren und filtern.
 \end{itemize}
 
-\subsection{Soll-Features}
+\subsection{Soll-Features} 
 Die Soll-Features sind Erweiterungen der Grundfunktionen oder stellen Verbesserungen bzw. Änderungen an diesen dar.
 \begin{itemize}
 \item \textbf{Kontaktformular} \hfill \\
@@ -124,11 +124,11 @@ Kunden können Bilder von Messständen nur über die App hochladen und nicht üb
 			\item Hauptbildschirm geöffnet.
 			\item Auf Kamera FAB gedrückt.
 		\end{itemize} \\ \hline
-		\textbf{Nachbedingungen} & Zählerstand wurde erkannt und eingetragen.  \\ \hline
+		\textbf{Nachbedingungen} & Bei Erfolg: Zählerstand wurde erkannt und eingetragen. \\ \hline
 		\textbf{Ablauf} &
 		\begin{enumerate}
 			\item Benutzer macht Foto.
-			\item Benutzer bestätigt Senden des Fotos.
+			\item Benutzer bestätigt das Senden des Fotos.
 			\item Azure wertet Bild aus.
 			\item Erkannte Zählernummer und Zählerstand werden angezeigt.
 			\item Benutzer bestätigt Korrektheit der Zählernummer und des Zählerstandes.
@@ -136,14 +136,14 @@ Kunden können Bilder von Messständen nur über die App hochladen und nicht üb
 		\textbf{Alternative} &
 		\begin{enumerate}
 			\item Benutzer macht Foto.
-			\item Benutzer bestätigt Senden des Fotos.
+			\item Benutzer bestätigt das Senden des Fotos.
 			\item Azure wertet Bild aus.
 			\item Erkannte Zählernummer und Zählerstand werden angezeigt.
 			\item Benutzer bricht Aktion ab.
 		\end{enumerate} \\ &
 		\begin{enumerate}
 			\item Benutzer macht Foto.
-			\item Benutzer bestätigt Senden des Fotos.
+			\item Benutzer bestätigt das Senden des Fotos.
 			\item Azure wertet Bild aus.
 			\item Erkannte Zählernummer und Zählerstand werden angezeigt.
 			\item Benutzer verbessert Eingabe manuell.
@@ -160,35 +160,35 @@ Kunden können Bilder von Messständen nur über die App hochladen und nicht üb
 		\textbf{Ausnahme} &
 		\begin{enumerate}
 			\item Benutzer macht Foto.
-			\item Benutzer bestätigt Senden des Fotos.
+			\item Benutzer bestätigt das Senden des Fotos.
 			\item Azure wertet Bild aus
-			\item Fehler beim Auslesen der Zählernummer oder des Zählerstandes.
+			\item Fehler beim Auslesen der Zählernummer, des Zählerstandes oder des Zählertyps.
 			\item $\lbrack$ Use-Case: Fehlermeldung wird angezeigt $\rbrack$
 		\end{enumerate} \\ &
 		\begin{enumerate}
 			\item Benutzer macht Foto.
-			\item Benutzer bestätigt Senden des Fotos.
+			\item Benutzer bestätigt das Senden des Fotos.
 			\item Azure wertet Bild aus
-			\item Zählernummer und Zählerstand wurden erkannt, aber mindestens einer der beiden Werte ist unzulässig. (falsches Format)
+			\item Zählernummer, Zählerstand und Zählertyp wurden erkannt, aber die Werte sind unzulässig. (falsches Format)
 			\item $\lbrack$ Use-Case: Fehlermeldung wird angezeigt $\rbrack$
-		\end{enumerate} \\  &
+		\end{enumerate} \\ &
 		\begin{enumerate}
 			\item Benutzer macht Foto.
-			\item Benutzer bestätigt Senden des Fotos.
+			\item Benutzer bestätigt das Senden des Fotos.
 			\item Es liegt ein Serverfehler vor.
 			\item Die App zeigt eine 'Bitte versuche es nochmal'-Meldung.
-		\end{enumerate} \\ \hline &
+		\end{enumerate} \\ &
 		\begin{enumerate}
 			\item Benutzer macht Foto.
-			\item Benutzer bestätigt Senden des Fotos.
-			\item Nutzer hat keine Internetverbindung.
+			\item Benutzer bestätigt das Senden des Fotos.
+			\item Benutzer hat keine Internetverbindung.
 			\item Die App zeigt eine 'Du bist offline'-Meldung.
 		\end{enumerate} \\ \hline
 		\textbf{Benutzte Anwendungsfälle} & Fehlermeldung wird angezeigt \\ \hline
 		\textbf{Spezielle Anforderungen} & - \\ \hline
 		\textbf{Annahmen} & -
 	\end{tabularx}
-	\caption{Anwendungsfall Bildhochladen-M1}
+	\caption{Anwendungsfall Bild hochladen - Foto - M1}
 	\label{fig:anwendungsfall-server-tabelle-xx-1}
 \end{figure}
 
@@ -209,19 +209,19 @@ Kunden können Bilder von Messständen nur über die App hochladen und nicht üb
 			\item Zähler auswählen.
 			\item Auf Button 'Neue manuelle Eingabe' drücken.
 		\end{itemize}\\ \hline
-		\textbf{Nachbedingungen} & Zählerstand wurde eingetragen.  \\ \hline
+		\textbf{Nachbedingungen} & Bei Erfolg: Zählerstand wurde eingetragen.  \\ \hline
 		\textbf{Ablauf} &
 		\begin{enumerate}
 			\item Benutzer überprüft ob angezeigte Zählernummer mit der Zählernummer des ausgewählten Zählers übereinstimmt.
 			\item Benutzer gibt Zählerstand ein.
 			\item Benutzer bestätigt Zählerstand.
 		\end{enumerate} \\ \hline
-		\textbf{Alternative} & - \\ \hline
-		\textbf{Ausnahme} &
+		\textbf{Alternative} &
 		\begin{enumerate}
 			\item Benutzer überprüft ob angezeigte Zählernummer mit der Zählernummer des ausgewählten Zählers übereinstimmt.
 			\item Benutzer bricht Aktion ab.
-		\end{enumerate}  \\  &
+		\end{enumerate} \\ \hline
+		\textbf{Ausnahme} &
 		\begin{enumerate}
 			\item Benutzer überprüft ob angezeigte Zählernummer mit der Zählernummer des ausgewählten Zählers übereinstimmt.
 			\item Benutzer gibt Zählerstand ein.
@@ -249,14 +249,14 @@ Kunden können Bilder von Messständen nur über die App hochladen und nicht üb
 			\item Benutzer überprüft ob angezeigte Zählernummer mit der Zählernummer des ausgewählten Zählers übereinstimmt.
 			\item Benutzer gibt Zählerstand ein.
 			\item Benutzer bestätigt Zählerstand.
-			\item Nutzer hat keine Internetverbindung.
+			\item Benutzer hat keine Internetverbindung.
 			\item Die App zeigt eine 'Du bist offline'-Meldung.
 		\end{enumerate}  \\ \hline
 		\textbf{Benutzte Anwendungsfälle} & - \\ \hline
 		\textbf{Spezielle Anforderungen} & - \\ \hline
 		\textbf{Annahmen} & -
 	\end{tabularx}
-	\caption{Zählerstand manuell eingeben - M2.}
+	\caption{Anwendungsfall Zählerstand manuell eingeben - M2}
 	\label{fig:anwendungsfall-server-tabelle-xx-1}
 \end{figure}
 
@@ -266,7 +266,7 @@ Kunden können Bilder von Messständen nur über die App hochladen und nicht üb
 	\centering
 	\begin{tabularx}{\textwidth}{ X | X }
 		\textbf{Anwendungsfall ID} & M3 \\ \hline
-		\textbf{Anwendungsfallname} & Fehlermeldung anzeigen. \\ \hline
+		\textbf{Anwendungsfallname} & Fehlermeldung anzeigen \\ \hline
 		\textbf{Initiierender Akteur} & Benutzer \\ \hline
 		\textbf{Weitere Akteure} & - \\ \hline
 		\textbf{Kurzbeschreibung} & Falls beim Auslesen eines Bildes ein Problem auftritt, wird eine dem User eine Fehlermeldung angezeigt.   \\ \hline
@@ -295,7 +295,7 @@ Kunden können Bilder von Messständen nur über die App hochladen und nicht üb
 		\textbf{Spezielle Anforderungen} & - \\ \hline
 		\textbf{Annahmen} & -
 	\end{tabularx}
-	\caption{Fehlermeldung anzeigen - M3.}
+	\caption{Anwendungsfall Fehlermeldung anzeigen - M3}
 	\label{fig:anwendungsfall-server-tabelle-xx-1}
 \end{figure}
 
@@ -314,9 +314,9 @@ Kunden können Bilder von Messständen nur über die App hochladen und nicht üb
 			\item Benutzer ist registriert. 
 			\item Admin ist auf der Website eingeloggt.
 			\item Admin wählt Account des Benutzers aus.
-			\item Admin wählt die Funktion einen neuen Zähler für diesen Nutzer hinzuzufügen aus.
+			\item Admin wählt die Funktion einen neuen Zähler für diesen Benutzer hinzuzufügen aus.
 		\end{itemize}\\ \hline
-		\textbf{Nachbedingungen} & Der Account des Benutzers besitzt einen neuen Zähler. \\ \hline
+		\textbf{Nachbedingungen} & Bei Standardablauf: Der Account des Benutzers besitzt einen neuen Zähler. \\ \hline
 		\textbf{Ablauf} &
 		\begin{enumerate}
 			\item Der Admin wählt die Art des hinzugefügten Zählers aus.
@@ -364,8 +364,6 @@ Kunden können Bilder von Messständen nur über die App hochladen und nicht üb
 		\textbf{Spezielle Anforderungen} & - \\ \hline
 		\textbf{Annahmen} & -
 	\end{tabularx}
-	\caption{Fehlermeldung anzeigen - M4.}
+	\caption{Anwendungsfall Zähler hinzufügen - M4}
 	\label{fig:anwendungsfall-server-tabelle-xx-1}
 \end{figure}
-
-
