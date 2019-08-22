@@ -31,11 +31,13 @@ In  Tabelle~\autoref{fig:akteur-tabelle} werden alle auftretenden Akteure beschr
 \section{Anwendungsfalldiagramm}
 
 \begin{figure}[h]
-	\centering
-	\includegraphics[width=20cm]{./img/mustCase}
-	\missingfigure{Anwendungsfalldiagramm - App}		
-	\caption{Anwendungsfalldiagramm - App}
-	\label{fig:anwendungsfalldiagramm-app}
+
+	\hspace{-5cm}
+	\includegraphics[width=25 cm, height = 45cm]{./img/mustCase}
+%	\centering
+%	\missingfigure{Anwendungsfalldiagramm - App}		
+%	\caption{Anwendungsfalldiagramm - App}
+%	\label{fig:anwendungsfalldiagramm-app}
 \end{figure}
 
 \newpage
@@ -43,7 +45,7 @@ In  Tabelle~\autoref{fig:akteur-tabelle} werden alle auftretenden Akteure beschr
 \begin{figure}[h]
 	\centering
 	\begin{tabularx}{\textwidth}{ X | X }
-		\textbf{Anwendungsfall ID} & 1 \\ \hline
+		\textbf{Anwendungsfall ID} & M1 \\ \hline
 		\textbf{Anwendungsfallname} & Bild hochladen  - Foto \\ \hline
 		\textbf{Initiierender Akteur} & Benutzer \\ \hline
 		\textbf{Weitere Akteure} & - \\ \hline
@@ -118,7 +120,7 @@ In  Tabelle~\autoref{fig:akteur-tabelle} werden alle auftretenden Akteure beschr
 		\textbf{Spezielle Anforderungen} & - \\ \hline
 		\textbf{Annahmen} & -
 	\end{tabularx}
-	\caption{Anwendungsfall Bildhochladen-1}
+	\caption{Anwendungsfall Bildhochladen-M1}
 	\label{fig:anwendungsfall-server-tabelle-xx-1}
 \end{figure}
 
@@ -127,8 +129,8 @@ In  Tabelle~\autoref{fig:akteur-tabelle} werden alle auftretenden Akteure beschr
 \begin{figure}[h]
 	\centering
 	\begin{tabularx}{\textwidth}{ X | X }
-		\textbf{Anwendungsfall ID} & 2 \\ \hline
-		\textbf{Anwendungsfallname} & Zählerstand manuell eingeben - App \\ \hline
+		\textbf{Anwendungsfall ID} & M2 \\ \hline
+		\textbf{Anwendungsfallname} & Zählerstand manuell eingeben. \\ \hline
 		\textbf{Initiierender Akteur} & Benutzer \\ \hline
 		\textbf{Weitere Akteure} & - \\ \hline
 		\textbf{Kurzbeschreibung} & Der Benutzer hat, neben dem Abfotografieren des Zählerstandes, auch noch die Möglichkeit den Zählerstand manuell 									einzugeben.  \\ \hline
@@ -189,7 +191,7 @@ In  Tabelle~\autoref{fig:akteur-tabelle} werden alle auftretenden Akteure beschr
 		\textbf{Spezielle Anforderungen} & - \\ \hline
 		\textbf{Annahmen} & -
 	\end{tabularx}
-	\caption{Zählerstand manuell eingeben - App}
+	\caption{Zählerstand manuell eingeben - M2.}
 	\label{fig:anwendungsfall-server-tabelle-xx-1}
 \end{figure}
 
@@ -198,7 +200,7 @@ In  Tabelle~\autoref{fig:akteur-tabelle} werden alle auftretenden Akteure beschr
 \begin{figure}[h]
 	\centering
 	\begin{tabularx}{\textwidth}{ X | X }
-		\textbf{Anwendungsfall ID} & 3 \\ \hline
+		\textbf{Anwendungsfall ID} & M3 \\ \hline
 		\textbf{Anwendungsfallname} & Fehlermeldung anzeigen. \\ \hline
 		\textbf{Initiierender Akteur} & Benutzer \\ \hline
 		\textbf{Weitere Akteure} & - \\ \hline
@@ -228,7 +230,7 @@ In  Tabelle~\autoref{fig:akteur-tabelle} werden alle auftretenden Akteure beschr
 		\textbf{Spezielle Anforderungen} & - \\ \hline
 		\textbf{Annahmen} & -
 	\end{tabularx}
-	\caption{Fehlermeldung anzeigen.}
+	\caption{Fehlermeldung anzeigen - M3.}
 	\label{fig:anwendungsfall-server-tabelle-xx-1}
 \end{figure}
 
@@ -237,121 +239,70 @@ In  Tabelle~\autoref{fig:akteur-tabelle} werden alle auftretenden Akteure beschr
 \begin{figure}[h]
 	\centering
 	\begin{tabularx}{\textwidth}{ X | X }
-		\textbf{Anwendungsfall ID} & 4 \\ \hline
-		\textbf{Anwendungsfallname} & Zählerstand manuell eintragen - Browser \\ \hline
-		\textbf{Initiierender Akteur} & Benutzer \\ \hline
+
+		\textbf{Anwendungsfall ID} & M4 \\ \hline
+		\textbf{Anwendungsfallname} & Zähler hinzufügen. \\ \hline
+		\textbf{Initiierender Akteur} & Admin \\ \hline
 		\textbf{Weitere Akteure} & - \\ \hline
-		\textbf{Kurzbeschreibung} & Der Benutzer hat die Möglichkeit den Zählerstand manuell auf der Website eingeben. \\ \hline
+		\textbf{Kurzbeschreibung} & Der Admin hat die Möglichkeit jedem Benutzer neue Zähler hinzuzufügen.   \\ \hline
 		\textbf{Vorbedingungen} & 
 		\begin {itemize}
-			\item Auf der Website eingeloggt sein. 
-			\item Benutzer wählt auf Startseite einen Zähler aus.
-			\item Benutzer drückt auf 'Neuen Eintrag verfassen'
+			\item Benutzer ist registriert. 
+			\item Admin ist auf der Website eingeloggt.
+			\item Admin wählt Account des Benutzers aus.
+			\item Admin wählt die Funktion einen neuen Zähler für diesen Nutzer hinzuzufügen aus.
 		\end{itemize}\\ \hline
-		\textbf{Nachbedingungen} & Zählerstand ist eingetragen. \\ \hline
+		\textbf{Nachbedingungen} & Der Account des Benutzers besitzt einen neuen Zähler. \\ \hline
 		\textbf{Ablauf} &
 		\begin{enumerate}
-			\item Benutzer trägt Zählerstand in das dafür vorgesehene Feld ein.
-			\item Benutzer bestätigt Zählerstand.
+			\item Der Admin wählt die Art des hinzugefügten Zählers aus.
+			\item Der Admin gibt die Zählernummer des Zählers ein.
+			\item Der Admin bestätigt die Zählernummer.
+			\item Der Admin gibt den aktuellen Zählerstand des Zählers ein.
+			\item Der Admin bestätigt diesen.
 		\end{enumerate} \\ \hline
 		\textbf{Alternative} & 
 		\begin{enumerate}
-			\item Benutzer trägt Zählerstand in das dafür vorgesehene Feld ein.
-			\item Benutzer bricht Aktion ab.
+			\item Der Admin wählt die Art des hinzugefügten Zählers aus.
+			\item Der Admin gibt die Zählernummer des Zählers ein.
+			\item Der Admin bricht die Aktion ab.
+		\end{enumerate} \\ &
+	\end{tabularx}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\begin{tabularx}{\textwidth}{ X | X }
+	&
+		\begin{enumerate}
+			\item Der Admin wählt die Art des hinzugefügten Zählers aus.
+			\item Der Admin gibt die Zählernummer des Zählers ein.
+			\item Der Admin bestätigt die Zählernummer.
+			\item Der Admin gibt den aktuellen Zählerstand des Zählers ein.
+			\item Der Admin bricht die Aktion ab.
 		\end{enumerate} \\ \hline
 		\textbf{Ausnahme} & 
 		\begin{enumerate}
-			\item Benutzer trägt Zählerstand in das dafür vorgesehene Feld ein.
-			\item Benutzer bestätigt Zählerstand.
-			\item Der Zählerstand ist unzulässig. (falsches Format)
-			\item 'Dieser Wert ist unzulässig. Bitte erneut eingeben'-Meldung wird angezeigt.
-			\item $\lbrack$ Use-Case: Zählerstand manuell eintragen - Browser $\rbrack$
+			\item Der Admin wählt die Art des hinzugefügten Zählers aus.
+			\item Der Admin gibt die Zählernummer des Zählers ein.
+			\item Es liegt ein Serverfehler vor.
+			\item Die Website zeigt eine 'Bitte versuche es nochmal'-Meldung.
 		\end{enumerate} \\ &
-
-	\end{tabularx}
-\end{figure}
-
-\begin{figure}[h]
-	\centering
-	\begin{tabularx}{\textwidth}{ X | X }
-		&
 		\begin{enumerate}
-			\item Benutzer trägt Zählerstand in das dafür vorgesehene Feld ein.
-			\item Benutzer bestätigt Zählerstand.
+			\item Der Admin wählt die Art des hinzugefügten Zählers aus.
+			\item Der Admin gibt die Zählernummer des Zählers ein.
+			\item Der Admin bestätigt die Zählernummer.
+			\item Der Admin gibt den aktuellen Zählerstand des Zählers ein.
 			\item Es liegt ein Serverfehler vor.
-			\item Die App zeigt eine 'Bitte versuche es nochmal'-Meldung.
-			\item $\lbrack$ Use-Case: Zählerstand manuell eintragen - Browser $\rbrack$
+			\item Die Website zeigt eine 'Bitte versuche es nochmal'-Meldung.
 		\end{enumerate} \\ \hline
-		\textbf{Benutzte Anwendungsfälle} & Zählerstand manuell eintragen - Browser \\ \hline
+		\textbf{Benutzte Anwendungsfälle} & Bild hochladen - Foto \\ \hline
 		\textbf{Spezielle Anforderungen} & - \\ \hline
 		\textbf{Annahmen} & -
 	\end{tabularx}
-	\caption{Zählerstand manuell eintragen Browser.}
+	\caption{Fehlermeldung anzeigen - M4.}
 	\label{fig:anwendungsfall-server-tabelle-xx-1}
 \end{figure}
-
-\newpage
-
-\begin{figure}[h]
-	\centering
-	\begin{tabularx}{\textwidth}{ X | X }
-		\textbf{Anwendungsfall ID} & S1 \\ \hline
-		\textbf{Anwendungsfallname} & Kontaktaufnahme \\ \hline
-		\textbf{Initiierender Akteur} & Benutzer \\ \hline
-		\textbf{Weitere Akteure} & - \\ \hline
-		\textbf{Kurzbeschreibung} & Der User kontaktiert den Service. \\ \hline
-		\textbf{Vorbedingungen} &
-		\begin {itemize}
-			\item Der Benutzer ist eingeloggt.
-			\item Der Hauptbildschirm ist geöffnet.
-		\end{itemize}\\ \hline
-		\textbf{Nachbedingungen} & Auf dem Server wurde ein Ticket erstellt. \\ \hline
-		\textbf{Ablauf} &
-		\begin{enumerate}
-			\item Der Benutzer wählt im Menü auf dem Hauptbildschirm ''Kontakt'' aus .
-			\item Der Benutzer gibt sein Problem und seine Kontaktdaten ein .
-			\item Der Benutzer drückt auf Senden.
-			\item Die App schickt die eingegeben Daten an den Server. 
-			\item Der Server speichert diese Daten.
-		\end{enumerate} \\ \hline
-		\textbf{Alternative} &
-		\begin{enumerate}
-			\item Der Benutzer wählt im Menü auf dem Hauptbildschirm ''Kontakt'' aus .
-			\item Der Benutzer gibt sein Problem und seine Kontaktdaten ein .
-			\item Der Benutzer bricht die Aktion ab.
-		\end{enumerate}  \\ \hline
-		\textbf{Ausnahme} &
-		\begin{enumerate}
-			\item Der Benutzer wählt im Menü auf dem Hauptbildschirm ''Kontakt'' aus.
-			\item Der Benutzer gibt sein Problem und seine Kontaktdaten ein.
-			\item Der Benutzer drückt auf senden.
-			\item Der Benutzer hat keine Internetverbindung.
-			\item Die App zeigt eine 'Du bist offline' -Meldung.
-		\end{enumerate} 
-	\end{tabularx}
-\end{figure}
-
-\begin{figure}[h]
-	\centering
-	\begin{tabularx}{\textwidth}{ X | X }
-&
-		\begin{enumerate}
-			\item Der Benutzer wählt im Menü auf dem Hauptbildschirm ''Kontakt'' aus. 
-			\item Der Benutzer gibt sein Problem und seine Kontaktdaten ein.
-			\item Der Benutzer drückt auf senden.
-			\item Die App schickt die eingegeben Daten an den Server.
-			\item Es liegt ein Serverfehler vor.
-			\item Die App zeigt eine 'Bitte versuche es nochmal' -Meldung.
-		\end{enumerate} \\ \hline
-		\textbf{Benutzte Anwendungsfälle} & - \\ \hline
-		\textbf{Spezielle Anforderungen} & - \\ \hline
-		\textbf{Annahmen} & -
-	\end{tabularx}
-	\caption{Zählerstand manuell eingeben - S1.}
-	\label{fig:anwendungsfall-server-tabelle-xx-1}
-\end{figure}
-
-\newpage
 
 \begin{figure}[h]
 	\centering
