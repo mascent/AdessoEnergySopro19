@@ -109,7 +109,7 @@ Dabei sind die Anwendungsfälle durch die Muss- und Soll-Features definiert.
 		\textbf{Anwendungsfallname} & Zählerstand manuell eingeben. \\ \hline
 		\textbf{Initiierender Akteur} & Benutzer \\ \hline
 		\textbf{Weitere Akteure} & - \\ \hline
-		\textbf{Kurzbeschreibung} & Benutzer hat, neben dem Abfotografieren des Zählerstandes, auch noch die Möglichkeit den Zählerstand manuell einzugeben.  \\ \hline
+		\textbf{Kurzbeschreibung} & Benutzer hat, neben dem Abfotografieren des Zählerstandes, auch noch die Möglichkeit, den Zählerstand manuell einzugeben.  \\ \hline
 		\textbf{Vorbedingungen} & 
 		\begin {itemize}
 			\item Eingeloggt sein. 
@@ -120,18 +120,18 @@ Dabei sind die Anwendungsfälle durch die Muss- und Soll-Features definiert.
 		\textbf{Nachbedingungen} & Bei Erfolg: Zählerstand wurde eingetragen.  \\ \hline
 		\textbf{Ablauf} &
 		\begin{enumerate}
-			\item Benutzer überprüft ob angezeigte Zählernummer mit der Zählernummer des ausgewählten Zählers übereinstimmt.
+			\item Benutzer überprüft ob, angezeigte Zählernummer mit der Zählernummer des ausgewählten Zählers übereinstimmt.
 			\item Benutzer gibt Zählerstand ein.
 			\item Benutzer bestätigt Zählerstand.
 		\end{enumerate} \\ \hline
 		\textbf{Alternative} &
 		\begin{enumerate}
-			\item Benutzer überprüft ob angezeigte Zählernummer mit der Zählernummer des ausgewählten Zählers übereinstimmt.
+			\item Benutzer überprüft, ob angezeigte Zählernummer mit der Zählernummer des ausgewählten Zählers übereinstimmt.
 			\item Benutzer bricht Aktion ab.
 		\end{enumerate} \\ \hline
 		\textbf{Ausnahme} &
 		\begin{enumerate}
-			\item Benutzer überprüft ob angezeigte Zählernummer mit der Zählernummer des ausgewählten Zählers übereinstimmt.
+			\item Benutzer überprüft, ob angezeigte Zählernummer mit der Zählernummer des ausgewählten Zählers übereinstimmt.
 			\item Benutzer gibt Zählerstand ein.
 			\item Benutzer bestätigt Zählerstand.
 			\item Zählerstand ist unzulässig. (falsches Format)
@@ -187,7 +187,7 @@ Dabei sind die Anwendungsfälle durch die Muss- und Soll-Features definiert.
 			\item Eingeloggt sein. 
 			\item Hauptbildschirm geöffnet.
 			\item Bild wurde hochgeladen.
-			\item Azure konnte Bild nicht auswerten.
+			\item Azure konnte Bild nicht auswerten oder ist sich bei der Analyse des Bildes nicht sicher genug.
 		\end{itemize}\\ \hline
 		\textbf{Nachbedingungen} & - \\ \hline
 		\textbf{Ablauf} &
@@ -262,7 +262,7 @@ Dabei sind die Anwendungsfälle durch die Muss- und Soll-Features definiert.
 		\textbf{Ausnahme} & 
 		\begin{enumerate}
 			\item Admin wählt die Art des hinzugefügten Zählers aus.
-			\item Admin gibt die Zählernummer des Zählers ein.F
+			\item Admin gibt die Zählernummer des Zählers ein
 			\item Es liegt ein Serverfehler vor.
 			\item Website zeigt eine 'Bitte versuche es nochmal'-Meldung.
 		\end{enumerate} \\ &
@@ -274,7 +274,7 @@ Dabei sind die Anwendungsfälle durch die Muss- und Soll-Features definiert.
 			\item Es liegt ein Serverfehler vor.
 			\item Website zeigt eine 'Bitte versuche es nochmal'-Meldung.
 		\end{enumerate} \\ \hline
-		\textbf{Benutzte Anwendungsfälle} & Bild hochladen - Foto \\ \hline
+		\textbf{Benutzte Anwendungsfälle} & - \\ \hline
 		\textbf{Spezielle Anforderungen} & - \\ \hline
 		\textbf{Annahmen} & -
 	\end{tabularx}
@@ -301,16 +301,16 @@ Dabei sind die Anwendungsfälle durch die Muss- und Soll-Features definiert.
 		\textbf{Nachbedingungen} & Auf dem Server wurde ein Ticket erstellt. \\ \hline
 		\textbf{Ablauf} &
 		\begin{enumerate}
-			\item Benutzer wählt im Menü auf dem Hauptbildschirm 'Kontakt' aus .
-			\item Benutzer gibt sein Problem und seine Kontaktdaten ein .
+			\item Benutzer wählt im Menü auf dem Hauptbildschirm 'Kontakt' aus.
+			\item Benutzer gibt sein Problem und seine Kontaktdaten ein
 			\item Benutzer drückt auf Senden.
 			\item App schickt die eingegeben Daten an den Server. 
 			\item Server speichert diese Daten.
 		\end{enumerate} \\ \hline
 		\textbf{Alternative} &
 		\begin{enumerate}
-			\item Benutzer wählt im Menü auf dem Hauptbildschirm 'Kontakt' aus .
-			\item Benutzer gibt sein Problem und seine Kontaktdaten ein .
+			\item Benutzer wählt im Menü auf dem Hauptbildschirm 'Kontakt' aus
+			\item Benutzer gibt sein Problem und seine Kontaktdaten ein
 			\item Benutzer bricht die Aktion ab.
 		\end{enumerate}  \\ \hline
 		\textbf{Ausnahme} &
@@ -369,7 +369,7 @@ Dabei sind die Anwendungsfälle durch die Muss- und Soll-Features definiert.
 		\end{enumerate} \\ \hline
 		\textbf{Alternative} & 
 		\begin{enumerate}
-			\item Benutzer wählt Foto aus Galerie aus .
+			\item Benutzer wählt Foto aus Galerie aus
 			\item Benutzer bestätigt das Senden des Fotos.
 			\item Azure wertet Bild aus. 
 			\item Erkannte Zählernummer und Zählerstand werden angezeigt. 
