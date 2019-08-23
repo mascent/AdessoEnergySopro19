@@ -1,76 +1,74 @@
-\begin{tcolorbox}
-Die Produktdaten beschreiben die gespeicherten Daten des Produkts. 
-Hier werden alle verarbeiteten Daten mit allen Attributen so genau wie jetzt schon möglich aufgeschrieben.
-So kann etwa ein Auto mit Hersteller, Modell, Farbe, Hubraum usw. langfristig gespeichert werden.
-Wichtig ist, dass nur tatsächlich benötigte Daten gespeichert werden, und dass Redundanzen vermieden werden.
-Form und Stil des Aufschrieb sind variabel, sollten jedoch sehr klar strukturiert sein.
-\end{tcolorbox}
 Die folgende Aufzählung beschreibt die Attribute verschiedener Datensätze und ihre jeweiligen Beziehungen zueinander.
 
-\subsubsection*{Person}
+\subsubsection*{Benutzer}
 	\begin{itemize}
-	    \item Kunden-ID 
-  		\item Vorname \hfill \\
-  		Jede Person hat mindestens einen Vornamen.
- 		\item Nachname\hfill \\
- 		Jeder Person hat einen Nachnamen.
- 		\item Kund*innennummer\hfill \\
- 		Eine Person hat eine einzigartige Kund*innennummer
- 		\item Passwort \hfill \\
- 		Jeder Person hat ein Passwort.
-		\item Zähler\hfill \\
-		Jeder Person werden eine Menge an Zählern zugeordnet.
-		\item e-Mail Adresse\hfill \\
-		Mit einer Person wird eine e-Mail Adresse assoziiert.
-		\item created at\hfill \\
+	    \item \textbf{Kunden-ID}\hfill\\
+	    Jeder Benutzer bekommt von unserem System eine eindeutige ID, welche als Schlüssel fungiert. Dies passiert, um möglich Fehler aus dem System des Kunden nicht mit zu übernehmen.
+  		\item \textbf{Vorname}\hfill \\
+  		Jede Benutzer hat mindestens einen Vornamen.
+ 		\item \textbf{Nachname}\hfill \\
+ 		Jeder Benutzer hat mindestens einen Nachnamen.
+ 		\item \textbf{Kundennummer}\hfill \\
+ 		Eine Benutzer hat vom Anbieter bereitgestellte Kundennummer.
+ 		\item \textbf{Passwort} \hfill \\
+ 		Jede Benutzer hat ein Passwort.
+		\item \textbf{Zähler}\hfill \\
+		Jeder Benutzer werden eine Menge an Zählern zugeordnet.
+		\item \textbf{e-Mail Adresse}\hfill \\
+		Mit einer Benutzer wird eine e-Mail Adresse assoziiert.
+		\item \textbf{created at}\hfill \\
 		Das Datum an dem der Eintrag angelegt wurde.
-		\item deleted at\hfill \\
-		Das Datum an dem eine Person den Vertrag mit der Firma gekündigt hat. Ist null, falls die Personeinen laufenden Vertrag hat .
-		\item updated at\hfill \\
-		Das Datum der letzten Änderung an dem Eintrag der Person.
+		\item \textbf{deleted at}\hfill \\
+		Das Datum an dem eine Benutzer den Vertrag mit der Firma gekündigt hat. Ist null, falls die Benutzer einen laufenden Vertrag hat.
+		\item \textbf{updated at}\hfill \\
+		Das Datum der letzten Änderung an dem Eintrag der Benutzer.
 	\end{itemize}
 \subsubsection*{Zähler}
 	\begin{itemize}
-	    \item Zähler-ID
-		\item Art\hfill \\
-		Ein Zähler ist entweder ein Gas-,Strom- oder Wasserzähler.
-		\item Zählernummer\hfill \\
-		Ein Zähler hat eine eindeutgie Zählernummer. Diese hat verschiedene Formate für Gas-,Strom- und Wasserzähler.
-		\item created at\hfill \\
+	    \item \textbf{Zähler-ID}\hfill\\
+	    Jedem Zähler wird eine eindeutige ID zugewiesen.
+		\item \textbf{Art}\hfill \\
+		Ein Zähler ist entweder ein Gas-, Strom- oder Wasserzähler.
+		\item \textbf{Zählernummer}\hfill \\
+		Ein Zähler hat eine Zählernummer. Diese hat verschiedene Formate für Gas-, Strom- und Wasserzähler.
+		\item \textbf{created at}\hfill \\
 		Das Datum an dem der Eintrag angelegt wurde.
-		\item deleted at\hfill \\
-		Das Datum an dem eine Zähler abgerissen wurde. Ist null, falls der Zähler exisitert.
-		\item updated at\hfill \\
-		Das Datum der letzten Änderung an dem Eintrag des Zählers.
-		\item Zählerstand
+		\item \textbf{deleted at}\hfill \\
+		Das Datum an dem ein Zähler entfernt wurde. Ist null, falls der Zähler existiert.
+		\item \textbf{updated at}\hfill \\
+		Das Datum der letzten Änderung des Eintrages des Zählers.
+		\item \textbf{Zählerstand}\hfill\\
 		Jedem Zähler wird eine Menge von Zählerständen zugeordnet.
 	\end{itemize}
 \subsubsection*{Stand}
 	\begin{itemize}
-	    \item Zählerstand-ID
-		\item Wert\hfill \\
-		Ein Zählerstand hat eine Zahl die den Wert des Zählerstands representiert.
-		\item created at\hfill \\
-		Das Datum an dem der Stand gemessen wurde.
-		\item updated at\hfill \\
-		Das Datum an dem der Stand das letzte mal geändert wurde. Nur genutzt sofern korrekturen durchgeführt werden können.
+	    \item \textbf{Stand-ID}\hfill\\
+	    Jedem Stand wird eine eindeutige ID zugeordnet.
+		\item \textbf{Wert}\hfill \\
+		Ein Zählerstand hat eine Zahl, die den Wert des Zählerstands repräsentiert.
+		\item \textbf{created at}\hfill \\
+		Das Datum, an dem der Stand gemessen wurde.
+		\item \textbf{updated at}\hfill \\
+		Das Datum, an dem der Stand das letzte Mal geändert wurde. Wird nur genutzt sofern Korrekturen durchgeführt wurden.
 	\end{itemize}
 \subsubsection*{Adresse}
 	\begin{itemize}
-	    \item Adressen-ID
-		\item Straßenname
-		\item PLZ
-		\item Hausnummer
+	    \item \textbf{Adressen-ID}\hfill\\
+	    Jeder Adresse wird eine eindeutige ID zugeordnet.
+		\item \textbf{Straßenname}\hfill\\
+		\item \textbf{PLZ} \hfill\\		
+		\item \textbf{Hausnummer}\hfill\\
 	\end{itemize}
 \subsubsection*{Kontaktformular}
 	\begin{itemize}
-	    \item Kontakt-ID 
+	    \item \textbf{Nachrichten-ID}\hfill\\
+	    Jeder Nachricht die über das Kontaktformular gesendet wird, wird eine eindeutige ID zugeordnet.
 		\item Name \hfill \\
 		Der Name mit dem der Benutzer während des Mailverkehrs angesprochen werden möchte.
 		\item e-Mail Adresse \hfill \\
 		Die Mailadresse über die der Administrator den Benutzer bezüglich seines Problems kontaktiert. 
 		\item Betreff \hfill \\
-		der Betreff der Nachricht des Benutzers.
+		Der Betreff der Nachricht des Benutzers.
 		\item Nachricht \hfill \\
 		Die Nachricht in der der Benutzer sein Problem schildert.
 	\end{itemize}	
