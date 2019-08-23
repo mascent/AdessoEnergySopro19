@@ -1,22 +1,23 @@
+In diesem Kapitel beschreiben wir die benötigten Rahmenbedingungen, um die Software ohne Einschränkungen benutzen zu können.
+
 \section{Software}
 
-\subsection{App}
+\subsection*{App}
 Die App ist für alle Android Version ab 6 (Marshmallow) konzipiert und hält sich dabei an die Material Design Vorgaben von Google um sich so auch visuell ins System zu integrieren.
 
-\subsection{Website}
-Die Website wird auf Basis moderner Webstandardts entwickelt. Es wird nach Absprache mit den Kunden davon ausgegangen, dass ein moderner Browser (Firefox ab Version 67 oder Chrome ab Version 75) vorausgesetzt werden darf.
+\subsection*{Website}
+Die Website wird auf Basis moderner Webstandards entwickelt. Es wird nach Absprache mit dem Kunden davon ausgegangen, dass ein moderner Browser (Firefox ab Version 67 oder Chrome ab Version 75) vorausgesetzt werden darf.
 
-\subsection{Server} 
+\subsection*{Server} 
 Serverseitig läuft unsere entwickelte Software in Docker Images. Es wird zusätzlich zur entwickelten Software voraussichtlich ein React als Front-End laufen.
 Als Datenbank wird PostgreSQL benutzt.
 
 \section{Hardware}
 Die Software wird auf einem DualCore (3GHz) System mit 3GB RAM getestet. Im Deployment wird ein ähnliches oder besseres Setup empfohlen.\\
-
 Auf Nutzerseite wird ein Computer oder Smartphone benötigt. 
 \section{Orgware}
 
-Das Produkt setzt eine stabile Internetverbindung vorraus. Es wird eine Domain empfohlen um den Zugriff auf den Server zu vereinfachen.
+Das Produkt setzt eine stabile Internetverbindung voraus. Es wird eine Domain empfohlen, um den Zugriff auf den Server zu vereinfachen.
 
 \section{Produktschnittstellen}
-Es zwischen den einzelnen Modulen wird mittels einer REST-API kommuniziert.
+Zwischen den einzelnen Modulen wird mittels einer REST-API kommuniziert. Der Back-End Server kommuniziert mit der Datenbank über eine SQL-Schnittstelle.
