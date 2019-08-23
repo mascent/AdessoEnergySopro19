@@ -36,6 +36,26 @@
 				16 & M4 & Der Admin hat erfolgreich einen neuen Zähler bei einem Nutzer hinzugefügt.   & Dem betroffenen Nutzer wird nun der hinzugefügte Zähler (eindeutig durch Zählernummer) aufgeführt. \\ \hline
 			\end{tabularx}	
 		\end{center}
+		\end{figure}
+		
+	\begin{figure}[!h]
+		\begin{center}
+			\begin{tabularx}{\textwidth}{ p{.05\textwidth} | p{.25\textwidth} | p{.2\textwidth} | X }
+				\textbf{Nr.} & \textbf{Anwendungsfall ID} & \textbf{Szenario} & \textbf{Erwartetes Verhalten} \\ \hline
+				7 & S1 & Ein eingeloggter Benutzer sendet erfolgreich ein Formular zur Kontaktaufnahme. & In der Datenbank wurde dieses Formular gespeichert. \\ \hline
+                18 & S1 & Ein eingeloggter Benutzer öffnet das Formular zur Kontaktaufnahme, bricht die Aktion aber ab. & Es wurde kein neuer Eintrag in der Datenbank gespeichert. \\ \hline
+                19 & S1 & Ein eingeloggter Benutzer versucht ein Formular zu senden, hat jedoch mindestens eines der Felder nicht ausgefüllt. &  Es wurde kein neuer Eintrag in der Datenbank gespeichert. \\ \hline
+                20 & S2 & Ein eingeloggter Benutzer lädt ein Bild aus der Gallerie erfolgreich hoch und bestätigt den angezeigten Wert. & Der Wert wurde in der Datenbank gespeichert.    \\ \hline
+                21 & S2 & Ein eingeloggter Benutzer lädt ein Bild aus der Gallerie erfolgreich hoch und bestätigt den angezeigten Wert. & Der Wert wurde als neuer Eintrag in der History hinzugefügt.    \\ \hline
+                22 & S2 & Der Zählerstand wird nicht auf dem Bild erkannt. & Es wurde kein Wert der Datenbank hinzugefügt. \\ \hline
+                23 & S2 & Die Zählernummer wird nicht auf dem Bild erkannt. & Es wurde kein Wert der Datenbank hinzugefügt. \\ \hline
+                24 & S2 & Der Zählertyp wird nicht auf dem Bild erkannt. & Es wurde kein Wert der Datenbank hinzugefügt. \\ \hline
+                25 & S2 & Ein eingeloggter Benutzer lädt ein Bild erfolgreich hoch und lehnt den angezeigten Wert ab. & Es wurde kein Wert der Datenbank hinzugefügt. \\ \hline
+                26 & S2 & Der Zählerstand, die Zählernummer und der Zählertyp wurden von Azure erkannt, aber der Zählerstand ist kürzer als das Format für diesen Zählertyp.  & Es wurde kein Wert der Datenbank hinzugefügt. \\ \hline
+                27 & S2 & Der Zählerstand, die Zählernummer und der Zählertyp wurden von Azure erkannt, aber der Zählerstand ist länger als das Format für diesen Zählertyp.  & Es wurde kein Wert der Datenbank hinzugefügt. \\ \hline
+		\end{tabularx}
+	\end{center}	
+		
 		\caption{Beschreibung der Testfälle}
 		\label{fig:testfaelle-tabelle}
 	\end{figure}
