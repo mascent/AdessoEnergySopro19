@@ -33,8 +33,11 @@ bin
 *.bbl
 *.blg
 *.fdb
+*.fdb*
 *.fls
 *.out
 *.synctex.gz
 *.toc
-*.pdf
+pflichtenheft.pdf
+*.synctex(busy)
+*.fdb_latexmk

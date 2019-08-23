@@ -1,28 +1,68 @@
-\begin{tcolorbox}
-Die Zielbestimmungen dienen dazu, die Ziele der Anforderungen nach Priorität zu sortieren. 
-Es wird zwischen \textit{Muss}-, \textit{Soll-}, \textit{Kann-} und \textit{Abgrenzungskriterien} unterschieden, wobei weitere Einteilungen (z.B. nach Gerät oder Benutzer) innerhalb der Kategorien möglich sind.
-%
-\\\\
-%
-Die \textit{Musskriterien} umfassen alle Ziele und Funktionalitäten, die für einen Einsatz des entwickelten Produktes unabdingbar sind.
-Sie müssen daher ohne Kompromisse implementiert werden.
-Ein Wegfall eines einzelnen Musskriteriums würde das Produkt außer Betrieb setzen.
-%
-\\\\
-%
-\textit{Sollkriterien} (auch Wunschkriterien genannt) sind gewünschte Funktionen, die ebenfalls implementiert werden müssen, deren Wegfall auf Grund von unüblichen Umständen aber nicht den Einsatz des Produkts hindern würde.
-%
-\\\\
-%
-Die \textit{Kannkriterien} sind alle Ziele, die wünschenswert sind, aber nicht zwingend notwendige Funktionen darstellen. 
-Oftmals werden diese nach Beendigung der höher priorisierten Kriterien umgesetzt.
-%
-\\\\
-%
-\textit{Abgrenzungskriterien} dienen dazu die Grenzen des Produkts zu definieren.
-Es soll erkennbar sein, was explizit \textbf{nicht} umgesetzt wird, damit Kunden nichts Falsches erwarten und Ziele stets klar definiert bleiben.
-%
-\\\\
-%
-Für die Auflistung der Zielbestimmungen können Fließtexte oder auch Auflistungen mit ganzen Sätzen genutzt werden. 
-\end{tcolorbox}
+
+Das folgende Kapitel behandelt alle erdachten Features und unterteilt diese in die Kategorien Muss-, Soll- und Kann-Features. 
+Die Muss-Features sind dabei essentiell für die Funktionalität der Software und haben höchste Priorität.
+Soll-Features sind Erweiterungen der Grundfunktionen oder Verbesserungen der Muss-Features. Dabei ist die Grundfunktionalität der Software bereits durch die Muss-Features abgedeckt.
+Wenn genug Zeit vorhanden ist, dann werden Funktionalitäten aus der Kategorie der Kann-Features implementiert. 
+Diese stellen eine sinnvolle Erweiterung zum Projekt dar, sind aber im Gegensatz zu den Soll-Features nicht Teil der ursprünglichen Anforderungen.
+\section{Muss-Features}
+Die folgenden Features sind nach Absprache mit dem Kunden als grundlegend eingestuft worden und umfassen die Kernfunktionalitäten von App und Anwendung.
+\begin{itemize}
+\item \textbf{History} \hfill \\
+	In der App und auf der Website lassen sich die Zählerstände aller zu einem Account gehörenden Zähler anzeigen.
+\item \textbf{Scannen} \hfill \\
+	In der App können Fotos aufgenommen und anschließend hochgeladen werden. 
+	Wird von Azure ein Zähler auf dem Foto erkannt, dann wird der Zählerstand ausgelesen und an die Datenbank übermittelt.
+\item \textbf{Manuelles Eintragen} \hfill \\
+	Auf der Website und in der App lassen sich Zählerart und Zählerstände manuell eintragen.
+\item \textbf{Nutzerverwaltung} \hfill \\
+	Mit Administrationsrechten können Kundendaten eingesehen, verändert oder neu ins System eingetragen werden.
+	Dabei lassen sich Ergebnisse sortieren und filtern.
+\item \textbf{Zähler hinzufügen} \hfill \\
+	Administrierende sind in der Lage einem Account neue Zähler zuzuweisen.	
+\end{itemize}
+\newpage
+\section{Soll-Features}
+Die Soll-Features sind Erweiterungen der Grundfunktionen oder stellen Verbesserungen bzw. Änderungen dieser dar.
+\begin{itemize}
+\item \textbf{Kontaktformular} \hfill \\
+	Nutzende können über ein Kontaktformular in der App oder auf der Website Anfragen schicken.
+	In der Ansicht der Administrierenden können diese dann angesehen und bearbeitet werden. 
+\item \textbf{Bild aus Galerie} \hfill \\
+	Anstatt Bilder zum Auswerten des Zählerstandes in der App aufzunehmen, ist es auch möglich Bilder aus der Galerie des mobilen Endgerätes auszuwählen.
+\item \textbf{Push-Nachrichten} \hfill \\
+	Die App kann Benachrichtigungen schicken, um an das Eintragen von Zählerständen zu erinnern.
+	Diese lassen sich bei Bedarf ausschalten.
+\item \textbf{Mehrere Zähler}\hfill \\
+	Einem Account können mehrere Zähler gleicher Art zugeordnet werden.
+\item \textbf{Fehlerbehandlung} \hfill \\
+	Falls ein falsches oder unleserliches Bild hochgeladen wird, erkennt die App dies und ein neues Foto wird angefordert. 
+	Bei anderen Fehlern (unerwartetes Zählerformat etc.) wird dem Nutzer eine Fehlermeldung gesendet.
+\item \textbf{Fehler in Zahlen erkennen} \hfill \\
+	Im Backend wird der hochgeladene Zählerstand auf Plausibilität überprüft. Dies geschieht durch Vergleiche mit den vorigen Zählerständen. 
+	Bei nicht plausiblem Zählerstand wird der Benutzer zu einer erneuten Bestätigung aufgefordert. 
+\end{itemize}
+
+\section{Kann-Features} \hfill \\
+Die Kann-Features sind Funktionalitäten, die nicht zum (erweiterten) Grundumfang gehören und sinnvolle Erweiterungen des Projekts darstellen.
+\begin{itemize}
+\item  \textbf{Darkmode} \hfill \\
+	In der App wird eine dunkle Benutzeroberfläche zur Verfügung gestellt.
+\item \textbf{Sprachen} \hfill \\
+	Die Sprache der Website und der App lässt sich auf Englisch umstellen.
+\item \textbf{Diagramm} \hfill \\
+	Die History wird um eine grafische Darstellung erweitert, die die Zählerstände veranschaulicht. 
+\item \textbf{Statistiken} \hfill \\
+	Mit Administrationsrechten können durchschnittliche oder spezifische Verbrauchs- und Zählerstatistiken eingesehen werden.
+\item \textbf{App Erkennung} \hfill \\
+	Wenn die Website auf einem Endgerät genutzt wird, welches die App installiert hat, dann wird dies erkannt und
+	die Nutzung der App vorgeschlagen.
+\end{itemize}
+
+\section{Abgrenzungskriterien}
+
+Nach der Präsentation der Features, die unsererseits zur Verfügung gestellt werden bzw. werden könnten, wird an dieser Stelle dokumentiert welche Kompetenzen nicht von uns übernommen werden. \\\\
+Insgesamt wird in keiner Form das Vertragsverhältnis zwischen Kunde und adesso energy geregelt. 
+In der Folge werden den Benutzern und Administrierenden keine Informationen zu den Verträgen zur Verfügung stehen. Zudem wird die Software den Abschluss und die Kündigung von Verträgen sowie die Bezahlung von Rechnungen nicht unterstützen. \\\\
+Das Registrieren von neuen Kunden liegt im Aufgabenbereich der Administratoren. Dabei muss jedes Nutzerkonto durch einen Administrator manuell hinzugefügt werden und kann nicht durch den Kunden selbst erstellt werden. Es darf für jeden Benutzer nur genau ein Account zugewiesen sein.\\\\
+Hinsichtlich des Aktualisierens von Zählerständen wird nur die App die Funktion anbieten Fotos hochzuladen. Dabei kann nicht garantiert werden, dass der Benutzer ein aktuelles bzw. realitätsgetreues Bild hochlädt.
+

@@ -1,19 +1,66 @@
-\begin{tcolorbox}
-In diesem Abschnitt werden Testfälle für die Anwendungsfälle der Produktfunktionen definiert.
-Diese sollen später ebenfalls als \textbf{reale Tests} implementiert werden.
-
-\autoref{fig:testfaelle-tabelle} stellt eine exemplarische Tabelle für die Beschreibung der zu testenden Anwendungsfälle dar. 
-Stil und Formatierung sind variabel.
-\end{tcolorbox}
-
-\begin{figure}[!h]
-	\begin{center}
-		\begin{tabularx}{\textwidth}{ p{.05\textwidth} | p{.25\textwidth} | p{.2\textwidth} | X }
-			\textbf{Nr.} & \textbf{Anwendungsfall ID} & \textbf{Szenario} & \textbf{Erwartetes Verhalten} \\ \hline
-			1 & XX-1 & Der Informatiker programmiert ... & Der Quellcode ist schön.\\ \hline
-			2 & XX-2 & Der Informatiker trinkt Kaffee ... & Die Arbeitsleistung steigt.
-		\end{tabularx}	
+Das folgende Kapitel beinhaltet die Testfälle, die wir bereits vor der Implementierung spezifizieren können.
+Diese bestehen aus den beschreiben Anwendungsfällen und sind auch in Tests für Muss- und Soll-Features  unterteilt.
+Mit M sind die Tests für Muss-Features gekennzeichnet.
+	
+	\begin{figure}[!h]
+		\begin{center}
+			\begin{tabularx}{\textwidth}{ p{.05\textwidth} | p{.25\textwidth} | p{.2\textwidth} | X }
+				\textbf{Nr.} & \textbf{Anwendungsfall ID} & \textbf{Szenario} & \textbf{Erwartetes Verhalten} \\ \hline
+				1 & M1 & Ein eingeloggter Benutzer lädt ein Bild erfolgreich hoch und bestätigt den angezeigten Wert. & Der Wert wurde in der Datenbank gespeichert.    \\ \hline
+				2 & M1 & Ein eingeloggter Benutzer lädt ein Bild erfolgreich hoch und bestätigt den angezeigten Wert. & Der Wert wurde als neuer Eintrag in der History hinzugefügt.    \\ \hline
+				3 & M1 & Der Zählerstand wird nicht auf dem Bild erkannt. & Es wurde kein Wert der Datenbank hinzugefügt. \\ \hline
+				4 & M1 & Die Zählernummer wird nicht auf dem Bild erkannt. & Es wurde kein Wert der Datenbank hinzugefügt. \\ \hline
+				5 & M1 & Der Zählertyp wird nicht auf dem Bild erkannt. & Es wurde kein Wert der Datenbank hinzugefügt. \\ \hline
+				6 & M1 &  Ein eingeloggter Benutzer lädt ein Bild erfolgreich hoch und lehnt den angezeigten Wert ab. & Es wurde kein Wert der Datenbank hinzugefügt. \\ \hline
+				7 & M1 & Der Zählerstand, die Zählernummer und der Zählertyp wurden von Azure erkannt, aber der Zählerstand ist kürzer als das Format für diesen Zählertyp.  & Es wurde kein Wert der Datenbank hinzugefügt. \\ \hline
+				8 & M1 & Der Zählerstand, die Zählernummer und der Zählertyp wurden von Azure erkannt, aber der Zählerstand ist länger als das Format für diesen Zählertyp.  & Es wurde kein Wert der Datenbank hinzugefügt. \\ \hline
+		\end{tabularx}
 	\end{center}
-	\caption{Beschreibung der Akteure}
-	\label{fig:testfaelle-tabelle}
-\end{figure}
+	\end{figure}
+
+	\begin{figure}[!h]
+		\begin{center}
+			\begin{tabularx}{\textwidth}{ p{.05\textwidth} | p{.25\textwidth} | p{.2\textwidth} | X }
+				\hline
+				9 & M1 & Der Zählerstand, die Zählernummer und der Zählertyp wurden von Azure erkannt, aber die Zählernummer ist kürzer als ihr Format.  & Es wurde kein Wert der Datenbank hinzugefügt. \\ \hline
+				10 & M1 & Der Zählerstand, die Zählernummer und der Zählertyp wurden von Azure erkannt, aber die Zählernummer ist länger als ihr Format.  & Es wurde kein Wert der Datenbank hinzugefügt. \\ \hline
+				11 & M1 & Ein eingeloggter Benutzer lädt ein Bild erfolgreich hoch und bestätigt den angezeigten Wert.  & Das Datum des neuen Eintrags in der History widerspricht nicht aus vorigem Eintrag der Historie und Aktualisierungswartezeit. \\ \hline
+				12 & M2 & Ein eingeloggter Benutzer trägt einen Wert manuell ein und bestätigt diesen. & Der Wert wurde in der Datenbank gespeichert. \\ \hline
+				13 & M2 & Ein eingeloggter Benutzer trägt einen Wert manuell ein und bestätigt diesen. & Der Wert wurde als neuer Eintrag in der History hinzugefügt. \\ \hline
+				14 & M2 & Ein eingeloggter Benutzer trägt einen Wert manuell ein und bestätigt diesen. & Das Datum des neuen Eintrags in der History widerspricht nicht der Kombination aus vorigem Eintrag der Historie und Aktualisierungswartezeit. \\ \hline
+				15 & M2 & Ein eingeloggter Benutzer trägt einen Wert  manuell ein und bricht ab. & Der Wert wurde nicht in die Datenbank eingetragen. \\ \hline
+			\end{tabularx}	
+		\end{center}
+		\end{figure}
+		
+	\begin{figure}[!h]
+		\begin{center}
+			\begin{tabularx}{\textwidth}{ p{.05\textwidth} | p{.25\textwidth} | p{.2\textwidth} | X }
+				\textbf{Nr.} & \textbf{Anwendungsfall ID} & \textbf{Szenario} & \textbf{Erwartetes Verhalten} \\ \hline
+				16 & M4 & Der Admin hat erfolgreich einen neuen Zähler bei einem Nutzer hinzugefügt.   & Dem betroffenen Nutzer wird nun der hinzugefügte Zähler (eindeutig durch Zählernummer) aufgeführt. \\ \hline
+				17 & S1 & Ein eingeloggter Benutzer sendet erfolgreich ein Formular zur Kontaktaufnahme. & In der Datenbank wurde dieses Formular gespeichert. \\ \hline
+                			18 & S1 & Ein eingeloggter Benutzer öffnet das Formular zur Kontaktaufnahme, bricht die Aktion aber ab. & Es wurde kein neuer Eintrag in der Datenbank gespeichert. \\ \hline
+                			19 & S1 & Ein eingeloggter Benutzer versucht ein Formular zu senden, hat jedoch mindestens eines der Felder nicht ausgefüllt. &  Es wurde kein neuer Eintrag in der Datenbank gespeichert. \\ \hline
+                			20 & S2 & Ein eingeloggter Benutzer lädt ein Bild aus der Galerie erfolgreich hoch und bestätigt den angezeigten Wert. & Der Wert wurde in der Datenbank gespeichert.    \\ \hline
+                			21 & S2 & Ein eingeloggter Benutzer lädt ein Bild aus der Galerie erfolgreich hoch und bestätigt den angezeigten Wert. & Der Wert wurde als neuer Eintrag in der History hinzugefügt.    \\ \hline
+                			22 & S2 & Der Zählerstand wird nicht auf dem Bild erkannt. & Es wurde kein Wert der Datenbank hinzugefügt. \\ \hline
+                			23 & S2 & Die Zählernummer wird nicht auf dem Bild erkannt. & Es wurde kein Wert der Datenbank hinzugefügt. \\ \hline
+                			24 & S2 & Der Zählertyp wird nicht auf dem Bild erkannt. & Es wurde kein Wert der Datenbank hinzugefügt. \\ \hline
+			\end{tabularx}	
+		\end{center}
+		\end{figure}
+                			
+            \begin{figure}[!h]
+		\begin{center}
+			\begin{tabularx}{\textwidth}{ p{.05\textwidth} | p{.25\textwidth} | p{.2\textwidth} | X }
+				\textbf{Nr.} & \textbf{Anwendungsfall ID} & \textbf{Szenario} & \textbf{Erwartetes Verhalten} \\ \hline
+                			25 & S2 & Ein eingeloggter Benutzer lädt ein Bild erfolgreich hoch und lehnt den angezeigten Wert ab. & Es wurde kein Wert der Datenbank hinzugefügt. \\ \hline
+               	 		26 & S2 & Der Zählerstand, die Zählernummer und der Zählertyp wurden von Azure erkannt, aber der Zählerstand ist kürzer als das Format für diesen Zählertyp.  & Es wurde kein Wert der Datenbank hinzugefügt. \\ \hline
+                			27 & S2 & Der Zählerstand, die Zählernummer und der Zählertyp wurden von Azure erkannt, aber der Zählerstand ist länger als das Format für diesen Zählertyp.  & Es wurde kein Wert der Datenbank hinzugefügt. \\ \hline
+		\end{tabularx}
+	\end{center}	
+		
+		\caption{Beschreibung der Testfälle}
+		\label{fig:testfaelle-tabelle}
+	\end{figure}
+	
