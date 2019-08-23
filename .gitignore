@@ -39,3 +39,5 @@ bin
 *.synctex.gz
 *.toc
 pflichtenheft.pdf
+*.synctex(busy)
+*.fdb_latexmk
