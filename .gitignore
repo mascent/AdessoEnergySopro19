@@ -1,9 +1,8 @@
 # InteliJ stuff
-.idea
-.idea/
 *.iml
 *.iws
 *.eml
+*.ser
 
 # Eclipse
 .settings

@@ -23,8 +23,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import energy.adesso.app.R;
-import energy.adesso.app.ui.login.LoginViewModel;
-import energy.adesso.app.ui.login.LoginViewModelFactory;
 
 public class LoginActivity extends AppCompatActivity {
 
