@@ -38,6 +38,6 @@ bin
 *.out
 *.synctex.gz
 *.toc
-pflichtenheft.pdf
+*.pdf
 *.synctex(busy)
 *.fdb_latexmk
