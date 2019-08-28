@@ -1,0 +1,77 @@
+Meters:
+GET 	/api/meters				Paging<MeterDTO> | Alle MeterDTO
+POST	/api/meters				MeterDTO | Neuen Meter erstellen
+PUT	/api/meters/<mid>			MeterDTO | Meter updaten
+DELETE	/api/meters/<mid>			204 | (Optional)
+
+Readings:
+GET	/api/meters/<mid>/readings		Paging<ReadingDTO> | Alle Readings für einen Meter
+POST	/api/meters/<mid>/readings		ReadingDTO | Neues Reading für Meter erstellen
+PUT	/api/meters/<mid>/readings/<rid>	ReadingDTO | Update Reading am Meter
+DELETE	/api/meters/<mid>/readings/<rid>	204 | (Optional)
+
+Users:
+GET	/api/users				Paging<UserDTO> | Alle User
+GET	/api/users/<uid>/meters			Paging<MeterDTO> | Alle Meter für einen User
+GET	/api/users/<uid>/meters/<mid>/readings	Paging<ReadingDTO> | Alle Readings für einen User für einen Meter
+POST	/api/users				UserDTO | Neuen User erstellen
+PUT	/api/users/<uid>			UserDTO | User updaten
+DELETE	/api/users/<uid>			204 | (Optional)
+
+interface Paging<T> {
+	content: T[]
+	size: number
+	page: number
+	totalPages: number
+	total: number
+	first: boolean
+	last: boolean
+}
+
+interface MeterDTO {
+	id: string
+	type: "water" | "eletricity" | "gas"
+	name: string
+	ownerId: string | null
+	lastReading: ReadingDTO
+	meterNumber: string
+	createdAt: UTC string
+	updatedAt: UTC string | null
+	deletedAt: UTC string | null
+}
+
+interface UserDTO {
+	id: string
+	customerId: string
+	firstName: string
+	lastName: string
+	email: string
+	createdAt: UTC string
+	updatedAt: UTC string | null
+	deletedAt: UTC string | null
+}
+
+interface ReadingDTO {
+	id: string
+	meterId: string
+	ownerId: string
+	value: string
+	trend: number
+	lastEditorName: string
+	lastEditReason: string
+	createdAt: UTC string
+	updatedAt: UTC string | null
+	deletedAt: UTC string | null
+}
+
+interface IssueDTO {
+	id: string
+	email: string
+	name: string
+	subject: string
+	message: string
+	status: "UNRESOLVED" | "RESOLVED"
+	createdAt: UTC string
+	updatedAt: UTC string | null
+	deletedAt: UTC string | null
+}
