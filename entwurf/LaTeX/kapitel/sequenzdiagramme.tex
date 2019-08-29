@@ -14,3 +14,15 @@ Achtet weiterhin darauf, dass die anderen Methoden im Klassendiagramm zu finden 
 Manche Sequenzen erfordern sicherlich eine kurze schriftliche Beschreibung.
 \end{tcolorbox}
 
+\section{Bilder in der App übermitteln}
+Das folgende Sequenzdiagramm beschreibt den Vorgang des erfolgreichen Übermitteln  eines Zählerstandes als Bild.
+Zuerst läd der Nutzer ein Foto hoch, dieses wird mittels der methode azureAnalyse vom Netzwerk Controller per Post-Request ans Backend der Website geschickt. Dieses leitet das Bild per HTTP an die Klassifizierungsschnittstelle des AzureWrappers weiter. Nach der Antwort wird über HTTP das Bild an die nächste Schnittstelle Area Detect geschickt. Als letztes wird das Bild noch per HTTP an die Schnittstelle Parse Text geschickt. Die erhaltenenen Daten werden jetzt einer ersten Plausibilitätsprüfung unterzogen. (Richtigkeit der Stellen und Klassifizierung) \\
+Nun wird mittels getUsersMeters() alle Zähler für den Nutzer von der Datenbank abgefragt, um zu Prüfen, ob die Nummer des Zählers in enthalten ist.
+Wenn dies der Fall ist wird eine HTTP Response an den Network Controller gesendet, die die Gelesene Zählernummer und den gelesenen Zählerstand übermittelt. Nun wird der Nutzer aufgefordert den gelesenen Wert zu bestätigen. \\
+Die Bestätigung entspricht dabei einer manuellen Eingabe.
+\begin{figure}[H]
+	\centering
+	\caption{Erfolgreiche Bildübermittlung}
+	\includegraphics[width=16cm]{img/diagrams/SubmitFotoSequence}
+\end{figure}
+
