@@ -38,17 +38,18 @@ Auf jedes Diagramm folgt eine Tabelle, in der die Aufgabe \textbf{jeder} Klasse 
 \includegraphics[width=15cm]{img/diagrams/backend-class-diagram}\\
 \end{figure}
 \newpage
-Bei allen Objekten, die Entities des Modells darstellen (Person, User, UserMeterAssociation, Meter, Reading, ReadingValue, Adress, Issue), handelt es sich um Spring Entity-Objekte.
+Bei allen Objekten, die Entities des Models darstellen (Person, User, UserMeterAssociation, Meter, Reading, ReadingValue, Adress, Issue), handelt es sich um Spring Entity-Objekte.
 Die normalerweise anfallenden Klassen (z.B. Repository-Klassen) werden zwar generiert, aber zu Übersichtszwecken nicht im Diagramm aufgeführt.\\
 JWT steht für JSON Web Token. 
 JWTs werden genutzt, um bei Anfragen an die REST-API User und Administratoren zu authentifizieren. Die REST-API wird durch den Controller bereitgestellt.
 Man kann daher auch aus jeder Anfrage, die einen JWT enthält, einen konkreten User herauslesen. 
-Da es sich um ein JSON-Objekt handelt wird es intern nur als String wahrgenommen, aber zur Übersicht im Diagramm wurde es mit dem geplantem Inhalt als Java-Klasse aufgeführt.\\
-Da User aus einer Wohnung ausziehen können und neue einziehen benötigen User und Zähler eine Komponente oder Funktionen, die Zähler zu einem Gewissen Zeitpunkt einem User zuordnet. 
-Dies macht die UserMeterAssosiation.\\
-Ein Zähler besitzt mindestens einen aktuellen Zählerstand und gegebenenfalls mehrere alte Zählerstände, sowie eine Adresse an der er Montiert ist.\\
+Da es sich um ein JSON-Objekt handelt, wird es intern nur als String wahrgenommen, aber zur Übersicht im Diagramm wurde es mit dem geplantem Inhalt als Java-Klasse aufgeführt.\\
+Da Kunden aus einer Wohnung ausziehen können und neue Kunden dort einziehen können, benötigen Kunden und Zähler eine Komponente oder Funktion, welche einen Zähler zu einem Gewissen Zeitpunkt einem Kunden zuordnet. 
+Zu diesem Zweck existiert die UserMeterAssosiation.\\
+Ein Zähler besitzt mindestens einen aktuellen Zählerstand und gegebenenfalls mehrere alte Zählerstände, sowie eine Adresse, an der er montiert ist.\\
+Das Attribut lengthOfReading wird von den konkreten Zählern geerbt und beschreibt, welche Länge eine Eingabe dieser Zählerart besitzt. Das Attribut commePosition besagt dabei, wie viele Nachkommastellen es gibt.\\
 Ein Zählerstand hat mindestens einen Wert der beim Ablesen angegeben wird. 
-Da er aber unter Umständen von Administratoren geändert werden kann, werden zusätzlich alle Versionen des Zählerstandes inklusive der Person die ihn verändert hat sowie ein Grund warum dies geschah gespeichert.
-Beim erstellen eines Zählerstandes wird ein ReadingValue aus dem Tatsächlichen Stand sowie festen Werten für Grund und Ersteller erstellt.\\
+Da er aber unter Umständen von Administratoren geändert werden kann, werden zusätzlich alle Versionen des Zählerstandes inklusive der Person die ihn verändert hat, ebenfalls wird der Grund für die Änderung gespeichert.
+Beim Erstellen eines Zählerstandes wird ein ReadingValue aus dem tatsächlichen Stand des Zählers und Default-Werten für Grund und Ersteller generiert.\\
 Die Controller dienen zum Auslesen und Manipulieren der Daten des Models. 
-Diese sind jeweils spezialisiert für Nutzer, Zähler oder Einträge um die betreffenden Anfragen zu händeln.
+Die Controller sind jeweils darauf spezialisiert die Anfragen von Nutzern, Zählern oder Einträgen zu händeln.
