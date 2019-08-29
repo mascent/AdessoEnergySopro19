@@ -16,4 +16,4 @@ Das ist inzwischen gefixed, ihr solltet noch oder habt schon eine Mail dazu erha
 
 
 Als kann-Feature wäre es auch schön wenn man ganz absurde Werte direkt erkennt und ausfiltert.
-Wenn Zählerstände verändert werden soll gespeichert werden wer wieso wann den Zählerstand verändert hat. 
+Wenn Zählerstände verändert werden soll gespeichert werden wer wieso wann den Zählerstand verändert hat. Dies soll geschehen, damit adesso energy im Falle eines Zweifels seine bringschuld erfüllen kann.
