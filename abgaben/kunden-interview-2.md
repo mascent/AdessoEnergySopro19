@@ -2,7 +2,7 @@
 
 Nein.
 
-*Soll die Website Responsive Desigin Standards beinhalten?*
+*Soll die Website Responsive Design Standards beinhalten?*
 
 Ist ein absolutes kann, wäre aber sehr schön - fokussiert euch erst mal darauf, dass alles funktioniert.
 
@@ -15,7 +15,5 @@ Ist ein absolutes kann, wäre aber sehr schön - fokussiert euch erst mal darauf
 Das ist inzwischen gefixed, ihr solltet noch oder habt schon eine Mail dazu erhalten.
 
 
-
 Als kann-Feature wäre es auch schön wenn man ganz absurde Werte direkt erkennt und ausfiltert.
-
 Wenn Zählerstände verändert werden soll gespeichert werden wer wieso wann den Zählerstand verändert hat. 
