@@ -33,9 +33,10 @@ Sie sollten aber der klassischen Namenskonvention folgen, um die Nutzung in Sequ
 Auf jedes Diagramm folgt eine Tabelle, in der die Aufgabe \textbf{jeder} Klasse beschrieben wird.
 \end{tcolorbox}
 
-\section{Back-End}
+\section{Klassendiagramme - Back-End}
 \begin{figure}[H]
 \includegraphics[width=15cm]{img/diagrams/backend-class-diagram}\\
+\caption{Klassendiagramm - Back-End}
 \end{figure}
 \newpage
 Bei allen Objekten, die Entities des Modells darstellen (Person, User, UserMeterAssociation, Meter, Reading, ReadingValue, Adress, Issue), handelt es sich um Spring Entity-Objekte.
@@ -52,3 +53,21 @@ Da er aber unter Umständen von Administratoren geändert werden kann, werden zu
 Beim erstellen eines Zählerstandes wird ein ReadingValue aus dem Tatsächlichen Stand sowie festen Werten für Grund und Ersteller erstellt.\\
 Die Controller dienen zum Auslesen und Manipulieren der Daten des Models. 
 Diese sind jeweils spezialisiert für Nutzer, Zähler oder Einträge um die betreffenden Anfragen zu händeln.
+
+\section{Klassendiagramme - App}
+\begin{figure}[H]
+\includegraphics[width=15cm]{img/diagrams/Android-Class-Diagram-Logic}\\
+\caption{Logik der App}
+\end{figure}
+
+
+\subsection*{Erklärung - Logik der App}
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+
+\begin{figure}[H]
+\includegraphics[width=15cm]{img/diagrams/Android-Class-Diagram-View}\\
+\caption{Android View}
+\end{figure}
+
+\subsection*{Erklärung - Android}
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
