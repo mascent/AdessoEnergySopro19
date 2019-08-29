@@ -9,6 +9,12 @@
 Die strukturelle Übersicht des zu entwickelnden Systems wird mittels Komponentendiagrammen modelliert. 
 Auf jedes Diagramm muss eine textuelle Beschreibung (Fließtext mit Umbrüchen / Absätzen oder Tabelle) folgen, in der die Aufgaben der Subkomponenten beschrieben werden. 
 \end{tcolorbox}
+\section{App}
+\includegraphics[scale=0.45]{img/diagrams/AppComponentDiagram} 
+Die App ist in mehrere Komponenten aufgeteilt, von denen die meisten direkt die Java-Packages des Projektes darstellen. Ausnahmen sind die Actvities in der UI Komponente, die wir hier eintragen obwohl sie häufig nur eine Activity-Klasse umfassen, weil sie darüber hinaus mehrere XML Dateien und andere Resourcen nutzen.\\
+Die meisten Anfragen der UI gehen an die Controller Klassen, die außerdem als Fassade zwischen Front- und Backend der App darstellen. Allerdings Kommuniziert die UI bei manuellen Uploads direkt mit der Meter Klasse, die in der Internal Komponente liegt.\\ 
+
+\section{Back-End}
 \includegraphics[width=15cm]{img/diagrams/component-back-end}
 Zusammengesetzt ist das ''Back-End'' aus mehreren Komponenten und Schnittstellen, die untereinander interagieren.\\
 Dabei regelt die ''Handler''-Komponente den Dateneingang durch Nutzeranfragen, indem sie die Daten an die für sie zuständigen Subkomponenten weiterleitet. Dies geschieht über die von diesen Komponenten angebotenen Schnittstellen. Die Nutzeranfragen aus App und Browser werden dabei durch die ''REST-API''-Schnittstelle angenommen, welche von der ''Handler''-Komponente zur Verfügung gestellt wird.\\
@@ -17,3 +23,4 @@ Weiterhin wird diese ''Data-Communication''-Schnittstelle von der ''User-Data''-
 Die gewünschten Zugriffe auf Kundendaten erfolgen über die von der ''User-Data''-Komponente bereitgestellte ''Data-Management''-Schnittstelle, welche von der ''Handler''-Komponente verwendet wird.\\
 Bei Veränderungen der Daten in ''User-Data'' werden diese durch die ''Datareview''-Schnittstelle an die ''Validation''-Komponente weitergeleitet. Dort werden Zählerstände und Nummern auf ihr Format, sowie Passwörter auf Sicherheitsstandards überprüft.\\
 Auf die ''Data-Review''-Schnittstelle greift ebenfalls die ''Picture-Evaluator''-Komponente zu, um Zählernummern und Zählerstände auf Validität zu überprüfen. Diese Werte erhält die Komponenente von der ''adesso-Picture-Recognition'', welche die Bilder extern auswertet. Verbunden sind diese dabei über die ''Picture-Evaluation''-Schnittstelle. Die Bilder welche ausgewertet werden sollen gelangen über die ''Picture-Handling''-Schnittstelle, welche von der ''Picture-Evaluator''-Komponente angeboten wird, in eben diese. Umgekehrt werden die daraus erhaltenen Daten über die gleiche Schnittstelle an die ''Handler''-Komponente zurückgesendet. Die ''Picture-Evaluator''-Komponente fungiert somit als Knotenpunkt für die Bildverarbeitung. 
+
