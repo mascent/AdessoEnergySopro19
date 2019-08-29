@@ -33,11 +33,22 @@ Sie sollten aber der klassischen Namenskonvention folgen, um die Nutzung in Sequ
 Auf jedes Diagramm folgt eine Tabelle, in der die Aufgabe \textbf{jeder} Klasse beschrieben wird.
 \end{tcolorbox}
 
-\subsection{Back-End}
+\section{Back-End}
+\begin{figure}[H]
 \includegraphics[width=15cm]{img/diagrams/backend-class-diagram}\\
-Bei alle Objekten die Entities des Modells darstellen (Person, User, UserMeterAssosiation, Meter, Reading, ReadingValue, Adress, Issue) handelt es sich um Spring Entity-Objekte. Die normalerweise anfallenden Klassen (z.B. Repository-Klassen) werden generiert, werden zu Übersicht aber nicht im Diagramm aufgeführt.\\
-JWT steht für Jason Web Token diese werden genutzt um bei Anfragen an die REST-API, die durch die Controller bereitgestellt werden, User und Administratoren authentifiziert werden. Man kann daher auch jeder Anfrage, die einen JWT enthält einem konkreten User herauslesen. Da es sich um ein JSON-Objekt handelt wird es eigentlich intern nur als String wahrgenommen, zur Übersicht im Diagramm wurde es aber mit geplantem Inhalt als Java-Klasse mit aufgeführt.\\
-Da User aus einer Wohnung ausziehen können und neue einziehen benötigen User und Zähler eine Komponente oder Funktionen, die Zähler zu einem Gewissen Zeitpunkt einem User zuordnet. Dies macht die UserMeterAssosiation.\\
+\end{figure}
+\newpage
+Bei alle Objekten die Entities des Modells darstellen (Person, User, UserMeterAssociation, Meter, Reading, ReadingValue, Adress, Issue) handelt es sich um Spring Entity-Objekte.
+Die normalerweise anfallenden Klassen (z.B. Repository-Klassen) werden generiert, werden zu Übersicht aber nicht im Diagramm aufgeführt.\\
+JWT steht für Jason Web Token. 
+Diese werden genutzt um bei Anfragen an die REST-API, die durch die Controller bereitgestellt werden, User und Administratoren zu authentifizieren.
+Man kann daher auch aus jeder Anfrage, die einen JWT enthält, einem konkreten User herauslesen. 
+Da es sich um ein JSON-Objekt handelt wird es intern nur als String wahrgenommen, aber zur Übersicht im Diagramm wurde es mit dem geplantem Inhalt als Java-Klasse aufgeführt.\\
+Da User aus einer Wohnung ausziehen können und neue einziehen benötigen User und Zähler eine Komponente oder Funktionen, die Zähler zu einem Gewissen Zeitpunkt einem User zuordnet. 
+Dies macht die UserMeterAssosiation.\\
 Ein Zähler besitzt mindestens einen aktuellen Zählerstand und gegebenenfalls mehrere alte Zählerstände, sowie eine Adresse an der er Montiert ist.\\
-Ein Zählerstand hat mindestens einen Wert der beim Ablesen angegeben wird. Da er aber unter Umständen von Administratoren geändert werden kann, werden zusätzlich alle Versionen des Zählerstandes inklusive der Person die ihn verändert hat sowie ein Grund warum dies geschah gespeichert. Beim erstellen eines Zählerstandes wird ein ReadingValue aus dem Tatsächlichen Stand sowie festen Werten für Grund und Ersteller erstellt.\\
-Die Controller dienen zum Auslesen und Manipulieren der Daten des Models.
+Ein Zählerstand hat mindestens einen Wert der beim Ablesen angegeben wird. 
+Da er aber unter Umständen von Administratoren geändert werden kann, werden zusätzlich alle Versionen des Zählerstandes inklusive der Person die ihn verändert hat sowie ein Grund warum dies geschah gespeichert.
+Beim erstellen eines Zählerstandes wird ein ReadingValue aus dem Tatsächlichen Stand sowie festen Werten für Grund und Ersteller erstellt.\\
+Die Controller dienen zum Auslesen und Manipulieren der Daten des Models. 
+Diese sind jeweils spezialisiert für Nutzer, Zähler oder Einträge um die betreffenden Anfragen zu händeln.
