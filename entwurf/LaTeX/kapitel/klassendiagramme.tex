@@ -38,11 +38,11 @@ Auf jedes Diagramm folgt eine Tabelle, in der die Aufgabe \textbf{jeder} Klasse 
 \includegraphics[width=15cm]{img/diagrams/backend-class-diagram}\\
 \end{figure}
 \newpage
-Bei alle Objekten die Entities des Modells darstellen (Person, User, UserMeterAssociation, Meter, Reading, ReadingValue, Adress, Issue) handelt es sich um Spring Entity-Objekte.
-Die normalerweise anfallenden Klassen (z.B. Repository-Klassen) werden generiert, werden zu Übersicht aber nicht im Diagramm aufgeführt.\\
-JWT steht für Jason Web Token. 
-Diese werden genutzt um bei Anfragen an die REST-API, die durch die Controller bereitgestellt werden, User und Administratoren zu authentifizieren.
-Man kann daher auch aus jeder Anfrage, die einen JWT enthält, einem konkreten User herauslesen. 
+Bei allen Objekten, die Entities des Modells darstellen (Person, User, UserMeterAssociation, Meter, Reading, ReadingValue, Adress, Issue), handelt es sich um Spring Entity-Objekte.
+Die normalerweise anfallenden Klassen (z.B. Repository-Klassen) werden zwar generiert, aber zu Übersichtszwecken nicht im Diagramm aufgeführt.\\
+JWT steht für JSON Web Token. 
+JWTs werden genutzt, um bei Anfragen an die REST-API User und Administratoren zu authentifizieren. Die REST-API wird durch den Controller bereitgestellt.
+Man kann daher auch aus jeder Anfrage, die einen JWT enthält, einen konkreten User herauslesen. 
 Da es sich um ein JSON-Objekt handelt wird es intern nur als String wahrgenommen, aber zur Übersicht im Diagramm wurde es mit dem geplantem Inhalt als Java-Klasse aufgeführt.\\
 Da User aus einer Wohnung ausziehen können und neue einziehen benötigen User und Zähler eine Komponente oder Funktionen, die Zähler zu einem Gewissen Zeitpunkt einem User zuordnet. 
 Dies macht die UserMeterAssosiation.\\
