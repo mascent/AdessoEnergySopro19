@@ -9,7 +9,7 @@
 Die strukturelle Übersicht des zu entwickelnden Systems wird mittels Komponentendiagrammen modelliert. 
 Auf jedes Diagramm muss eine textuelle Beschreibung (Fließtext mit Umbrüchen / Absätzen oder Tabelle) folgen, in der die Aufgaben der Subkomponenten beschrieben werden. 
 \end{tcolorbox}
-\includegraphics[scale=0.3]{\img\Komponenten_Back-Log}
+\includegraphics[width=15cm]{img/diagrams/component-back-end}
 Zusammengesetzt ist das ''Back-End'' aus mehreren Komponenten und Schnittstellen, die untereinander interagieren.\\
 Dabei regelt die ''Handler''-Komponente den Dateneingang durch Nutzeranfragen, indem sie die Daten an die für sie zuständigen Subkomponenten weiterleitet. Dies geschieht über die von diesen Komponenten angebotenen Schnittstellen. Die Nutzeranfragen aus App und Browser werden dabei durch die ''REST-API''-Schnittstelle angenommen, welche von der ''Handler''-Komponente zur Verfügung gestellt wird.\\
 Um zu überprüfen ob Nutzer privilegiert sind bestimmte Anfragen zu stellen existiert die ''Authentification''-Komponente. Diese verhindert damit, dass Nutzer Operationen durchführen, zu welchen sie nicht befugt sind. Zu diesem Zweck stellt sie dem ''Handler'' eine ''Verify''-Schnittstelle zur Verfügung. Um die Befugnis eines Benutzers für eine bestimmte Operation zu überprüfen, benutzt die ''Authentifikation'' die ''Database-Communication''-Schnittstelle. Über diese werden die benötigten Rechte mit den in der Datenbank gespeicherten Rechten des Benutzers abgeglichen.\\
