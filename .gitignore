@@ -1,15 +1,7 @@
-# InteliJ stuff
-*.iml
-*.iws
-*.eml
-*.ser
-
 # Eclipse
 .settings
 .settings/
 bin
-.classpath
-.project
 
 # vs code
 .vscode
