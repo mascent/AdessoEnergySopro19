@@ -58,6 +58,20 @@ interface IssueDTO {
 }
 \end{lstlisting}
 
+
+\begin{lstlisting}
+interface UserDTO {
+	id: string
+	customerId: string
+	firstName: string
+	lastName: string
+	email: string
+	createdAt: UTC string
+	updatedAt: UTC string | null
+	deletedAt: UTC string | null
+}
+\end{lstlisting}
+
 \begin{lstlisting}
 interface PictureResultDTO {
 	meterId: string
@@ -82,7 +96,7 @@ interface PictureResultDTO {
 		GET	/api/meters/\{mid\} /readings & Alle Zählerstände zu einem Zähler & 200 : Paging \textless UserDTO \textgreater \\ \\ \hline
 	\\ 	POST /api/meters/\{mid\} /readings & Neuen Zählerstand einem Zähler hinzufügen & 201 : ReadingDTO\\ \\ \hline
 	\\	PUT /api/meters/\{mid\} /readings/\{rid\} & Einen Zählerstand eines Zählers updaten & 200 : ReadingDTO \\ \\ \hline
-	\\	DELETE /api/meters/\{mid\} /readings/\{rid\} & Einen Zählerstand eine Zählers entfernen & 204 \\ \\   \hline
+	\\	DELETE /api/meters/\{mid\} /readings/\{rid\} & Einen Zählerstand eines Zählers entfernen & 204 \\ \\   \hline
 	\\	POST /api/picutre & Zählerstand + Zähler vom Bild erkennen & 200 : PictureResultDTO \\ \\ \hline
 	\end{tabularx}
 
@@ -92,9 +106,10 @@ interface PictureResultDTO {
 	\textbf{Benutzer}\\ \\
 	\begin{tabularx}{\textwidth}{X | X | X}
 	\hline \\
-	GET /api/users & Liste aller Benutzer & 201 : Paging \textless UserDTO \textgreater\\ \\ \hline
+	GET /api/users & Liste aller Benutzer & 200 : Paging \textless UserDTO \textgreater\\ \\ \hline
+	\\ GET /api/users/\{uid\} & Infos zu einem Benutzer & 200 : UserDTO \\ \\ \hline
 	\\ GET /api/users/\{uid\}/meters & Liste aller Zähler zu einem Benutzer & 201 : Paging \textless MeterDTO \textgreater  \\ \\ \hline
-	\\ GET /api/users/\{uid\}/meters /\{mid\}/readings & Liste aller Zählerstände für einen Zähler von einem Benutzer &  200 : Paging \textless ReadingDTO \textgreater \\ \\ \hline
+	\\ GET /api/users/\{uid\}/meters/\{mid\} /readings & Liste aller Zählerstände für einen Zähler von einem Benutzer &  200 : Paging \textless ReadingDTO \textgreater \\ \\ \hline
 	\\ POST /api/users & Benutzer hinzufügen &201 : UserDTO \\ \\ \hline
 	\\ PUT /api/users/\{uid\} & Benutzer updaten & 200 : UserDTO\\ \\ \hline
 	\\ DELETE /api/users/\{uid\} & Benutzer löschen & 204\\ \\ \hline
@@ -112,4 +127,20 @@ interface PictureResultDTO {
 	
 	\end{tabularx}
 \end{figure}
+
+\newpage
+
+\begin{figure}[H]
+	\textbf{Authentifizierung}\\ \\
+	\begin{tabularx}{\textwidth}{X | X | X}
+	\hline \\
+	POST /api/login & Login Token für Benutzer erhalten & 200 : JWT Token \\ \\ \hline
+	\\ GET /api/logout & Benutzer ausloggen & 204 \\ \\ \hline
+	\end{tabularx}
+\end{figure}
+
+
+
+
+
 
