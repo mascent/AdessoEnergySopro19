@@ -1,7 +1,7 @@
 \begin{figure}[H]
 	\centering
-	\caption{Verteilungsdiagramm}
 	\includegraphics[width=16cm]{img/diagrams/DeploymentDiagram}
+		\caption{Verteilungsdiagramm}
 \end{figure}
 Im Allgemeinen läuft die gesamte Software auf dem selben Server. Durch Docker werden einzelne Komponenten aber auf unterschiedliche Container aufgeteilt.\\
 So läuft in einem Container die Software für das Backend, die über eine REST-API mit dem Frontend kommuniziert. Die Web und App Anwendungen können dann HTTP Anfragen an das Backend stellen.\\
