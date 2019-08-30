@@ -7,7 +7,7 @@ public class MeterDTO extends DTO {
   String type;
   String name;
   String ownerId;
-  energy.adesso.app.logic.model.transfer.ReadingDTO lastReading; // nullable
+  ReadingDTO lastReading; // nullable
   String meterNumber;
 
   @Override

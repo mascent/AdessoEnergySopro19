@@ -2,6 +2,8 @@ package energy.adesso.adessoandroidapp.logic.controller;
 
 import java.util.List;
 
+import energy.adesso.adessoandroidapp.logic.model.Meter;
+
 public class MainController {
   private static MainController instance;
   private String ip;
@@ -22,7 +24,7 @@ public class MainController {
 
   }
 
-  public static List<model.Meter> getOverview() {
+  public static List<Meter> getOverview() {
     return null;
   }
 }
