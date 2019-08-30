@@ -146,12 +146,11 @@ Ein Zähler besitzt mindestens einen aktuellen Zählerstand und gegebenenfalls m
 Das Attribut lengthOfReading wird von den konkreten Zählern geerbt und beschreibt, welche Länge eine Eingabe dieser Zählerart besitzt. Das Attribut commePosition besagt dabei, wie viele Nachkommastellen es gibt.\\
 Ein Zählerstand hat mindestens einen Wert der beim Ablesen angegeben wird. 
 Da er aber unter Umständen von Administratoren geändert werden kann, werden zusätzlich alle Versionen des Zählerstandes inklusive der Person die ihn verändert hat, ebenfalls wird der Grund für die Änderung gespeichert.
-Beim Erstellen eines Zählerstandes wird ein ReadingValue aus dem tatsächlichen Stand des Zählers und Default-Werten für Grund und Ersteller generiert.\\
-Die Controller dienen zum Auslesen und Manipulieren der Daten des Models. 
-Die Controller sind jeweils darauf spezialisiert die Anfragen von Nutzern, Zählern oder Einträgen zu händeln.
+Beim Erstellen eines Zählerstandes (Reading) wird ein neues ReadingValue bestehend aus dem Stand des Zählers sowie Default-Werten für Grund und Ersteller generiert, um klar zu machen, dass diese Daten noch nicht manipuliert wurden.\\
+Die Controller dienen zum Auslesen und Manipulieren der Daten des Models und sind jeweils darauf spezialisiert die Anfragen von Nutzern, Zählern oder Einträgen zu händeln.
 
 \section{Klassendiagramme - App}
-Die App ist intern in eine View- und eine Model/Controller-Komponente aufgeteilt. Es folgen Klassendiagramme für die 2 Komponenten.
+Die App ist intern in eine View- und eine Model/Controller-Komponente aufgeteilt. Es folgen Klassendiagramme für die beiden Komponenten.
 \begin{figure}[H]
 \centering
 \includegraphics[scale=1.05]{img/diagrams/Android-Class-Diagram-Logic}\\
@@ -161,8 +160,8 @@ Die App ist intern in eine View- und eine Model/Controller-Komponente aufgeteilt
 
 \subsection*{Erklärung - Model \& Controller der App}
 Im Package 'logic' befinden sich die Packages 'model' und 'controller'.
-Klassen im Controller-Package sind verantwortlich fürs tatsächliche Ausführen der Operationen, die vom User über Interaktion mit den Views gestartet werden. \\ Die Singleton-Klasse MainController ist hier erster Ansprechpunkt für die Views und stellt Methoden zum Ein- und Ausloggen, Analysieren von Bildern, Fetchen von Zählern, Senden von Kontaktanfragen und ändern vom zu benutzendem Server. \\ Der MainController benutzt zum senden von HTTP-Requests den NetworkController und zum Speichern von persistenten Daten (wie z.b. OAuth Token) den PersistanceController.
-Das Model ist in 2 Packages unterteilt. 'internal' enthält Objekte, die den Views zur Anzeige übergeben werden, sowie eine Repräsentation des OAuth-Tokens. \\ Im 'transfer' package befinden sich Klassen, die identisch zu den über REST zu übertragenden JSON Objekten aufgebaut sind. Sie werden über eine Library von- und zu JSON konvertiert werden.
+Klassen im Controller-Package sind verantwortlich für das tatsächliche Ausführen der Operationen, die vom User über Interaktion mit den Views gestartet werden. \\ Die Singleton-Klasse MainController ist hier erster Ansprechpunkt für die Views und stellt Methoden zum Ein- und Ausloggen, Analysieren von Bildern, Fetchen von Zählern, Senden von Kontaktanfragen und Ändern vom zu benutzendem Server bereit. \\ Der MainController benutzt zum Senden von HTTP-Requests den NetworkController und zum Speichern von persistenten Daten (wie z.b. OAuth Token) den PersistanceController.
+Das Model ist in zwei Packages unterteilt. 'internal' enthält Objekte, die den Views zur Anzeige übergeben werden, sowie eine Repräsentation des OAuth-Tokens. \\ Im 'transfer'-Package befinden sich Klassen, die identisch zu den über REST zu übertragenden JSON Objekten aufgebaut sind. Sie werden über eine Library von und zu JSON konvertiert werden.
 
 \begin{figure}[H]
 \hspace{-1cm}
@@ -177,11 +176,11 @@ Das Model ist in 2 Packages unterteilt. 'internal' enthält Objekte, die den Vie
 	\hline
 	Meter/InternalObject/Reading & Die hier aufgeführte Meter Klasse ist dieselbe, die auch in dem Logikdiagram dargestellt ist. \\ \hline
 	ElectricMeter/GasMeter/WaterMeter & Die hier aufgeführte Meter Klasse ist dieselbe, die auch in dem Logikdiagram dargestellt ist. \\ \hline
-	AppCompatActivity & Diese Klasse ist standartmäßig die Superklasse von allen Activities in Android Studio \\ \hline
+	AppCompatActivity & Diese Klasse ist standardmäßig die Superklasse von allen Activities in Android Studio \\ \hline
 	LoginActivity & Diese Activity stellt UI Elemente bereit, die es dem Nutzer erlauben sich anzumelden. \\ \hline
 	MainActivity & Auf dieser Activity kann der Nutzer seine Zähler und einige Zählerstände einsehen, sowie auf sie zugreifen. \\ \hline
 	DetailActivity & Auf dieser Activity kann der Nutzer Zählerstände hinzufügen und einsehen. \\ \hline
 	IssueActivity & Auf dieser Activity kann der Nutzer einen Admin kontaktieren, falls er ein Problem hat. \\ \hline
-	ListView & Diese Klasse erleichtert das hinzufügen und maintainen von Listen in der ManActivity und DetailActivity. \\ \hline
+	ListView & Diese Klasse erleichtert das hinzufügen und maintainen von Listen in der MainActivity und DetailActivity. \\ \hline
 	ListEntry & Diese Klasse stellt einen Listeneintrag dar. 
 \end{tabularx}
