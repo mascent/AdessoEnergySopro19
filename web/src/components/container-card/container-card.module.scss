@@ -1,0 +1,9 @@
+@import 'theme/colors';
+@import 'theme/shadows';
+
+.container {
+  background-color: $container-card-background;
+  padding: 24px;
+  border-radius: 4px;
+  box-shadow: $shadow-200;
+}
