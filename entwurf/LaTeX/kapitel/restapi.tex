@@ -1,5 +1,5 @@
 \textbf{Anmerkung:} \\
-Endpunkte, welche ein Paging\textless T\textgreater \  Objekt zurück geben sind pageable und sortierbar. Dafür können in der Request weitere Parameter angeben werden. Allerdings sind wir uns noch nicht sicher wie diese Parameter, in den von Spring angebotenen Libraries, aussehen. Deshalb haben wir diese Parameter vorerst weggelassen. Weiter sind noch weitere Status Codes als Return Wert möglich um Fehler zu handeln. Zum Beispiel ist an allen Endpunkten eine Authentifizierung nötig, sodass 401 ein weiterer möglicher Return Code ist. Alternative Fehlercode haben wir vorerst aber noch nicht genau definiert.  \\ \\ \\
+Endpunkte, welche ein Paging\textless T\textgreater \ Objekt zurück geben sind pageable und sortierbar. Dafür können in dem Request weitere Parameter angeben werden. Allerdings sind wir uns noch nicht sicher, wie diese Parameter, in den von Spring angebotenen Libraries, aussehen. Deshalb haben wir diese Parameter vorerst noch nicht aufgeführt. Außerdem sind Status-Codes als Return-Wert möglich, um Fehler zu behandeln. Zum Beispiel ist an allen Endpunkten eine Authentifizierung nötig, sodass 401 ein weiterer möglicher Return-Code ist. Alternative Fehler-Codes haben wir vorerst aber noch nicht genau definiert.  \\ \\ \\
  
 
 \begin{lstlisting}
@@ -82,22 +82,31 @@ interface PictureResultDTO {
 \begin{figure}[H]
 	\textbf {Zähler} \\ \\
 	\begin{tabularx}{\textwidth}{X | X | X}
-		\hline \\
-		GET 	/api/meters & Liste aller Zähler & 200 : Paging \textless MeterDTO\textgreater \\ \\ \hline
-		\\ POST /api/meters & Zähler erstellen & 201 : MeterDTO\\ \\ \hline
-		\\  PUT /api/meters/\{mid\} & Zähler updaten & 200 : MeterDTO \\ \\ \hline
-		\\ DELETE	/api/meters/\{mid\} & Zähler löschen & 204 \\ \\ \hline
+		\hline &&\\
+		GET /api/meters & Liste aller Zähler & 200 : Paging \textless MeterDTO\textgreater
+		\\&&\\ \hline &&\\
+		POST /api/meters & Zähler erstellen & 201 : MeterDTO
+		\\&&\\ \hline &&\\
+		PUT /api/meters/\{mid\} & Zähler updaten & 200 : MeterDTO
+		\\&&\\ \hline &&\\
+		DELETE /api/meters/\{mid\} & Zähler löschen & 204
+		\\&&\\ \hline 
 	\end{tabularx}
 \\ \\ \\ \\
 
 	\textbf{Zählerstände} \\ \\
 	\begin{tabularx}{\textwidth}{X | X | X}
-		\hline \\
-		GET	/api/meters/\{mid\} /readings & Alle Zählerstände zu einem Zähler & 200 : Paging \textless UserDTO \textgreater \\ \\ \hline
-	\\ 	POST /api/meters/\{mid\} /readings & Neuen Zählerstand einem Zähler hinzufügen & 201 : ReadingDTO\\ \\ \hline
-	\\	PUT /api/meters/\{mid\} /readings/\{rid\} & Einen Zählerstand eines Zählers updaten & 200 : ReadingDTO \\ \\ \hline
-	\\	DELETE /api/meters/\{mid\} /readings/\{rid\} & Einen Zählerstand eines Zählers entfernen & 204 \\ \\   \hline
-	\\	POST /api/picutre & Zählerstand + Zähler vom Bild erkennen & 200 : PictureResultDTO \\ \\ \hline
+		\hline &&\\
+		GET /api/meters/\{mid\} /readings & Alle Zählerstände zu einem Zähler & 200 : Paging \textless UserDTO \textgreater
+		\\&&\\ \hline &&\\
+		POST /api/meters/\{mid\} /readings & Neuen Zählerstand einem Zähler hinzufügen & 201 : ReadingDTO
+		\\&&\\ \hline &&\\
+		PUT /api/meters/\{mid\} /readings/\{rid\} & Einen Zählerstand eines Zählers updaten & 200 : ReadingDTO
+		\\&&\\ \hline &&\\
+		DELETE /api/meters/\{mid\} /readings/\{rid\} & Einen Zählerstand eines Zählers entfernen & 204
+		\\&&\\ \hline &&\\
+		POST /api/picutre & Zählerstand + Zähler vom Bild erkennen & 200 : PictureResultDTO 
+		\\&&\\ \hline 
 	\end{tabularx}
 
 \end{figure}
@@ -105,26 +114,36 @@ interface PictureResultDTO {
 \begin{figure}[H]
 	\textbf{Benutzer}\\ \\
 	\begin{tabularx}{\textwidth}{X | X | X}
-	\hline \\
-	GET /api/users & Liste aller Benutzer & 200 : Paging \textless UserDTO \textgreater\\ \\ \hline
-	\\ GET /api/users/\{uid\} & Infos zu einem Benutzer & 200 : UserDTO \\ \\ \hline
-	\\ GET /api/users/\{uid\}/meters & Liste aller Zähler zu einem Benutzer & 201 : Paging \textless MeterDTO \textgreater  \\ \\ \hline
-	\\ GET /api/users/\{uid\}/meters/\{mid\} /readings & Liste aller Zählerstände für einen Zähler von einem Benutzer &  200 : Paging \textless ReadingDTO \textgreater \\ \\ \hline
-	\\ POST /api/users & Benutzer hinzufügen &201 : UserDTO \\ \\ \hline
-	\\ PUT /api/users/\{uid\} & Benutzer updaten & 200 : UserDTO\\ \\ \hline
-	\\ DELETE /api/users/\{uid\} & Benutzer löschen & 204\\ \\ \hline
+		\hline &&\\
+		GET /api/users & Liste aller Benutzer & 200 : Paging \textless UserDTO \textgreater
+		\\&&\\ \hline &&\\
+		GET /api/users/\{uid\} & Infos zu einem Benutzer & 200 : UserDTO
+		\\&&\\ \hline &&\\
+		GET /api/users/\{uid\}/meters & Liste aller Zähler zu einem Benutzer & 201 : Paging \textless MeterDTO \textgreater
+		\\&&\\ \hline &&\\
+		GET /api/users/\{uid\}/meters/\{mid\} /readings & Liste aller Zählerstände für einen Zähler von einem Benutzer &  200 : Paging \textless ReadingDTO \textgreater
+		\\&&\\ \hline &&\\
+		POST /api/users & Benutzer hinzufügen &201 : UserDTO
+		\\&&\\ \hline &&\\
+		PUT /api/users/\{uid\} & Benutzer updaten & 200 : UserDTO
+		\\&&\\ \hline &&\\
+		DELETE /api/users/\{uid\} & Benutzer löschen & 204 
+		\\&&\\ \hline 
 	\end{tabularx}
 \end{figure}
 
 \begin{figure}[H]
 	\textbf{Ticket}\\ \\
 	\begin{tabularx}{\textwidth}{X | X | X}
-	\hline \\
-	GET /api/issues & Liste aller Tickets & 201 : Paging \textless IssueDTO \textgreater\\ \\ \hline
-	\\ POST /api/issues/\{iid\} & Ticket hinzufügen & 201 : IssueDTO \\ \\ \hline
-	\\ PUT /api/issues/\{iid\} & Updaten eines Tickets & 200 : IssueDTO \\ \\ \hline
-	\\ DELETE /api/issues/\{iid\} & Ticket löschen & 204 \\ \\ \hline
-	
+		\hline &&\\
+		GET /api/issues & Liste aller Tickets & 200 : Paging \textless IssueDTO \textgreater
+		\\&&\\ \hline &&\\
+		POST /api/issues/\{iid\} & Ticket hinzufügen & 201 : IssueDTO
+		\\&&\\ \hline &&\\
+		PUT /api/issues/\{iid\} & Updaten eines Tickets & 200 : IssueDTO
+		\\&&\\ \hline &&\\
+		DELETE /api/issues/\{iid\} & Ticket löschen & 204 
+		\\&&\\ \hline 
 	\end{tabularx}
 \end{figure}
 
@@ -133,9 +152,11 @@ interface PictureResultDTO {
 \begin{figure}[H]
 	\textbf{Authentifizierung}\\ \\
 	\begin{tabularx}{\textwidth}{X | X | X}
-	\hline \\
-	POST /api/login & Login Token für Benutzer erhalten & 200 : JWT Token \\ \\ \hline
-	\\ GET /api/logout & Benutzer ausloggen & 204 \\ \\ \hline
+		\hline &&\\
+		POST /api/login & Login Token für Benutzer erhalten & 200 : JWT Token
+		\\&&\\ \hline &&\\
+		GET /api/logout & Benutzer ausloggen & 204
+		\\&&\\ \hline 
 	\end{tabularx}
 \end{figure}
 
