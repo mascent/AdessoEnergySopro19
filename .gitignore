@@ -18,6 +18,7 @@ bin
 # Runtime files
 *.log
 .lock
+*.lck
 *.tmp
 
 # build directories
