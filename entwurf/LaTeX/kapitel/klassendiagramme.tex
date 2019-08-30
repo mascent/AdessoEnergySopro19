@@ -11,7 +11,7 @@ In der Web-Application benutzen wir Typescript, um in Javascript Typsicherheit z
 \end{figure}
 \newpage
 
-\textbf{Beschreibung zum obrigen Klassendiagramm - API Abstraction.} \\ \\
+\textbf{Beschreibung zum obigen Klassendiagramm - API Abstraction.} \\ \\
 Die verschiedenen DTO-Interfaces sind Datentypen, welche über die REST-Endpunkte verschickt werden. Sie dienen als Datentyp für Javascript Objekte in Typescript. In der API-Abstraction halten wir eine eigene Config-Klasse, damit Komponenten, welche die Abstraction benutzen, nicht bei jedem Aufruf den Token und die Base-URL mitgeben müssen. Dadurch muss die Config nur einmal initialisiert werden, sobald der Benutzer die Website lädt. \\\\
 Eine abstrakte Klasse stellt konfigurierte Netzwerkfunktionen für die spezialisierten Klassen zur Verfügung, sodass die Methode zum Erstellen von Netzwerkanfragen (fetch oder axios) leichter ausgetauscht werden kann. \\
 Die spezialisierten API Componenten und Config sind Singletons. Eine Index-Datei im API-Package exportiert für jede Klasse ein Objekt, wodurch auf einfache Art und Weise ein Singleton-Pattern in JS realisiert werden kann.
@@ -44,7 +44,7 @@ Zum Testen kann die Klasse weiterhin importiert werden, sodass z.b. für Tests n
 \end{figure}
 \newpage
 
-\textbf{Beschreibung zum obrigen Klassendiagramm - Provider.} \\ \\
+\textbf{Beschreibung zum obigen Klassendiagramm - Provider.} \\ \\
 Für das Klassendiagramm der Provider ist es wichtig, \href{https://reactjs.org/docs/context.html}{React Context} zu verstehen.  Der Override in den Providern erlaubt es uns, den Context in Tests auszutauschen. Dadurch können Components, deren Kinder oder diese selber einen Access-Hook  benutzen, getestet werden, ohne dass der Hook gemockt werden muss. \href{https://reactjs.org/docs/hooks-intro.html}{Hooks} sind eine React-Funktionalität, um Logik innerhalb von Componenten zu abstrahieren und wiederzuverwenden. Ein Context wird hier als Klasse dargestellt. In Wahrheit ist es aber ein Objekt, 
 welches von React verwaltet wird. Dadurch werden konsumierende Components bei Updates automatisch neu gerendert. Das Ganze ist vergleichbar mit einem Observer Pattern. \\
 Die Hook-Klassen existieren nur im Diagramm. Im Quellcode sind es nur die aufgelisteten Hooks, welche von den UI Components benutzt werden können, um Zugriff auf die Contexte zu bekommen. Die Hooks dienen damit als Fassade, sodass die React Contexts auch durch Redux für das globale State Management ersetzt werden könnten.
@@ -73,7 +73,7 @@ Die Interfaces, welche im Context gehalten werden, sind erweiterte DTO-Interface
 \end{figure}
 \newpage
 
-\textbf{Beschreibung zum obrigen Klassendiagramm - Benutzeroberfläche Componenten} \\ \\
+\textbf{Beschreibung zum obigen Klassendiagramm - Benutzeroberfläche Componenten} \\ \\
 Alle Klassen aus dem Diagramm sind \href{https://reactjs.org/docs/components-and-props.html}{React-Componenten}. Damit es übersichtlicher ist, haben wir die Properties und internen State sowie die Kardinalitäten der Associationen rausgelassen und nur Hooks aus der Provider-Schicht hinzugefügt wo wir vermuten auf den globalen State zuzugreifen. \\ \\
 Allgemein bestehen die Benutzeroberflächen aus Kompositionen von UI Componenten welche von React in den HTML-DOM gerendert werden. 
  
