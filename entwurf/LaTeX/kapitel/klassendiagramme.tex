@@ -63,8 +63,10 @@ Die App ist intern in eine View- und eine Model/Controller-Komponente aufgeteilt
 \end{figure}
 
 
-\subsection*{Erklärung - Controller der App}
-Im Controller befinden sich die packages,
+\subsection*{Erklärung - Model \& Controller der App}
+Im Package 'logic' befinden sich die Packages 'model' und 'controller'.
+Klassen im Controller-Package sind verantwortlich fürs tatsächliche ausführen der Operationen, die vom User über Interaktion mit den Views gestartet werden. \\ Die Singleton-Klasse MainController ist hier erster Ansprechpunkt für die Views und stellt Methoden zum Ein- und Ausloggen, analysieren von Bildern, fetchen von Zählern, senden von Kontaktanfragen und ändern vom zu benutzendem Server. \\ Der MainController benutzt zum senden von HTTP-Requests den NetworkController und zum speichern von persistenten Daten (wie z.b. OAuth Token) den PersistanceController.
+Das Model ist in 2 Packages unterteilt. 'internal' enthält Objekte, die den Views zur Anzeige übergeben werden, Sowie eine Repräsentation des OAuth-Tokens. \\ Im 'transfer' package befinden sich Klassen, die identisch zu den über REST zu übertragenden Json Objekten aufgebaut sind. Sie werden über eine Library von- und zu Json konvertiert werden.
 
 \begin{figure}[H]
 \hspace{-1cm}
