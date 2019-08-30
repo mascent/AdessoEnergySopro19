@@ -22,6 +22,10 @@ public class MainController {
 
   }
 
+  public String doStuff(){
+    return "";
+  }
+
   public static List<model.Meter> getOverview() {
     return null;
   }
