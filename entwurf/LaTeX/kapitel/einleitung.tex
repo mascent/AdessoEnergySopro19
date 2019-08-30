@@ -1,40 +1,31 @@
 \section{Dokumentaufbau}\label{sec:dokumentaufbau}
-
 Das Ziel dieses Dokuments ist die Dokumentation der Entwicklung des Onlineportals von adesso energy. 
 Die enthaltenen Diagramme sollen neuen Teammitgliedern einen erleichterten Einstieg in die Struktur des Projekts ermöglichen 
-und somit den Einarbeitungsprozess vor der aktiven Teilnahme am Entwicklungsprozess verkürzen und vereinfachen.  
-Außerdem können sich Mitarbeiter, welche bereits am Projekt arbeiten, mit Hilfe dieser Entwurfsdokumentation einen Überblick über 
+und somit den Einarbeitungsprozess vor der aktiven Teilnahme an der Entwicklung verkürzen und vereinfachen.  
+Außerdem können sich Mitarbeiter, die bereits am Projekt arbeiten, mit Hilfe dieser Entwurfsdokumentation einen Überblick über 
 ihren aktuellen Stand und bei Unklarheiten ebenfalls über die Struktur des Projektes verschaffen.
 Die frühe Planung des Zusammenspiels der einzelnen Anwendungsbereiche soll zu einem reibungslosen Ablauf 
 in der tatsächlichen Entwicklung des Onlineportals führen und ermöglicht außerdem rechtzeitige Absprachen über die Funktionalität 
-der Schnittstellen zwischen den verschiedenen Anwendungsbereichen.\\\\
-In Kapitel 2 präsentieren wir die Aufteilung unseres Teams in Gruppen, welche sich auf die Entwicklung 
-der verschiedenen Anwendungsbereiche spezialisiert haben. Daraufhin stellen wir in Kapitel 3 anwendungsbereichsspezifische 
+der Schnittstellen.
+\\\\
+Das Dokument besteht aus 8 Kapiteln, die jeweilen Kapitel werden im Folgenden kurz beschrieben. In Kapitel 2 präsentieren wir die Aufteilung unseres Teams in Gruppen, welche sich auf die Entwicklung der verschiedenen Anwendungsbereiche spezialisiert haben. In Kapitel 3 werden die Rest-API Endpunkte beschrieben sowie die verschiedenen DTO Datentypen erläutert. Daraufhin stellen wir in Kapitel 4 anwendungsbereichsspezifische 
 Komponentendiagramme vor, welche die grobe Struktur der Anwendungsbereiche klären.
-In Kapitel 4 folgt ein anwendungsbereichsübergreifendes Verteilungsdiagramm, welches die Verteilung der Komponenten auf die Hardware erläutert. 
-In dem fünften Kapitel befindet sich eine Sammlung von Klassendiagrammen, die wiederum die Struktur des Entwurfes 
-der jeweiligen Anwendungsbereiche spezifizieren. Anschließend werden in Kapitel 6 die wichtigsten Abläufe von Aufrufen 
-der Methoden aus den Klassendiagrammen in Sequenzdiagrammen dargestellt, um ein besseres Verständnis 
+In Kapitel 5 folgt ein anwendungsbereichsübergreifendes Verteilungsdiagramm, welches die Verteilung der Komponenten auf die Hardware erläutert. 
+Im 6. Kapitel befindet sich eine Sammlung von Klassendiagrammen, die wiederum die Struktur des Entwurfes 
+der jeweiligen Anwendungsbereiche spezifizieren. Anschließend werden in Kapitel 7 die wichtigsten Abläufe von Methodenaufrufe aus den Klassendiagrammen in Sequenzdiagrammen dargestellt, um ein besseres Verständnis 
 des Zusammenspiels der Klassen zu schaffen. Schließlich ist das letzte Kapitel das Glossar. 
 In diesem können die Definitionen von Grundbegriffen des Projektes nachgeschlagen werden, welche in 
-dieser Entwurfsdokumentation ohne Erläuterung verwendet werden.
+dieser Entwurfsdokumentation ohne Erläuterung verwendet werden. \newpage
 
 \section{Zweckbestimmung}\label{sec:zweckbestimmung}
-
-Für die Abrechnungen der Gas-,Wasser- und Stromkosten müssen die Energieanbieter regelmäßig die Zählerstände ihrer
-Kunden einfordern. Bisher war es Praxis diese per Post zu übermitteln oder diese online einzutragen. Wenn bei ersterem Fehler auftraten musste weiterer Briefverkehr erfolgen.\\
-Der Zweck des Systems ist die Vereinfachung des beschriebenen Szenarios. Der Upload von Bildern durch die App ersetzt den Briefverkehr und spart den Arbeitsaufwand für das Bearbeiten der Post ein. Administratoren können über das selbe Back-End, an das die Kunden ihre Daten schicken, auf die Kundendaten zugreifen. Dies vermeidet Redundanzen und Fehler beim Übertragen der Daten in die Datenbank.\\
-Aus Kundensicht ist die Benutzung komfortabel und einfach, da die App schlicht und funktional ist. Das Hochladen der Bilder ist einfach und erfordert nur geringe technische Kenntnisse. Außerdem ersetzen die Push-Notifications die ansonsten per Brief geschickten Aufforderungen, den Zählerstand erneut abzulesen.
-
+In diesem Abschnitt erklären wir kurz den Mehrwert, welchen unsere Software bietet. 
+Für die Abrechnungen der Gas-,Wasser- und Stromkosten müssen Energieanbieter regelmäßig die Zählerstände ihrer
+Kunden einfordern. Bisher war es Praxis diese per Post zu übermitteln oder online einzutragen. Wenn bei ersterem Fehler auftraten, musste weiterer Briefverkehr erfolgen.\\
+Der Zweck des Systems ist die Vereinfachung des beschriebenen Szenarios. Der Upload von Bildern durch die App ersetzt den Briefverkehr und spart den Arbeitsaufwand für das Bearbeiten der Post ein. Administratoren können über das Back-End, an das die Kunden ihre Daten schicken, auf die Kundendaten zugreifen. Dies vermeidet Redundanzen und Fehler beim Übertragen der Daten in die Datenbank.\\
+Aus Kundensicht ist die Benutzung komfortabel und einfach, da die App schlicht und funktional ist. Das Hochladen der Bilder ist einfach und erfordert nur geringe technische Kenntnisse. Außerdem ersetzen die Push-Notifications die, ansonsten per Brief geschickten, Aufforderungen den Zählerstand erneut abzulesen.
 
 
 \section{Entwicklungsumgebung}\label{sec:entwicklungsumgebung}
-\begin{tcolorbox}
-	Oftmals treten neue Entwickler einem Projekt bei oder ein Entwicklungs-Rechner muss ersetzt werden.
-	Daher sollen hier nennenswerte und grundlegende Frameworks, Bibliotheken, Tools und Sprachen notiert werden.
-	Tabelle X stellt eine beispielhafte Umsetzung dar.
-	Eine Unterteilung in Komponenten ist sinnvoll.
-\end{tcolorbox}
 
 \begin{table}[h]
 	\centering
@@ -55,7 +46,7 @@ Aus Kundensicht ist die Benutzung komfortabel und einfach, da die App schlicht u
 		Android SDK API&LVL 23 & \url {https://developer.android.com/studio/releases/platforms\#\ 6.0} \\
 		PostgreSQL &11.4 & \url{www.postgresql.org} \\
 		\rowcolor[HTML]{E7E7E7}
-		Android Studio & 3.5 & https://developer.android.com/studio \\
+		Android Studio & 3.5 & \utl{https://developer.android.com/studio} \\
 		Storybook & 5.1 &\url {https://storybook.js.org} \\
 		
 	\end{tabularx}
