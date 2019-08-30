@@ -1,0 +1,36 @@
+
+
+\begin{figure}[H]
+	\textbf {Zähler} \\ \\
+	\begin{tabularx}{\textwidth}{X | X | X}
+		\hline \\
+		GET 	/api/meters & Liste aller Zähler & 200 : Paging \textless MeterDTO\textgreater \\ \\ \hline
+		\\ POST /api/meters & Zähler erstellen & 201\\ \\ \hline
+		\\  PUT /api/meters/\{mid\} & Zähler updaten & 200 \\ \\ \hline
+		\\ DELETE	/api/meters/\{mid\} & Zähler löschen & 204 \\ \\ \hline
+	\end{tabularx}
+\\ \\ \\ \\
+
+	\textbf{Zählerstände} \\ \\
+	\begin{tabularx}{\textwidth}{X | X | X}
+		\hline \\
+		GET	/api/meters/\{mid\} /readings & Alle Zählerstände zu einem Zähler & 200 : Paging \textless UserDTO \textgreater \\ \\ \hline
+	\\ 	POST /api/meters/\{mid\} /readings & Neuen Zählerstand einem Zähler hinzufügen & 201\\ \\ \hline
+	\\	PUT /api/meters/\{mid\} /readings/\{rid\} & Einen Zählerstand eines Zählers updaten & 200 \\ \\ \hline
+	\\	DELETE /api/meters/\{mid\} /readings/\{rid\} & Einen Zählerstand eine Zählers entfernen & 204 \\ \\ 
+	\end{tabularx}
+
+\end{figure}
+
+\begin{figure}[H]
+	\textbf{Benutzer}\\ \\
+	\begin{tabularx}{\textwidth}{X | X | X}
+	\hline \\
+	GET /api/users & Liste aller Benutzer & 201 : Paging \textless MeterDTO \textgreater\\ \\ \hline
+	\\ GET /api/users/\{uid\}/meters & Liste aller Zähler zu einem Benutzer & 201 : Paging \textless MeterDTO \textgreater  \\ \\ \hline
+	\\ GET /api/users/\{uid\}/meters /\{mid\}/readings & Liste aller Zählerstände für einen Zähler von einem Benutzer &  200 : Paging \textless MeterDTO \textgreater \\ \\ \hline
+	\\ POST /api/users & Benutzer hinzufügen &201 \\ \\ \hline
+	\\ PUT /api/users/\{uid\} & Benutzer updaten & 200\\ \\ \hline
+	\\ DELETE /api/users/\{uid\} & Benutzer löschen & 204\\ \\ \hline
+	\end{tabularx}
+\end{figure}
