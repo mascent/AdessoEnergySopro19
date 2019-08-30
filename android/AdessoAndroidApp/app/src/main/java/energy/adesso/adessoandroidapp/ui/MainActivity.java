@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ((Button)findViewById(R.id.button)).setText(MainController.getInstance().doStuff());
+        //((Button)findViewById(R.id.floatingActionButton)).setText(MainController.getInstance().doStuff());
     }
 
     TextView CreateTextview(String text)
