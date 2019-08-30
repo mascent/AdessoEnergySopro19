@@ -2,7 +2,7 @@
 \section{Website}
 
 \begin{figure}[h]
-	\includegraphics[scale = 0.45]{./img/Diagrams/Website-Components} 	
+	\includegraphics[scale = 0.45]{./img/diagrams/Website-Components} 	
 	\caption{Komponentendiagramm - Website} 
 \end{figure}
 
@@ -22,8 +22,8 @@ In der linken Spalte liegen die Benutzeroberflächen, worauf die Benutzer und Ad
 \includegraphics[scale=0.45]{img/diagrams/AppComponentDiagram}\caption{Komponentendiagramm - App}  
 \end{figure}
 
-Die App ist in mehrere Komponenten aufgeteilt, von denen die meisten direkt die Java-Packages des Projektes darstellen. Ausnahmen sind die Actvities in der UI Komponente, die wir hier eintragen obwohl sie häufig nur eine Activity-Klasse umfassen, weil sie darüber hinaus mehrere XML Dateien und andere Resourcen nutzen.\\
-Die meisten Anfragen der UI gehen an die Controller Klassen, die außerdem als Fassade zwischen Front- und Backend der App dienen. Allerdings Kommuniziert die UI bei manuellen Uploads direkt mit der Meter Klasse, die in der Internal Komponente liegt.\\ \\
+Die App ist in mehrere Komponenten aufgeteilt, von denen die meisten direkt die Java-Packages des Projektes darstellen. Ausnahmen sind die Actvities in der UI Komponente, die wir hier eintragen obwohl sie häufig nur eine Activity-Klasse umfassen, weil sie darüber hinaus XML Dateien und andere Resourcen nutzen.\\
+Die meisten Anfragen an die UI gehen an die Controller Klassen, die außerdem als Fassade zwischen Front- und Backend der App dienen. Allerdings kommuniziert die UI bei manuellen Uploads direkt mit der Meter Klasse, die in der Internal Komponente liegt.\\ \\
 Die Transfer Komponente enthält alle DTOs des Projekts, und stellt paging support bereit, der von der Meter Klasse in Internal benutzt wird.\\
 Internal enthält Datenobjekte, die die DTOs für den Rest der Anwendung abstrahieren.
 
