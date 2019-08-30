@@ -17,7 +17,7 @@ public class PersistanceController {
   }
 
   public String retrieve(String key){
-
+    return null;
   }
 
   public void delete(String key){
