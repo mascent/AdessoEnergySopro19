@@ -7,14 +7,15 @@
 
 ## Available Scripts
 
-| Command                   | Description                                                                                                        |
-| ------------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| `npm start`               | Runs the app in development mode.                                                                                  |
-| `npm run build`           | Builds the app for production to the `build` folder. It optimizes the build for the best performance.              |
-| `npm run storybook`       | Runs the storybook in development mode.                                                                            |
-| `npm run build-storybook` | Builds the storybook for a productions deployment.                                                                 |
-| `npm test`                | Launches the jest runner in an interactive watch mode. Setting `CI` to true will run all test and ends afterwards. |
-| `npm test -- --coverage`  | Creates a coverage report.                                                                                         |
+| Command                        | Description                                                                                                        |
+| ------------------------------ | ------------------------------------------------------------------------------------------------------------------ |
+| `npm start`                    | Runs the app in development mode.                                                                                  |
+| `npm run build`                | Builds the app for production to the `build` folder. It optimizes the build for the best performance.              |
+| `npm run storybook`            | Runs the storybook in development mode.                                                                            |
+| `npm run build-storybook`      | Creates a test run result and builds the storybook for a productions deployment.                                   |
+| `npm test`                     | Launches the jest runner in an interactive watch mode. Setting `CI` to true will run all test and ends afterwards. |
+| `npm test -- --coverage`       | Creates a coverage report.                                                                                         |
+| `npm run test:generate-output` | Generates a test run result which can be used in storybook to display tests                                        |
 
 ## Conventions
 

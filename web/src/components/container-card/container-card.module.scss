@@ -2,6 +2,7 @@
 @import 'theme/shadows';
 
 .container {
+  width: fit-content;
   background-color: $container-card-background;
   padding: 24px;
   border-radius: 4px;

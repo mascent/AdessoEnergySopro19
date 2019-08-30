@@ -7,8 +7,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "test:generate-output": "CI=true react-scripts test --json --outputFile=jest-test-results.json",
     "storybook": "start-storybook -p 9999 -s public",
-    "build-storybook": "build-storybook -s public",
+    "build-storybook": "npm run test:generate-output && build-storybook -s public",
     "pretty": "prettier --write \"./**/*.{js,jsx,ts, tsx,json}\""
   },
   "eslintConfig": {
@@ -44,6 +45,7 @@
   "devDependencies": {
     "@storybook/addon-a11y": "^5.1.11",
     "@storybook/addon-actions": "^5.1.11",
+    "@storybook/addon-jest": "^5.1.11",
     "@storybook/addon-knobs": "^5.1.11",
     "@storybook/addon-links": "^5.1.11",
     "@storybook/addons": "^5.1.11",
