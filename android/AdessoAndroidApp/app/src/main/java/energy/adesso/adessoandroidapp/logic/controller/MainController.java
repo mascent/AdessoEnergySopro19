@@ -25,7 +25,7 @@ public class MainController {
   }
 
   public String doStuff(){
-    return "";
+    return "zufjzcgh";
   }
 
   public static List<Meter> getOverview() {
