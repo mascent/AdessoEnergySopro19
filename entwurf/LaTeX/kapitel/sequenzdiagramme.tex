@@ -1,6 +1,6 @@
 
 In diesem Kapitel sind die Sequenzdiagramme beschrieben, die Vorgänge beschreiben bei denen das Verhalten nicht trivial ist.
-Nicht trivial ist ein Verhalten bei dem das Diagramm nicht einem ``durchreichen'' von Aufrufen entspricht.
+Nicht trivial ist ein Verhalten, bei dem das Diagramm nicht einem ``Durchreichen'' von Aufrufen entspricht.
 \section{Triviale Abfrage}
 \begin{figure}[H]
 	\centering
@@ -12,14 +12,14 @@ Als Beispiel für ein triviales Sequenzdiagramm lässt sich das Abfragen der Dat
 \section{Bilder in der App übermitteln}
 \begin{figure}[H]
 	\centering
-	\caption{Erfolgreiche Bildübermittlung}
 	\includegraphics[width=16cm]{img/diagrams/SubmitFotoSequence}
+	\caption{Erfolgreiche Bildübermittlung}
 \end{figure}
-Das folgende Sequenzdiagramm beschreibt den Vorgang des erfolgreichen Übermitteln eines \\Zählerstandes als Bild.
-Zuerst läd der Nutzer ein Foto hoch, dieses wird mittels der Methode azureAnalyse vom Netzwerk-Controller per Post-Request ans Backend der Website geschickt. Dieses leitet das Bild per HTTP an die Klassifizierungsschnittstelle des AzureWrappers weiter. Nach der Antwort wird über HTTP das Bild an die nächste Schnittstelle Area-Detect geschickt. Als letztes wird das Bild noch per HTTP an die Schnittstelle Parse-Text geschickt. Die erhaltenenen Daten werden jetzt einer ersten Plausibilitätsprüfung unterzogen. (Richtigkeit der Stellen und Klassifizierung) \\
-Nun wird mittels getUsersMeters() alle Zähler für den Nutzer von der Datenbank abgefragt, um zu Prüfen, ob die Nummer des Zählers in enthalten ist.
-Wenn dies der Fall ist wird eine HTTP Response an den Network-Controller gesendet, die die gelesene Zählernummer und den gelesenen Zählerstand übermittelt. Nun wird der Nutzer aufgefordert den gelesenen Wert zu bestätigen. \\
-Die Bestätigung entspricht dabei einer manuellen Eingabe.
+Das folgende Sequenzdiagramm beschreibt den Vorgang des erfolgreichen Übermittelns eines Zählerstandes als Bild.Zuerst lädt der Nutzer ein Foto hoch, dieses wird mittels der Methode azureAnalyse vom Netzwerk-Controller per POST-Request ans Backend der Website geschickt. Dieses leitet das Bild per HTTP an die Klassifizierungsschnittstelle des AzureWrappers weiter. Nach der Antwort wird über HTTP das Bild an die nächste Schnittstelle Area-Detect geschickt. Als letztes wird das Bild noch per HTTP an die Schnittstelle Parse-Text geschickt. Die erhaltenen Daten werden jetzt einer ersten Plausibilitätsprüfung unterzogen. (Richtigkeit der Stellen und Klassifizierung)\\
+Nun werden mittels getUsersMeters() alle Zähler für den Nutzer von der Datenbank abgefragt, um zu Prüfen, ob die Nummer des Zählers der Nummer eines der Zähler des Users entspricht.
+Wenn dies der Fall ist, wird eine HTTP Response an den Network-Controller gesendet, die die gelesene Zählernummer und den gelesenen Zählerstand übermittelt. Nun wird der Nutzer aufgefordert die gelesenen Werte zu bestätigen. \\
+Die Bestätigung entspricht dabei einer manuellen Eingabe.\\
+Der Ablauf eines manuellen Eintrages entspricht dabei dem unteren Teil des Diagramms.
 
 \section{Zählerstände für User updaten}
 \begin{figure}[H]
