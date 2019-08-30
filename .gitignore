@@ -12,9 +12,6 @@ bin
 .classpath
 .project
 
-# vs code
-.vscode
-
 # Runtime files
 *.log
 .lock
