@@ -2,89 +2,45 @@ package energy.adesso.adessoandroidapp.logic.model.internal;
 
 import androidx.annotation.Nullable;
 
-import java.util.Date;
 import java.util.List;
 
 import energy.adesso.adessoandroidapp.logic.controller.MainController;
 import energy.adesso.adessoandroidapp.logic.model.exception.CredentialException;
 import energy.adesso.adessoandroidapp.logic.model.exception.NetworkException;
+import energy.adesso.adessoandroidapp.logic.model.transfer.MeterDTO;
 
 public class Meter extends InternalObject {
   @Nullable
   List<Reading> readings;
   private String name;
-  private String meterId;
+  private String meterNumber;
   private MeterKind kind;
   private String lastReading;
 
-  public Meter(Builder builder) {
-    super(builder);
-    this.lastReading = builder.lastReading;
-    this.name = builder.name;
-    this.meterId = builder.meterId;
-    this.kind = builder.kind;
+  public Meter(String createdAt, String updatedAt, String deletedAt, long id, String name, String meterNumber, MeterKind kind, String lastReading){
+    super(id, createdAt, updatedAt,deletedAt);
+    this.name = name;
+    this.meterNumber = meterNumber;
+    this.kind = kind;
+    this.lastReading = lastReading;
   }
 
-
-  public static class Builder extends InternalObject.Builder {
-    Builder(InternalObject.Builder builder) {
-      super(builder.id);
-      this.deletedAt = builder.deletedAt;
-      this.createdAt = builder.createdAt;
-      this.updatedAt = builder.updatedAt;
+  public Meter(MeterDTO dto){
+    super(dto.id,dto.createdAt, dto.updatedAt, dto.deletedAt);
+    this.name = name;
+    this.meterNumber = dto.meterNumber;
+    switch(dto.type){
+      case "water":
+        kind = MeterKind.WATER;
+        break;
+      case "electric":
+        kind = MeterKind.ELECTRIC;
+        break;
+      case "gas":
+        kind = MeterKind.GAS;
+        break;
     }
-
-    private String lastReading;
-    private String name;
-    private String meterId;
-    private MeterKind kind;
-
-    public Builder(long id) {
-      super(id);
-    }
-
-    public Meter.Builder lastReading(String lastReading) {
-      this.lastReading = lastReading;
-      return this;
-    }
-
-    public Meter.Builder name(String name) {
-      this.name = name;
-      return this;
-    }
-
-    public Meter.Builder meterId(String meterId) {
-      this.meterId = meterId;
-      return this;
-    }
-
-    public Meter.Builder kind(MeterKind kind) {
-      this.kind = kind;
-      return this;
-    }
-
-    // Methods that stay the same but I need to change the return type
-    @Override
-    public Meter.Builder createdAt(Date createdAt){
-      super.createdAt(createdAt);
-      return this;
-    }
-    @Override
-    public Meter.Builder updatedAt(Date updatedAt){
-      super.updatedAt(updatedAt);
-      return this;
-    }
-    @Override
-    public Meter.Builder deletedAt(Date deletedAt) {
-      super.deletedAt(deletedAt);
-      return this;
-    }
-
-
-    public Meter build() {
-      return new Meter(this);
-    }
-
+    this.lastReading = dto.lastReading.value;
   }
 
   public void populateReadings() throws NetworkException, CredentialException {
@@ -106,8 +62,8 @@ public class Meter extends InternalObject {
     return name;
   }
 
-  public String getMeterId() {
-    return meterId;
+  public String getMeterNumber() {
+    return meterNumber;
   }
 
   public MeterKind getKind() {

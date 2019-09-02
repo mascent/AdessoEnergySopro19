@@ -34,9 +34,9 @@ public class MeterTest {
     assertEquals(m.getCreatedAt(), createdAt);
     assertEquals(m.getUpdatedAt(), updatedAt);
     assertEquals(m.getDeletedAt(), deletedAt);
-    assertEquals(m.getMeterId(), meterId);
-    assertEquals(m.getMeterId(), meterId);
-    assertEquals(m.getMeterId(), meterId);
-    assertEquals(m.getMeterId(), meterId);
+    assertEquals(m.getMeterNumber(), meterId);
+    assertEquals(m.getMeterNumber(), meterId);
+    assertEquals(m.getMeterNumber(), meterId);
+    assertEquals(m.getMeterNumber(), meterId);
   }
 }

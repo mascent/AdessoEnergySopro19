@@ -4,11 +4,11 @@ import java.util.Arrays;
 import java.util.List;
 
 public class MeterDTO extends DTO {
-  String type;
-  String name;
-  String ownerId;
-  ReadingDTO lastReading; // nullable
-  String meterNumber;
+  public String type;
+  public String name;
+  public String ownerId;
+  public ReadingDTO lastReading; // nullable
+  public String meterNumber;
 
   @Override
   protected boolean validateSpecifics() {
