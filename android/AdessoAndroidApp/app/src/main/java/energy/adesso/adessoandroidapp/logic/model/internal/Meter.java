@@ -2,6 +2,8 @@ package energy.adesso.adessoandroidapp.logic.model.internal;
 
 import androidx.annotation.Nullable;
 
+import org.joda.time.DateTime;
+
 import java.util.List;
 
 import energy.adesso.adessoandroidapp.logic.controller.MainController;
@@ -18,6 +20,14 @@ public class Meter extends InternalObject {
   private String lastReading;
 
   public Meter(String createdAt, String updatedAt, String deletedAt, long id, String name, String meterNumber, MeterKind kind, String lastReading){
+    super(id, createdAt, updatedAt,deletedAt);
+    this.name = name;
+    this.meterNumber = meterNumber;
+    this.kind = kind;
+    this.lastReading = lastReading;
+  }
+
+  public Meter(DateTime createdAt, DateTime updatedAt, DateTime deletedAt, long id, String name, String meterNumber, MeterKind kind, String lastReading){
     super(id, createdAt, updatedAt,deletedAt);
     this.name = name;
     this.meterNumber = meterNumber;

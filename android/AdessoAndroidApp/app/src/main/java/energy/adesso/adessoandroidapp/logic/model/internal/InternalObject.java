@@ -1,12 +1,8 @@
 package energy.adesso.adessoandroidapp.logic.model.internal;
 
-
 import androidx.annotation.Nullable;
 
 import org.joda.time.DateTime;
-
-import java.util.Calendar;
-import java.util.Date;
 
 public abstract class InternalObject {
   private final DateTime createdAt;
@@ -14,13 +10,22 @@ public abstract class InternalObject {
   private DateTime updatedAt;
   @Nullable
   private DateTime deletedAt;
-  private long id;
+  private final long id;
 
   public InternalObject(long id, String createdAt, String updatedAt, String deletedAt) {
     // TODO: check if this parse works ^^
     this.createdAt = DateTime.parse(createdAt);
     this.updatedAt = DateTime.parse(updatedAt);
     this.deletedAt = DateTime.parse(deletedAt);
+    this.id = id;
+  }
+
+  public InternalObject(long id, DateTime createdAt, DateTime updatedAt, DateTime deletedAt) {
+
+    this.createdAt = createdAt;
+    this.updatedAt = updatedAt;
+    this.deletedAt = deletedAt;
+    this.id = id;
   }
 
 
@@ -33,6 +38,7 @@ public abstract class InternalObject {
   }
 
 
+  @Nullable
   public DateTime getUpdatedAt() {
     return updatedAt;
   }
@@ -41,6 +47,7 @@ public abstract class InternalObject {
     this.updatedAt = updatedAt;
   }
 
+  @Nullable
   public DateTime getDeletedAt() {
     return deletedAt;
   }
