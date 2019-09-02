@@ -21,7 +21,8 @@ addDecorator(
 addParameters({
   options: {
     theme
-  }
+  },
+  backgrounds: [{ name: 'light', value: '#f0f4f8', default: true }]
 });
 
 addDecorator(withA11y);
