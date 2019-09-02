@@ -2,16 +2,17 @@ package energy.adesso.adessoandroidapp.logic.model.transfer;
 
 
 public abstract class DTO {
-  String id;
-  String updatedAt;
-  String createdAt;
-  String deletedAt;
+  public long id;
+  public String updatedAt;
+  public String createdAt;
+  public String deletedAt;
 
   protected abstract boolean validateSpecifics();
 
   public boolean validate() {
+    //Todo: id check
 
-    if (!stringCheck(id, createdAt))
+    if (!stringCheck(createdAt))
       return false;
 
     if (!validateSpecifics())
