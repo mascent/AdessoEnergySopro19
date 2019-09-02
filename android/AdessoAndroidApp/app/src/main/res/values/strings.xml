@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">AdessoAndroidApp</string>
+    <string name="title_activity_main2">Main2Activity</string>
+
+    <string name="title_bar">Adesso App</string>
+
+    <string name="pass_forgot_text">Passwort vergessen</string>
+    <string name="login_text">Log in</string>
 </resources>
