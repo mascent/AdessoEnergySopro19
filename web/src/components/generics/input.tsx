@@ -10,8 +10,8 @@ interface InputProps {
   label: string;
   value?: string;
   error?: string;
-  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
+  onChange?: (value: string) => void;
+  onBlur?: (value: string) => void;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -31,10 +31,14 @@ const Input: React.FC<InputProps> = ({
         {label}{' '}
       </label>
       <input
-        id="InputLabel"
+        id={id}
+        type={type}
+        name={name}
+        value={value}
         className={styles.input}
-        onChange={onChange}
-        onBlur={onBlur}
+        onChange={e => onChange && onChange(e.target.value)}
+        onBlur={e => onBlur && onBlur(e.target.value)}
+        placeholder={placeholder}
       />
       <span className={styles.error}> {error} </span>
     </div>
