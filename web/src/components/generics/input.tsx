@@ -1,6 +1,5 @@
 import React from 'react';
 import styles from './input.module.scss';
-import { string } from 'prop-types';
 
 interface InputProps {
   id: string;
@@ -28,19 +27,20 @@ const Input: React.FC<InputProps> = ({
   return (
     <div className={styles.container}>
       <label className={styles.label} htmlFor={id}>
-        {label}{' '}
+        {label}
       </label>
       <input
+        className={styles.input}
         id={id}
         type={type}
         name={name}
         value={value}
-        className={styles.input}
+        placeholder={placeholder}
         onChange={e => onChange && onChange(e.target.value)}
         onBlur={e => onBlur && onBlur(e.target.value)}
-        placeholder={placeholder}
+        data-error={typeof error !== 'undefined' && error !== ''}
       />
-      <span className={styles.error}> {error} </span>
+      <span className={styles.error}>{error}</span>
     </div>
   );
 };

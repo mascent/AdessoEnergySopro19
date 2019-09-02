@@ -8,7 +8,9 @@ test('input fires OnChange when changed', () => {
     <Input id="test" label="TestLabel" type="text" onChange={handler} />
   );
   const input = getByLabelText('TestLabel');
+
   fireEvent.change(input, { target: { value: 'New Value' } });
+
   expect(handler).toBeCalledTimes(1);
   expect(handler).toBeCalledWith('New Value');
 });
@@ -25,7 +27,9 @@ test('onBlur is called when input looses focus', () => {
     />
   );
   const input = getByLabelText('TestLabel');
+
   fireEvent.blur(input);
+
   expect(handler).toBeCalledTimes(1);
   expect(handler).toBeCalledWith('Dummy');
 });
