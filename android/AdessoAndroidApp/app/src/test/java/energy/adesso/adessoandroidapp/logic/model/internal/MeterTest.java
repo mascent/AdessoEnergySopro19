@@ -6,9 +6,12 @@ import java.util.Date;
 
 import energy.adesso.adessoandroidapp.logic.model.internal.Meter.Builder;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 public class MeterTest {
   @Test
-  public void TestAll() {
+  public void TestBuilder() {
     Date createdAt = new Date(1999, 02, 05, 12, 07, 59);
     Date updatedAt = new Date(2007, 4, 23, 16, 7, 6);
     Date deletedAt = new Date(2008, 7, 4, 13, 5, 2);
@@ -20,13 +23,20 @@ public class MeterTest {
 
     Meter m = new Meter.Builder(id)
             .createdAt(createdAt)
-            .deletedAt(deletedAt)
             .updatedAt(updatedAt)
+            .deletedAt(deletedAt)
             .meterId(meterId)
             .kind(kind)
             .name(name)
             .lastReading(lastReading)
             .build();
-
+    assertEquals(m.getId(), id);
+    assertEquals(m.getCreatedAt(), createdAt);
+    assertEquals(m.getUpdatedAt(), updatedAt);
+    assertEquals(m.getDeletedAt(), deletedAt);
+    assertEquals(m.getMeterId(), meterId);
+    assertEquals(m.getMeterId(), meterId);
+    assertEquals(m.getMeterId(), meterId);
+    assertEquals(m.getMeterId(), meterId);
   }
 }
