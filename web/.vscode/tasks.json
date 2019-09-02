@@ -14,6 +14,11 @@
       "script": "storybook",
       "problemMatcher": ["$tsc-watch", "$eslint-compact"],
       "isBackground": true
+    },
+    {
+      "type": "npm",
+      "script": "test:generate-output",
+      "problemMatcher": []
     }
   ]
 }

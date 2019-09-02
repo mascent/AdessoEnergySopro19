@@ -1,0 +1,60 @@
+@import 'theme/colors';
+@import 'theme/shadows';
+@import 'theme/fonts';
+@import 'theme/spacings';
+
+.primaryButton {
+  padding: $spacing-8 $spacing-16;
+  border-radius: 4px;
+  box-shadow: $shadow-100;
+  background-color: $color-blue-500;
+  color: $color-white;
+  border: none;
+  font-family: $fontFamily;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  transition: all 200ms ease-in-out;
+  outline-color: $color-blue-500;
+
+  &:hover {
+    box-shadow: $shadow-200;
+    background-color: $color-blue-600;
+  }
+
+  &:disabled {
+    background-color: $color-grey-300;
+    color: $color-grey-900;
+    box-shadow: none;
+    cursor: default;
+  }
+}
+
+.secondaryButton {
+  padding: $spacing-8 $spacing-16;
+  border: none;
+  border-radius: 4px;
+  font-family: $fontFamily;
+  font-weight: 600;
+  color: $color-grey-900;
+  font-size: 18px;
+  line-height: 1;
+  background-color: transparent;
+  cursor: pointer;
+  transition: all 200ms ease-in-out;
+
+  outline-color: $color-blue-500;
+
+  &:hover {
+    background-color: $color-blue-100;
+  }
+
+  &:disabled {
+    cursor: default;
+    color: $color-grey-400;
+    &:hover {
+      background-color: transparent;
+    }
+  }
+}
