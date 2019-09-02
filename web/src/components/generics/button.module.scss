@@ -5,24 +5,27 @@
 
 .primaryButton {
   padding: $spacing-8 $spacing-16;
-  width: fit-content;
   border-radius: 4px;
   box-shadow: $shadow-100;
   background-color: $color-blue-500;
-  color: white;
+  color: $color-white;
   border: none;
   font-family: $fontFamily;
   font-weight: 600;
   font-size: 18px;
   line-height: 1;
   cursor: pointer;
+  transition: all 200ms ease-in-out;
+  outline-color: $color-blue-500;
+
   &:hover {
     box-shadow: $shadow-200;
     background-color: $color-blue-600;
   }
+
   &:disabled {
     background-color: $color-grey-300;
-    color: black;
+    color: $color-grey-900;
     box-shadow: none;
     cursor: default;
   }
@@ -39,11 +42,17 @@
   line-height: 1;
   background-color: transparent;
   cursor: pointer;
+  transition: all 200ms ease-in-out;
+
+  outline-color: $color-blue-500;
+
   &:hover {
     background-color: $color-blue-100;
   }
+
   &:disabled {
-    color: $color-grey-900;
+    cursor: default;
+    color: $color-grey-400;
     &:hover {
       background-color: transparent;
     }
