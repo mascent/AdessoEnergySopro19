@@ -12,7 +12,6 @@ import energy.adesso.adessoandroidapp.logic.model.exception.NetworkException;
 public class Meter extends InternalObject {
   @Nullable
   List<Reading> readings;
-  private String lastValue;
   private String name;
   private String meterId;
   private MeterKind kind;
@@ -65,16 +64,17 @@ public class Meter extends InternalObject {
     }
 
     // Methods that stay the same but I need to change the return type
+    @Override
     public Meter.Builder createdAt(Date createdAt){
       super.createdAt(createdAt);
       return this;
     }
-
+    @Override
     public Meter.Builder updatedAt(Date updatedAt){
       super.updatedAt(updatedAt);
       return this;
     }
-
+    @Override
     public Meter.Builder deletedAt(Date deletedAt) {
       super.deletedAt(deletedAt);
       return this;
@@ -95,4 +95,33 @@ public class Meter extends InternalObject {
     MainController.getInstance().createReading(this.getId(), reading);
   }
 
+  // Getters
+
+  @Nullable
+  public List<Reading> getReadings() {
+    return readings;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public String getMeterId() {
+    return meterId;
+  }
+
+  public MeterKind getKind() {
+    return kind;
+  }
+
+  public String getLastReading() {
+    return lastReading;
+  }
+
+  // Setters
+
+  public void setName(String name) {
+    // TODO network stuff
+    this.name = name;
+  }
 }
