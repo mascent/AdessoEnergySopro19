@@ -1,6 +1,7 @@
 package de.sopro.controller;
 
 import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties.Jwt;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @author Mattis
  *
  */
+@Controller
 public class PictureController {
 
 	/**
