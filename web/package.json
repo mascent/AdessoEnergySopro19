@@ -7,7 +7,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "test:generate-output": "CI=true react-scripts test --json --outputFile=jest-test-results.json",
+    "test:generate-output": "cross-env CI=true react-scripts test --json --outputFile=jest-test-results.json",
     "storybook": "start-storybook -p 9999 -s public",
     "build-storybook": "npm run test:generate-output && build-storybook -s public",
     "pretty": "prettier --write \"./**/*.{js,jsx,ts, tsx,json}\""
@@ -53,6 +53,7 @@
     "@storybook/theming": "^5.1.11",
     "@testing-library/react": "^9.1.3",
     "@types/storybook__react": "^4.0.2",
+    "cross-env": "^5.2.1",
     "husky": "^3.0.4",
     "node-sass": "^4.12.0",
     "prettier": "^1.18.2",
