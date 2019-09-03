@@ -66,7 +66,7 @@ public class MainController {
 
   }
 
-  public Reading createReading(long mid, String reading) throws NetworkException, CredentialException{
+  public Reading createReading(String mid, String reading) throws NetworkException, CredentialException{
     return null;
   }
 

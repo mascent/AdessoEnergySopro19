@@ -10,8 +10,11 @@ import energy.adesso.adessoandroidapp.logic.controller.MainController;
 import energy.adesso.adessoandroidapp.logic.model.exception.CredentialException;
 import energy.adesso.adessoandroidapp.logic.model.exception.NetworkException;
 import energy.adesso.adessoandroidapp.logic.model.transfer.MeterDTO;
+import energy.adesso.adessoandroidapp.logic.model.transfer.ReadingDTO;
 
 public class Meter extends InternalObject {
+  // TODO: ownerID nullable internal variable
+
   @Nullable
   List<Reading> readings;
   private String name;
@@ -19,7 +22,7 @@ public class Meter extends InternalObject {
   private MeterKind kind;
   private String lastReading;
 
-  public Meter(String createdAt, String updatedAt, String deletedAt, long id, String name, String meterNumber, MeterKind kind, String lastReading){
+  public Meter(String createdAt, String updatedAt, String deletedAt, String id, String name, String meterNumber, MeterKind kind, String lastReading){
     super(id, createdAt, updatedAt,deletedAt);
     this.name = name;
     this.meterNumber = meterNumber;
@@ -27,7 +30,15 @@ public class Meter extends InternalObject {
     this.lastReading = lastReading;
   }
 
-  public Meter(DateTime createdAt, DateTime updatedAt, DateTime deletedAt, long id, String name, String meterNumber, MeterKind kind, String lastReading){
+  public Meter(String createdAt, String updatedAt, String deletedAt, String id, String name, String meterNumber, MeterKind kind, ReadingDTO lastReading){
+    super(id, createdAt, updatedAt,deletedAt);
+    this.name = name;
+    this.meterNumber = meterNumber;
+    this.kind = kind;
+    this.lastReading = lastReading.value;
+  }
+
+  public Meter(DateTime createdAt, DateTime updatedAt, DateTime deletedAt, String id, String name, String meterNumber, MeterKind kind, String lastReading){
     super(id, createdAt, updatedAt,deletedAt);
     this.name = name;
     this.meterNumber = meterNumber;
@@ -49,6 +60,8 @@ public class Meter extends InternalObject {
       case "gas":
         kind = MeterKind.GAS;
         break;
+      default:
+        throw new IllegalStateException("Unexpected value: " + dto.type);
     }
     this.lastReading = dto.lastReading.value;
   }
