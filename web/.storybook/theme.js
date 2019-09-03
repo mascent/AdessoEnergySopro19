@@ -1,4 +1,5 @@
 import { create } from '@storybook/theming';
+import logo from './logo.svg';
 
 export default create({
   base: 'light',
@@ -8,5 +9,5 @@ export default create({
 
   brandTitle: 'Adesso Energy Storybook',
   brandUrl: 'https://adesso.energy',
-  brandImage: 'https://placehold.it/350x150'
+  brandImage: logo
 });
