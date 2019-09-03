@@ -1,18 +1,47 @@
 package energy.adesso.adessoandroidapp.logic.model.transfer;
 
 
+import androidx.annotation.Nullable;
+
 public abstract class DTO {
-  public long id;
+  public final String id;
+  @Nullable
   public String updatedAt;
+  @Nullable
   public String createdAt;
+  @Nullable
   public String deletedAt;
+
+
+  /**
+   * Constructor with all parameters
+   *
+   * @param id
+   * @param createdAt
+   * @param updatedAt
+   * @param deletedAt
+   */
+  public DTO(String id, @Nullable String createdAt, @Nullable String updatedAt, @Nullable String deletedAt) {
+    this.id = id;
+    this.updatedAt = updatedAt;
+    this.createdAt = createdAt;
+    this.deletedAt = deletedAt;
+  }
+
+  /**
+   * Minimum Viable Constructor
+   *
+   * @param id
+   */
+  public DTO(String id) {
+    this.id = id;
+  }
 
   protected abstract boolean validateSpecifics();
 
   public boolean validate() {
-    //Todo: id check
 
-    if (!stringCheck(createdAt))
+    if (!stringCheck(createdAt, id))
       return false;
 
     if (!validateSpecifics())
@@ -28,4 +57,5 @@ public abstract class DTO {
     }
     return true;
   }
+
 }

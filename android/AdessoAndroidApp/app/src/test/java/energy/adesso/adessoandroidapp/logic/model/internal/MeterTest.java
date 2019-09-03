@@ -5,15 +5,12 @@ import org.junit.Before;
 import org.junit.Test;
 
 
+import energy.adesso.adessoandroidapp.logic.model.transfer.MeterDTO;
+
 import static org.junit.Assert.assertEquals;
 
 
 public class MeterTest {
-  @Before
-  public void initTime(){
-
-  }
-
 
   @Test
   public void testConstructor() {
@@ -35,5 +32,10 @@ public class MeterTest {
     assertEquals(m.getKind(), kind);
     assertEquals(m.getName(), name);
     assertEquals(m.getLastReading(), lastReading);
+  }
+
+  @Test
+  public void testDTOConversion() {
+    MeterDTO dto = new MeterDTO();
   }
 }
