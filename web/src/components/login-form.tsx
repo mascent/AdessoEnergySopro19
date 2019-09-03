@@ -8,26 +8,34 @@ import styles from './login-form.module.scss';
 import { useInputValidation } from 'use-input-validation';
 import { isStringEmpty } from '../lib/validators';
 
-const LoginForm: React.FC = () => {
-  const kundennummer = useInputValidation<string, string>(
+const stringNotEmpty = (val: string) => !isStringEmpty(val);
+
+interface LoginProps {
+  onLogin: (customerId: string, password: string) => void;
+}
+
+const LoginForm: React.FC<LoginProps> = ({ onLogin }) => {
+  const customerId = useInputValidation<string, string>(
     '',
     'Keine valide Kundennummer',
-    isStringEmpty
+    stringNotEmpty
   );
 
   const password = useInputValidation<string, string>(
     '',
     'Kein valides Passwort',
-    isStringEmpty
+    stringNotEmpty
   );
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    const kundennummerValid = kundennummer.validate();
+    const customerIdValid = customerId.validate();
     const passwordValid = password.validate();
 
-    if (!(kundennummerValid && passwordValid)) return;
+    if (!(customerIdValid && passwordValid)) return;
+
+    onLogin(customerId.value, password.value);
   }
 
   return (
@@ -37,16 +45,16 @@ const LoginForm: React.FC = () => {
         <form className={styles.loginForm} onSubmit={handleSubmit}>
           <Logo type="text-horizontal-stacked" />
           <Input
-            id="Kundennummer"
+            id="customerId"
             type="text"
             label="Benutzername"
-            value={kundennummer.value}
-            onChange={value => kundennummer.setValue(value)}
-            onBlur={kundennummer.validate}
-            error={kundennummer.error}
+            value={customerId.value}
+            onChange={value => customerId.setValue(value)}
+            onBlur={customerId.validate}
+            error={customerId.error}
           />
           <Input
-            id="Password"
+            id="password"
             type="password"
             label="Passwort"
             value={password.value}
@@ -55,8 +63,7 @@ const LoginForm: React.FC = () => {
             error={password.error}
           />
           <PrimaryButton className={styles.buttonForm} onClick={() => {}}>
-            {' '}
-            Login{' '}
+            Login
           </PrimaryButton>
         </form>
       </ContainerCard>
