@@ -44,7 +44,7 @@ public class MainController {
    * @throws NetworkException when the Network is faulty
    * @return true if successfull, false if not
    */
-  public static boolean login(String username, String password) {
+  public static boolean login(String username, String password) throws NetworkException {
   return false;
   }
 

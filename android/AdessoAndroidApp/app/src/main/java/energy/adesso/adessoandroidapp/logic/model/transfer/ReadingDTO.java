@@ -7,14 +7,14 @@ import energy.adesso.adessoandroidapp.logic.model.internal.Reading;
 
 public class ReadingDTO extends DTO {
 
-  public final String meterId;
-  public final String ownerId;
-  public final String value;
-  public final String lastEditorName;
-  public final String lastEditReason;
-  public final int trend;
+  // TODO: make final
+  public String meterId;
+  public String ownerId;
+  public String value;
+  public String lastEditorName;
+  public String lastEditReason;
+  public int trend;
   // to get rid of the @Nullable
-  public String createdAt;
 
   /**
    * Minimum Viable Constructor
