@@ -10,7 +10,7 @@ interface InputProps {
   placeholder?: string;
   label: string;
   value?: string;
-  error?: string;
+  error?: string | null;
   onChange?: (value: string) => void;
   onBlur?: (value: string) => void;
 }
