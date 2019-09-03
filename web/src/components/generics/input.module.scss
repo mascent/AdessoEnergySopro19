@@ -4,13 +4,11 @@
 @import 'theme/fonts';
 
 .input {
+  @extend %font-span;
+
   border-radius: 4px;
   border: 1px solid $color-grey-400;
   padding: $spacing-4 $spacing-8;
-
-  font-family: $fontFamily;
-  font-size: 16px;
-  line-height: 1;
 
   &:focus {
     border: 1px solid $color-yellow-700;
@@ -28,16 +26,12 @@
 }
 
 .error {
+  @extend %font-small;
+
   color: $color-red-600;
-  font-family: $fontFamily;
-  font-size: 14px;
-  line-height: 1.5;
   height: calc(1.5 * 14px);
 }
 
 .label {
-  font-family: $fontFamily;
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 1.5;
+  @extend %font-span;
 }

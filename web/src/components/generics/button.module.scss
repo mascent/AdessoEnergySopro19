@@ -4,19 +4,19 @@
 @import 'theme/spacings';
 
 .primaryButton {
+  @extend %font-section-header;
+  line-height: 1;
+  color: $color-white;
+
   padding: $spacing-8 $spacing-16;
   border-radius: 4px;
   box-shadow: $shadow-100;
   background-color: $color-blue-500;
-  color: $color-white;
   border: none;
-  font-family: $fontFamily;
-  font-weight: 600;
-  font-size: 18px;
-  line-height: 1;
   cursor: pointer;
   transition: all 200ms ease-in-out;
   outline-color: $color-blue-500;
+  width: fit-content;
 
   &:hover {
     box-shadow: $shadow-200;
@@ -32,17 +32,17 @@
 }
 
 .secondaryButton {
+  @extend %font-section-header;
+  line-height: 1;
+  color: $color-grey-900;
+
   padding: $spacing-8 $spacing-16;
   border: none;
   border-radius: 4px;
-  font-family: $fontFamily;
-  font-weight: 600;
-  color: $color-grey-900;
-  font-size: 18px;
-  line-height: 1;
   background-color: transparent;
   cursor: pointer;
   transition: all 200ms ease-in-out;
+  width: fit-content;
 
   outline-color: $color-blue-500;
 
