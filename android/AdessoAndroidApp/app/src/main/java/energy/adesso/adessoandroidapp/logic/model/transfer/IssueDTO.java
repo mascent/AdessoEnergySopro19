@@ -3,11 +3,11 @@ package energy.adesso.adessoandroidapp.logic.model.transfer;
 
 public class IssueDTO extends DTO {
 
-  String email;
-  String name;
-  String subject;
-  String message;
-  String status;
+  public String email;
+  public String name;
+  public String subject;
+  public String message;
+  public String status;
 
   public IssueDTO(String id, String createdAt, String updatedAt, String deletedAt, String email, String name, String subject, String message, String status) {
     super(id, createdAt, updatedAt, deletedAt);

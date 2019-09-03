@@ -4,12 +4,12 @@ import org.joda.time.DateTime;
 
 import energy.adesso.adessoandroidapp.logic.model.transfer.IssueDTO;
 
-public class Issue extends InternalObject{
+public class Issue extends InternalObject {
   String email;
   String name;
   String subject;
   String message;
-  String status;
+  ResolvedStatus status;
 
   public Issue(String id, String createdAt, String updatedAt, String deletedAt) {
     super(id, createdAt, updatedAt, deletedAt);
@@ -21,7 +21,16 @@ public class Issue extends InternalObject{
     this.name = dto.name;
     this.subject = dto.subject;
     this.message = dto.message;
-    this.status = dto.message;
+    switch (dto.status) {
+      case "RESOLVED":
+        this.status = ResolvedStatus.RESOLVED;
+        break;
+      case "UNRESOLVED":
+        this.status = ResolvedStatus.UNRESOLVED;
+        break;
+      default:
+        throw new IllegalStateException("Unexpected value: " + dto.status);
+    }
   }
 
   public Issue(String id, DateTime createdAt, DateTime updatedAt, DateTime deletedAt) {
