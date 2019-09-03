@@ -1,4 +1,4 @@
-package energy.adesso.adessoandroidapp.logic.model;
+package energy.adesso.adessoandroidapp.logic.model.internal;
 
 public class Token {
   public boolean hasExpired() {

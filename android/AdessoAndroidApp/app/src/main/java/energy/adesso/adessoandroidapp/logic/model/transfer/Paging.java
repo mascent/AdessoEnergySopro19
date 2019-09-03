@@ -2,13 +2,23 @@ package energy.adesso.adessoandroidapp.logic.model.transfer;
 
 public class Paging<T> {
   // from JSON
-  T[] content;
-  int size;
-  int page;
-  int totalPages;
-  int totalEntries;
-  boolean isFirst;
-  boolean isLast;
+  public final T[] content;
+  public final int size;
+  public final int page;
+  public final int totalPages;
+  public final int totalEntries;
+  public final boolean isFirst;
+  public final boolean isLast;
+
+  public Paging(T[] content, int size, int page, int totalPages, int totalEntries, boolean isFirst, boolean isLast) {
+    this.content = content;
+    this.size = size;
+    this.page = page;
+    this.totalPages = totalPages;
+    this.totalEntries = totalEntries;
+    this.isFirst = isFirst;
+    this.isLast = isLast;
+  }
 
   // own
   String baseRequest;
