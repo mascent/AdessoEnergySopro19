@@ -33,3 +33,11 @@ test('onBlur is called when input looses focus', () => {
   expect(handler).toBeCalledTimes(1);
   expect(handler).toBeCalledWith('Dummy');
 });
+
+test('Show the provided error message', () => {
+  const { getByText } = render(
+    <Input id="test" label="TestLabel" type="text" error="test error message" />
+  );
+
+  getByText('test error message');
+});
