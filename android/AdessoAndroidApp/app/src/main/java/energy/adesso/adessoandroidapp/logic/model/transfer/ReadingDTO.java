@@ -3,6 +3,8 @@ package energy.adesso.adessoandroidapp.logic.model.transfer;
 
 import androidx.annotation.Nullable;
 
+import energy.adesso.adessoandroidapp.logic.model.internal.Reading;
+
 public class ReadingDTO extends DTO {
 
   public final String meterId;
@@ -53,6 +55,11 @@ public class ReadingDTO extends DTO {
     this.trend = trend;
     this.lastEditorName = lastEditorName;
     this.lastEditReason = lastEditReason;
+  }
+
+  ReadingDTO(Reading r){
+    super(r);
+    this.value = r.getValue();
   }
 
   /**

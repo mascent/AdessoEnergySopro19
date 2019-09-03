@@ -3,6 +3,8 @@ package energy.adesso.adessoandroidapp.logic.model.transfer;
 
 import androidx.annotation.Nullable;
 
+import energy.adesso.adessoandroidapp.logic.model.internal.InternalObject;
+
 public abstract class DTO {
   public final String id;
   @Nullable
@@ -48,6 +50,21 @@ public abstract class DTO {
       return false;
 
     return true;
+  }
+
+  public DTO(InternalObject o) {
+    this.id = o.getId();
+    this.createdAt = o.getCreatedAt().toString();
+    try {
+      this.updatedAt = o.getUpdatedAt().toString();
+    } catch (NullPointerException e) {
+      this.updatedAt = null;
+    }
+    try {
+      this.deletedAt = o.getDeletedAt().toString();
+    } catch (NullPointerException e) {
+      this.deletedAt = null;
+    }
   }
 
   protected boolean stringCheck(String... strings) {
