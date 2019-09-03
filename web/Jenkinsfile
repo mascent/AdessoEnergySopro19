@@ -6,11 +6,13 @@ pipeline{
     stages{
         stage('configureInstall') {
             steps {
+                sh 'cd /home/jenkins/web/'
                 sh 'npm ci'
             }
         }
         stage('test') {
             steps {
+                sh 'cd /home/jenkins/web/'
                 sh 'npm test:coverage'
             }
         }
