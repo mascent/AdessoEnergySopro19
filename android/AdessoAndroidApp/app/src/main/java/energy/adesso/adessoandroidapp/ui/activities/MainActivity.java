@@ -62,7 +62,8 @@ public class MainActivity extends ListActivity {
 
         // TODO: Get Zähler here
         try {
-            MainController m = Mockito.mock
+            MainController contr = Mockito.mock(MainController.class);
+
 
             meters = MainController.getInstance().getOverview();
 
