@@ -39,7 +39,7 @@ public class LoginActivity extends ActivityParent {
         // TODO: Add pass_forgot Code
         final Activity t = this;
         new AlertDialog.Builder(this)
-                .setTitle("adf?")
+                .setTitle("OwO?")
                 .setMessage("Did you forget your password?")
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {

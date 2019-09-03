@@ -13,6 +13,10 @@ import java.io.File;
 
 public abstract class ActivityParent extends AppCompatActivity {
 
+    protected void startNewActivity(Class activity){
+        Intent intent = new Intent(this, activity);
+        startActivity(intent);
+    }
     protected void startNewActivity(Class activity, int flags){
         Intent intent = new Intent(this, activity);
         intent.addFlags(flags);
