@@ -5,11 +5,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 
 import energy.adesso.adessoandroidapp.R;
+import energy.adesso.adessoandroidapp.logic.controller.MainController;
+import energy.adesso.adessoandroidapp.logic.model.exception.AdessoException;
 import energy.adesso.adessoandroidapp.ui.parents.ActivityParent;
 
 public class LoginActivity extends ActivityParent {
@@ -24,9 +27,12 @@ public class LoginActivity extends ActivityParent {
     }
 
     public void onLoginClick(View view) {
-        // TODO: Add Login Code
-
-        startNewActivity(MainActivity.class, Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        try {
+            if (MainController.getInstance().
+                    login(((TextView)findViewById(R.id.login)).getText().toString(),
+                            ((TextView)findViewById(R.id.pass)).getText().toString()))
+                startNewActivity(MainActivity.class, Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        } catch (AdessoException e)  { }
     }
 
     public void onForgotPasswordClick(final View view) {
