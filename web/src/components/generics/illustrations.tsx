@@ -11,9 +11,9 @@ interface IllustrationProps {
 const Illustrations: React.FC<IllustrationProps> = ({ type, className }) => {
   switch (type) {
     case 'Auth':
-      return <Logo className={className} />;
+      return <Logo data-testid="Auth" className={className} />;
     case 'NoSelected':
-      return <Blanket className={className} />;
+      return <Blanket data-testid="NoSelected" className={className} />;
     default:
       throw new TypeError('Unknown Illustrations type.');
   }
