@@ -10,7 +10,7 @@ export type LogoType =
   | 'no-text'
   | 'text-vertical'
   | 'text-horizontal'
-  | 'test-horizontal-stacked';
+  | 'text-horizontal-stacked';
 
 interface LogoProps {
   className?: string;
@@ -20,15 +20,27 @@ interface LogoProps {
 const Logo: React.FC<LogoProps> = ({ type, className }) => {
   switch (type) {
     case 'with-bg':
-      return <LogoWithBg className={className} />;
+      return <LogoWithBg data-testid="with-bg" className={className} />;
     case 'no-text':
-      return <LogoNoText className={className} />;
+      return <LogoNoText data-testid="no-text" className={className} />;
     case 'text-vertical':
-      return <LogoTextVertical className={className} />;
+      return (
+        <LogoTextVertical data-testid="text-vertical" className={className} />
+      );
     case 'text-horizontal':
-      return <LogoTextHorizontal className={className} />;
-    case 'test-horizontal-stacked':
-      return <LogoTextHorizontalStacked className={className} />;
+      return (
+        <LogoTextHorizontal
+          data-testid="text-horizontal"
+          className={className}
+        />
+      );
+    case 'text-horizontal-stacked':
+      return (
+        <LogoTextHorizontalStacked
+          data-testid="text-horizontal-stacked"
+          className={className}
+        />
+      );
     default:
       throw new TypeError('Unknown logo type provided.');
   }
