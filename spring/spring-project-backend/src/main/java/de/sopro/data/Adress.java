@@ -16,6 +16,14 @@ public class Adress {
 @OneToMany(mappedBy = "adress", cascade=CascadeType.ALL)
 private List<Meter> meters = new ArrayList<Meter>();
 
+public List<Meter> getMeters() {
+	return meters;
+}
+
+public void setMeters(List<Meter> meters) {
+	this.meters = meters;
+}
+
 private String adressID;
 
 @Id @GeneratedValue(strategy = GenerationType.AUTO)

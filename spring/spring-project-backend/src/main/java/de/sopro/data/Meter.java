@@ -29,6 +29,14 @@ private Date deletedAt;
 
 private Date updatedAt;
 
+public List<Reading> getReadings() {
+	return readings;
+}
+
+public void setReadings(List<Reading> readings) {
+	this.readings = readings;
+}
+
 public static final int lengthOfReading = 0;
 
 public static final int commaPosition = 0;
