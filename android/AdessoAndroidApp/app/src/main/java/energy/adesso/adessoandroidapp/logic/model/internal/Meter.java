@@ -10,36 +10,47 @@ import energy.adesso.adessoandroidapp.logic.controller.MainController;
 import energy.adesso.adessoandroidapp.logic.model.exception.CredentialException;
 import energy.adesso.adessoandroidapp.logic.model.exception.NetworkException;
 import energy.adesso.adessoandroidapp.logic.model.transfer.MeterDTO;
+import energy.adesso.adessoandroidapp.logic.model.transfer.ReadingDTO;
 
 public class Meter extends InternalObject {
+  // TODO: ownerID nullable internal variable
+
   @Nullable
   List<Reading> readings;
   private String name;
-  private String meterNumber;
-  private MeterKind kind;
+  private final String meterNumber;
+  private final MeterKind kind;
   private String lastReading;
 
-  public Meter(String createdAt, String updatedAt, String deletedAt, long id, String name, String meterNumber, MeterKind kind, String lastReading){
-    super(id, createdAt, updatedAt,deletedAt);
+  public Meter(String createdAt, String updatedAt, String deletedAt, String id, String name, String meterNumber, MeterKind kind, String lastReading) {
+    super(id, createdAt, updatedAt, deletedAt);
     this.name = name;
     this.meterNumber = meterNumber;
     this.kind = kind;
     this.lastReading = lastReading;
   }
 
-  public Meter(DateTime createdAt, DateTime updatedAt, DateTime deletedAt, long id, String name, String meterNumber, MeterKind kind, String lastReading){
-    super(id, createdAt, updatedAt,deletedAt);
+  public Meter(String createdAt, String updatedAt, String deletedAt, String id, String name, String meterNumber, MeterKind kind, ReadingDTO lastReading) {
+    super(id, createdAt, updatedAt, deletedAt);
+    this.name = name;
+    this.meterNumber = meterNumber;
+    this.kind = kind;
+    this.lastReading = lastReading.value;
+  }
+
+  public Meter(DateTime createdAt, DateTime updatedAt, DateTime deletedAt, String id, String name, String meterNumber, MeterKind kind, String lastReading) {
+    super(id, createdAt, updatedAt, deletedAt);
     this.name = name;
     this.meterNumber = meterNumber;
     this.kind = kind;
     this.lastReading = lastReading;
   }
 
-  public Meter(MeterDTO dto){
-    super(dto.id,dto.createdAt, dto.updatedAt, dto.deletedAt);
+  public Meter(MeterDTO dto) {
+    super(dto.id, dto.createdAt, dto.updatedAt, dto.deletedAt);
     this.name = name;
     this.meterNumber = dto.meterNumber;
-    switch(dto.type){
+    switch (dto.type) {
       case "water":
         kind = MeterKind.WATER;
         break;
@@ -49,6 +60,8 @@ public class Meter extends InternalObject {
       case "gas":
         kind = MeterKind.GAS;
         break;
+      default:
+        throw new IllegalStateException("Unexpected value: " + dto.type);
     }
     this.lastReading = dto.lastReading.value;
   }
@@ -90,4 +103,6 @@ public class Meter extends InternalObject {
     // TODO network stuff
     this.name = name;
   }
+
+
 }
