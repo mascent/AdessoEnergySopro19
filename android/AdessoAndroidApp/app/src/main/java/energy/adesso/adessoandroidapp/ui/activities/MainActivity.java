@@ -3,21 +3,23 @@ package energy.adesso.adessoandroidapp.ui.activities;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
 import androidx.appcompat.widget.Toolbar;
 
+import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import energy.adesso.adessoandroidapp.R;
-import energy.adesso.adessoandroidapp.ui.parents.ActivityDaddy;
-import energy.adesso.adessoandroidapp.ui.parents.ActivityListSupport;
+import energy.adesso.adessoandroidapp.ui.parents.ListActivity;
 
-public class MainActivity extends ActivityListSupport {
+public class MainActivity extends ListActivity {
+
+    Drawable testIcon;
+    final View.OnClickListener onListElementClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Log.println(Log.ASSERT, "", getListElementUsage(view));
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +28,7 @@ public class MainActivity extends ActivityListSupport {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        testIcon = getDrawable(R.drawable.logo_drop_circle);
 
         // TODO: Use this snackbar code somewhere
         //Snackbar.make(view, "OwO wat dis", Snackbar.LENGTH_LONG)
@@ -45,29 +48,30 @@ public class MainActivity extends ActivityListSupport {
     }
 
     void buildTestList() {
+        int i = 12345;
 
         addListTitle("OwO", "UwU");
-        addListElement(getDrawable(R.drawable.logo_drop_circle), "Hauptsitz6", "98 765 434", "12345");
-        addListElement(getDrawable(R.drawable.logo_drop_circle), "ÚwÙ", "98 765 434", "12345");
+        addListElement(testIcon, "Hauptsitz6", "98 765 434", Integer.toString(i++), onListElementClick);
+        addListElement(testIcon, "ÚwÙ", "98 765 434", Integer.toString(i++), onListElementClick);
         addListLine();
         addListTitle("1OwO", "1UwU");
-        addListElement(getDrawable(R.drawable.logo_drop_circle), "1Hauptsitz", "98 765 434", "12345");
-        addListElement(getDrawable(R.drawable.logo_drop_circle), "ÚwÙ", "98 765 434", "12345");
+        addListElement(testIcon, "1Hauptsitz", "98 765 434", Integer.toString(i++), onListElementClick);
+        addListElement(testIcon, "ÚwÙ", "98 765 434", Integer.toString(i++), onListElementClick);
         addListLine();
         addListTitle("2OwO", "2UwU");
-        addListElement(getDrawable(R.drawable.logo_drop_circle), "2Hauptsitz", "98 765 434", "12345");
-        addListElement(getDrawable(R.drawable.logo_drop_circle), "ÚwÙ", "98 765 434", "12345");
+        addListElement(testIcon, "2Hauptsitz", "98 765 434", Integer.toString(i++), onListElementClick);
+        addListElement(testIcon, "ÚwÙ", "98 765 434", Integer.toString(i++), onListElementClick);
         addListLine();
         addListTitle("2OwO", "2UwU");
-        addListElement(getDrawable(R.drawable.logo_drop_circle), "2Hauptsitz", "98 765 434", "12345");
-        addListElement(getDrawable(R.drawable.logo_drop_circle), "ÚwÙ", "98 765 434", "12345");
+        addListElement(testIcon, "2Hauptsitz", "98 765 434", Integer.toString(i++), onListElementClick);
+        addListElement(testIcon, "ÚwÙ", "98 765 434", Integer.toString(i++), onListElementClick);
         addListLine();
         addListTitle("2OwO", "2UwU");
-        addListElement(getDrawable(R.drawable.logo_drop_circle), "2Hauptsitz", "98 765 434", "12345");
-        addListElement(getDrawable(R.drawable.logo_drop_circle), "ÚwÙ", "98 765 434", "12345");
+        addListElement(testIcon, "2Hauptsitz", "98 765 434", Integer.toString(i++), onListElementClick);
+        addListElement(testIcon, "ÚwÙ", "98 765 434", Integer.toString(i++), onListElementClick);
         addListLine();
         addListTitle("2OwO", "2UwU");
-        addListElement(getDrawable(R.drawable.logo_drop_circle), "2Hauptsitz", "98 765 434", "12345");
-        addListElement(getDrawable(R.drawable.logo_drop_circle), "ÚwÙ", "98 765 434", "12345");
+        addListElement(testIcon, "2Hauptsitz", "98 765 434", Integer.toString(i++), onListElementClick);
+        addListElement(testIcon, "ÚwÙ", "98 765 434", Integer.toString(i++), onListElementClick);
     }
 }
