@@ -11,14 +11,16 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
 
-import org.mockito.Mockito;
+import org.joda.time.DateTime;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -31,14 +33,11 @@ import energy.adesso.adessoandroidapp.logic.model.internal.Meter;
 import energy.adesso.adessoandroidapp.logic.model.internal.MeterKind;
 import energy.adesso.adessoandroidapp.ui.parents.ListActivity;
 
-import org.mockito.*;
-
 public class MainActivity extends ListActivity {
 
     Drawable testIcon;
-    Activity a = this;
     List<Meter> meters;
-
+    final Activity a = this;
     final View.OnClickListener onListElementClick = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -58,41 +57,26 @@ public class MainActivity extends ListActivity {
         setSupportActionBar(toolbar);
         testIcon = getDrawable(R.drawable.logo_drop_circle);
 
-        //buildTestList();
+        String time = DateTime.now().toString();
+        
+        showData(Arrays.asList(new Meter[] {
+                new Meter(time, time, time, "id",
+                        "Hauptsitz", "98 762 244", MeterKind.ELECTRIC, "12345"),
+                new Meter(time, time, time, "id",
+                        "Hauptsitz", "98 762 245", MeterKind.WATER, "12545"),
+                new Meter(time, time, time, "id",
+                        "Hauptsitz", "98 762 246", MeterKind.GAS, "16345"),
 
-        // TODO: Get Zähler here
+                new Meter(time, time, time, "id2",
+                        "Hauptsitz2", "98 762 237", MeterKind.ELECTRIC, "1275"),
+                new Meter(time, time, time, "id2",
+                        "Hauptsitz2", "98 762 238", MeterKind.WATER, "15345"),
+                new Meter(time, time, time, "id2",
+                        "Hauptsitz2", "98 762 239", MeterKind.GAS, "1248445"),
+        }));
         try {
-            MainController contr = Mockito.mock(MainController.class);
 
-
-            meters = MainController.getInstance().getOverview();
-
-            List<Meter> electricMeters = new ArrayList<Meter>();
-            List<Meter> gasMeters = new ArrayList<Meter>();
-            List<Meter> waterMeters = new ArrayList<Meter>();
-
-            for (Meter m : meters)
-            {
-                if (m.getKind() == MeterKind.ELECTRIC)
-                    electricMeters.add(m);
-                else if (m.getKind() == MeterKind.GAS)
-                    gasMeters.add(m);
-                else if (m.getKind() == MeterKind.WATER)
-                    waterMeters.add(m);
-            }
-
-            addListTitle("Strom", "kWh");
-            for (Meter m : electricMeters)
-                addListElement(getDrawable(R.drawable.icon_electricity), m.getName(), m.getMeterNumber(), m.getLastReading());
-            addListLine();
-            addListTitle("Gas", "m³");
-            for (Meter m : gasMeters)
-                addListElement(getDrawable(R.drawable.icon_gas), m.getName(), m.getMeterNumber(), m.getLastReading());
-            addListLine();
-            addListTitle("Wasser", "m³");
-            for (Meter m : waterMeters)
-                addListElement(getDrawable(R.drawable.icon_water), m.getName(), m.getMeterNumber(), m.getLastReading());
-        } catch (AdessoException e) {
+        } catch (Exception e) {
             Toast.makeText(this, "Couldn't get meters!", Toast.LENGTH_LONG);
         }
     }
@@ -117,6 +101,37 @@ public class MainActivity extends ListActivity {
                 .show();
     }
 
+    void showData(List<Meter> meters) {
+        clearList();
+
+        List<Meter> electricMeters = new ArrayList<Meter>();
+        List<Meter> gasMeters = new ArrayList<Meter>();
+        List<Meter> waterMeters = new ArrayList<Meter>();
+
+        for (Meter m : meters)
+        {
+            if (m.getKind() == MeterKind.ELECTRIC)
+                electricMeters.add(m);
+            else if (m.getKind() == MeterKind.GAS)
+                gasMeters.add(m);
+            else if (m.getKind() == MeterKind.WATER)
+                waterMeters.add(m);
+        }
+
+        addListTitle("Strom", "kWh");
+        for (Meter m : electricMeters)
+            addListElement(getDrawable(R.drawable.icon_electricity), m.getName(), m.getMeterNumber(), m.getLastReading(), onListElementClick);
+        addListLine();
+        addListTitle("Gas", "m³");
+        for (Meter m : gasMeters)
+            addListElement(getDrawable(R.drawable.icon_gas), m.getName(), m.getMeterNumber(), m.getLastReading(), onListElementClick);
+        addListLine();
+        addListTitle("Wasser", "m³");
+        for (Meter m : waterMeters)
+            addListElement(getDrawable(R.drawable.icon_water), m.getName(), m.getMeterNumber(), m.getLastReading(), onListElementClick);
+
+        Log.println(Log.INFO, "", "Added list elements");
+    }
     void buildTestList() {
         int i = 12345;
 

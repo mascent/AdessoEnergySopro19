@@ -2,11 +2,13 @@
     <string name="app_name">Adesso Energy</string>
     <string name="title_activity_main2">Main2Activity</string>
 
+    <string name="not_implemented_message">OwO we didnt imwement this yet UwU</string>
+
     <string name="title_bar">Adesso Energy</string>
 
     <string name="pass_forgot_text">Passwort vergessen</string>
     <string name="login_text">Log in</string>
 
-    <string name="not_implemented_message">"Did you forget your password?"</string>
     <string name="title_activity_detail">DetailActivity</string>
+    <string name="new_input_button_text">Neue manuelle Eingabe</string>
 </resources>

@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.io.File;
 
 
-public abstract class ActivityParent extends AppCompatActivity {
+public abstract class ParentActivity extends AppCompatActivity {
 
     protected void startNewActivity(Class activity){
         Intent intent = new Intent(this, activity);

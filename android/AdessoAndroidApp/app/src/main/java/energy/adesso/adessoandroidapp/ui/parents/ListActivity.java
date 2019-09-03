@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import energy.adesso.adessoandroidapp.R;
 
-public abstract class ListActivity extends ActivityParent {
+public abstract class ListActivity extends ParentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
