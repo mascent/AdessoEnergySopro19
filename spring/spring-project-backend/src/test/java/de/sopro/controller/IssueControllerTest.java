@@ -25,7 +25,7 @@ public class IssueControllerTest {
 
 	@Test
 	public void stupidoTest() {
-		//fail("nope");
+		fail("nope");
 		
 	}
 
