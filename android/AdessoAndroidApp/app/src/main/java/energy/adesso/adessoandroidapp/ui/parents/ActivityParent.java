@@ -1,27 +1,21 @@
 package energy.adesso.adessoandroidapp.ui.parents;
 
-import android.app.Activity;
-import android.content.ContentResolver;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.File;
 
-import energy.adesso.adessoandroidapp.R;
 
-public abstract class ActivityDaddy extends AppCompatActivity {
+public abstract class ActivityParent extends AppCompatActivity {
 
-    protected void startNewActivity(Class activity){
+    protected void startNewActivity(Class activity, int flags){
         Intent intent = new Intent(this, activity);
+        intent.addFlags(flags);
         startActivity(intent);
     }
 

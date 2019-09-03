@@ -10,25 +10,24 @@
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:clickable="false"
         android:fitsSystemWindows="false"
         android:theme="@style/AppTheme"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:liftOnScroll="true">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/colorPrimaryDark"
+            android:clickable="false"
             android:hapticFeedbackEnabled="true"
             android:minHeight="56dp"
             android:theme="@style/AppTheme"
             app:contentInsetStart="16dp"
             app:contentInsetStartWithNavigation="16dp"
-            app:navigationIcon="?attr/homeAsUpIndicator"
             app:title="@string/title_bar"
-            android:onClick="onToolbarClick"
             app:titleTextColor="@color/colorPrimary" />
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -48,7 +47,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:orientation="vertical" />
+            android:orientation="vertical"
+            android:paddingTop="12dp">
+
+        </LinearLayout>
     </ScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

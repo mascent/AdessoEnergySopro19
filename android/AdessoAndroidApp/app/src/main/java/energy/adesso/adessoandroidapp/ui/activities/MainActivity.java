@@ -1,12 +1,17 @@
 package energy.adesso.adessoandroidapp.ui.activities;
 
+import android.app.Activity;
+import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 
-import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import energy.adesso.adessoandroidapp.R;
 import energy.adesso.adessoandroidapp.ui.parents.ListActivity;
@@ -17,7 +22,7 @@ public class MainActivity extends ListActivity {
     final View.OnClickListener onListElementClick = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            Log.println(Log.ASSERT, "", getListElementUsage(view));
+            Snackbar.make(view, getListElementUsage(view), Snackbar.LENGTH_LONG).show();
         }
     };
 
@@ -39,39 +44,51 @@ public class MainActivity extends ListActivity {
         // TODO: Get Zähler here
     }
 
-    public void onToolbarClick(View view) {
-        this.finish();
-    }
-
     public void onFABClick(View view) {
-        openGallery();
+        final Activity t = this;
+        new AlertDialog.Builder(this)
+                .setTitle("Measurement")
+                .setMessage("How do you want to measure your meter?")
+                .setCancelable(true)
+                .setPositiveButton("Take a photo", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(t, R.string.not_implemented_message, Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setNegativeButton("Select from Gallery", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        openGallery();
+                    }
+                })
+                .setIcon(R.drawable.logo_drop_circle)
+                .show();
     }
 
     void buildTestList() {
         int i = 12345;
 
-        addListTitle("OwO", "UwU");
+        addListTitle("Title1", "Unit1");
         addListElement(testIcon, "Hauptsitz6", "98 765 434", Integer.toString(i++), onListElementClick);
-        addListElement(testIcon, "ÚwÙ", "98 765 434", Integer.toString(i++), onListElementClick);
+        addListElement(testIcon, "element2", "98 765 434", Integer.toString(i++), onListElementClick);
         addListLine();
-        addListTitle("1OwO", "1UwU");
+        addListTitle("Title2", "Unit2");
         addListElement(testIcon, "1Hauptsitz", "98 765 434", Integer.toString(i++), onListElementClick);
-        addListElement(testIcon, "ÚwÙ", "98 765 434", Integer.toString(i++), onListElementClick);
+        addListElement(testIcon, "element2", "98 765 434", Integer.toString(i++), onListElementClick);
         addListLine();
-        addListTitle("2OwO", "2UwU");
+        addListTitle("Title3", "Unit3");
         addListElement(testIcon, "2Hauptsitz", "98 765 434", Integer.toString(i++), onListElementClick);
-        addListElement(testIcon, "ÚwÙ", "98 765 434", Integer.toString(i++), onListElementClick);
+        addListElement(testIcon, "element2", "98 765 434", Integer.toString(i++), onListElementClick);
         addListLine();
-        addListTitle("2OwO", "2UwU");
+        addListTitle("Title4", "Unit4");
         addListElement(testIcon, "2Hauptsitz", "98 765 434", Integer.toString(i++), onListElementClick);
-        addListElement(testIcon, "ÚwÙ", "98 765 434", Integer.toString(i++), onListElementClick);
+        addListElement(testIcon, "element2", "98 765 434", Integer.toString(i++), onListElementClick);
         addListLine();
-        addListTitle("2OwO", "2UwU");
+        addListTitle("Title5", "Unit5");
         addListElement(testIcon, "2Hauptsitz", "98 765 434", Integer.toString(i++), onListElementClick);
-        addListElement(testIcon, "ÚwÙ", "98 765 434", Integer.toString(i++), onListElementClick);
+        addListElement(testIcon, "element2", "98 765 434", Integer.toString(i++), onListElementClick);
         addListLine();
-        addListTitle("2OwO", "2UwU");
+        addListTitle("Title6", "Unit6");
         addListElement(testIcon, "2Hauptsitz", "98 765 434", Integer.toString(i++), onListElementClick);
-        addListElement(testIcon, "ÚwÙ", "98 765 434", Integer.toString(i++), onListElementClick);
+        addListElement(testIcon, "element2", "98 765 434", Integer.toString(i++), onListElementClick);
     }
 }

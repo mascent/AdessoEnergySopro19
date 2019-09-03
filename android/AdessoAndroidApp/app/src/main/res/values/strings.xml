@@ -6,4 +6,6 @@
 
     <string name="pass_forgot_text">Passwort vergessen</string>
     <string name="login_text">Log in</string>
+
+    <string name="not_implemented_message">"Did you forget your password?"</string>
 </resources>

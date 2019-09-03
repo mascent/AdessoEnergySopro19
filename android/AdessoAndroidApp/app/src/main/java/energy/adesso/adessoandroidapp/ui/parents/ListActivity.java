@@ -1,19 +1,27 @@
 package energy.adesso.adessoandroidapp.ui.parents;
 
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import energy.adesso.adessoandroidapp.R;
 
-public abstract class ListActivity extends ActivityDaddy {
+public abstract class ListActivity extends ActivityParent {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    protected LinearLayout getList()
+    {
+        return (LinearLayout)findViewById(R.id.list);
+    }
 
     protected void clearList() {
-        ((LinearLayout) findViewById(R.id.list)).removeAllViews();
+        getList().removeAllViews();
     }
 
     protected void addListElement(Drawable icon, String place, String number, String usage) {
@@ -37,24 +45,23 @@ public abstract class ListActivity extends ActivityDaddy {
         LinearLayout childLayout = (LinearLayout) getLayoutInflater().inflate(R.layout.list_title, null);
         ((TextView) childLayout.getChildAt(0)).setText(title);
         ((TextView) childLayout.getChildAt(1)).setText(unit);
-        ((LinearLayout) findViewById(R.id.list)).addView(childLayout);
+        getList().addView(childLayout);
     }
     protected void addListLine() {
         View childLayout = getLayoutInflater().inflate(R.layout.list_line, null);
-        ((LinearLayout) findViewById(R.id.list)).addView(childLayout);
+        getList().addView(childLayout);
     }
 
-    protected String getListElementNumber(View view) {
+    protected String getListElementNumber(View elementView) {
         return ((TextView)
-                ((LinearLayout) ((LinearLayout)view).getChildAt(1) ).
+                ((LinearLayout) ((LinearLayout)elementView).getChildAt(1) ).
                 getChildAt(1) ).
                 getText().
                 toString();
     }
-    protected String getListElementUsage(View view) {
-        return ((TextView) ((LinearLayout)view).getChildAt(2) ).
+    protected String getListElementUsage(View elementView) {
+        return ((TextView) ((LinearLayout)elementView).getChildAt(2) ).
                 getText().
                 toString();
     }
-
 }
