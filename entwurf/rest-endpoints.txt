@@ -75,3 +75,69 @@ interface IssueDTO {
 	updatedAt: UTC string | null
 	deletedAt: UTC string | null
 }
+
+
+Examples:
+// Example DTOs:
+// MeterDTO
+{
+  "id": "h8aghawo",
+  "meterNumber": "123456",
+  "type": "water",
+  "name": "Hauptsitz",
+  "ownerId": "asdihawig",
+  "lastReading": {
+    "id": "asdgwhgwo",
+    "meterId": "beibeva",
+    "ownerId": "kkanaöböa",
+    "value": "86384,956",
+    "trend": 1000,
+    "lastEditorName": "Dieter",
+    "lastEditReason": "Brutale Killerspiele",
+    "createdAt": "1938-03-11T11:43:21+00:00",
+    "updatedAt": "1938-03-11T11:43:21+00:00",
+    "deletedAt": "2007-03-04T10:26:45+00:00"
+  },
+  "createdAt": "1897-01-17T12:16:25+00:00",
+  "updatedAt": "1938-03-11T11:43:21+00:00",
+  "deletedAt": "2010-10-21T09:30:01+00:00"
+}
+// ReadingDTO
+{
+  "id": "asdgwhgwo",
+  "meterId": "beibeva",
+  "ownerId": "kkanaöböa",
+  "value": "86384,956",
+  "trend": 1000,
+  "lastEditorName": "Dieter",
+  "lastEditReason": "Brutale Killerspiele",
+  "createdAt": "1897-01-17T12:16:25+00:00",
+  "updatedAt": "1938-03-11T11:43:21+00:00",
+  "deletedAt": "1999-11-21T08:11:17+00:00"
+}
+
+// IssueDTO
+{
+	"id": "ohfgoasgoag",
+	"email": "citizen23571825@rome.net",
+	"name": "Roman Citizen",
+	"subject": "to constantine",
+	"message": "Hi, I live in the Roman Empire, and I was wondering: IS LOVING JESUS LEGAL YET?",
+	"status": "UNRESOLVED",
+	"createdAt": "0320-04-02T16:23:37+00:00",
+	"updatedAt": null,
+	"deletedAt": null
+}
+
+// UserDTO
+{
+	"id": "gjasgk",
+	"customerNumber": "337189857",
+	"firstName": "Hanß",
+	"lastName": "Heinrich",
+	"email": "hanssheinrichist@cool.yeah",
+	"createdAt": "1457-09-23:13:51+00:00",
+	"updatedAt": null,
+	"deletedAt": null
+}
+
