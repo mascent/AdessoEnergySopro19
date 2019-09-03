@@ -6,12 +6,12 @@ pipeline{
     stages{
         stage('configureInstall') {
             steps {
-                sh 'npm ci'
+                sh 'cd web && npm ci'
             }
         }
         stage('test') {
             steps {
-                sh 'npm test:coverage'
+                sh 'cd web && npm test'
             }
         }
     }
