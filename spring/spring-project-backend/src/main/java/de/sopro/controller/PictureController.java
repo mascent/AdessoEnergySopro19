@@ -1,5 +1,7 @@
 package de.sopro.controller;
 
+import java.awt.Image;
+
 import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties.Jwt;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,7 +27,7 @@ public class PictureController {
 	 *         not found return error code.
 	 */
 	@PostMapping("api/pictures")
-	public String analyze(@RequestParam Jwt token, @RequestParam Picture pic) {
+	public String analyze(@RequestParam Jwt token, @RequestParam Image pic) {
 		return null;
 	}
 }
