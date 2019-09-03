@@ -1,7 +1,9 @@
 import React from 'react';
 import styles from './input.module.scss';
+import cx from 'classnames';
 
 interface InputProps {
+  className?: string;
   id: string;
   name?: string;
   type: string;
@@ -14,6 +16,7 @@ interface InputProps {
 }
 
 const Input: React.FC<InputProps> = ({
+  className,
   id,
   type,
   placeholder,
@@ -25,7 +28,7 @@ const Input: React.FC<InputProps> = ({
   error
 }) => {
   return (
-    <div className={styles.container}>
+    <div className={cx(styles.container, className)}>
       <label className={styles.label} htmlFor={id}>
         {label}
       </label>
