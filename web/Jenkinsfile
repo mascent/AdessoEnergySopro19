@@ -1,0 +1,18 @@
+pipeline{
+    agent any
+
+    tools{nodejs "node"}
+
+    stages{
+        stage('configureInstall') {
+            steps {
+                sh 'npm ci'
+            }
+        }
+        stage('test') {
+            steps {
+                sh 'npm test:coverage'
+            }
+        }
+    }
+}
