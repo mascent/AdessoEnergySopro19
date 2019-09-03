@@ -44,7 +44,7 @@ public class MainController {
    * @throws NetworkException when the Network is faulty
    * @return true if successfull, false if not
    */
-  public static boolean login(String username, String password) {
+  public boolean login(String username, String password) throws NetworkException {
   return false;
   }
 
@@ -82,7 +82,7 @@ public class MainController {
    * @throws NetworkException    when the Network is faulty
    * @throws CredentialException when the User is not logged in
    */
-  public static List<Meter> getOverview() throws NetworkException, CredentialException {
+  public List<Meter> getOverview() throws NetworkException, CredentialException {
     return null;
   }
 }
