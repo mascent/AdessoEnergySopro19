@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import de.sopro.data.Reading;
+
 /**
  * The meter controller contains operations to manage all requests belonging to
  * meters.
