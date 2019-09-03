@@ -24,6 +24,18 @@ describe('PrimaryButton', () => {
     fireEvent.click(button);
     expect(handler).toBeCalledTimes(0);
   });
+
+  test('button forwards a given ref to the html button', () => {
+    const ref = React.createRef<HTMLButtonElement>();
+    const { getByText } = render(
+      <PrimaryButton ref={ref} onClick={() => {}}>
+        Test
+      </PrimaryButton>
+    );
+    const button = getByText('Test');
+
+    expect(ref.current).toBe(button);
+  });
 });
 
 describe('Secondary', () => {
@@ -47,5 +59,17 @@ describe('Secondary', () => {
     const button = getByText('SecondaryButton');
     fireEvent.click(button);
     expect(handler).toBeCalledTimes(0);
+  });
+
+  test('button forwards a given ref to the html button', () => {
+    const ref = React.createRef<HTMLButtonElement>();
+    const { getByText } = render(
+      <SecondaryButton ref={ref} onClick={() => {}}>
+        Test
+      </SecondaryButton>
+    );
+    const button = getByText('Test');
+
+    expect(ref.current).toBe(button);
   });
 });
