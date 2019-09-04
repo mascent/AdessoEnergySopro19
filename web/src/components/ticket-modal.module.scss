@@ -1,0 +1,10 @@
+@import 'theme/colors';
+@import 'theme/shadows';
+@import 'theme/fonts';
+@import 'theme/spacings';
+
+.message {
+  width: $spacing-384;
+  word-wrap: break-word;
+  padding-bottom: $spacing-128;
+}
