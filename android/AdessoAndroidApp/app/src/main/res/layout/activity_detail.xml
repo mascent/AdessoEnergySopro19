@@ -81,7 +81,8 @@
                     android:id="@+id/button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/new_input_button_text" />
+                    android:onClick="onButtonClick"
+                    android:text="@string/new_input_title" />
             </LinearLayout>
 
             <LinearLayout
