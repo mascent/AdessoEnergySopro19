@@ -42,9 +42,9 @@ public class DetailActivity extends ListActivity {
         m = MainActivity.getMeter(getIntent().getStringExtra("number"));
         ((TextView)findViewById(R.id.name)).setText(m.name);
         ((TextView)findViewById(R.id.number)).setText(m.meterNumber);
-        ((TextView)findViewById(R.id.usage)).setText(m.getLastReading());
+        ((TextView)findViewById(R.id.usage)).setText(m.getLastReading() +  " kWh");
 
-        // TODO: Populate readings
+        listReadings();
     }
 
     public void onButtonClick(View view){
@@ -61,8 +61,7 @@ public class DetailActivity extends ListActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String newReading = input.getText().toString();
-                addListElement(getDrawable(R.drawable.logo_drop_circle), "",
-                        DateTime.now().toString(), newReading);
+                listReadings();
                 // TODO: Add newReading to m
             }
         });
@@ -74,5 +73,11 @@ public class DetailActivity extends ListActivity {
         });
 
         builder.show();
+    }
+
+    void listReadings() {
+        clearList();
+
+        // TODO: Populate readings
     }
 }

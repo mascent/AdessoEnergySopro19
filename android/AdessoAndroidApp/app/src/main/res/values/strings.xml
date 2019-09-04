@@ -1,14 +1,23 @@
 <resources>
     <string name="app_name">Adesso Energy</string>
-    <string name="title_activity_main2">Main2Activity</string>
-
     <string name="not_implemented_message">OwO we didnt imwement this yet UwU</string>
-
     <string name="title_bar">Adesso Energy</string>
-
     <string name="pass_forgot_text">Passwort vergessen</string>
     <string name="login_text">Log in</string>
-
     <string name="title_activity_detail">DetailActivity</string>
     <string name="new_input_title">Neue manuelle Eingabe</string>
+    <string name="generic_error_message">Etwas ist falsch gelaufen, bitte versuche es nochmal.</string>
+    <string name="new_input_messsage">Wie willst du deinen Zählerstand eintragen?</string>
+    <string name="take_photo">Mache ein Foto</string>
+    <string name="select_from_gallery">Wähle von deiner Gallerie</string>
+    <string name="check_image">Bildüberprüfung</string>
+    <string name="check_image_text">Ist das das richtige Bild?</string>
+    <string name="title_activity_main">Adesso Energy</string>
+    <string name="cancel">Abbrechen</string>
+    <string name="ok">Ok</string>
+    <string name="check_data_text">Bitte überprüfe die gescannten Daten</string>
+    <string name="meter_number">Zählernummer</string>
+    <string name="usage">Verbrauch</string>
+    <string name="logout_title">Logout?</string>
+    <string name="logout_text">Willst du dich wirklich ausloggen?</string>
 </resources>
