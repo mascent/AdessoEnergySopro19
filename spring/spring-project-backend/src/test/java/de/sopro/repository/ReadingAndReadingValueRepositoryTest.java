@@ -37,9 +37,6 @@ public class ReadingAndReadingValueRepositoryTest {
 		@Test
 		public void testBooksArePersistedWithAuthor() throws Exception {
 
-			// Check if books belonging to an author have also been persisted
-			// when the author was added to the repository
-
 			assertTrue("Reading #" + reading.getReadingID() + " exists in database",
 					readingRepository.existsById(reading.getReadingID()));
 			for (ReadingValue rv : reading.getReadingValues()) {

@@ -39,9 +39,6 @@ public class MeterAndReadingRepositoryTest {
 			@Test
 			public void testBooksArePersistedWithAuthor() throws Exception {
 
-				// Check if books belonging to an author have also been persisted
-				// when the author was added to the repository
-
 				assertTrue("Meter #" + meter.getMeterID() + " exists in database",
 						readingRepository.existsById(meter.getMeterID()));
 				for (Reading r : meter.getReadings()) {
