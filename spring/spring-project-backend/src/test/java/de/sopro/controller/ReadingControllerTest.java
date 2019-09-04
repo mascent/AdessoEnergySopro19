@@ -15,7 +15,6 @@ import de.sopro.TestConfig;
 @SpringBootTest
 @AutoConfigureMockMvc
 @ContextConfiguration(classes = TestConfig.class)
-@ContextConfiguration(classes = TestConfig.class)
 public class ReadingControllerTest {
 	
 	@Autowired

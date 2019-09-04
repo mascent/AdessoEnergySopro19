@@ -1,0 +1,31 @@
+pipeline {
+	agent any
+	tools {
+		maven "maven"
+	}
+	stages {
+		stage ('Check ENV') {
+			steps {
+				sh "mvn -v"
+				sh "java -version"
+			}
+		}
+		stage ('Test project') {
+			steps {
+				sh "cd spring/spring-project-backend && mvn test"
+			}
+		}
+		stage ('Build project') {
+			steps {
+				sh "cd spring/spring-project-backend && mvn package"
+			}
+		}
+		stage ('Deploy project'){
+			steps{
+				sh "/usr/local/tomcat/bin/shutdown.sh"
+				sh "/usr/local/tomcat/bin/deploy.sh"
+				sh "/usr/local/tomcat/bin/startup.sh"
+			}
+		}
+	}
+}

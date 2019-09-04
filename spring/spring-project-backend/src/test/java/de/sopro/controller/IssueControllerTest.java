@@ -1,9 +1,7 @@
 package de.sopro.controller;
 
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-import static org.assertj.core.api.Assertions.fail;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -23,10 +21,5 @@ public class IssueControllerTest {
 	@Autowired
 	MockMvc mvc;
 
-	@Test
-	public void stupidoTest() {
-		fail("nope");
-		
-	}
 
 }
