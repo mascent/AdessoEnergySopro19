@@ -27,6 +27,7 @@ pipeline {
 				sh "/usr/local/tomcat/bin/deploy.sh"
 				sh "sleep 5"
 				sh "/usr/local/tomcat/bin/startup.sh"
+				sh "sleep 5"
 			}
 		}
 	}
