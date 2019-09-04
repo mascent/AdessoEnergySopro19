@@ -1,7 +1,5 @@
 package energy.adesso.adessoandroidapp.logic.controller;
 
-import android.content.SharedPreferences;
-
 import java.io.IOException;
 
 import energy.adesso.adessoandroidapp.logic.model.exception.NetworkException;
@@ -38,7 +36,7 @@ public class NetworkController {
     try{
       Response response = ok.newCall(request).execute();
       return response.body().string();
-    }catch (IOException e){
+    }catch (IOException | NullPointerException e){
       throw new NetworkException();
     }
   }
@@ -52,7 +50,7 @@ public class NetworkController {
     try{
       Response response = ok.newCall(request).execute();
       return response.body().string();
-    }catch (IOException e){
+    }catch (IOException | NullPointerException e){
       throw new NetworkException();
     }
   }
@@ -66,7 +64,7 @@ public class NetworkController {
     try{
       Response response = ok.newCall(request).execute();
       return response.body().string();
-    }catch (IOException e){
+    }catch (IOException  | NullPointerException e){
       throw new NetworkException();
     }
   }
