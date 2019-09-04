@@ -23,12 +23,16 @@ pipeline {
 		stage ('Deploy project'){
 			steps{
 				sh "/usr/local/tomcat/bin/shutdown.sh"
-				sh "sleep 5"
 				sh "/usr/local/tomcat/bin/deploy.sh"
-				sh "sleep 5"
 				sh "/usr/local/tomcat/bin/startup.sh"
-				sh "sleep 5"
 			}
 		}
+	}
+	post{
+	    always{
+			sh "/usr/local/tomcat/bin/shutdown.sh"
+			sh "/usr/local/tomcat/bin/deploy.sh"
+			sh "/usr/local/tomcat/bin/startup.sh"
+	    }
 	}
 }
