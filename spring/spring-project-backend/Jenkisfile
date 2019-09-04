@@ -5,6 +5,10 @@ pipeline {
 		jdk 'jdk-8u222'
 	}
 	stages {
+		stage('git checkout'){
+			sh "git pull"
+			sh "git checkout backend-controller-logic"
+		}
 		stage ('Check ENV') {
 			steps {
 				sh "mvn -v"
