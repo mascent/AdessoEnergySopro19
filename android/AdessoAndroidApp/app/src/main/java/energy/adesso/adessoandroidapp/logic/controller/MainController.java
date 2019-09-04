@@ -24,7 +24,7 @@ public class MainController {
   }
 
   public void init(SharedPreferences prefs) {
-    this.prefs = prefs;
+    PersistanceController.getInstance().init(prefs);
   }
 
   /**
