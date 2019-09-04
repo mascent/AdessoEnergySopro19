@@ -11,14 +11,14 @@ public class Meter extends IdentifiableObject {
   public String name;
   @Nullable
   public String ownerId;
-  public Reading lastReading; // nullable
+  public String lastReading; // nullable
   public String meterNumber;
 
   public Meter(String id) {
     super(id);
   }
 
-  public Meter(String id, DateTime createdAt, DateTime updatedAt, DateTime deletedAt, String name, String meterNumber, MeterKind kind,  String ownerId, Reading lastReading){
+  public Meter(String id, DateTime createdAt, DateTime updatedAt, DateTime deletedAt, String name, String meterNumber, MeterKind kind,  String ownerId, String lastReading){
     super(id,createdAt,updatedAt,deletedAt);
     this.name = name;
     this.ownerId = ownerId;
@@ -59,7 +59,7 @@ public class Meter extends IdentifiableObject {
   }
 
   public String getLastReading() {
-    return lastReading.getValue();
+    return lastReading;
   }
 
   public String getMeterNumber() {
