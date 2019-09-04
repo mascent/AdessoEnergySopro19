@@ -17,19 +17,20 @@ public class PersistanceController {
   }
 
   public synchronized static PersistanceController getInstance() {
-    if (instance == null) return new PersistanceController();
+    if (instance != null) return instance;
+    instance = new PersistanceController();
     return instance;
   }
 
   public synchronized void save(String key, String value){
-    prefs.edit().putString(key,value).apply();
+    prefs.edit().putString(key,value).commit();
   }
 
-  public synchronized String retrieve(String key){
-    return prefs.getString("key",null);
+  public synchronized String load(String key){
+    return prefs.getString(key,null);
   }
 
   public synchronized void delete(String key){
-    prefs.edit().remove(key).apply();
+    prefs.edit().remove(key).commit();
   }
 }

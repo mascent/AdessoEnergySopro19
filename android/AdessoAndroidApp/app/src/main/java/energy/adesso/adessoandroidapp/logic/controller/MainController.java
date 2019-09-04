@@ -34,9 +34,9 @@ public class MainController {
    */
   public static MainController getInstance() {
     if (instance != null)
-
       return instance;
-    return new MainController();
+    instance = new MainController();
+    return instance;
   }
 
   /**
@@ -86,7 +86,8 @@ public class MainController {
   }
 
   public String doStuff() {
-    return "zufjzcgh";
+    PersistanceController.getInstance().save("hello", "how are you");
+    return PersistanceController.getInstance().load("hello");
   }
 
   /**
