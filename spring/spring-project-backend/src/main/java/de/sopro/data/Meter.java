@@ -14,6 +14,13 @@ import javax.persistence.OneToMany;
 
 @Entity
 public class Meter {
+	
+public Meter(String meternumber, MeterType meterType) {
+	//createdAt = now;
+	this.meternumber = meternumber;
+	readings = new ArrayList<Reading>();
+	//on different types set comma and length
+}
 
 private String meternumber;
 
@@ -21,7 +28,7 @@ private String meternumber;
 private String meterID;
 
 @OneToMany(mappedBy = "meter", cascade = CascadeType.ALL)
-private List <Reading> readings = new ArrayList<Reading>();
+private List <Reading> readings;
 
 private Date createdAt;
 
@@ -37,9 +44,9 @@ public void setReadings(List<Reading> readings) {
 	this.readings = readings;
 }
 
-public static final int lengthOfReading = 0;
+private int lengthOfReading = 0;
 
-public static final int commaPosition = 0;
+private int commaPosition = 0;
 
 public boolean delete() {
 	return false;
@@ -65,10 +72,6 @@ public Date getCreatedAt() {
 	return createdAt;
 }
 
-public void setCreatedAt(Date createdAt) {
-	this.createdAt = createdAt;
-}
-
 public Date getDeletedAt() {
 	return deletedAt;
 }
@@ -86,6 +89,7 @@ public void setUpdatedAt(Date updatedAt) {
 }
 
 public boolean update(Reading reading) {
+	// todo updatelogic -- needed?
 	return false;
 }
 
