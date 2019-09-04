@@ -46,7 +46,6 @@ public class IssueController {
 	 * @param iid   The ID of the issue that should be closed.
 	 * @return A boolean that shows if the closing was successful.
 	 */
-	@PutMapping("/api/issues/{iid}")
 	@DeleteMapping("/api/issues/{iid}")
 	public String closeIssue(@RequestParam Jwt token, @PathVariable Long iid) {
 		return null;

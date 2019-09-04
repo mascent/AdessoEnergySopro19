@@ -2,6 +2,7 @@ package de.sopro.controller;
 
 import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties.Jwt;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -67,7 +68,7 @@ public class ReadingController {
 	 *               the list of readings.
 	 * @return A boolean that shows if the deletion was successful.
 	 */
-	@PutMapping("api/meters/{mid}/readings/{rid}")
+	@DeleteMapping("api/meters/{mid}/readings/{rid}")
 	public String deleteReading(@RequestParam Jwt token, @PathVariable Long mid, @PathVariable Long rid,
 			@RequestParam String reason) {
 		return null;
