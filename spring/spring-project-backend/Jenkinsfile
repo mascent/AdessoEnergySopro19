@@ -1,14 +1,10 @@
 pipeline {
 	agent any
 	tools {
-		maven 'maven-3.6.1'
-		jdk 'jdk-8u222'
+		maven
+		jdk
 	}
 	stages {
-		stage('git checkout'){
-			sh "git pull"
-			sh "git checkout backend-controller-logic"
-		}
 		stage ('Check ENV') {
 			steps {
 				sh "mvn -v"
