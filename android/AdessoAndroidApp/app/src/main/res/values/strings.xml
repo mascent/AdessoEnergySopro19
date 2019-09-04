@@ -20,4 +20,5 @@
     <string name="usage">Verbrauch</string>
     <string name="logout_title">Logout?</string>
     <string name="logout_text">Willst du dich wirklich ausloggen?</string>
+    <string name="number_hint">Kundennummer</string>
 </resources>
