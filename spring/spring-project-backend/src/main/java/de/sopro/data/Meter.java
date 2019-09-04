@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.criteria.CriteriaBuilder.Case;
 
 
 @Entity
@@ -19,7 +20,27 @@ public Meter(String meternumber, MeterType meterType) {
 	//createdAt = now;
 	this.meternumber = meternumber;
 	readings = new ArrayList<Reading>();
-	//on different types set comma and length-
+	switch (meterType) {
+	case Gas:
+		lengthOfReading =8;
+		commaPosition=1;
+		break;
+
+	case Water:
+		lengthOfReading=6;
+		commaPosition=3;
+		break;
+	
+	
+	case Electricity:
+		lengthOfReading=7;
+		commaPosition=1;
+		break;
+		
+	default:
+		throw new IllegalArgumentException();
+	}
+	
 }
 
 private String meternumber;
