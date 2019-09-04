@@ -10,10 +10,38 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.criteria.CriteriaBuilder.Case;
 
 
 @Entity
 public class Meter {
+	
+public Meter(String meternumber, MeterType meterType) {
+	//createdAt = now;
+	this.meternumber = meternumber;
+	readings = new ArrayList<Reading>();
+	switch (meterType) {
+	case Gas:
+		lengthOfReading =8;
+		commaPosition=1;
+		break;
+
+	case Water:
+		lengthOfReading=6;
+		commaPosition=3;
+		break;
+	
+	
+	case Electricity:
+		lengthOfReading=7;
+		commaPosition=1;
+		break;
+		
+	default:
+		throw new IllegalArgumentException();
+	}
+	
+}
 
 private String meternumber;
 
@@ -21,7 +49,7 @@ private String meternumber;
 private String meterID;
 
 @OneToMany(mappedBy = "meter", cascade = CascadeType.ALL)
-private List <Reading> readings = new ArrayList<Reading>();
+private List <Reading> readings;
 
 private Date createdAt;
 
@@ -37,9 +65,9 @@ public void setReadings(List<Reading> readings) {
 	this.readings = readings;
 }
 
-public static final int lengthOfReading = 0;
+private int lengthOfReading = 0;
 
-public static final int commaPosition = 0;
+private int commaPosition = 0;
 
 public boolean delete() {
 	return false;
@@ -65,10 +93,6 @@ public Date getCreatedAt() {
 	return createdAt;
 }
 
-public void setCreatedAt(Date createdAt) {
-	this.createdAt = createdAt;
-}
-
 public Date getDeletedAt() {
 	return deletedAt;
 }
@@ -86,6 +110,7 @@ public void setUpdatedAt(Date updatedAt) {
 }
 
 public boolean update(Reading reading) {
+	// todo updatelogic -- needed?
 	return false;
 }
 

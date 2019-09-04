@@ -7,6 +7,21 @@ import javax.persistence.Entity;
 @Entity
 public class User extends Person{
 
+public User(String name, 
+			String surname, 
+			String eMailAdress, 
+			String userNumber,
+			String username, 
+			String password, 
+			Role role) {
+	super(username, password, role);
+	this.name = name;
+	this.surname = surname;
+	this.eMailAdress = eMailAdress;
+	this.userNumber = userNumber;
+	// createdAt = now;
+}
+
 private String name;
 
 private String surname;
@@ -55,10 +70,6 @@ public void setUserNumber(String userNumber) {
 
 public Date getCreatedAt() {
 	return createdAt;
-}
-
-public void setCreatedAt(Date createdAt) {
-	this.createdAt = createdAt;
 }
 
 public Date getDeleatedAt() {
