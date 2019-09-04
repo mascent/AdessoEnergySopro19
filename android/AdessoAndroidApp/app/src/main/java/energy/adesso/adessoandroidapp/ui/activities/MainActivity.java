@@ -25,19 +25,19 @@ import energy.adesso.adessoandroidapp.R;
 import energy.adesso.adessoandroidapp.logic.model.MeterKind;
 import energy.adesso.adessoandroidapp.logic.model.identifiable.Meter;
 import energy.adesso.adessoandroidapp.logic.model.identifiable.Reading;
+import energy.adesso.adessoandroidapp.ui.MockDeliverer;
 import energy.adesso.adessoandroidapp.ui.parents.ListActivity;
 
 public class MainActivity extends ListActivity {
 
     Drawable testIcon;
-    List<Meter> meters;
+    static List<Meter> meters;
     final Activity a = this;
     final View.OnClickListener onListElementClick = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             Intent intent = new Intent(a, DetailActivity.class);
             intent.putExtra("number", getListElementNumber(view));
-            intent.putExtra("usage", getListElementUsage(view));
             startActivity(intent);
         }
     };
@@ -51,30 +51,14 @@ public class MainActivity extends ListActivity {
         setSupportActionBar(toolbar);
         testIcon = getDrawable(R.drawable.logo_drop_circle);
 
-        DateTime time = DateTime.now();
-        Reading lastReading = new Reading("id1","id","id2","123456");
-
-        showData(Arrays.asList(new Meter[] {
-                new Meter("id",time, time, time,
-                        "Hauptsitz", "98 762 244", MeterKind.ELECTRIC, "einowner", lastReading),
-                new Meter("id",time, time, time,
-                "Hauptsitz", "98 762 244", MeterKind.GAS, "einowner", lastReading),
-                new Meter("id",time, time, time,
-                "Hauptsitz", "98 762 244", MeterKind.WATER, "einowner", lastReading),
-                new Meter("id",time, time, time,
-                "Hauptsitz2", "98 762 244", MeterKind.ELECTRIC, "einowner", lastReading),
-                new Meter("id",time, time, time,
-                "Hauptsitz2", "98 762 244", MeterKind.GAS, "einowner", lastReading),
-                new Meter("id",time, time, time,
-                        "Hauptsitz2", "98 762 244", MeterKind.WATER, "einowner", lastReading),
-        }));
         try {
-
+            // TODO: Get actual Meters
+            meters = MockDeliverer.getMockMeterList();
+            showMeters(meters);
         } catch (Exception e) {
             Toast.makeText(this, "Couldn't get meters!", Toast.LENGTH_LONG);
         }
     }
-
     public void onFABClick(View view) {
         final Activity t = this;
         new AlertDialog.Builder(this)
@@ -95,7 +79,15 @@ public class MainActivity extends ListActivity {
                 .show();
     }
 
-    void showData(List<Meter> meters) {
+    public static Meter getMeter(String number)
+    {
+        for (Meter m : meters)
+            if (m.meterNumber.equals(number))
+                return m;
+        return null;
+    }
+
+    void showMeters(List<Meter> meters) {
         clearList();
 
         List<Meter> electricMeters = new ArrayList<Meter>();
