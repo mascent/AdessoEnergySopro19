@@ -111,7 +111,10 @@ public class MainActivity extends ListActivity {
                 .setMessage(R.string.logout_text)
                 .setCancelable(true)
                 .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) { // TODO: Logout?
+                    public void onClick(DialogInterface dialog, int which) {
+                        // TODO: Logout?
+                        finish();
+                        System.exit(0);
                     }
                 })
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {

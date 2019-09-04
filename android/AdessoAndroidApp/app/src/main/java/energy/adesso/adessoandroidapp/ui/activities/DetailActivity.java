@@ -10,6 +10,7 @@ import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 
 import android.text.InputType;
 import android.view.View;
@@ -36,6 +37,15 @@ public class DetailActivity extends ListActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        // Setting the onClickEvent in XML results in an error
+        CardView cardButton = ((CardView)findViewById(R.id.cardButton));
+        cardButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onButtonClick(view);
+            }
+        });
+
         addListTitle("Datum", "kWh");
 
         // TODO: Improve meter sending
@@ -54,6 +64,7 @@ public class DetailActivity extends ListActivity {
         // Set up textbox
         final EditText input = new EditText(this);
         input.setInputType(InputType.TYPE_CLASS_TEXT);
+        input.setPadding(24,24,24,24);
         builder.setView(input);
 
         // Set up events
