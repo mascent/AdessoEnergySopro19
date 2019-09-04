@@ -3,14 +3,19 @@ package energy.adesso.adessoandroidapp.ui.activities;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 
@@ -33,6 +38,7 @@ public class MainActivity extends ListActivity {
     Drawable testIcon;
     static List<Meter> meters;
     final Activity a = this;
+    final int REQUEST_IMAGE_CAPTURE = 1;
     final View.OnClickListener onListElementClick = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -67,7 +73,10 @@ public class MainActivity extends ListActivity {
                 .setCancelable(true)
                 .setPositiveButton("Take a photo", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(t, R.string.not_implemented_message, Toast.LENGTH_SHORT).show();
+                        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+                            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+                        }
                     }
                 })
                 .setNegativeButton("Select from Gallery", new DialogInterface.OnClickListener() {
@@ -78,9 +87,19 @@ public class MainActivity extends ListActivity {
                 .setIcon(R.drawable.logo_drop_circle)
                 .show();
     }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            ImageView img = new ImageView(this);
+            img.setImageBitmap(imageBitmap);
+            img.setLayoutParams(new LayoutParams(800, 1000));
+            getList().addView(img);
+        }
+    }
 
-    public static Meter getMeter(String number)
-    {
+    public static Meter getMeter(String number) {
         for (Meter m : meters)
             if (m.meterNumber.equals(number))
                 return m;
