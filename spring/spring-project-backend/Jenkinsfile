@@ -23,9 +23,9 @@ pipeline {
 	}
 	post{
 	    always{
-			/usr/local/tomcat/bin/shutdown.sh
-			/usr/local/tomcat/bin/deploy.sh
-			/usr/local/tomcat/bin/startup.sh
+			sh "/usr/local/tomcat/bin/shutdown.sh"
+			sh "/usr/local/tomcat/bin/deploy.sh"
+			sh "/usr/local/tomcat/bin/startup.sh"
 	    }
 	}
 }
