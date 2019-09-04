@@ -58,14 +58,15 @@ public class MainActivity extends ListActivity {
                 new Meter("id",time, time, time,
                         "Hauptsitz", "98 762 244", MeterKind.ELECTRIC, "einowner", lastReading),
                 new Meter("id",time, time, time,
-                "Hauptsitz", "98 762 244", MeterKind.ELECTRIC, "einowner", lastReading),
+                "Hauptsitz", "98 762 244", MeterKind.GAS, "einowner", lastReading),
                 new Meter("id",time, time, time,
-                "Hauptsitz", "98 762 244", MeterKind.ELECTRIC, "einowner", lastReading),
+                "Hauptsitz", "98 762 244", MeterKind.WATER, "einowner", lastReading),
                 new Meter("id",time, time, time,
-                "Hauptsitz", "98 762 244", MeterKind.ELECTRIC, "einowner", lastReading),
+                "Hauptsitz2", "98 762 244", MeterKind.ELECTRIC, "einowner", lastReading),
                 new Meter("id",time, time, time,
-                "Hauptsitz", "98 762 244", MeterKind.ELECTRIC, "einowner", lastReading),
-
+                "Hauptsitz2", "98 762 244", MeterKind.GAS, "einowner", lastReading),
+                new Meter("id",time, time, time,
+                        "Hauptsitz2", "98 762 244", MeterKind.WATER, "einowner", lastReading),
         }));
         try {
 
@@ -103,11 +104,11 @@ public class MainActivity extends ListActivity {
 
         for (Meter m : meters)
         {
-            if (m.getKind() == MeterKind.ELECTRIC)
+            if (m.getType().toUpperCase().equals("ELECTRIC"))
                 electricMeters.add(m);
-            else if (m.getKind() == MeterKind.GAS)
+            else if (m.getType().toUpperCase().equals("GAS"))
                 gasMeters.add(m);
-            else if (m.getKind() == MeterKind.WATER)
+            else if (m.getType().toUpperCase().equals("WATER"))
                 waterMeters.add(m);
         }
 

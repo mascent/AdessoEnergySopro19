@@ -41,16 +41,6 @@ public class LoginActivity extends ParentActivity {
 
     public void onForgotPasswordClick(final View view) {
         // TODO: Add pass_forgot Code
-        new AlertDialog.Builder(this)
-                .setTitle("Rip?")
-                .setMessage("Rop?")
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(a, R.string.not_implemented_message, Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .setNegativeButton(android.R.string.no, null)
-                .setIcon(R.drawable.logo_drop_circle)
-                .show();
+        Toast.makeText(a, R.string.not_implemented_message, Toast.LENGTH_SHORT).show();
     }
 }
