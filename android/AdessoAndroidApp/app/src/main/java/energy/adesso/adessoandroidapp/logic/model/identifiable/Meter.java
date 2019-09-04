@@ -6,25 +6,39 @@ import org.joda.time.DateTime;
 
 import energy.adesso.adessoandroidapp.logic.model.MeterKind;
 
-public abstract class Meter extends IdentifiableObject {
+public class Meter extends IdentifiableObject {
   private String kind;
   public String name;
   @Nullable
   public String ownerId;
-  public String lastReading; // nullable
+  public Reading lastReading; // nullable
   public String meterNumber;
 
   public Meter(String id) {
     super(id);
   }
 
-  public Meter(String id, DateTime createdAt, DateTime updatedAt, DateTime deletedAt, String name, String meterNumber, MeterKind kind,  String ownerId, String lastReading){
+  public Meter(String id, DateTime createdAt, DateTime updatedAt, DateTime deletedAt, String name, String meterNumber, MeterKind kind,  String ownerId, Reading lastReading){
     super(id,createdAt,updatedAt,deletedAt);
     this.name = name;
     this.ownerId = ownerId;
     this.lastReading = lastReading;
     this.meterNumber = meterNumber;
     this.kind = kind.name();
+  }
+
+  public Meter(String id, DateTime createdAt, DateTime updatedAt, DateTime deletedAt, String name, String meterNumber, MeterKind kind,  String ownerId, String lastReading){
+    super(id,createdAt,updatedAt,deletedAt);
+    this.name = name;
+    this.ownerId = ownerId;
+    //TODO: remove this constructor when no longer needed
+    this.lastReading = new Reading("eineIDlol","eineID2lol","einownerLol", lastReading);
+    this.meterNumber = meterNumber;
+    this.kind = kind.name();
+  }
+
+  public static Meter deserialize(String source){
+    return gson.fromJson(source, Meter.class);
   }
 
   public MeterKind getKind(){
@@ -58,7 +72,7 @@ public abstract class Meter extends IdentifiableObject {
     return ownerId;
   }
 
-  public String getLastReading() {
+  public Reading getLastReading() {
     return lastReading;
   }
 

@@ -46,4 +46,8 @@ public abstract class IdentifiableObject extends SerializableObject {
   public String getId(){
     return id;
   }
+
+  public static IdentifiableObject deserialize(String source){
+    return gson.fromJson(source, IdentifiableObject.class);
+  }
 }

@@ -19,6 +19,10 @@ public class Issue extends IdentifiableObject {
 //    MainController.getInstance().
   }
 
+  public static Issue deserialize(String source){
+    return gson.fromJson(source, Issue.class);
+  }
+
   public String getEmail() {
     return email;
   }

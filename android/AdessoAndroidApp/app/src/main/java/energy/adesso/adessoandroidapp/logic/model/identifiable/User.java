@@ -10,4 +10,8 @@ public class User extends IdentifiableObject {
   public User(String id) {
     super(id);
   }
+
+  public static User deserialize(String source) {
+    return gson.fromJson(source, User.class);
+  }
 }

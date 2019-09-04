@@ -31,7 +31,7 @@ public class DetailActivity extends AppCompatActivity {
         Meter m = MainActivity.getMeter(n);
         ((TextView)findViewById(R.id.name)).setText(m.name);
         ((TextView)findViewById(R.id.nummer)).setText(m.meterNumber);
-        ((TextView)findViewById(R.id.usage)).setText(m.getLastReading());
+        ((TextView)findViewById(R.id.usage)).setText(m.getLastReading().getValue());
     }
 
 }
