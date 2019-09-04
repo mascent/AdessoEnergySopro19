@@ -2,15 +2,14 @@ package energy.adesso.adessoandroidapp.logic.controller;
 
 import android.content.SharedPreferences;
 
-import com.squareup.okhttp.MediaType;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.RequestBody;
-import com.squareup.okhttp.Response;
-
 import java.io.IOException;
 
 import energy.adesso.adessoandroidapp.logic.model.exception.NetworkException;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class NetworkController {
   private String baseURL = "124.245.1.240:3001";
@@ -21,7 +20,7 @@ public class NetworkController {
   private static NetworkController instance;
 
   public static final MediaType JSON
-          = MediaType.parse("application/json; charset=utf-8");
+          = MediaType.get("application/json; charset=utf-8");
 
 
   private NetworkController() {
