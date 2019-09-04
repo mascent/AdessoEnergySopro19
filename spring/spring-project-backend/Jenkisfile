@@ -13,12 +13,12 @@ pipeline {
 		}
 		stage ('Test project') {
 			steps {
-				sh "mvn test"
+				sh "cd spring/spring-project-backend && mvn test"
 			}
 		}
 		stage ('Build project') {
 			steps {
-				sh "mvn package"
+				sh "cd spring/spring-project-backend && mvn package"
 			}
 		}
 	}
