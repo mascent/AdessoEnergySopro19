@@ -1,6 +1,6 @@
-package energy.adesso.adessoandroidapp.logic.model.internal;
+package energy.adesso.adessoandroidapp.logic.model;
 
-public class Token {
+public class Token extends SerializableObject{
   public boolean hasExpired() {
     // TODO: implement
     return false;

@@ -6,8 +6,6 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 
@@ -15,22 +13,18 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import com.google.android.material.snackbar.Snackbar;
 
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Iterator;
+
 import java.util.List;
-import java.util.ListIterator;
 
 import energy.adesso.adessoandroidapp.R;
-import energy.adesso.adessoandroidapp.logic.controller.MainController;
-import energy.adesso.adessoandroidapp.logic.model.exception.AdessoException;
-import energy.adesso.adessoandroidapp.logic.model.internal.Meter;
-import energy.adesso.adessoandroidapp.logic.model.internal.MeterKind;
+import energy.adesso.adessoandroidapp.logic.model.MeterKind;
+import energy.adesso.adessoandroidapp.logic.model.identifiable.Meter;
+import energy.adesso.adessoandroidapp.logic.model.identifiable.Reading;
 import energy.adesso.adessoandroidapp.ui.parents.ListActivity;
 
 public class MainActivity extends ListActivity {
@@ -57,22 +51,21 @@ public class MainActivity extends ListActivity {
         setSupportActionBar(toolbar);
         testIcon = getDrawable(R.drawable.logo_drop_circle);
 
-        String time = DateTime.now().toString();
-        
-        showData(Arrays.asList(new Meter[] {
-                new Meter(time, time, time, "id",
-                        "Hauptsitz", "98 762 244", MeterKind.ELECTRIC, "12345"),
-                new Meter(time, time, time, "id",
-                        "Hauptsitz", "98 762 245", MeterKind.WATER, "12545"),
-                new Meter(time, time, time, "id",
-                        "Hauptsitz", "98 762 246", MeterKind.GAS, "16345"),
+        DateTime time = DateTime.now();
+        Reading lastReading = new Reading("id1","id","id2","123456");
 
-                new Meter(time, time, time, "id2",
-                        "Hauptsitz2", "98 762 237", MeterKind.ELECTRIC, "1275"),
-                new Meter(time, time, time, "id2",
-                        "Hauptsitz2", "98 762 238", MeterKind.WATER, "15345"),
-                new Meter(time, time, time, "id2",
-                        "Hauptsitz2", "98 762 239", MeterKind.GAS, "1248445"),
+        showData(Arrays.asList(new Meter[] {
+                new Meter("id",time, time, time,
+                        "Hauptsitz", "98 762 244", MeterKind.ELECTRIC, "einowner", lastReading),
+                new Meter("id",time, time, time,
+                "Hauptsitz", "98 762 244", MeterKind.ELECTRIC, "einowner", lastReading),
+                new Meter("id",time, time, time,
+                "Hauptsitz", "98 762 244", MeterKind.ELECTRIC, "einowner", lastReading),
+                new Meter("id",time, time, time,
+                "Hauptsitz", "98 762 244", MeterKind.ELECTRIC, "einowner", lastReading),
+                new Meter("id",time, time, time,
+                "Hauptsitz", "98 762 244", MeterKind.ELECTRIC, "einowner", lastReading),
+
         }));
         try {
 

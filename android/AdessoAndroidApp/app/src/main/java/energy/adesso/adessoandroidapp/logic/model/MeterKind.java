@@ -1,4 +1,4 @@
-package energy.adesso.adessoandroidapp.logic.model.internal;
+package energy.adesso.adessoandroidapp.logic.model;
 
 public enum MeterKind {
 
