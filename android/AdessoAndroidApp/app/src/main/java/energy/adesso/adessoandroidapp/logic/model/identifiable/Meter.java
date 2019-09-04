@@ -6,7 +6,7 @@ import org.joda.time.DateTime;
 
 import energy.adesso.adessoandroidapp.logic.model.MeterKind;
 
-public class Meter extends IdentifiableObject {
+public abstract class Meter extends IdentifiableObject {
   private String kind;
   public String name;
   @Nullable
@@ -30,13 +30,13 @@ public class Meter extends IdentifiableObject {
   public MeterKind getKind(){
     MeterKind re;
     switch(kind){
-      case "water":
+      case "WATER":
         re=MeterKind.WATER;
         break;
-      case "electric":
+      case "ELECTRIC":
         re=MeterKind.ELECTRIC;
         break;
-      case "gas":
+      case "GAS":
         re=MeterKind.GAS;
         break;
       default: throw new Error(); //TODO: find a better exception to throw
