@@ -19,7 +19,7 @@ public Meter(String meternumber, MeterType meterType) {
 	//createdAt = now;
 	this.meternumber = meternumber;
 	readings = new ArrayList<Reading>();
-	//on different types set comma and length
+	//on different types set comma and length-
 }
 
 private String meternumber;

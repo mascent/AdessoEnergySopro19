@@ -2,8 +2,8 @@ package de.sopro.repository;
 
 import org.springframework.data.repository.CrudRepository;
 
-import de.sopro.data.Adress;
+import de.sopro.data.Reading;
 
-public interface ReadingRepository extends CrudRepository<Adress,String> {
+public interface ReadingRepository extends CrudRepository<Reading,String> {
 
 }
