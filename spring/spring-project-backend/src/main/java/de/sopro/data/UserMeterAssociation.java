@@ -20,9 +20,11 @@ public UserMeterAssociation(User user, Meter meter) {
 	
 
 @ManyToOne
+@NotNull
 private User user;
 
 @ManyToOne
+@NotNull
 private Meter meter;
 
 public User getUser() {
