@@ -20,6 +20,8 @@ import energy.adesso.adessoandroidapp.logic.model.identifiable.Meter;
 import energy.adesso.adessoandroidapp.logic.model.identifiable.Reading;
 import energy.adesso.adessoandroidapp.logic.model.exception.*;
 
+import static energy.adesso.adessoandroidapp.ui.activities.MainActivity.getMeter;
+
 
 public class MainController {
   private static MainController instance;
@@ -135,13 +137,21 @@ public class MainController {
    * @return a Tuple of number, reading
    * @throws CredentialException when not logged in
    */
-  public Pair<Integer, Integer> azureAnalyze(Bitmap image) throws NetworkException, CredentialException {
+  public Pair<Meter, String> azureAnalyze(Bitmap image) throws NetworkException, CredentialException {
     // TODO this is def. wrong
     String url = "api/picture";
     String string = NetworkController.post(url, toBase64(image), token.getToken());
-    Type castType = new Pair<Integer, Integer>(0, 0) {
+    Type castType = new Pair<String, String>("", "") {
     }.getClass();
-    return new Gson().fromJson(string, castType);
+    Pair<String, String> answer1 = new Gson().fromJson(string, castType);
+    Meter m = getMeter(answer1.first);
+    return new Pair<Meter, String>(m,answer1.second);
+  }
+
+  private Meter getMeter(String mid) throws NetworkException {
+    String url = ""+mid; // TODO:
+    String json = NetworkController.get(url,token.getToken());
+    return (Meter) Meter.deserialize(json);
   }
 
   /**
