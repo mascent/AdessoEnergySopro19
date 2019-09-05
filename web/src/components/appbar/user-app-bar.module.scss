@@ -1,0 +1,24 @@
+@import 'theme/colors';
+@import 'theme/spacings';
+
+.userAppBar {
+  width: 100%;
+  height: 150px;
+  background-color: $color-blue-800;
+  margin: 0px;
+  padding: 0px;
+  display: flex;
+  align-items: baseline;
+  justify-items: flex-end;
+}
+
+.title {
+  color: $color-white;
+  padding-top: $spacing-8;
+  padding-left: $spacing-192;
+  padding-right: $spacing-640;
+}
+
+.emailButton {
+  padding-right: $spacing-24;
+}

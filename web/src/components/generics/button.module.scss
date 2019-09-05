@@ -58,3 +58,19 @@
     }
   }
 }
+
+.invButton {
+  @extend %font-section-header;
+  line-height: 1;
+  color: $color-white;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all 200ms ease-in-out;
+  outline-color: $color-blue-500;
+
+  &:hover {
+    box-shadow: $shadow-200;
+    background-color: $color-blue-600;
+  }
+}

@@ -9,6 +9,20 @@ interface ButtonProps {
   children?: React.ReactNode;
 }
 
+const InvButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ onClick, children, className }, ref) => {
+    return (
+      <button
+        ref={ref}
+        className={cx(styles.invButton, className)}
+        onClick={onClick}
+      >
+        {children}
+      </button>
+    );
+  }
+);
+
 const PrimaryButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ onClick, children, disabled, className }, ref) => {
     return (
@@ -39,4 +53,4 @@ const SecondaryButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
   }
 );
 
-export { PrimaryButton, SecondaryButton };
+export { PrimaryButton, SecondaryButton, InvButton };
