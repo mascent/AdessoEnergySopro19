@@ -1,13 +1,13 @@
 import { User } from '../../typings/provider-data-interfaces';
 import { Action } from './users-actions';
 
-interface State {
+export interface UsersState {
   users: User[];
   isLoading: boolean;
   error: Error | null;
 }
 
-export function usersReducer(state: State, action: Action): State {
+export function usersReducer(state: UsersState, action: Action): UsersState {
   switch (action.type) {
     case 'FETCH_USERS_REQUEST':
       return { ...state, isLoading: true, error: null };
