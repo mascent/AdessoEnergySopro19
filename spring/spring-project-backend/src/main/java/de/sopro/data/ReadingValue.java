@@ -33,6 +33,7 @@ private String readingValueID;
 private int value;
 
 @NotNull
+@Past
 private Date date;
 
 private Integer changerID;
