@@ -34,10 +34,52 @@ test('onBlur is called when input looses focus', () => {
   expect(handler).toBeCalledWith('Dummy');
 });
 
-test('Show the provided error message', () => {
-  const { getByText } = render(
+test('error attribute is false when no error is provided', () => {
+  const { getByLabelText } = render(
+    <Input id="test" label="TestLabel" type="text" />
+  );
+
+  const errorAttr = getByLabelText('TestLabel').attributes.getNamedItem(
+    'data-error'
+  );
+
+  expect(errorAttr && errorAttr.value === 'false').toBeTruthy();
+});
+
+test('error attribute is false when error is null', () => {
+  const { getByLabelText } = render(
+    <Input id="test" label="TestLabel" type="text" error={null} />
+  );
+
+  const errorAttr = getByLabelText('TestLabel').attributes.getNamedItem(
+    'data-error'
+  );
+
+  expect(errorAttr && errorAttr.value === 'false').toBeTruthy();
+});
+
+test('error attribute is false when error only contains spaces', () => {
+  const { getByLabelText } = render(
+    <Input id="test" label="TestLabel" type="text" error={'    '} />
+  );
+
+  const errorAttr = getByLabelText('TestLabel').attributes.getNamedItem(
+    'data-error'
+  );
+
+  expect(errorAttr && errorAttr.value === 'false').toBeTruthy();
+});
+
+test('shows the provided error message and sets attribute on the input', () => {
+  const { getByText, getByLabelText } = render(
     <Input id="test" label="TestLabel" type="text" error="test error message" />
   );
 
-  getByText('test error message');
+  const errorMsg = getByText('test error message');
+  const errorAttr = getByLabelText('TestLabel').attributes.getNamedItem(
+    'data-error'
+  );
+
+  expect(errorMsg).toBeVisible();
+  expect(errorAttr && errorAttr.value === 'true').toBeTruthy();
 });
