@@ -5,13 +5,14 @@
 
 .input {
   @extend %font-span;
-
+  box-sizing: border-box;
+  width: 100%;
   border-radius: 4px;
   border: 1px solid $color-grey-400;
   padding: $spacing-4 $spacing-8;
 
   &:focus {
-    border: 1px solid $color-yellow-700;
+    border: 1px solid $color-blue-700;
     outline: none;
   }
 
