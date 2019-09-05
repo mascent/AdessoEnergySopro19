@@ -29,14 +29,19 @@ public class LoginActivity extends ParentActivity {
     }
 
     public void onLoginClick(View view) {
+        TextView num = (TextView)findViewById(R.id.number);
+        TextView pass = (TextView)findViewById(R.id.pass);
+
         try {
-            if (MockDeliverer.login(((TextView)findViewById(R.id.number)).getText().toString(),
-                    ((TextView)findViewById(R.id.pass)).getText().toString())){
+            if (MockDeliverer.login(num.getText().toString(), pass.getText().toString())){
                 startNewActivity(MainActivity.class, Intent.FLAG_ACTIVITY_CLEAR_TASK);
             } else {
                 Toast.makeText(a, R.string.wrong_login, Toast.LENGTH_SHORT).show();
             }
         } catch (AdessoException e)  { }
+
+        num.setText("");
+        pass.setText("");
     }
 
     public void onForgotPasswordClick(final View view) {
