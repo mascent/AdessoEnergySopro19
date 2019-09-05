@@ -15,8 +15,6 @@ import androidx.appcompat.widget.Toolbar;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,13 +40,7 @@ public class MainActivity extends ListActivity {
     final int GALLERY_REQUEST_IMAGE_BITMAP = 10;
 
     // Events
-    final View.OnClickListener onListElementClick = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            startNewActivity(DetailActivity.class, "number", getListElementNumber(view)); }
-    };
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    @Override protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -63,31 +55,69 @@ public class MainActivity extends ListActivity {
             Toast.makeText(this, "Couldn't get meters!", Toast.LENGTH_LONG);
         }
     }
+    final View.OnClickListener onListElementClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            startNewActivity(DetailActivity.class, "number", getListElementNumber(view)); }
+    };
     public void onFABClick(View view) {
         new AlertDialog.Builder(this)
                 .setTitle(R.string.new_input_title)
                 .setMessage(R.string.new_input_messsage)
                 .setCancelable(true)
                 .setPositiveButton(R.string.take_photo, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) { takePhoto();
+                    public void onClick(DialogInterface dialog, int which) { onPhotoButtonClick();
                     }
                 })
                 .setNegativeButton(R.string.select_from_gallery, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) { openGallery();
+                    public void onClick(DialogInterface dialog, int which) { onGalleryButtonClick();
                     }
                 })
                 .setIcon(R.drawable.logo_drop)
                 .show();
     }
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    void onPhotoButtonClick() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, CAMERA_REQUEST_IMAGE_BITMAP);
+        }
+    }
+    void onGalleryButtonClick() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"),
+                GALLERY_REQUEST_IMAGE_BITMAP);
+    }
+    void onImageReceived(Bitmap b) {
+        LinearLayout l = (LinearLayout)getLayoutInflater().inflate(R.layout.reading_check_layout,null);
+        // TODO: Get Image data
+
+        ((TextView)l.findViewById(R.id.number)).setText(R.string.not_implemented_message);
+        ((TextView)l.findViewById(R.id.usage)).setText(R.string.not_implemented_message);
+
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.check_image)
+                .setCancelable(true)
+                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // TODO: Send Image
+
+                    }
+                })
+                .setNegativeButton(R.string.cancel, null)
+                .setIcon(R.drawable.logo_drop)
+                .setView(l)
+                .show();
+    }
+    @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.println(Log.INFO, "", "ActivityResult: " +
                 Integer.toString(requestCode)  + " " + Integer.toString(resultCode) + " ");
 
         if (requestCode == CAMERA_REQUEST_IMAGE_BITMAP && resultCode == RESULT_OK) {
             try {
                 Bundle extras = data.getExtras();
-                checkImage((Bitmap)extras.get("data"));
+                onImageReceived((Bitmap)extras.get("data"));
             } catch (Exception e) {
                 e.printStackTrace();
                 Toast.makeText(this, R.string.generic_error_message, Toast.LENGTH_LONG).show();
@@ -97,15 +127,14 @@ public class MainActivity extends ListActivity {
                 final Uri imageUri = data.getData();
                 final InputStream imageStream = getContentResolver().openInputStream(imageUri);
                 final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
-                checkImage(selectedImage);
+                onImageReceived(selectedImage);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
                 Toast.makeText(this, R.string.generic_error_message, Toast.LENGTH_LONG).show();
             }
         }
     }
-    @Override
-    public void onBackPressed() {
+    @Override public void onBackPressed() {
         new AlertDialog.Builder(this)
                 .setTitle(R.string.logout_title)
                 .setMessage(R.string.logout_text)
@@ -121,40 +150,6 @@ public class MainActivity extends ListActivity {
                     public void onClick(DialogInterface dialog, int which) { }
                 })
                 .setIcon(R.drawable.logo_drop)
-                .show();
-    }
-
-    // image
-    void takePhoto() {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(takePictureIntent, CAMERA_REQUEST_IMAGE_BITMAP);
-        }
-    }
-    void openGallery() {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"),
-                GALLERY_REQUEST_IMAGE_BITMAP);
-    }
-    void checkImage(Bitmap b) {
-        LinearLayout l = (LinearLayout)getLayoutInflater().inflate(R.layout.reading_check_layout,null);
-        // TODO: Get Image data
-        ((TextView)l.findViewById(R.id.number)).setText(R.string.not_implemented_message);
-        ((TextView)l.findViewById(R.id.usage)).setText(R.string.not_implemented_message);
-
-        new AlertDialog.Builder(this)
-                .setTitle(R.string.check_image)
-                .setCancelable(true)
-                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        // TODO: Send Image
-                    }
-                })
-                .setNegativeButton(R.string.cancel, null)
-                .setIcon(R.drawable.logo_drop)
-                .setView(l)
                 .show();
     }
 
