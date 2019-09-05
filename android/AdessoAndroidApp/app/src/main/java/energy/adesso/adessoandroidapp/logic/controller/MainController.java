@@ -12,12 +12,9 @@ import com.google.gson.Gson;
 
 import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-import energy.adesso.adessoandroidapp.logic.model.Paging;
 import energy.adesso.adessoandroidapp.logic.model.Token;
 import energy.adesso.adessoandroidapp.logic.model.identifiable.Meter;
 import energy.adesso.adessoandroidapp.logic.model.identifiable.Reading;
@@ -28,7 +25,10 @@ public class MainController {
   private static MainController instance;
   private String ip;
   private SharedPreferences prefs;
+
   private Token token = null;
+  private Token refreshToken = null;
+  private String uid;
 
   private MainController() {
 
@@ -42,6 +42,9 @@ public class MainController {
       token = (Token) Token.deserialize(tokenString);
 
     NetworkController.setAddress(PersistanceController.getInstance().load("address"));
+    token = (Token) Token.deserialize(PersistanceController.getInstance().load("token"));
+    refreshToken = (Token) Token.deserialize(PersistanceController.getInstance().load("refreshToken"));
+    uid = PersistanceController.getInstance().load("uid");
   }
 
   /**
@@ -64,7 +67,7 @@ public class MainController {
    */
   public List<Reading> getDetails(String readingId) throws NetworkException {
     String request = "/api/users/me/readings/" + readingId;
-    List<Reading> readingList = new PagingHelper<Reading>().getAll(request,token);
+    List<Reading> readingList = new PagingHelper<Reading>().getAll(request, token);
     return readingList;
   }
 
@@ -82,9 +85,16 @@ public class MainController {
     map.put("username", username);
     map.put("password", password);
     String json = new Gson().toJson(map);
-    String tokenString = NetworkController.post("/api/login", json, null);
-    PersistanceController.getInstance().save("token", tokenString);
-    token = (Token) Token.deserialize(tokenString);
+    String reString = NetworkController.post("/api/login", json, null);
+    HashMap<String, String> re = new HashMap<String, String>();
+    re = new Gson().fromJson(reString, re.getClass());
+    token = (Token) Token.deserialize(re.get("token"));
+    refreshToken = (Token) Token.deserialize(re.get("refreshToken"));
+    uid = re.get("uid");
+
+    PersistanceController.getInstance().save("token", re.get("token"));
+    PersistanceController.getInstance().save("refreshToken", re.get("refreshToken"));
+    PersistanceController.getInstance().save("uid", re.get("uid"));
 
     return true;
   }
@@ -96,6 +106,8 @@ public class MainController {
     String json = new Gson().toJson(map);
     NetworkController.put("/api/logout", json, token.getToken());
     PersistanceController.getInstance().delete("token");
+    PersistanceController.getInstance().delete("refreshToken");
+    PersistanceController.getInstance().delete("uid");
   }
 
   /**
@@ -106,8 +118,9 @@ public class MainController {
    */
   public Pair<Integer, Integer> azureAnalyze(Bitmap image) throws NetworkException {
     String url = "api/picture";
-    String string = NetworkController.post(url,toBase64(image),token.getToken());
-    Type castType = new Pair<Integer, Integer>(0,0){}.getClass();
+    String string = NetworkController.post(url, toBase64(image), token.getToken());
+    Type castType = new Pair<Integer, Integer>(0, 0) {
+    }.getClass();
     return new Gson().fromJson(string, castType);
   }
 
@@ -124,7 +137,7 @@ public class MainController {
 
   public void createReading(String mid, String value) throws NetworkException, CredentialException {
     String url = "/api/meters";
-    Reading reading = new Reading(null, mid, token.getUserId(), value);
+    Reading reading = new Reading(null, mid, uid, value);
     String readingString = reading.serialize();
     NetworkController.post(url, readingString, token.getToken());
   }
@@ -139,7 +152,7 @@ public class MainController {
    */
   public List<Meter> getOverview() throws NetworkException, CredentialException {
     String request = "/api/users/me/meters/";
-    List<Meter> meterList = new PagingHelper<Meter>().getAll(request,token);
+    List<Meter> meterList = new PagingHelper<Meter>().getAll(request, token);
     return meterList;
 
   }
