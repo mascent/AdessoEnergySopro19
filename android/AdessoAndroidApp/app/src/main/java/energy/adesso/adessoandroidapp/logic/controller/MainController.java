@@ -12,6 +12,7 @@ import com.google.gson.JsonObject;
 import java.util.HashMap;
 import java.util.List;
 
+import energy.adesso.adessoandroidapp.logic.model.Token;
 import energy.adesso.adessoandroidapp.logic.model.identifiable.Meter;
 import energy.adesso.adessoandroidapp.logic.model.identifiable.Reading;
 import energy.adesso.adessoandroidapp.logic.model.exception.*;
@@ -67,25 +68,20 @@ public class MainController {
     map.put("username", username);
     map.put("password", password);
     String json = new Gson().toJson(map);
-    String returnJson = NetworkController.getInstance().post("/api/login",json);
-    HashMap<String, String> returnMap = new Gson().fromJson(returnJson,HashMap.class);
-    PersistanceController.getInstance().save("token", returnMap.get("token"));
-    PersistanceController.getInstance().save("renew", returnMap.get("renew"));
-    PersistanceController.getInstance().save("role", returnMap.get("role"));
-    PersistanceController.getInstance().save("expirationDate", returnMap.get("expirationDate"));
+    String tokenString = NetworkController.getInstance().post("/api/login",json);
+    PersistanceController.getInstance().save("token", tokenString);
+    Token theToken = new Gson().fromJson(tokenString, Token.class);
+
     return true;
   }
 
   public void logOut() throws NetworkException {
-    String token = PersistanceController.getInstance().load("Token");
+    String token = PersistanceController.getInstance().load("token");
     HashMap<String, String> map = new HashMap<String, String>();
     map.put("token", token);
     String json = new Gson().toJson(map);
     NetworkController.getInstance().put("/api/logout", json);
     PersistanceController.getInstance().delete("token");
-    PersistanceController.getInstance().delete("renew");
-    PersistanceController.getInstance().delete("role");
-    PersistanceController.getInstance().delete("expirationDate");
   }
 
   /**
