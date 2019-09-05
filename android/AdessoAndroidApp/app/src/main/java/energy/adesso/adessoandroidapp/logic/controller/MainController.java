@@ -195,4 +195,10 @@ public class MainController {
     String json = reading.serialize();
     NetworkController.put(url,json,token.getToken());
   }
+
+  public void updateMeterName(Meter meter) throws NetworkException {
+    String url = "/api/meters/" + meter.getId();
+    String json = meter.serialize();
+    NetworkController.put(url,json,token.getToken());
+  }
 }

@@ -87,12 +87,13 @@ public class Meter extends IdentifiableObject {
     return meterNumber;
   }
 
-  public void createReading(value) throws NetworkException{
-
+  public void createReading(String value) throws NetworkException, CredentialException {
+    MainController.getInstance().createReading(this.getId(),value);
   }
 
   public void setName(String newName) throws NetworkException {
-
+    this.name = newName;
+    MainController.getInstance().updateMeterName(this);
   }
 
   public List<Reading> getReadings() throws CredentialException, NetworkException {
