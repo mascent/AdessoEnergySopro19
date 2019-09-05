@@ -12,24 +12,26 @@ public class Issue {
 
     @NotNull
 	private String name;
+	
+	@NotNull
+    private String email;
     
     @NotNull
 	private String subject;
 
 	@NotNull
-	private String message;
+	private String description;
 	
 	private String closerId;
 	
 	@NotNull
 	private String issuerId;
 
-	public Issue(String issueID, String name, String subject, String message, String issuerId) {
-		super();
-		this.issueID = issueID;
+	public Issue(String name, String email, String subject, String description, String issuerId) {
 		this.name = name;
+		this.email = email;
 		this.subject = subject;
-		this.message = message;
+		this.description = description;
 		this.issuerId = issuerId;
 	}
 
@@ -46,6 +48,14 @@ public class Issue {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+		public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
 	public String getSubject() {
 		return subject;
@@ -55,12 +65,12 @@ public class Issue {
 		this.subject = subject;
 	}
 
-	public String getMessage() {
-		return message;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setMessage(String message) {
-		this.message = message;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public String getCloserId() {
