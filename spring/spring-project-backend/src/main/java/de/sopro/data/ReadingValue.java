@@ -28,8 +28,12 @@ public ReadingValue(int value, Date date, Integer changerID) {
 @Id @GeneratedValue(strategy = GenerationType.AUTO)
 private String readingValueID;
 
+@Positive
+@NotNull
 private int value;
 
+@NotNull
+@Past
 private Date date;
 
 private Integer changerID;

@@ -18,6 +18,7 @@ public Reading() {
 }
 	
 @OneToMany(mappedBy = "reading",cascade = CascadeType.ALL)
+@NotNull
 private List <ReadingValue> readingValues;
 
 @Id @GeneratedValue(strategy = GenerationType.AUTO)
