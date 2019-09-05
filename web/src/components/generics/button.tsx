@@ -7,7 +7,23 @@ interface ButtonProps {
   disabled?: boolean;
   className?: string;
   children?: React.ReactNode;
+  title?: string;
 }
+
+const InvButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ onClick, children, className, title }, ref) => {
+    return (
+      <button
+        ref={ref}
+        className={cx(styles.invButton, className)}
+        onClick={onClick}
+        title={title}
+      >
+        {children}
+      </button>
+    );
+  }
+);
 
 const PrimaryButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ onClick, children, disabled, className }, ref) => {
@@ -39,4 +55,4 @@ const SecondaryButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
   }
 );
 
-export { PrimaryButton, SecondaryButton };
+export { PrimaryButton, SecondaryButton, InvButton };

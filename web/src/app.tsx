@@ -1,20 +1,8 @@
 import React from 'react';
+import LoginScreen from './screens/login-screen';
 
 const App: React.FC = () => {
-  return (
-    <div className="shopping-list">
-      <h1>Shopping List</h1>
-      <ul>
-        <li>Instagram</li>
-        <li>WhatsApp</li>
-        <li>Oculus</li>
-      </ul>
-      <ol>
-        <li>Test</li>
-        <li>Asd</li>
-      </ol>
-    </div>
-  );
+  return <LoginScreen />;
 };
 
 export default App;
