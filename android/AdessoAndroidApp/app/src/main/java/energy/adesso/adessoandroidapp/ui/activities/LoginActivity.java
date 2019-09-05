@@ -2,16 +2,12 @@ package energy.adesso.adessoandroidapp.ui.activities;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.appcompat.app.AlertDialog;
 
 import energy.adesso.adessoandroidapp.R;
 import energy.adesso.adessoandroidapp.logic.controller.MainController;
@@ -38,11 +34,11 @@ public class LoginActivity extends ParentActivity {
 
     public void onLoginClick(View view) {
         try {
-            if (MockDeliverer.login(((TextView)findViewById(R.id.nummer)).getText().toString(),
+            if (MockDeliverer.login(((TextView)findViewById(R.id.number)).getText().toString(),
                     ((TextView)findViewById(R.id.pass)).getText().toString())){
                 startNewActivity(MainActivity.class, Intent.FLAG_ACTIVITY_CLEAR_TASK);
             } else {
-                Toast.makeText(a, "That's the wrong Password", Toast.LENGTH_SHORT).show();
+                Toast.makeText(a, R.string.wrong_login, Toast.LENGTH_SHORT).show();
             }
         } catch (AdessoException e)  { }
     }

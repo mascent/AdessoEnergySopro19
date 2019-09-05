@@ -31,15 +31,15 @@ public class MockDeliverer {
                 new Meter("id",time, time, time,
                         "Hauptsitz", "98 762 244", MeterKind.ELECTRIC, "einowner", lastReading),
                 new Meter("id",time, time, time,
-                        "Hauptsitz", "98 762 244", MeterKind.GAS, "einowner", lastReading),
+                        "Hauptsitz", "98 762 245", MeterKind.GAS, "einowner", lastReading),
                 new Meter("id",time, time, time,
-                        "Hauptsitz", "98 762 244", MeterKind.WATER, "einowner", lastReading),
+                        "Hauptsitz", "98 762 246", MeterKind.WATER, "einowner", lastReading),
                 new Meter("id",time, time, time,
-                        "Hauptsitz2", "98 762 244", MeterKind.ELECTRIC, "einowner", lastReading),
+                        "Hauptsitz2", "98 762 247", MeterKind.ELECTRIC, "einowner", lastReading),
                 new Meter("id",time, time, time,
-                        "Hauptsitz2", "98 762 244", MeterKind.GAS, "einowner", lastReading),
+                        "Hauptsitz2", "98 762 248", MeterKind.GAS, "einowner", lastReading),
                 new Meter("id",time, time, time,
-                        "Hauptsitz2", "98 762 244", MeterKind.WATER, "einowner", lastReading),
+                        "Hauptsitz2", "98 762 249", MeterKind.WATER, "einowner", lastReading),
         });
     }
 }
