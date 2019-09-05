@@ -17,15 +17,15 @@ pipeline {
 		}
 		stage ('Build project') {
 			steps {
+			    sh "/usr/local/tomcat/bin/shutdown.sh"
 				sh "cd spring/spring-project-backend && mvn package"
+			    sh "/usr/local/tomcat/bin/deploy.sh"
 			}
 		}
 	}
 	post{
 	    always{
-			sh "/usr/local/tomcat/bin/shutdown.sh"
-			sh "/usr/local/tomcat/bin/deploy.sh"
-			sh "/usr/local/tomcat/bin/startup.sh"
+			/usr/local/tomcat/bin/startup.sh
 	    }
 	}
 }
