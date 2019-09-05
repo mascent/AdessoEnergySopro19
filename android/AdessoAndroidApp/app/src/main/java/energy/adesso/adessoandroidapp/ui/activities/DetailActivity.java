@@ -84,7 +84,6 @@ public class DetailActivity extends ListActivity {
         });
 
         builder.show();
->>>>>>> android/AdessoAndroidApp/app/src/main/java/energy/adesso/adessoandroidapp/ui/activities/DetailActivity.java
     }
 
     void listReadings() {
