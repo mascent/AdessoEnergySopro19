@@ -23,10 +23,6 @@ public class LoginActivity extends ParentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        MainController.getInstance().init(getPreferences(Context.MODE_PRIVATE));
-        String s =MainController.getInstance().doStuff();
-        Log.println(Log.INFO,"gutentag",s);
-
         if (false) { // TODO: Login Check
             startNewActivity(MainActivity.class, Intent.FLAG_ACTIVITY_CLEAR_TASK);
         }
