@@ -36,17 +36,29 @@ const TicketModal: React.FC<TicketModalProps> = ({
 
   const ref = React.useRef(null);
 
-  const name = useInputValidation('', 'Kein valider Name', isEmpty);
+  const name = useInputValidation<string, string>(
+    '',
+    'Kein valider Name',
+    isEmpty
+  );
 
-  const email = useInputValidation(
+  const email = useInputValidation<string, string>(
     '',
     'Keine valide Email-Adresse',
     validateEmail && isEmpty
   );
 
-  const subject = useInputValidation('', 'Kein valider Betreff', isEmpty);
+  const subject = useInputValidation<string, string>(
+    '',
+    'Kein valider Betreff',
+    isEmpty
+  );
 
-  const message = useInputValidation('', 'Keine valide Nachricht', isEmpty);
+  const message = useInputValidation<string, string>(
+    '',
+    'Keine valide Nachricht',
+    isEmpty
+  );
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -122,9 +134,14 @@ const TicketModal: React.FC<TicketModalProps> = ({
           />
         </ModalBody>
         <ModalFooter>
-          <SecondaryButton ref={ref} onClick={closeModal}>
+          <SecondaryButton
+            ref={ref}
+            onClick={closeModal}
+            className={styles.button}
+          >
             Abbrechen
           </SecondaryButton>
+
           <PrimaryButton onClick={() => {}}>Senden</PrimaryButton>
         </ModalFooter>
       </form>
