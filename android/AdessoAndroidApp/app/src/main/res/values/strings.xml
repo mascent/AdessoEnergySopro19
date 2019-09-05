@@ -22,4 +22,9 @@
     <string name="logout_text">Willst du dich wirklich ausloggen?</string>
     <string name="number_hint">Kundennummer</string>
     <string name="wrong_login">That\'s the wrong Password</string>
+    <string name="send_button">Senden</string>
+    <string name="issue_textbox_name">Name</string>
+    <string name="issue_textbox_email">Email</string>
+    <string name="issue_textbox_subject">Betreff</string>
+    <string name="issue_textbox_message">Nachricht</string>
 </resources>
