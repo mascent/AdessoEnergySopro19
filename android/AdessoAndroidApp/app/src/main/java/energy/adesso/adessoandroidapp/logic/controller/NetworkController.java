@@ -12,9 +12,10 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class NetworkController {
-  private String baseURL = "124.245.1.240:3001";
+  private final static String defaultURL = "124.245.1.240:3001";
+  private static String baseURL = defaultURL;
 
-  OkHttpClient ok = new OkHttpClient();
+  private static OkHttpClient ok = new OkHttpClient();
 
 
   private static NetworkController instance;
@@ -27,58 +28,54 @@ public class NetworkController {
 
   }
 
-  public static NetworkController getInstance(){
-    if(instance!=null) return instance;
-    instance = new NetworkController();
-    return instance;
-  }
-
-  public synchronized void init(String baseURL) {
-    this.baseURL = baseURL;
-  }
-
-  public String get(String path) throws NetworkException {
+  public static String get(String path, String token) throws NetworkException {
+    //TODO accept token
     Request request = new Request.Builder()
             .url(baseURL + path)
             .build();
-    try{
+    try {
       Response response = ok.newCall(request).execute();
       return response.body().string();
-    }catch (IOException | NullPointerException e){
+    } catch (IOException | NullPointerException e) {
       throw new NetworkException();
     }
   }
 
-  public String post(String path, String json) throws NetworkException {
+  public static String post(String path, String json, String token) throws NetworkException {
+    //TODO accept token
     RequestBody body = RequestBody.create(JSON, json);
     Request request = new Request.Builder()
             .url(baseURL + path)
             .post(body)
             .build();
-    try{
+    try {
       Response response = ok.newCall(request).execute();
       return response.body().string();
-    }catch (IOException | NullPointerException e){
+    } catch (IOException | NullPointerException e) {
       throw new NetworkException();
     }
   }
 
-  public String put(String path, String json) throws NetworkException {
+  public static String put(String path, String json, String token) throws NetworkException {
+    //TODO accept token
     RequestBody body = RequestBody.create(JSON, json);
     Request request = new Request.Builder()
             .url(baseURL + path)
             .put(body)
             .build();
-    try{
+    try {
       Response response = ok.newCall(request).execute();
       return response.body().string();
-    }catch (IOException  | NullPointerException e){
+    } catch (IOException | NullPointerException e) {
       throw new NetworkException();
     }
   }
 
 
-  public void setBaseURL(String baseURL) {
-    this.baseURL = baseURL;
+  public static void setAddress(String address) {
+    if (address != null)
+      address = baseURL;
+    else
+      address = defaultURL;
   }
 }

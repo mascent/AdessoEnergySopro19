@@ -1,6 +1,9 @@
 package energy.adesso.adessoandroidapp.logic.model.identifiable;
 
 
+import energy.adesso.adessoandroidapp.logic.controller.MainController;
+import energy.adesso.adessoandroidapp.logic.model.exception.NetworkException;
+
 public class Issue extends IdentifiableObject {
 
   private String email;
@@ -14,9 +17,8 @@ public class Issue extends IdentifiableObject {
   }
 
 
-  public void send(){
-//    TODO: Maincontroller send me
-//    MainController.getInstance().
+  public void send() throws NetworkException {
+    MainController.getInstance().sendIssue(this);
   }
 
   public static Issue deserialize(String source){

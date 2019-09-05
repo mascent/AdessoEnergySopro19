@@ -1,10 +1,17 @@
 package energy.adesso.adessoandroidapp.logic.model.identifiable;
 
+import android.net.Network;
+
 import androidx.annotation.Nullable;
 
 import org.joda.time.DateTime;
 
+import java.util.List;
+
+import energy.adesso.adessoandroidapp.logic.controller.MainController;
 import energy.adesso.adessoandroidapp.logic.model.MeterKind;
+import energy.adesso.adessoandroidapp.logic.model.exception.CredentialException;
+import energy.adesso.adessoandroidapp.logic.model.exception.NetworkException;
 
 public class Meter extends IdentifiableObject {
   private String kind;
@@ -78,5 +85,18 @@ public class Meter extends IdentifiableObject {
 
   public String getMeterNumber() {
     return meterNumber;
+  }
+
+  public void createReading(String value) throws NetworkException, CredentialException {
+    MainController.getInstance().createReading(this.getId(),value);
+  }
+
+  public void setName(String newName) throws NetworkException {
+    this.name = newName;
+    MainController.getInstance().updateMeterName(this);
+  }
+
+  public List<Reading> getReadings() throws CredentialException, NetworkException {
+    return MainController.getInstance().getReadings(this.getId());
   }
 }
