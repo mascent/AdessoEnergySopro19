@@ -1,5 +1,6 @@
 package de.sopro.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties.Jwt;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -7,6 +8,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import de.sopro.data.Person;
+import de.sopro.data.Reading;
+import de.sopro.data.Role;
+import de.sopro.repository.MeterRepository;
+import de.sopro.repository.PersonRepository;
+import de.sopro.repository.ReadingRepository;
 
 /**
  * The reading controller contains operations to manage all requests belonging
@@ -17,6 +25,15 @@ import org.springframework.web.bind.annotation.RequestParam;
  */
 @Controller
 public class ReadingController {
+	
+	@Autowired
+	PersonRepository personRepository;
+	
+	@Autowired
+	MeterRepository meterRepository;
+	
+	@Autowired
+	ReadingRepository readingRepository;
 
 	/**
 	 * This method allows an admin to update a reading. This means to change the
@@ -33,9 +50,13 @@ public class ReadingController {
 	 * @return A boolean that shows if the change was successful.
 	 */
 	@PutMapping("api/meters/{mid}/readings/{rid}")
-	public String updateReading(@RequestParam Jwt token, @PathVariable Long mid, @RequestParam int value,
-			@PathVariable Long rid, @RequestParam String reason) {
-		return null;
+	public String updateReading(@RequestParam Jwt token, @PathVariable String mid, @RequestParam int value,
+			@PathVariable String rid, @RequestParam String reason) {
+		String closerId = token.getId();
+		Person person = personRepository.findById(closerId);
+		if (person.getRole().equals(Role.Admin)) {
+			Reading reading = readingRepository.findById(rid); //Wie hängen Meter und Reading zusammen? Gibt keine Association
+		}
 	}
 
 	/**

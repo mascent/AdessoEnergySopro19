@@ -1,5 +1,11 @@
 package de.sopro.controller;
 
+import java.awt.Image;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties.Jwt;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -9,7 +15,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import de.sopro.data.Meter;
+import de.sopro.data.MeterType;
+import de.sopro.data.Person;
 import de.sopro.data.Reading;
+import de.sopro.data.ReadingValue;
+import de.sopro.data.Role;
+import de.sopro.data.User;
+import de.sopro.data.UserMeterAssociation;
+import de.sopro.repository.MeterRepository;
+import de.sopro.repository.PersonRepository;
+import de.sopro.repository.ReadingRepository;
+import de.sopro.repository.UserRepository;
 
 /**
  * The meter controller contains operations to manage all requests belonging to
@@ -20,6 +37,18 @@ import de.sopro.data.Reading;
  */
 @Controller
 public class MeterController {
+
+	@Autowired
+	MeterRepository meterRepository;
+
+	@Autowired
+	ReadingRepository readingRepository;
+
+	@Autowired
+	PersonRepository personRepository;
+
+	@Autowired
+	UserRepository userRepository;
 
 	/**
 	 * This method allows an user to add a new reading to one of his meters or an
@@ -32,8 +61,25 @@ public class MeterController {
 	 * @return A boolean that shows if the adding was successful.
 	 */
 	@PostMapping("/api/meters/{mid}/readings")
-	public String addReading(@RequestParam Jwt token, @PathVariable Long mid, int value) {
-		return null;
+	public String addReading(@RequestParam Jwt token, @PathVariable String mid, int value) {
+		Meter meter = meterRepository.findById(mid); // Zähler finden //wie hier optional fixen?
+		List<Reading> readingsList = meter.getReadings(); // alle Stände des Zählers
+		int pos = readingsList.size() - 1;
+		Reading reading = readingsList.get(pos); // aktuellster Stand steht an letzter Stelle
+		List<ReadingValue> valuesList = reading.getReadingValues(); // alle Values des Standes bekommen (mehrere Stände
+																	// durch Update)
+		int pos1 = valuesList.size() - 1;
+		ReadingValue actualValue = valuesList.get(pos1); // aktuellsten Stand kriegen
+		int oldValue = actualValue.getValue(); // von dem den Wert auslesen, da Rest nicht interessiert
+		if (value >= oldValue) {
+			Reading newReading = new Reading();
+			String changerId = token.getId(); // hier gucken, wie das geht..
+			Date date = new Date();
+			ReadingValue newReadingValue = new ReadingValue(value, date, changerId);
+			List<ReadingValue> newValuesList = new ArrayList<>();
+			newValuesList.add(newReadingValue);
+			newReading.setReadingValues(newValuesList);
+		}
 	}
 
 	/**
@@ -46,8 +92,26 @@ public class MeterController {
 	 * @return A boolean that shows if the adding was successful.
 	 */
 	@PostMapping("/api/meters/{mid}/readings")
-	public String addReadingViaPicture(@RequestParam Jwt token, @PathVariable Long mid) {
-		return null;
+	public String addReadingViaPicture(@RequestParam Jwt token, @PathVariable Long mid, @RequestParam Image pic) {
+		int value = PictureController.analyze(token, pic);
+		Meter meter = meterRepository.findById(mid); // Zähler finden //wie hier optional fixen?
+		List<Reading> readingsList = meter.getReadings(); // alle Stände des Zählers
+		int pos = readingsList.size() - 1;
+		Reading reading = readingsList.get(pos); // aktuellster Stand steht an letzter Stelle
+		List<ReadingValue> valuesList = reading.getReadingValues(); // alle Values des Standes bekommen (mehrere Stände
+																	// durch Update)
+		int pos1 = valuesList.size() - 1;
+		ReadingValue actualValue = valuesList.get(pos1); // aktuellsten Stand kriegen
+		int oldValue = actualValue.getValue(); // von dem den Wert auslesen, da Rest nicht interessiert
+		if (value >= oldValue) {
+			Reading newReading = new Reading();
+			String changerId = token.getId(); // hier gucken, wie das geht..
+			Date date = new Date();
+			ReadingValue newReadingValue = new ReadingValue(value, date, changerId);
+			List<ReadingValue> newValuesList = new ArrayList<>();
+			newValuesList.add(newReadingValue);
+			newReading.setReadingValues(newValuesList);
+		}
 	}
 
 	/**
@@ -59,8 +123,19 @@ public class MeterController {
 	 * @return A list of readings and dates they were uploaded.
 	 */
 	@GetMapping("/api/meters/{mid}/readings")
-	public String lookUpReadings(@RequestParam Jwt token, @PathVariable Long mid) {
-		return null;
+	public List<Reading> lookUpReadings(@RequestParam Jwt token, @PathVariable String mid) {
+		String userId = token.getId(); // hier gucken, wie das geht..
+		Person person = personRepository.findById(userId);
+		if (person.getRole().equals(Role.Admin)) {
+			Meter newMeter = meterRepository.findById(mid);
+			List<Reading> readingList = newMeter.getReadings();
+			return readingList;
+		} else if (person.getRole().equals(Role.User)) { // hier noch Check ob User berechtigt ist, also ob sein Zähler,
+															// probably über UserMeterAssociation
+			Meter newMeter = meterRepository.findById(mid);
+			List<Reading> readingList = newMeter.getReadings();
+			return readingList;
+		}
 	}
 
 	/**
@@ -77,8 +152,19 @@ public class MeterController {
 	 */
 	@PostMapping("api/meters")
 	public String createMeter(@RequestParam Jwt token, @RequestParam String meterNumber,
-			@RequestParam Reading initialReading) {
-		return null;
+			@RequestParam int initialReading, MeterType meterType) {
+		if (!meterNumber.isEmpty() && initialReading >= 0 && (meterType.equals("Gas") || meterType.equals("Water") || meterType.equals("Electricity"))) {
+			String creatorId = token.getId(); //hier gucken, wie das geht..
+			Person person = personRepository.findById(creatorId);
+			if(person.getRole().equals(Role.Admin)) {
+				Meter meter = new Meter(meterNumber, initialReading, meterType)
+				String meterId = meter.getMeterId();
+				meterRepository.save(meter);
+				return meterId;
+			}
+			return null; //wahrscheinlich lieber Fehler
+		}
+		return null; //wahrscheinlich lieber Fehler
 	}
 
 	/**
@@ -95,9 +181,24 @@ public class MeterController {
 	 * @return The ID of the created meter.
 	 */
 	@PostMapping("api/meters")
-	public String createMeter(@RequestParam Jwt token, @RequestParam String meterNumber, @RequestParam Long uid,
-			@RequestParam Reading initialReading) {
-		return null;
+	public String createMeter(@RequestParam Jwt token, @RequestParam String meterNumber, @RequestParam String uid,
+			@RequestParam int initialReading, MeterType meterType) {
+		if (!meterNumber.isEmpty() && initialReading >= 0 && (meterType.equals("Gas") && meterType.equals("Water") && meterType.equals("Electricity"))) {
+			String creatorId = token.getId(); //hier gucken, wie das geht..
+			Person person = personRepository.findById(creatorId);
+			if(person.getRole().equals(Role.Admin)) {
+				Meter meter = new Meter(meterNumber, initialReading, meterType)
+				String meterId = meter.getMeterId();
+				meterRepository.save(meter);
+				User user = userRepository.findById(uid)
+				UserMeterAssociation connection = new UserMeterAssociation(user, meter);
+				return meterId;
+			}
+			return null; //wahrscheinlich lieber Fehler
+		}
+		return null; //wahrscheinlich lieber Fehler
+	}
+
 	}
 
 	// Hier unklar welches Attribut, definitiv adden oder Methode löschen.
@@ -109,8 +210,8 @@ public class MeterController {
 	 * @return A boolean that shows if the update was successful.
 	 */
 	@PutMapping("/api/meters/{mid}")
-	public String updateMeter(@RequestParam Jwt token, @PathVariable Long mid) {
-		return null;
+	public String updateMeter(@RequestParam Jwt token, @PathVariable String mid) {
+		return null; // Was wollen wir updaten?
 	}
 
 	/**
@@ -121,8 +222,14 @@ public class MeterController {
 	 * @return A boolean that shows if the update was successful.
 	 */
 	@DeleteMapping("/api/meters/{mid}")
-	public String deleteMeter(@RequestParam Jwt token, @PathVariable Long mid) {
-		return null;
+	public String deleteMeter(@RequestParam Jwt token, @PathVariable String mid) {
+		String deleterId = token.getId(); // hier gucken, wie das geht..
+		Person person = personRepository.findById(deleterId);
+		Meter meter = meterRepository.findById(mid);
+		if (person.getRole().equals(Role.Admin)) {
+			Date date = new Date();
+			meter.setDeletedAt(date);
+		}
 	}
 
 	/**
@@ -133,8 +240,14 @@ public class MeterController {
 	 * @return A list of meters.
 	 */
 	@GetMapping("/api/meters")
-	public String getMeters(@RequestParam Jwt token) {
-		return null;
+	public List<Meter> getMeters(@RequestParam Jwt token) {
+		String closerId = token.getId();
+		Person person = personRepository.findById(closerId);
+		if (person.getRole().equals(Role.Admin)) {
+			List<Meter> metersList = (List<Meter>) meterRepository.findAll();
+			return metersList;
+		}
+		return null; // lieber Fehler
 	}
 
 	/**
@@ -147,8 +260,15 @@ public class MeterController {
 	 *         no meter with the given ID exists.
 	 */
 	@GetMapping("api/meters/{mid}")
-	public String getMeter(@RequestParam Jwt token, @PathVariable Long mid) {
-		return null;
+	public Meter getMeter(@RequestParam Jwt token, @PathVariable String mid) {
+		String closerId = token.getId();
+		Person person = personRepository.findById(closerId);
+		if (person.getRole().equals(Role.Admin)) {
+			Meter meter = meterRepository.findById(mid);
+			return meter;
+		} else if (person.getRole().equals(Role.User)) { // nur wenn Zähler zu User gehört, über User Meter Asso
+			Meter meter = meterRepository.findById(mid);
+			return meter;
+		}
 	}
-
 }
