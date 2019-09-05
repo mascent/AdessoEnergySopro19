@@ -1,6 +1,8 @@
 package energy.adesso.adessoandroidapp.logic.model.identifiable;
 
 
+import energy.adesso.adessoandroidapp.logic.controller.MainController;
+
 public class Reading extends IdentifiableObject {
 
   private final String meterId;
@@ -22,7 +24,8 @@ public class Reading extends IdentifiableObject {
   }
 
   public void correct(String newValue) {
-//    TODO
+    this.value = newValue;
+    MainController.getInstance().correctReading(this);
   }
 
   public String getMeterId() {

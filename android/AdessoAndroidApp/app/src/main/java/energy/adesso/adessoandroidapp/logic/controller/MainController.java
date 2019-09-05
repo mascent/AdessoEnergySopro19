@@ -189,4 +189,10 @@ public class MainController {
     byte[] byteArray = byteArrayOutputStream.toByteArray();
     return Base64.encodeToString(byteArray, Base64.DEFAULT);
   }
+
+  public void correctReading(Reading reading) throws NetworkException {
+    String url = "/api/meters/<mid>/readings/" + reading.getId();
+    String json = reading.serialize();
+    NetworkController.put(url,json,token.getToken());
+  }
 }
