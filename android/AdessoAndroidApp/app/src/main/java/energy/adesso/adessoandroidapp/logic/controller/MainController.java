@@ -59,23 +59,13 @@ public class MainController {
   /**
    * gets all readings associated with the meter with the given ID
    *
-   * @param meterId the meter to get readings for
+   * @param readingId the meter to get readings for
    * @return the list of readings
    */
-  public List<Reading> getDetails(String meterId) throws NetworkException {
-    ArrayList<Reading> meterList = new ArrayList<Reading>();
-    int pageNumber = 0;
-    while (true) {
-      // get current page
-      String url = "/api/users/me/meters/" + meterId +"?" + pageNumber++;
-      String pagingString = NetworkController.get(url, token.getToken());
-      Type pagingType = new Paging<Reading>() {}.getClass();
-      Paging<Reading> paging = new Gson().fromJson(pagingString, pagingType);
-      List<Reading> content = Arrays.asList(paging.getContent());
-      meterList.addAll(content);
-      if (paging.isLast) break;
-    }
-    return meterList;
+  public List<Reading> getDetails(String readingId) throws NetworkException {
+    String request = "/api/users/me/readings/" + readingId;
+    List<Reading> readingList = new PagingHelper<Reading>().getAll(request,token);
+    return readingList;
   }
 
 
@@ -131,9 +121,9 @@ public class MainController {
 
   public void createReading(String mid, String value) throws NetworkException, CredentialException {
     String url = "/api/meters";
-    Reading reading = new Reading(null,mid, token.getUserId(), value);
+    Reading reading = new Reading(null, mid, token.getUserId(), value);
     String readingString = reading.serialize();
-    NetworkController.post(url,readingString, token.getToken());
+    NetworkController.post(url, readingString, token.getToken());
   }
 
   /**
@@ -145,26 +135,16 @@ public class MainController {
    * @throws CredentialException when the User is not logged in
    */
   public List<Meter> getOverview() throws NetworkException, CredentialException {
-    ArrayList<Meter> meterList = new ArrayList<Meter>();
-    int pageNumber = 0;
-    while (true) {
-      // get current page
-      String url = "/api/users/me/meters?" + pageNumber++;
-      String pagingString = NetworkController.get(url, token.getToken());
-      Type pagingType = new Paging<Meter>() {}.getClass();
-      Paging<Meter> paging = new Gson().fromJson(pagingString, pagingType);
-      List<Meter> content = Arrays.asList(paging.getContent());
-      meterList.addAll(content);
-      if (paging.isLast) break;
-    }
-
+    String request = "/api/users/me/meters/";
+    List<Meter> meterList = new PagingHelper<Meter>().getAll(request,token);
     return meterList;
+
   }
 
-  private String toBase64(Bitmap bitmap){
+  private String toBase64(Bitmap bitmap) {
     ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
     bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
-    byte[] byteArray = byteArrayOutputStream .toByteArray();
+    byte[] byteArray = byteArrayOutputStream.toByteArray();
     String encoded = Base64.encodeToString(byteArray, Base64.DEFAULT);
     return encoded;
   }
