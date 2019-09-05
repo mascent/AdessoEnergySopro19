@@ -10,14 +10,18 @@ public class Issue {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private String issueID;
 
+    @NotNull
 	private String name;
-
+    
+    @NotNull
 	private String subject;
 
+	@NotNull
 	private String message;
 	
 	private String closerId;
 	
+	@NotNull
 	private String issuerId;
 
 	public Issue(String issueID, String name, String subject, String message, String issuerId) {
