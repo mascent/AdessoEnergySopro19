@@ -3,12 +3,13 @@ package de.sopro.data;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 
 public class Issue {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private String issueId;
+	private String issueID;
 
     @NotNull
 	private String name;
