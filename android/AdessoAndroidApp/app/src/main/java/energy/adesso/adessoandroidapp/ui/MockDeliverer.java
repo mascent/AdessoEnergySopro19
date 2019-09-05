@@ -26,7 +26,7 @@ public class MockDeliverer {
     public static List<Meter> getMockMeterList()
     {
         DateTime time = DateTime.now();
-        Reading lastReading = new Reading("id1","id","id2","123456");
+        String lastReading = "12345,987";
         return Arrays.asList(new Meter[] {
                 new Meter("id",time, time, time,
                         "Hauptsitz", "98 762 244", MeterKind.ELECTRIC, "einowner", lastReading),

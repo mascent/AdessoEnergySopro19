@@ -206,15 +206,15 @@ public class MainActivity extends ListActivity {
 
         addListTitle("Strom", "kWh");
         for (Meter m : electricMeters)
-            addListElement(getDrawable(R.drawable.icon_electricity), m.getName(), m.getMeterNumber(), m.getLastReading(), onListElementClick);
+            addListElement(getDrawable(R.drawable.icon_electricity), m.getName(), m.getMeterNumber(), m.getLastReading().getValue(), onListElementClick);
         addListLine();
         addListTitle("Gas", "m³");
         for (Meter m : gasMeters)
-            addListElement(getDrawable(R.drawable.icon_gas), m.getName(), m.getMeterNumber(), m.getLastReading(), onListElementClick);
+            addListElement(getDrawable(R.drawable.icon_gas), m.getName(), m.getMeterNumber(), m.getLastReading().getValue(), onListElementClick);
         addListLine();
         addListTitle("Wasser", "m³");
         for (Meter m : waterMeters)
-            addListElement(getDrawable(R.drawable.icon_water), m.getName(), m.getMeterNumber(), m.getLastReading(), onListElementClick);
+            addListElement(getDrawable(R.drawable.icon_water), m.getName(), m.getMeterNumber(), m.getLastReading().getValue(), onListElementClick);
 
         Log.println(Log.INFO, "", "Added list elements");
     }

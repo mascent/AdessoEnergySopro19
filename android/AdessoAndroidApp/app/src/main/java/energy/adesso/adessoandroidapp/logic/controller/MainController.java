@@ -6,8 +6,13 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.util.Pair;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
+import java.util.HashMap;
 import java.util.List;
 
+import energy.adesso.adessoandroidapp.logic.model.Token;
 import energy.adesso.adessoandroidapp.logic.model.identifiable.Meter;
 import energy.adesso.adessoandroidapp.logic.model.identifiable.Reading;
 import energy.adesso.adessoandroidapp.logic.model.exception.*;
@@ -24,7 +29,7 @@ public class MainController {
   }
 
   public void init(SharedPreferences prefs) {
-    this.prefs = prefs;
+    PersistanceController.getInstance().init(prefs);
   }
 
   /**
@@ -34,9 +39,9 @@ public class MainController {
    */
   public static MainController getInstance() {
     if (instance != null)
-
       return instance;
-    return new MainController();
+    instance = new MainController();
+    return instance;
   }
 
   /**
@@ -52,13 +57,31 @@ public class MainController {
 
   /**
    * tries to log in with the given username and password.
+   *
    * @param username
    * @param password
    * @return
    * @throws NetworkException
    */
   public boolean login(String username, String password) throws NetworkException {
-    return false;
+    HashMap<String, String> map = new HashMap<String, String>();
+    map.put("username", username);
+    map.put("password", password);
+    String json = new Gson().toJson(map);
+    String tokenString = NetworkController.getInstance().post("/api/login",json);
+    PersistanceController.getInstance().save("token", tokenString);
+    Token theToken = new Gson().fromJson(tokenString, Token.class);
+
+    return true;
+  }
+
+  public void logOut() throws NetworkException {
+    String token = PersistanceController.getInstance().load("token");
+    HashMap<String, String> map = new HashMap<String, String>();
+    map.put("token", token);
+    String json = new Gson().toJson(map);
+    NetworkController.getInstance().put("/api/logout", json);
+    PersistanceController.getInstance().delete("token");
   }
 
   /**
@@ -86,7 +109,8 @@ public class MainController {
   }
 
   public String doStuff() {
-    return "zufjzcgh";
+    PersistanceController.getInstance().save("hello", "how are you");
+    return PersistanceController.getInstance().load("hello");
   }
 
   /**

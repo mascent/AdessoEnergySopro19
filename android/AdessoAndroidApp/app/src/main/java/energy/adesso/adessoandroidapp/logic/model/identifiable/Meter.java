@@ -27,16 +27,30 @@ public class Meter extends IdentifiableObject {
     this.kind = kind.name();
   }
 
+  public Meter(String id, DateTime createdAt, DateTime updatedAt, DateTime deletedAt, String name, String meterNumber, MeterKind kind,  String ownerId, String lastReading){
+    super(id,createdAt,updatedAt,deletedAt);
+    this.name = name;
+    this.ownerId = ownerId;
+    //TODO: remove this constructor when no longer needed
+    this.lastReading = new Reading("eineIDlol","eineID2lol","einownerLol", lastReading);
+    this.meterNumber = meterNumber;
+    this.kind = kind.name();
+  }
+
+  public static Meter deserialize(String source){
+    return gson.fromJson(source, Meter.class);
+  }
+
   public MeterKind getKind(){
     MeterKind re;
     switch(kind){
-      case "water":
+      case "WATER":
         re=MeterKind.WATER;
         break;
-      case "electric":
+      case "ELECTRIC":
         re=MeterKind.ELECTRIC;
         break;
-      case "gas":
+      case "GAS":
         re=MeterKind.GAS;
         break;
       default: throw new Error(); //TODO: find a better exception to throw
@@ -58,8 +72,8 @@ public class Meter extends IdentifiableObject {
     return ownerId;
   }
 
-  public String getLastReading() {
-    return lastReading.getValue();
+  public Reading getLastReading() {
+    return lastReading;
   }
 
   public String getMeterNumber() {

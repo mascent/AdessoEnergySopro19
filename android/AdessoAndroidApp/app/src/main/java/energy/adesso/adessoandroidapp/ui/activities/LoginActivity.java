@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,6 +24,8 @@ public class LoginActivity extends ParentActivity {
         setContentView(R.layout.activity_login);
 
         MainController.getInstance().init(getPreferences(Context.MODE_PRIVATE));
+        String s =MainController.getInstance().doStuff();
+        Log.println(Log.INFO,"gutentag",s);
 
         if (false) { // TODO: Login Check
             startNewActivity(MainActivity.class, Intent.FLAG_ACTIVITY_CLEAR_TASK);

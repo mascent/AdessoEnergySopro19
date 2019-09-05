@@ -17,6 +17,10 @@ public class Reading extends IdentifiableObject {
     this.value = value;
   }
 
+  public static Reading deserialize(String source){
+    return gson.fromJson(source, Reading.class);
+  }
+
   public void correct(String newValue) {
 //    TODO
   }

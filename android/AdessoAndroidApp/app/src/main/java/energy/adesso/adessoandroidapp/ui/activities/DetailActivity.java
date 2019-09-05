@@ -52,7 +52,7 @@ public class DetailActivity extends ListActivity {
         m = MainActivity.getMeter(getIntent().getStringExtra("number"));
         ((TextView)findViewById(R.id.name)).setText(m.name);
         ((TextView)findViewById(R.id.number)).setText(m.meterNumber);
-        ((TextView)findViewById(R.id.usage)).setText(m.getLastReading() +  " kWh");
+        ((TextView)findViewById(R.id.usage)).setText(m.getLastReading().getValue() +  " kWh");
 
         listReadings();
     }
