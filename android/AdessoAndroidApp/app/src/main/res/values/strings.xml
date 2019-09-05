@@ -28,4 +28,8 @@
     <string name="issue_toolbar_title">Kontakt</string>
     <string name="menu_main_logout">Log out</string>
     <string name="menu_main_choose_server_button">Server wählen</string>
+    <string name="detail_toolbar_title">Zählerdetails</string>
+    <string name="detail_edit_name_title">Zähler benennen</string>
+    <string name="detail_edit_name_text">Gib dem Zähler einen Namen</string>
+    <string name="dialog_set_meter_name">Gib dem Zähler einen Namen</string>
 </resources>

@@ -35,7 +35,6 @@ import energy.adesso.adessoandroidapp.ui.MockDeliverer;
 import energy.adesso.adessoandroidapp.ui.parents.ListActivity;
 
 public class MainActivity extends ListActivity {
-
     final Activity a = this;
     static List<Meter> meters;
     final int CAMERA_REQUEST_IMAGE_BITMAP = 1;
@@ -44,7 +43,6 @@ public class MainActivity extends ListActivity {
 
     // Events
     @Override protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -93,7 +91,7 @@ public class MainActivity extends ListActivity {
                 GALLERY_REQUEST_IMAGE_BITMAP);
     }
     void onImageReceived(Bitmap b) {
-        LinearLayout l = (LinearLayout)getLayoutInflater().inflate(R.layout.reading_check_layout,null);
+        LinearLayout l = (LinearLayout)getLayoutInflater().inflate(R.layout.dialog_reading_check,null);
         // TODO: Get Image data
 
         ((TextView)l.findViewById(R.id.number)).setText(R.string.not_implemented_message);
