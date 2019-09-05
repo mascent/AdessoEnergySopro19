@@ -3,10 +3,13 @@ import ReactDOM from 'react-dom';
 import App from './app';
 import * as serviceWorker from './service-worker';
 import './index.scss';
+import { AuthenticationProvider } from './providers/authentication-provider';
 
 ReactDOM.render(
   <StrictMode>
-    <App />
+    <AuthenticationProvider>
+      <App />
+    </AuthenticationProvider>
   </StrictMode>,
   document.getElementById('root')
 );

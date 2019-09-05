@@ -7,6 +7,8 @@ import React, {
 
 interface AuthenticationContext {
   token: string | null;
+  userId: string;
+  isAdmin: boolean;
   login: (username: string, password: string) => void;
   logout: () => void;
 }
@@ -28,12 +30,17 @@ function useToken() {
   return token;
 }
 
-const AuthenticationProvider: React.FC = ({ children }) => {
+export const AuthenticationProvider: React.FC = ({ children }) => {
   const token = useToken();
+  const [userId, setUserId] = useState<string>('');
+  const [isAdmin, setIsAdmin] = useState<boolean>(false);
 
   useLayoutEffect(() => {
     if (typeof token !== 'undefined' && token !== null) {
       // TODO: Set config token
+      // TODO: UserId and isAdmin has to be decoded from the jwt token
+      setUserId('sdjsdk');
+      setIsAdmin(false);
     }
   }, [token]);
 
@@ -44,14 +51,18 @@ const AuthenticationProvider: React.FC = ({ children }) => {
   const logout = useCallback(() => {}, []);
 
   return typeof token !== 'undefined' ? (
-    <AuthenticationContext.Provider value={{ token, login, logout }}>
+    <AuthenticationContext.Provider
+      value={{ token, userId, isAdmin, login, logout }}
+    >
       {children}
     </AuthenticationContext.Provider>
   ) : null;
 };
 
-function useAuth(): {
+export function useAuth(): {
   token: string | null;
+  userId: string;
+  isAdmin: boolean;
   login: (username: string, password: string) => void;
   logout: () => void;
 } {

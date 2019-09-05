@@ -1,20 +1,20 @@
 import React from 'react';
+import { useAuth } from './providers/authentication-provider';
+import UnAuthenticatedApp from './unauthenticated-app';
+import AdminApp from './admin-app';
+import UserApp from './user-app';
 
 const App: React.FC = () => {
-  return (
-    <div className="shopping-list">
-      <h1>Shopping List</h1>
-      <ul>
-        <li>Instagram</li>
-        <li>WhatsApp</li>
-        <li>Oculus</li>
-      </ul>
-      <ol>
-        <li>Test</li>
-        <li>Asd</li>
-      </ol>
-    </div>
-  );
+  const { token, isAdmin } = useAuth();
+
+  // Make sure that the user can only see areas of the app he is allowed to see
+  if (!token) {
+    return <UnAuthenticatedApp />;
+  } else if (isAdmin) {
+    return <AdminApp />;
+  } else {
+    return <UserApp />;
+  }
 };
 
 export default App;
