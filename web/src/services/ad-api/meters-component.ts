@@ -21,6 +21,19 @@ class MetersComponent extends AdessoEnergyApiComponent {
 
     return await result.json();
   }
+
+  public async updateMeter(
+    id: string,
+    meter: Partial<MeterDTO>
+  ): Promise<MeterDTO> {
+    const result = await this.put(`/api/meters/${id}`, meter);
+
+    if (!result.ok) {
+      throw new Error('A problem occurred with the request.');
+    }
+
+    return await result.json();
+  }
 }
 
 export default MetersComponent;
