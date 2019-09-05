@@ -8,7 +8,7 @@ public class Issue {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private String issueID;
+	private String issueId;
 
     @NotNull
 	private String name;
@@ -36,7 +36,7 @@ public class Issue {
 	}
 
 
-	public String getIssueID() {
+	public String getIssueId() {
 		return issueID;
 	}
 
