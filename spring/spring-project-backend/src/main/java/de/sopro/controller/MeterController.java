@@ -51,7 +51,7 @@ public class MeterController {
 	}
 
 	/**
-	 * This method allows an user or to look up all readings belonging to one of his
+	 * This method allows an user to look up all readings belonging to one of his
 	 * meters or an admin to look up all readings belonging to any meter.
 	 * 
 	 * @param token The JWT of the user/admin to authenticate himself.
