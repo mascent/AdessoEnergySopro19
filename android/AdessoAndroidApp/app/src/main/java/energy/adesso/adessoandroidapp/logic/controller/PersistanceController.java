@@ -23,7 +23,7 @@ public class PersistanceController {
   }
 
   public synchronized void save(String key, String value){
-    prefs.edit().putString(key,value).commit();
+    prefs.edit().putString(key,value).apply();
   }
 
   public synchronized String load(String key){
@@ -31,6 +31,6 @@ public class PersistanceController {
   }
 
   public synchronized void delete(String key){
-    prefs.edit().remove(key).commit();
+    prefs.edit().remove(key).apply();
   }
 }
