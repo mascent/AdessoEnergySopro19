@@ -104,8 +104,11 @@ public class MainController {
    * @param image the image to analyze
    * @return a Tuple of number, reading
    */
-  public Pair<Integer, Integer> azureAnalyze(Bitmap image) {
-    return null;
+  public Pair<Integer, Integer> azureAnalyze(Bitmap image) throws NetworkException {
+    String url = "api/picture";
+    String string = NetworkController.post(url,toBase64(image),token.getToken());
+    Type castType = new Pair<Integer, Integer>(0,0){}.getClass();
+    return new Gson().fromJson(string, castType);
   }
 
   /**
