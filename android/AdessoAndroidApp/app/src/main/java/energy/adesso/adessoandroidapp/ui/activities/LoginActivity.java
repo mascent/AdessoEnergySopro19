@@ -23,17 +23,19 @@ public class LoginActivity extends ParentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        if (false) { // TODO: Login Check
+        MainController.getInstance().init(getPreferences(Context.MODE_PRIVATE));
+
+        if (MainController.getInstance().isLoggedIn()) {
             startNewActivity(MainActivity.class, Intent.FLAG_ACTIVITY_CLEAR_TASK);
         }
     }
-
     public void onLoginClick(View view) {
         TextView num = (TextView)findViewById(R.id.number);
         TextView pass = (TextView)findViewById(R.id.pass);
 
         try {
-            if (MockDeliverer.login(num.getText().toString(), pass.getText().toString())){
+            if (MockDeliverer.login(num.getText().toString(), pass.getText().toString()) ||
+                login(num.getText().toString(), pass.getText().toString())) {
                 startNewActivity(MainActivity.class, Intent.FLAG_ACTIVITY_CLEAR_TASK);
             } else {
                 Toast.makeText(a, R.string.wrong_login, Toast.LENGTH_SHORT).show();
@@ -43,9 +45,17 @@ public class LoginActivity extends ParentActivity {
         num.setText("");
         pass.setText("");
     }
-
     public void onForgotPasswordClick(final View view) {
-        // TODO: Add pass_forgot Code
+        // TODO: Add pass_forgot
         Toast.makeText(a, R.string.not_implemented_message, Toast.LENGTH_SHORT).show();
+    }
+
+    boolean login(String username, String password) {
+        try {
+            MainController.getInstance().login(username, password);
+            return true;
+        } catch (AdessoException e) {
+            return false;
+        }
     }
 }

@@ -201,4 +201,8 @@ public class MainController {
     String json = meter.serialize();
     NetworkController.put(url,json,token.getToken());
   }
+
+    public boolean isLoggedIn() {
+    return false;
+    }
 }

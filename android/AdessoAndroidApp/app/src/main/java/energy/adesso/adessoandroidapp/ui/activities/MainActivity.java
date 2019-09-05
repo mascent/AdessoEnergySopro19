@@ -13,11 +13,14 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 
 import android.provider.MediaStore;
+import android.text.InputType;
 import android.util.Log;
+import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,9 +30,14 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
+import java.util.IllegalFormatException;
 import java.util.List;
 
 import energy.adesso.adessoandroidapp.R;
+import energy.adesso.adessoandroidapp.logic.controller.MainController;
+import energy.adesso.adessoandroidapp.logic.model.exception.AdessoException;
+import energy.adesso.adessoandroidapp.logic.model.exception.FormatException;
+import energy.adesso.adessoandroidapp.logic.model.exception.NetworkException;
 import energy.adesso.adessoandroidapp.logic.model.identifiable.Meter;
 import energy.adesso.adessoandroidapp.ui.MockDeliverer;
 import energy.adesso.adessoandroidapp.ui.parents.ListActivity;
@@ -49,8 +57,7 @@ public class MainActivity extends ListActivity {
         setSupportActionBar(toolbar);
 
         try {
-            // TODO: Get actual Meters
-            meters = MockDeliverer.getMockMeterList();
+            meters = MainController.getInstance().getOverview();
             showMeters(meters);
         } catch (Exception e) {
             Toast.makeText(this, "Couldn't get meters!", Toast.LENGTH_LONG);
@@ -91,25 +98,28 @@ public class MainActivity extends ListActivity {
                 GALLERY_REQUEST_IMAGE_BITMAP);
     }
     void onImageReceived(Bitmap b) {
-        LinearLayout l = (LinearLayout)getLayoutInflater().inflate(R.layout.dialog_reading_check,null);
-        // TODO: Get Image data
+        try {
+            LinearLayout l = (LinearLayout)getLayoutInflater().inflate(R.layout.dialog_reading_check,null);
+            Pair<Integer, Integer> p = MainController.getInstance().azureAnalyze(b);
 
-        ((TextView)l.findViewById(R.id.number)).setText(R.string.not_implemented_message);
-        ((TextView)l.findViewById(R.id.usage)).setText(R.string.not_implemented_message);
+            // TODO: remind richard that azureAnalyze should return the meter number and not the mid
 
-        new AlertDialog.Builder(this)
-                .setTitle(R.string.check_image)
-                .setCancelable(true)
-                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        // TODO: Send Image
+            ((TextView)l.findViewById(R.id.number)).setText(R.string.not_implemented_message);
+            ((TextView)l.findViewById(R.id.usage)).setText(p.second.toString());
 
-                    }
-                })
-                .setNegativeButton(R.string.cancel, null)
-                .setIcon(R.drawable.logo_drop)
-                .setView(l)
-                .show();
+            new AlertDialog.Builder(this)
+                    .setTitle(R.string.check_image)
+                    .setCancelable(true)
+                    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) { }
+                    })
+                    .setNegativeButton(R.string.cancel, null)
+                    .setIcon(R.drawable.logo_drop)
+                    .setView(l)
+                    .show();
+        } catch (AdessoException e) {
+            Toast.makeText(this, R.string.generic_error_message, Toast.LENGTH_SHORT);
+        }
     }
     @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.println(Log.INFO, "", "ActivityResult: " +
@@ -152,7 +162,35 @@ public class MainActivity extends ListActivity {
                 showLogoutMenu();
                 return true;
             case R.id.choose_server:
-                // TODO: Choose server?
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle(R.string.new_input_title);
+
+                // Set up textbox
+                final EditText input = new EditText(this);
+                input.setInputType(InputType.TYPE_CLASS_TEXT);
+                input.setPadding(24,24,24,24);
+                input.layout(24,24,24,24);
+                builder.setView(input);
+
+                // Set up events
+                builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        try {
+                            MainController.getInstance().setServer(input.getText().toString());
+                        } catch (IllegalFormatException e) {
+                            Toast.makeText(a, R.string.generic_error_message, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+                builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+                builder.show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -166,7 +204,9 @@ public class MainActivity extends ListActivity {
                 .setCancelable(true)
                 .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        // TODO: Logout?
+                        try {
+                            MainController.getInstance().logOut();
+                        } catch (AdessoException e) { }
                         finish();
                         System.exit(0);
                     }
