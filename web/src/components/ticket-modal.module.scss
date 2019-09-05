@@ -6,5 +6,8 @@
 .message {
   width: $spacing-384;
   word-wrap: break-word;
-  padding-bottom: $spacing-128;
+  line-break: auto;
+  height: $spacing-128;
+  line-height: $spacing-128;
+  font-family: $fontFamily;
 }

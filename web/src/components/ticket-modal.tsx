@@ -5,6 +5,7 @@ import Input from './generics/input';
 import Modal, { ModalBody, ModalFooter } from './generics/modal';
 import { useInputValidation } from 'use-input-validation';
 import styles from './ticket-modal.module.scss';
+import Textarea from './generics/textarea';
 
 interface TicketModalProps {
   onSend: (
@@ -17,6 +18,15 @@ interface TicketModalProps {
   closeModal: () => void;
 }
 
+function isEmpty(text: string) {
+  return text !== '';
+}
+
+function validateEmail(email: string) {
+  var re = /\S+@\S+\.\S+/;
+  return re.test(email);
+}
+
 const TicketModal: React.FC<TicketModalProps> = ({
   closeModal,
   isOpen,
@@ -26,21 +36,17 @@ const TicketModal: React.FC<TicketModalProps> = ({
 
   const ref = React.useRef(null);
 
-  const name = useInputValidation('', 'Kein valider Name', value => true);
+  const name = useInputValidation('', 'Kein valider Name', isEmpty);
 
   const email = useInputValidation(
     '',
     'Keine valide Email-Adresse',
-    value => true
+    validateEmail && isEmpty
   );
 
-  const subject = useInputValidation('', 'Kein valider Betreff', value => true);
+  const subject = useInputValidation('', 'Kein valider Betreff', isEmpty);
 
-  const message = useInputValidation(
-    '',
-    'Keine valide Nachricht',
-    value => true
-  );
+  const message = useInputValidation('', 'Keine valide Nachricht', isEmpty);
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -104,10 +110,10 @@ const TicketModal: React.FC<TicketModalProps> = ({
             error={subject.error}
           />
 
-          <Input
+          <Textarea
             id="Message"
             label="Nachricht"
-            type="textbox"
+            type="textarea"
             value={message.value}
             onChange={value => message.setValue(value)}
             onBlur={message.validate}
