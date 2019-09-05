@@ -3,6 +3,8 @@ package de.sopro.data;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 
 @Entity
 public class User extends Person{

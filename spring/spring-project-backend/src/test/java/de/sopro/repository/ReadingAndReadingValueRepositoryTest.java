@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import de.sopro.data.Reading;
 import de.sopro.data.ReadingValue;
 
@@ -37,11 +39,9 @@ public class ReadingAndReadingValueRepositoryTest {
 		@Test
 		public void testBooksArePersistedWithAuthor() throws Exception {
 
-			assertTrue("Reading #" + reading.getReadingID() + " exists in database",
-					readingRepository.existsById(reading.getReadingID()));
+			assertTrue(readingRepository.existsById(reading.getReadingID()), "Reading #" + reading.getReadingID() + " exists in database");
 			for (ReadingValue rv : reading.getReadingValues()) {
-				assertTrue("Reading Value #" + rv.getReadingValueID() + " exists in database",
-						readingValueRepository.existsById(rv.getReadingValueID()));
+				assertTrue(readingValueRepository.existsById(rv.getReadingValueID()), "Reading Value #" + rv.getReadingValueID() + " exists in database");
 			}
 		}
 		
