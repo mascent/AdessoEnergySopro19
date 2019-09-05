@@ -30,16 +30,15 @@ public class MainController {
   private Token refreshToken = null;
   private String uid;
 
+  // Private because of singleton pattern
   private MainController() {
 
   }
 
   public void init(SharedPreferences prefs) {
+    // init Persistance
     PersistanceController.getInstance().init(prefs);
 
-    String tokenString = PersistanceController.getInstance().load("token");
-    if (tokenString != null)
-      token = (Token) Token.deserialize(tokenString);
 
     NetworkController.setAddress(PersistanceController.getInstance().load("address"));
     token = (Token) Token.deserialize(PersistanceController.getInstance().load("token"));
@@ -62,11 +61,13 @@ public class MainController {
   /**
    * gets all readings associated with the meter with the given ID
    *
-   * @param readingId the meter to get readings for
+   * @param meterId the meter to get readings for
    * @return the list of readings
+   * @throws NetworkException
+   * @throws CredentialException when not logged in
    */
-  public List<Reading> getDetails(String readingId) throws NetworkException {
-    String request = "/api/users/me/readings/" + readingId;
+  public List<Reading> getReadings(String meterId) throws NetworkException, CredentialException {
+    String request = "/api/users/me/readings/" + meterId;
     List<Reading> readingList = new PagingHelper<Reading>().getAll(request, token);
     return readingList;
   }
@@ -77,34 +78,45 @@ public class MainController {
    *
    * @param username
    * @param password
-   * @return
    * @throws NetworkException
    */
-  public boolean login(String username, String password) throws NetworkException {
+  public void login(String username, String password) throws NetworkException {
+    // Send
     HashMap<String, String> map = new HashMap<String, String>();
     map.put("username", username);
     map.put("password", password);
     String json = new Gson().toJson(map);
     String reString = NetworkController.post("/api/login", json, null);
-    HashMap<String, String> re = new HashMap<String, String>();
-    re = new Gson().fromJson(reString, re.getClass());
+
+    // Save locally
+    Type castType = new HashMap<String, String>() {
+    }.getClass();
+    HashMap<String, String> re = new Gson().fromJson(reString, castType);
     token = (Token) Token.deserialize(re.get("token"));
     refreshToken = (Token) Token.deserialize(re.get("refreshToken"));
     uid = re.get("uid");
 
+    // Save persistently
     PersistanceController.getInstance().save("token", re.get("token"));
     PersistanceController.getInstance().save("refreshToken", re.get("refreshToken"));
     PersistanceController.getInstance().save("uid", re.get("uid"));
 
-    return true;
   }
 
   public void logOut() throws NetworkException {
+    // Send Request to Server
     String tokenString = token.getToken();
     HashMap<String, String> map = new HashMap<String, String>();
     map.put("token", tokenString);
     String json = new Gson().toJson(map);
     NetworkController.put("/api/logout", json, token.getToken());
+
+    // Clear Local Vars
+    token = null;
+    refreshToken = null;
+    uid = null;
+
+    // Clear Persistant Vars
     PersistanceController.getInstance().delete("token");
     PersistanceController.getInstance().delete("refreshToken");
     PersistanceController.getInstance().delete("uid");
@@ -115,8 +127,10 @@ public class MainController {
    *
    * @param image the image to analyze
    * @return a Tuple of number, reading
+   * @throws CredentialException when not logged in
    */
-  public Pair<Integer, Integer> azureAnalyze(Bitmap image) throws NetworkException {
+  public Pair<Integer, Integer> azureAnalyze(Bitmap image) throws NetworkException, CredentialException {
+    // TODO this is def. wrong
     String url = "api/picture";
     String string = NetworkController.post(url, toBase64(image), token.getToken());
     Type castType = new Pair<Integer, Integer>(0, 0) {
@@ -127,12 +141,16 @@ public class MainController {
   /**
    * Sets the ip to send requests to
    *
-   * @param address the ip tp connect to
+   * @param newAddress the ip tp connect to
    * @throws NetworkException when the Network is faulty
    */
-  public void setServer(String address) {
-    PersistanceController.getInstance().save("address", address);
-    NetworkController.setAddress(address);
+  public void setServer(String newAddress) {
+    if(newAddress == null)
+      PersistanceController.getInstance().delete("address");
+    else
+      PersistanceController.getInstance().save("address", newAddress);
+
+    NetworkController.setAddress(newAddress);
   }
 
   public void createReading(String mid, String value) throws NetworkException, CredentialException {
@@ -151,17 +169,18 @@ public class MainController {
    * @throws CredentialException when the User is not logged in
    */
   public List<Meter> getOverview() throws NetworkException, CredentialException {
-    String request = "/api/users/me/meters/";
-    List<Meter> meterList = new PagingHelper<Meter>().getAll(request, token);
-    return meterList;
 
+    String request = "/api/users/me/meters/";
+    return new PagingHelper<Meter>().getAll(request, token);
   }
 
+  /**
+   * Converts a bitmap to Base64 String
+   */
   private String toBase64(Bitmap bitmap) {
     ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
     bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
     byte[] byteArray = byteArrayOutputStream.toByteArray();
-    String encoded = Base64.encodeToString(byteArray, Base64.DEFAULT);
-    return encoded;
+    return Base64.encodeToString(byteArray, Base64.DEFAULT);
   }
 }

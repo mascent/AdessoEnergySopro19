@@ -10,8 +10,13 @@ public class SerializableObject {
   }
 
   public static Object deserialize(String source){
-    Class currentClass = new Object(){}.getClass().getEnclosingClass();
-    return gson.fromJson(source, currentClass);
+    try {
+      Class currentClass = new Object() {
+      }.getClass().getEnclosingClass();
+      return gson.fromJson(source, currentClass);
+    } catch (Exception e){
+      return null;
+    }
   }
 
 }

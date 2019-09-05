@@ -4,7 +4,12 @@ import androidx.annotation.Nullable;
 
 import org.joda.time.DateTime;
 
+import java.util.List;
+
+import energy.adesso.adessoandroidapp.logic.controller.MainController;
 import energy.adesso.adessoandroidapp.logic.model.MeterKind;
+import energy.adesso.adessoandroidapp.logic.model.exception.CredentialException;
+import energy.adesso.adessoandroidapp.logic.model.exception.NetworkException;
 
 public class Meter extends IdentifiableObject {
   private String kind;
@@ -78,5 +83,9 @@ public class Meter extends IdentifiableObject {
 
   public String getMeterNumber() {
     return meterNumber;
+  }
+
+  public List<Reading> getReadings() throws CredentialException, NetworkException {
+    return MainController.getInstance().getReadings(this.getId());
   }
 }
