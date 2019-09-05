@@ -6,6 +6,7 @@ import Modal, { ModalBody, ModalFooter } from './generics/modal';
 import { useInputValidation } from 'use-input-validation';
 import styles from './ticket-modal.module.scss';
 import Textarea from './generics/textarea';
+import { validateEmail } from '../lib/validators';
 
 interface TicketModalProps {
   onSend: (
@@ -22,18 +23,11 @@ function isEmpty(text: string) {
   return text !== '';
 }
 
-function validateEmail(email: string) {
-  var re = /\S+@\S+\.\S+/;
-  return re.test(email);
-}
-
 const TicketModal: React.FC<TicketModalProps> = ({
   closeModal,
   isOpen,
   onSend
 }) => {
-  const [value, setValue] = React.useState([]);
-
   const ref = React.useRef(null);
 
   const name = useInputValidation<string, string>(
@@ -45,7 +39,7 @@ const TicketModal: React.FC<TicketModalProps> = ({
   const email = useInputValidation<string, string>(
     '',
     'Keine valide Email-Adresse',
-    validateEmail && isEmpty
+    validateEmail
   );
 
   const subject = useInputValidation<string, string>(
