@@ -1,6 +1,6 @@
 interface Status {
   saving: boolean;
-  saveError: Error;
+  saveError: Error | null;
   changed: boolean;
   lastFetched: Date;
 }
