@@ -1,5 +1,4 @@
 // TODO: throws and param annotation
-// TODO set ip
 
 package energy.adesso.adessoandroidapp.logic.controller;
 
@@ -16,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import energy.adesso.adessoandroidapp.logic.model.Token;
+import energy.adesso.adessoandroidapp.logic.model.identifiable.Issue;
 import energy.adesso.adessoandroidapp.logic.model.identifiable.Meter;
 import energy.adesso.adessoandroidapp.logic.model.identifiable.Reading;
 import energy.adesso.adessoandroidapp.logic.model.exception.*;
@@ -33,6 +33,12 @@ public class MainController {
   // Private because of singleton pattern
   private MainController() {
 
+  }
+
+  public void sendIssue(Issue issue) throws NetworkException {
+    String json = issue.serialize();
+    String url = "api/issues";
+    NetworkController.post(url,json,token.getToken());
   }
 
   public void init(SharedPreferences prefs) {
