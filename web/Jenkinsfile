@@ -11,7 +11,7 @@ pipeline{
         }
         stage('test') {
             steps {
-                sh 'cd web && npm test'
+                sh 'cd web && npm run test:coverage'
             }
         }
     }
