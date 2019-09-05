@@ -5,6 +5,7 @@ public class Token extends SerializableObject{
   String ExpirationDate;
   String renew;
   String Role;
+  String userId;
   public boolean hasExpired() {
     // TODO: implement
     return false;
@@ -24,5 +25,9 @@ public class Token extends SerializableObject{
 
   public String getRole() {
     return Role;
+  }
+
+  public String getUserId() {
+    return userId;
   }
 }
