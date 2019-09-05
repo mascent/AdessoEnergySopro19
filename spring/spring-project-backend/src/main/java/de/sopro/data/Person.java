@@ -18,10 +18,14 @@ public class Person {
 	@Id @GeneratedValue(strategy = GenerationType.AUTO)
 	private String personID;
 	
+	@NotNull
 	private String username;
 	
+	@NotNull
+	@Size(min = 8, max = 50)
 	private String password;
 	
+    @NotNull
 	private Role role;
 
 	public String getPersonID() {
