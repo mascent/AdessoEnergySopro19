@@ -16,21 +16,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="@string/app_name" />
+        app:title="@string/issue_toolbar_title" />
 
     <LinearLayout
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
         android:gravity="center"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:paddingTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/issue_toolbar">
 
         <EditText
             android:id="@+id/name"
@@ -38,7 +36,8 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="@string/issue_textbox_name"
-            android:inputType="textPersonName" />
+            android:inputType="textPersonName"
+            android:singleLine="true" />
 
         <EditText
             android:id="@+id/email"
@@ -46,7 +45,8 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="@string/issue_textbox_email"
-            android:inputType="textPersonName" />
+            android:inputType="textEmailAddress"
+            android:singleLine="true" />
 
         <EditText
             android:id="@+id/subject"
@@ -54,7 +54,8 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="@string/issue_textbox_subject"
-            android:inputType="textPersonName" />
+            android:inputType="textShortMessage"
+            android:singleLine="true" />
 
         <EditText
             android:id="@+id/message"
@@ -62,7 +63,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="@string/issue_textbox_message"
-            android:inputType="textPersonName" />
+            android:inputType="textMultiLine" />
 
         <Button
             android:id="@+id/send"

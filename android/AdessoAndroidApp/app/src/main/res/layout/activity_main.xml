@@ -27,8 +27,9 @@
             android:theme="@style/AppTheme"
             app:contentInsetStart="16dp"
             app:contentInsetStartWithNavigation="16dp"
-            app:title="@string/title_bar"
-            app:titleTextColor="@color/colorPrimary" />
+            app:title="@string/app_name"
+            app:titleTextColor="@color/colorPrimary" >
+        </androidx.appcompat.widget.Toolbar>
 
     </com.google.android.material.appbar.AppBarLayout>
 

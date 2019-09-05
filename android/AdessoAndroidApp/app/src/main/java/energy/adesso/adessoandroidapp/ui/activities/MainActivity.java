@@ -14,6 +14,9 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -135,6 +138,30 @@ public class MainActivity extends ListActivity {
         }
     }
     @Override public void onBackPressed() {
+        showLogoutMenu();
+    }
+    @Override public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
+        return true;
+    }
+    @Override public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.issue:
+                startNewActivity(IssueActivity.class);
+                return true;
+            case R.id.logout:
+                showLogoutMenu();
+                return true;
+            case R.id.choose_server:
+                // TODO: Choose server?
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    void showLogoutMenu() {
         new AlertDialog.Builder(this)
                 .setTitle(R.string.logout_title)
                 .setMessage(R.string.logout_text)
