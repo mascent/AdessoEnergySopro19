@@ -12,8 +12,19 @@ import javax.persistence.ManyToOne;
 @Entity
 public class UserMeterAssociation {
 
+public UserMeterAssociation(User user, Meter meter) {
+	this.user = user;
+	this.meter=meter;
+	// beginOfAssociation = now; 
+}
+	
+
 @ManyToOne
 private User user;
+
+@ManyToOne
+private Meter meter;
+
 public User getUser() {
 	return user;
 }
@@ -30,8 +41,6 @@ public void setMeter(Meter meter) {
 	this.meter = meter;
 }
 
-private Meter meter;
-	
 @Id @GeneratedValue(strategy = GenerationType.AUTO)
 private String aID;
 

@@ -12,9 +12,13 @@ import javax.persistence.OneToMany;
 
 @Entity
 public class Adress {
+	
+public Adress() {
+	meters = new ArrayList<Meter>();
+}
 
 @OneToMany(mappedBy = "adress", cascade=CascadeType.ALL)
-private List<Meter> meters = new ArrayList<Meter>();
+private List<Meter> meters;
 
 public List<Meter> getMeters() {
 	return meters;
@@ -24,9 +28,9 @@ public void setMeters(List<Meter> meters) {
 	this.meters = meters;
 }
 
+@Id @GeneratedValue(strategy = GenerationType.AUTO)
 private String adressID;
 
-@Id @GeneratedValue(strategy = GenerationType.AUTO)
 public String getAdressID() {
 	return adressID;
 }
