@@ -35,7 +35,7 @@ public class LoginActivity extends ParentActivity {
                     ((TextView)findViewById(R.id.pass)).getText().toString())){
                 startNewActivity(MainActivity.class, Intent.FLAG_ACTIVITY_CLEAR_TASK);
             } else {
-                Toast.makeText(a, "That's the wrong Password", Toast.LENGTH_SHORT).show();
+                Toast.makeText(a, R.string.wrong_login, Toast.LENGTH_SHORT).show();
             }
         } catch (AdessoException e)  { }
     }
