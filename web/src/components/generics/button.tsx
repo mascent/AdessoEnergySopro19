@@ -7,15 +7,17 @@ interface ButtonProps {
   disabled?: boolean;
   className?: string;
   children?: React.ReactNode;
+  title?: string;
 }
 
 const InvButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ onClick, children, className }, ref) => {
+  ({ onClick, children, className, title }, ref) => {
     return (
       <button
         ref={ref}
         className={cx(styles.invButton, className)}
         onClick={onClick}
+        title={title}
       >
         {children}
       </button>

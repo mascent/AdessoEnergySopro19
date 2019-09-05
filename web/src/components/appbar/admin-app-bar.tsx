@@ -9,17 +9,20 @@ import { InvButton } from '../generics/button';
 const AdminAppBar: React.FC = () => {
   return (
     <div className={styles.adminAppBar}>
-      <Logo className={styles.logo} type="with-bg" />
-      <div className={styles.icons}>
-        <InvButton onClick={() => console.log('test')}>
-          <AccountMultiple color="white" />
+      <div className={styles.topContainer}>
+        <Logo className={styles.logo} type="with-bg" />
+        <InvButton
+          title="Benutzer anzeigen"
+          onClick={() => console.log('test')}
+        >
+          <AccountMultiple />
         </InvButton>
-        <InvButton onClick={() => console.log('test')}>
-          <TicketConfirmation color="white" />
+        <InvButton title="Tickets anzeigen" onClick={() => console.log('test')}>
+          <TicketConfirmation />
         </InvButton>
       </div>
-      <InvButton onClick={() => console.log('test')}>
-        <Logout color="white" />
+      <InvButton title="Ausloggen" onClick={() => console.log('test')}>
+        <Logout />
       </InvButton>
     </div>
   );

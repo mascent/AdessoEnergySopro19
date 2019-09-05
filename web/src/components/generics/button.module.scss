@@ -60,17 +60,19 @@
 }
 
 .invButton {
-  @extend %font-section-header;
+  box-sizing: border-box;
   line-height: 1;
-  color: $color-white;
+  color: $color-grey-300;
   background-color: transparent;
   border: none;
   cursor: pointer;
   transition: all 200ms ease-in-out;
   outline-color: $color-blue-500;
+  padding: $spacing-8;
+  border-radius: 4px;
 
   &:hover {
-    box-shadow: $shadow-200;
-    background-color: $color-blue-600;
+    color: $color-grey-100;
+    background-color: $color-blue-500;
   }
 }

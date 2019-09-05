@@ -8,13 +8,20 @@ import { InvButton } from '../generics/button';
 const UserAppBar: React.FC = () => {
   return (
     <div className={styles.userAppBar}>
-      <Title className={styles.title}> adesso energy </Title>
-      <InvButton onClick={() => console.log('test')}>
-        <EmailOutline className={styles.emailButton} color="white" />
-      </InvButton>
-      <InvButton onClick={() => console.log('test')}>
-        <Logout color="white" />
-      </InvButton>
+      <nav className={styles.navigation}>
+        <Title className={styles.title}>adesso energy</Title>
+        <div>
+          <InvButton
+            className={styles.emailButton}
+            onClick={() => console.log('test')}
+          >
+            <EmailOutline />
+          </InvButton>
+          <InvButton onClick={() => console.log('test')}>
+            <Logout />
+          </InvButton>
+        </div>
+      </nav>
     </div>
   );
 };
