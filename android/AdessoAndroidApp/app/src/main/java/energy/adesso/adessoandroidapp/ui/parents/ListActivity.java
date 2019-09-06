@@ -10,7 +10,6 @@ import energy.adesso.adessoandroidapp.R;
 import energy.adesso.adessoandroidapp.logic.model.MeterKind;
 
 public abstract class ListActivity extends ParentActivity {
-
     protected LinearLayout getList()
     {
         return (LinearLayout)findViewById(R.id.list);
@@ -66,11 +65,6 @@ public abstract class ListActivity extends ParentActivity {
         return ((TextView)
                 ((LinearLayout) ((LinearLayout)elementView).getChildAt(1) ).
                 getChildAt(1) ).
-                getText().
-                toString();
-    }
-    protected String getListElementUsage(View elementView) {
-        return ((TextView) ((LinearLayout)elementView).getChildAt(2) ).
                 getText().
                 toString();
     }

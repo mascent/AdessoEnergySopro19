@@ -25,7 +25,8 @@ public class LoginActivity extends ParentActivity {
         MainController.init(getPreferences(Context.MODE_PRIVATE));
 
         if (MockController.isLoggedIn()) {
-            startNewActivity(MainActivity.class, Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(new Intent(a, MainActivity.class).
+                addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK));
         }
     }
     public void onLoginClick(View view) {
@@ -33,7 +34,8 @@ public class LoginActivity extends ParentActivity {
         TextView pass = (TextView)findViewById(R.id.pass);
 
         if (login(num.getText().toString(), pass.getText().toString())) {
-            startNewActivity(MainActivity.class, Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(new Intent(a, MainActivity.class).
+                addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK));
         } else {
             Toast.makeText(a, R.string.wrong_login, Toast.LENGTH_SHORT).show();
         }

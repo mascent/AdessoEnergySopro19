@@ -56,15 +56,6 @@ public class DetailActivity extends ListActivity {
 
         listReadings();
     }
-    @Override public boolean onCreateOptionsMenu(Menu menu) {
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setOverflowIcon(getDrawable(R.drawable.icon_edit));
-        return true;
-    }
-    @Override public boolean onOptionsItemSelected(MenuItem item) {
-
-        return true;
-    }
     public void onNewEntryClick(View view){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.new_input_title);

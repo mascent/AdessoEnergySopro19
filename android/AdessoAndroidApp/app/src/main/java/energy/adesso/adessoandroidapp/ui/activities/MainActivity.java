@@ -63,7 +63,9 @@ public class MainActivity extends ListActivity {
     final View.OnClickListener onListElementClick = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            startNewActivity(DetailActivity.class, "number", getListElementNumber(view)); }
+            startActivity(new Intent(a, DetailActivity.class).
+                putExtra("number", getListElementNumber(view)));
+        }
     };
     public void onFABClick(View view) {
         new AlertDialog.Builder(this)
@@ -153,7 +155,7 @@ public class MainActivity extends ListActivity {
     @Override public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.issue:
-                startNewActivity(IssueActivity.class);
+                startActivity(new Intent(a, IssueActivity.class));
                 return true;
             case R.id.logout:
                 showLogoutMenu();
