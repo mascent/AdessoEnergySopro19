@@ -2,7 +2,11 @@ package de.sopro.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -42,8 +46,8 @@ public class UserController {
 	MeterRepository meterRepository;
 
 	@GetMapping("/api/users")
-	public String getUsers() {
-		return "test";
+	public Iterable<User> getUsers() {
+		return userRepository.findAll();
 	}
 
 	/**
@@ -68,11 +72,17 @@ public class UserController {
 	 * 
 	 * @param token The JWT of the admin to authenticate himself.
 	 * @param uid   The ID of the user that should be deleted.
+	 * @return
 	 * @return A boolean that shows if the deletion was successful.
 	 */
-	@DeleteMapping("api/users/{uid}")
-	public String deleteUser(@PathVariable Long uid) {
-		return null;
+	@DeleteMapping("api/users")
+	public boolean deleteUser(@RequestParam Integer uid) {
+
+		if (userRepository.existsById(uid)) {
+			userRepository.deleteById(uid);
+		}
+
+		return userRepository.existsById(uid);
 	}
 
 //	/**
@@ -89,7 +99,7 @@ public class UserController {
 //	public String updateUserName(@RequestParam String name, @PathVariable Long uid) {
 //		return null;
 //	}
-	public String deleteUser(@PathVariable String uid) {
+	// public String deleteUser(@PathVariable String uid) {
 //		String deleterId = token.getId(); // hier gucken, wie das geht..
 //		Person person = personRepository.findById(deleterId);
 //		User user = userRepository.findById(uid);
@@ -97,8 +107,8 @@ public class UserController {
 //			Date date = new Date();
 //			user.setDeletedAt(date);
 //		}
-		return null;
-	}
+//		return null;
+//	}
 
 	/**
 	 * This method allows an admin to change the surname of an existing user in the
@@ -207,6 +217,12 @@ public class UserController {
 //	public String addMetersToUser(@RequestParam List<Meter> meterIDs, @PathVariable Long uid) {
 //		return null;
 //	}
+
+	@GetMapping("/api/users/me")
+	public User getOwnData(HttpServletRequest request) {
+
+		return null;
+	}
 
 //	/**
 //	 * This method allows an admin to delete meters from an user account. So to

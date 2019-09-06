@@ -18,6 +18,10 @@ public class User extends Person {
 		// createdAt = now;
 	}
 
+	public User() {
+		super();
+	}
+
 	@NotNull
 	private String name;
 

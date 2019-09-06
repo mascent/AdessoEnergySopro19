@@ -1,13 +1,31 @@
 package de.sopro.data;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
+@Table(name="person")
 public class Person {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	Integer personID;
+
+	@NotNull    
+	@Column(nullable = false, unique = true)
+	private String username;
+
+	@NotNull
+	@Size(min = 8, max = 50)
+	private String password;
+
+	private Role role;
 
 	public Person(String username, String password, Role role) {
 		this.role = role;
@@ -15,18 +33,9 @@ public class Person {
 		this.password = password;
 	}
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	Integer personID;
+	public Person() {
 
-	@NotNull
-	private String username;
-
-	@NotNull
-	// @Size(min = 8, max = 50)
-	private String password;
-
-	private Role role;
+	}
 
 	public Integer getPersonID() {
 		return personID;
