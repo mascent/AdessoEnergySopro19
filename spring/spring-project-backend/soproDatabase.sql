@@ -2,8 +2,8 @@ CREATE TABLE person (
   personID  varchar PRIMARY KEY CHECK personID NOT LIKE '%[^0-9]%',
   userName  varchar NOT NULL CHECK userName NOT LIKE '%[^0-9a-z]%',
   password  varchar NOT NULL CONSTRAINT safe_password CHECK (password LIKE '%[0-9]%' AND password LIKE '%[A-Z]%' collate Latin1_General_BIN2 AND password LIKE '%[!@#$%a^&*()-_+=.,;:"`~]%' AND len([password])>= (8)),
-  role  varchar CHECK NOT NULL (role = "Admin" OR role = "User") ,
-  createdAt  date NOT NULL,
+  role  varchar CHECK (role = "Admin" OR role = "User") ,
+  createdAt  date,
   updatedAt  date,
   deletedAt  date
 );

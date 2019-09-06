@@ -18,23 +18,23 @@ public class Person {
 	
 
 	@Id @GeneratedValue(strategy = GenerationType.AUTO)
-	private String personID;
+	Integer personID;
 	
 	@NotNull
 	private String username;
 	
 	@NotNull
-	@Size(min = 8, max = 50)
+	//@Size(min = 8, max = 50)
 	private String password;
+
 	
-    @NotNull
 	private Role role;
 
-	public String getPersonID() {
+	public Integer getPersonID() {
 		return personID;
 	}
 
-	public void setPersonID(String personID) {
+	public void setPersonID(Integer personID) {
 		this.personID = personID;
 	}
 

@@ -24,20 +24,15 @@ public User(String name,
 	// createdAt = now;
 }
 
-@NotNull
 private String name;
 
-@NotNull
 private String surname;
 
-@NotNull
 private String eMailAdress;
 
 @NotNull
 private String userNumber;
 
-@Past
-@NotNull
 private Date createdAt;
 
 private Date deleatedAt;

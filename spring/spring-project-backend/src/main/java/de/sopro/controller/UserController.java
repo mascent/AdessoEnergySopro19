@@ -64,20 +64,20 @@ public class UserController {
 		return null;
 	}
 
-	/**
-	 * This method allows an admin to change the name of an existing user in the
-	 * database.
-	 * 
-	 * @param token The JWT of the admin to authenticate himself.
-	 * @param name  The new name that should occure in the database entry of that
-	 *              user.
-	 * @param uid   The ID of the user whose name should be changed.
-	 * @return A boolean that shows if the change was successful.
-	 */
-	@PutMapping("api/users/{uid}")
-	public String updateUserName(@RequestParam String name, @PathVariable Long uid) {
-		return null;
-	}
+//	/**
+//	 * This method allows an admin to change the name of an existing user in the
+//	 * database.
+//	 * 
+//	 * @param token The JWT of the admin to authenticate himself.
+//	 * @param name  The new name that should occure in the database entry of that
+//	 *              user.
+//	 * @param uid   The ID of the user whose name should be changed.
+//	 * @return A boolean that shows if the change was successful.
+//	 */
+//	@PutMapping("api/users/{uid}")
+//	public String updateUserName(@RequestParam String name, @PathVariable Long uid) {
+//		return null;
+//	}
 
 	/**
 	 * This method allows an admin to change the surname of an existing user in the
@@ -90,24 +90,24 @@ public class UserController {
 	 * @return A boolean that shows if the change was successful.
 	 */
 	@PutMapping("api/users/{uid}")
-	public String updateUserSurname(@RequestParam String name, @PathVariable Long uid) {
+	public String updateUserSurname(@RequestParam String object, @RequestParam String name, @PathVariable Long uid) {
 		return null;
 	}
-
-	/**
-	 * This method allows an admin to change the email adress of an existing user in
-	 * the database.
-	 * 
-	 * @param token The JWT of the admin to authenticate himself.
-	 * @param name  The new email adress that should occure in the database entry of
-	 *              that user.
-	 * @param uid   The ID of the user whose email adress should be changed.
-	 * @return A boolean that shows if the change was successful.
-	 */
-	@PutMapping("api/users/{uid}")
-	public String updateUserEmail(@RequestParam String email, @PathVariable Long uid) {
-		return null;
-	}
+//
+//	/**
+//	 * This method allows an admin to change the email adress of an existing user in
+//	 * the database.
+//	 * 
+//	 * @param token The JWT of the admin to authenticate himself.
+//	 * @param name  The new email adress that should occure in the database entry of
+//	 *              that user.
+//	 * @param uid   The ID of the user whose email adress should be changed.
+//	 * @return A boolean that shows if the change was successful.
+//	 */
+//	@PutMapping("api/users/{uid}")
+//	public String updateUserEmail(@RequestParam String email, @PathVariable Long uid) {
+//		return null;
+//	}
 
 	/**
 	 * This method allows an user to change his email adress which is stored in the
@@ -123,66 +123,66 @@ public class UserController {
 		return null;
 	}
 
-	/**
-	 * This method allows an admin to change the address of an existing user in the
-	 * database.
-	 * 
-	 * @param token The JWT of the admin to authenticate himself.
-	 * @param name  The new address that should occure in the database entry of that
-	 *              user.
-	 * @param uid   The ID of the user whose address should be changed.
-	 * @return A boolean that shows if the operation was successful.
-	 */
-	@PutMapping("api/users/{uid}")
-	public String updateUserAddress(@RequestParam Address address, @PathVariable Long uid) {
-		return null;
-	}
+//	/**
+//	 * This method allows an admin to change the address of an existing user in the
+//	 * database.
+//	 * 
+//	 * @param token The JWT of the admin to authenticate himself.
+//	 * @param name  The new address that should occure in the database entry of that
+//	 *              user.
+//	 * @param uid   The ID of the user whose address should be changed.
+//	 * @return A boolean that shows if the operation was successful.
+//	 */
+//	@PutMapping("api/users/{uid}")
+//	public String updateUserAddress(@RequestParam Address address, @PathVariable Long uid) {
+//		return null;
+//	}
 
-	/**
-	 * This method allows an admin to change the user number of an existing user in
-	 * the database.
-	 * 
-	 * @param token The JWT of the admin to authenticate himself.
-	 * @param name  The new user number that should occure in the database entry of
-	 *              that user.
-	 * @param uid   The ID of the user whose user number should be changed.
-	 * @return A boolean that shows if the operation was successful.
-	 */
-	@PutMapping("api/users/{uid}")
-	public String updateUserNumber(@RequestParam String number, @PathVariable Long uid) {
-		return null;
-	}
+//	/**
+//	 * This method allows an admin to change the user number of an existing user in
+//	 * the database.
+//	 * 
+//	 * @param token The JWT of the admin to authenticate himself.
+//	 * @param name  The new user number that should occure in the database entry of
+//	 *              that user.
+//	 * @param uid   The ID of the user whose user number should be changed.
+//	 * @return A boolean that shows if the operation was successful.
+//	 */
+//	@PutMapping("api/users/{uid}")
+//	public String updateUserNumber(@RequestParam String number, @PathVariable Long uid) {
+//		return null;
+//	}
 
-	/**
-	 * This method allows an admin to add new meters to the account of an user. The
-	 * meters are stored as a list in the database entry of the user its belonging
-	 * to.
-	 * 
-	 * @param token    The JWT of the admin to authenticate himself.
-	 * @param meterIDs The list of meters which should be added to the users
-	 *                 account. The list needs to contain at least one meter.
-	 * @param uid      The ID of the user who should become new meters associated
-	 *                 with himself.
-	 * @return A boolean that shows if the operation was successful.
-	 */
-	@PutMapping("api/users/{uid}")
-	public String addMetersToUser(@RequestParam List<Meter> meterIDs, @PathVariable Long uid) {
-		return null;
-	}
+//	/**
+//	 * This method allows an admin to add new meters to the account of an user. The
+//	 * meters are stored as a list in the database entry of the user its belonging
+//	 * to.
+//	 * 
+//	 * @param token    The JWT of the admin to authenticate himself.
+//	 * @param meterIDs The list of meters which should be added to the users
+//	 *                 account. The list needs to contain at least one meter.
+//	 * @param uid      The ID of the user who should become new meters associated
+//	 *                 with himself.
+//	 * @return A boolean that shows if the operation was successful.
+//	 */
+//	@PutMapping("api/users/{uid}")
+//	public String addMetersToUser(@RequestParam List<Meter> meterIDs, @PathVariable Long uid) {
+//		return null;
+//	}
 
-	/**
-	 * This method allows an admin to delete meters from an user account. So to
-	 * remove meters from the list of meters associated with this users account
-	 * 
-	 * @param token    The JWT of the admin to authenticate himself.
-	 * @param meterIDs The list of meters which should be deleted from the users
-	 *                 account. The list needs to contain at least one meter.
-	 * @param uid      The ID of the user who should have less meters associated
-	 *                 with his account.
-	 * @return A boolean that shows if the operation was successful.
-	 */
-	@DeleteMapping("api/users/{uid}")
-	public String removeMetersFromUser(@RequestParam List<Meter> meterIDs, @PathVariable Long uid) {
-		return null;
-	}
+//	/**
+//	 * This method allows an admin to delete meters from an user account. So to
+//	 * remove meters from the list of meters associated with this users account
+//	 * 
+//	 * @param token    The JWT of the admin to authenticate himself.
+//	 * @param meterIDs The list of meters which should be deleted from the users
+//	 *                 account. The list needs to contain at least one meter.
+//	 * @param uid      The ID of the user who should have less meters associated
+//	 *                 with his account.
+//	 * @return A boolean that shows if the operation was successful.
+//	 */
+//	@DeleteMapping("api/users/{uid}")
+//	public String removeMetersFromUser(@RequestParam List<Meter> meterIDs, @PathVariable Long uid) {
+//		return null;
+//	}
 }
