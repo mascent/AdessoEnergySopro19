@@ -14,22 +14,17 @@ import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.List;
 
-import energy.adesso.adessoandroidapp.logic.model.Token;
 import energy.adesso.adessoandroidapp.logic.model.identifiable.Issue;
 import energy.adesso.adessoandroidapp.logic.model.identifiable.Meter;
 import energy.adesso.adessoandroidapp.logic.model.identifiable.Reading;
 import energy.adesso.adessoandroidapp.logic.model.exception.*;
-
-import static energy.adesso.adessoandroidapp.ui.activities.MainActivity.getMeter;
+import energy.adesso.adessoandroidapp.logic.model.identifiable.User;
 
 
 public class MainController {
   private static MainController instance;
   private static String ip;
   private static SharedPreferences prefs;
-
-  private static Token token = null;
-  private static Token refreshToken = null;
   private static String uid;
 
   // Private because of static class
@@ -40,18 +35,16 @@ public class MainController {
   public static void sendIssue(Issue issue) throws NetworkException {
     String json = issue.serialize();
     String url = "api/issues";
-    NetworkController.post(url,json,token.getToken());
+    NetworkController.post(url,json,true);
   }
 
   public static void init(SharedPreferences prefs) {
     // init Persistance
     PersistanceController.getInstance().init(prefs);
+    String username = PersistanceController.getInstance().load("username");
+    String password = PersistanceController.getInstance().load("password");
 
-
-    NetworkController.setAddress(PersistanceController.getInstance().load("address"));
-    token = (Token) Token.deserialize(PersistanceController.getInstance().load("token"));
-    refreshToken = (Token) Token.deserialize(PersistanceController.getInstance().load("refreshToken"));
-    uid = PersistanceController.getInstance().load("uid");
+    NetworkController.setCredentials(username,password);
   }
 
 
@@ -65,7 +58,7 @@ public class MainController {
    */
   public static List<Reading> getReadings(String meterId) throws NetworkException, CredentialException {
     String request = "/api/users/me/readings/" + meterId;
-    List<Reading> readingList = new PagingHelper<Reading>().getAll(request, token);
+    List<Reading> readingList = new PagingHelper<Reading>().getAll(request);
     return readingList;
   }
 
@@ -83,39 +76,25 @@ public class MainController {
     map.put("username", username);
     map.put("password", password);
     String json = new Gson().toJson(map);
-    String reString = NetworkController.post("/api/login", json, null);
+    String reString = NetworkController.post("/api/login", json, true);
 
-    // Save locally
-    Type castType = new HashMap<String, String>() {
-    }.getClass();
-    HashMap<String, String> re = new Gson().fromJson(reString, castType);
-    token = (Token) Token.deserialize(re.get("token"));
-    refreshToken = (Token) Token.deserialize(re.get("refreshToken"));
-    uid = re.get("uid");
+    User user = User.deserialize(reString);
+    uid = user.getId();
+
+    NetworkController.setCredentials(username, password);
 
     // Save persistently
-    PersistanceController.getInstance().save("token", re.get("token"));
-    PersistanceController.getInstance().save("refreshToken", re.get("refreshToken"));
-    PersistanceController.getInstance().save("uid", re.get("uid"));
+    PersistanceController.getInstance().save("username", username);
+    PersistanceController.getInstance().save("password", password);
+    PersistanceController.getInstance().save("uid", uid);
 
   }
 
   public static void logOut() throws NetworkException {
-    // Send Request to Server
-    String tokenString = token.getToken();
-    HashMap<String, String> map = new HashMap<String, String>();
-    map.put("token", tokenString);
-    String json = new Gson().toJson(map);
-    NetworkController.put("/api/logout", json, token.getToken());
-
-    // Clear Local Vars
-    token = null;
-    refreshToken = null;
+    NetworkController.setCredentials(null,null);
     uid = null;
-
-    // Clear Persistant Vars
-    PersistanceController.getInstance().delete("token");
-    PersistanceController.getInstance().delete("refreshToken");
+    PersistanceController.getInstance().delete("username");
+    PersistanceController.getInstance().delete("password");
     PersistanceController.getInstance().delete("uid");
   }
 
@@ -129,7 +108,7 @@ public class MainController {
   public static Pair<Meter, String> azureAnalyze(Bitmap image) throws NetworkException, CredentialException {
     // TODO this is def. wrong
     String url = "api/picture";
-    String string = NetworkController.post(url, toBase64(image), token.getToken());
+    String string = NetworkController.post(url, toBase64(image), true);
     Type castType = new Pair<String, String>("", "") {
     }.getClass();
     Pair<String, String> answer1 = new Gson().fromJson(string, castType);
@@ -139,7 +118,7 @@ public class MainController {
 
   private static Meter getMeter(String mid) throws NetworkException {
     String url = ""+mid; // TODO:
-    String json = NetworkController.get(url,token.getToken());
+    String json = NetworkController.get(url,true);
     return (Meter) Meter.deserialize(json);
   }
 
@@ -162,7 +141,7 @@ public class MainController {
     String url = "/api/meters";
     Reading reading = new Reading(null, mid, uid, value);
     String readingString = reading.serialize();
-    NetworkController.post(url, readingString, token.getToken());
+    NetworkController.post(url, readingString, true);
   }
 
   /**
@@ -176,7 +155,7 @@ public class MainController {
   public static List<Meter> getOverview() throws NetworkException, CredentialException {
 
     String request = "/api/users/me/meters/";
-    return new PagingHelper<Meter>().getAll(request, token);
+    return new PagingHelper<Meter>().getAll(request);
   }
 
   /**
@@ -192,16 +171,19 @@ public class MainController {
   public static void correctReading(Reading reading) throws NetworkException {
     String url = "/api/meters/<mid>/readings/" + reading.getId();
     String json = reading.serialize();
-    NetworkController.put(url,json,token.getToken());
+    NetworkController.put(url,json,true);
   }
 
   public static void updateMeterName(Meter meter) throws NetworkException {
     String url = "/api/meters/" + meter.getId();
     String json = meter.serialize();
-    NetworkController.put(url,json,token.getToken());
+    NetworkController.put(url,json,true);
   }
 
     public static boolean isLoggedIn() {
-      return false;
+      if((PersistanceController.getInstance().load("username")==null)!=NetworkController.isLoggedIn())
+        // Logged in information must be synced between parts of the controller
+        throw new IllegalStateException();
+      return NetworkController.isLoggedIn();
     }
 }
