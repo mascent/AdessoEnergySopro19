@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -12,7 +11,7 @@ import android.widget.Toast;
 import energy.adesso.adessoandroidapp.R;
 import energy.adesso.adessoandroidapp.logic.controller.MainController;
 import energy.adesso.adessoandroidapp.logic.model.exception.AdessoException;
-import energy.adesso.adessoandroidapp.ui.MockDeliverer;
+import energy.adesso.adessoandroidapp.ui.mock.MockController;
 import energy.adesso.adessoandroidapp.ui.parents.ParentActivity;
 
 public class LoginActivity extends ParentActivity {
@@ -33,14 +32,11 @@ public class LoginActivity extends ParentActivity {
         TextView num = (TextView)findViewById(R.id.number);
         TextView pass = (TextView)findViewById(R.id.pass);
 
-        try {
-            if (MockDeliverer.login(num.getText().toString(), pass.getText().toString()) ||
-                login(num.getText().toString(), pass.getText().toString())) {
-                startNewActivity(MainActivity.class, Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            } else {
-                Toast.makeText(a, R.string.wrong_login, Toast.LENGTH_SHORT).show();
-            }
-        } catch (AdessoException e)  { }
+        if (login(num.getText().toString(), pass.getText().toString())) {
+            startNewActivity(MainActivity.class, Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        } else {
+            Toast.makeText(a, R.string.wrong_login, Toast.LENGTH_SHORT).show();
+        }
 
         num.setText("");
         pass.setText("");
@@ -52,7 +48,7 @@ public class LoginActivity extends ParentActivity {
 
     boolean login(String username, String password) {
         try {
-            MainController.getInstance().login(username, password);
+            MockController.login(username, password);
             return true;
         } catch (AdessoException e) {
             return false;
