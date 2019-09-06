@@ -27,7 +27,7 @@ public class PictureController {
 	 *         not found return error code.
 	 */
 	@PostMapping("api/pictures")
-	public String analyze(@RequestParam Jwt token, @RequestParam Image pic) {
-		return null;
+	public static int analyze(@RequestParam Jwt token, @RequestParam Image pic) {
+		return 0; //Hier an Azure weiterleiten, Vincent hat die Schnittstelle
 	}
 }

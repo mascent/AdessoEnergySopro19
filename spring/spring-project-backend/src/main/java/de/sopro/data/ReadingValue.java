@@ -13,18 +13,18 @@ import javax.validation.constraints.Positive;
 @Entity
 public class ReadingValue {
 	
-public ReadingValue(int value, Date date, Integer changerID, String reason){
+public ReadingValue(int value, Date date, String changerId, String reason){
 	this.value=value;
 	this.date=date;
-	this.changerID = changerID;
+	this.changerId = changerId;
 	this.reason = reason;
 }
 
 // smart constructor for first initialization
-public ReadingValue(int value, Date date, Integer changerID) {
+public ReadingValue(int value, Date date, String changerId) {
 	this.value=value;
 	this.date=date;
-	this.changerID = changerID;
+	this.changerId = changerId;
 	this.reason = "creation";
 }
 
@@ -39,7 +39,7 @@ private int value;
 @Past
 private Date date;
 
-private Integer changerID;
+private String changerId;
 
 private String reason;
 
@@ -67,12 +67,12 @@ public void setDate(Date date) {
 	this.date = date;
 }
 
-public Integer getChangerID() {
-	return changerID;
+public String getChangerId() {
+	return changerId;
 }
 
-public void setChangerID(Integer changerID) {
-	this.changerID = changerID;
+public void setChangerID(String changerId) {
+	this.changerId = changerId;
 }
 
 public String getReason() {

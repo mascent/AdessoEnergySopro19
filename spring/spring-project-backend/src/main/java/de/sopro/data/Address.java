@@ -12,14 +12,15 @@ import javax.persistence.OneToMany;
 import javax.validation.constraints.*;
 
 @Entity
-public class Adress {
+public class Address {
 	
-public Adress() {
+public Address() {
 	meters = new ArrayList<Meter>();
 }
 
+
 @NotNull
-@OneToMany(mappedBy = "adress", cascade=CascadeType.ALL)
+@OneToMany(mappedBy = "address", cascade=CascadeType.ALL)
 private List<Meter> meters;
 
 public List<Meter> getMeters() {
@@ -31,14 +32,14 @@ public void setMeters(List<Meter> meters) {
 }
 
 @Id @GeneratedValue(strategy = GenerationType.AUTO)
-private String adressID;
+private String addressID;
 
-public String getAdressID() {
-	return adressID;
+public String getAddressID() {
+	return addressID;
 }
 
-public void setAdressID(String adressID) {
-	this.adressID = adressID;
+public void setAddressID(String addressID) {
+	this.addressID = addressID;
 }
 
 public String getStreet() {

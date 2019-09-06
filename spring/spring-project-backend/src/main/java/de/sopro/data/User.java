@@ -11,7 +11,7 @@ public class User extends Person{
 
 public User(String name, 
 			String surname, 
-			String eMailAdress, 
+			String eMailAddress, 
 			String userNumber,
 			String username, 
 			String password, 
@@ -19,7 +19,7 @@ public User(String name,
 	super(username, password, role);
 	this.name = name;
 	this.surname = surname;
-	this.eMailAdress = eMailAdress;
+	this.eMailAddress = eMailAddress;
 	this.userNumber = userNumber;
 	// createdAt = now;
 }
@@ -31,7 +31,7 @@ private String name;
 private String surname;
 
 @NotNull
-private String eMailAdress;
+private String eMailAddress;
 
 @NotNull
 private String userNumber;
@@ -40,7 +40,7 @@ private String userNumber;
 @NotNull
 private Date createdAt;
 
-private Date deleatedAt;
+private Date deletedAt;
 
 private Date updatedAt;
 
@@ -60,12 +60,12 @@ public void setSurname(String surname) {
 	this.surname = surname;
 }
 
-public String geteMailAdress() {
-	return eMailAdress;
+public String getEMailAddress() {
+	return eMailAddress;
 }
 
-public void seteMailAdress(String eMailAdress) {
-	this.eMailAdress = eMailAdress;
+public void setEMailAddress(String eMailAddress) {
+	this.eMailAddress = eMailAddress;
 }
 
 public String getUserNumber() {
@@ -80,12 +80,12 @@ public Date getCreatedAt() {
 	return createdAt;
 }
 
-public Date getDeleatedAt() {
-	return deleatedAt;
+public Date getDeletedAt() {
+	return deletedAt;
 }
 
-public void setDeleatedAt(Date deleatedAt) {
-	this.deleatedAt = deleatedAt;
+public void setDeletedAt(Date deletedAt) {
+	this.deletedAt = deletedAt;
 }
 
 public Date getUpdatedAt() {
