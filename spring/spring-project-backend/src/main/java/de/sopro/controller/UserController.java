@@ -101,29 +101,6 @@ public class UserController {
 	}
 
 	/**
-	 * This method allows an admin to change the name of an existing user in the
-	 * database.
-	 * 
-	 * @param token The JWT of the admin to authenticate himself.
-	 * @param name  The new name that should occure in the database entry of that
-	 *              user.
-	 * @param uid   The ID of the user whose name should be changed.
-	 * @return A boolean that shows if the change was successful.
-	 */
-	@PutMapping("api/users/{uid}")
-	public String updateUserName(@RequestParam String name, @PathVariable String uid) {
-//		String updaterId = token.getId(); // hier gucken, wie das geht..
-//		Person person = personRepository.findById(updaterId);
-//		User user = userRepository.findById(uid);
-//		if (person.getRole().equals(Role.Admin) && !name.isEmpty()) {
-//			Date date = new Date();
-//			user.setUpdatedAt(date);
-//			user.setName(name);
-//		}
-		return null;
-	}
-
-	/**
 	 * This method allows an admin to change the surname of an existing user in the
 	 * database.
 	 * 
@@ -133,7 +110,7 @@ public class UserController {
 	 * @param uid   The ID of the user whose surname should be changed.
 	 * @return A boolean that shows if the change was successful.
 	 */
-	@PutMapping("api/users/{uid}")
+	@PutMapping("api/users/{uid}/surname")
 	public String updateUserSurname(@RequestParam String object, @RequestParam String name, @PathVariable Long uid) {
 //		String updaterId = token.getId(); // hier gucken, wie das geht..
 //		Person person = personRepository.findById(updaterId);
@@ -156,7 +133,7 @@ public class UserController {
 	 * @param uid   The ID of the user whose email adress should be changed.
 	 * @return A boolean that shows if the change was successful.
 	 */
-	@PutMapping("api/users/{uid}")
+	@PutMapping("api/users/{uid}/email")
 	public String updateUserEmail(@RequestParam String email, @PathVariable Long uid) {
 //		String updaterId = token.getId(); // hier gucken, wie das geht..
 //		Person person = personRepository.findById(updaterId);
@@ -246,6 +223,7 @@ public class UserController {
 //	public String removeMetersFromUser(@RequestParam List<Meter> meterIDs, @PathVariable Long uid) {
 //		return null;
 //	}
+	@PutMapping("/api/users/me/email")
 	public String updateOwnEmail(@RequestParam String email) {
 //		String updaterId = token.getId(); // hier gucken, wie das geht..
 //		Person person = personRepository.findById(updaterId);
@@ -255,32 +233,6 @@ public class UserController {
 //			user.setUpdatedAt(date);
 //			user.setEMailAddress(email);
 //		}
-		return null;
-	}
-
-//Update Address Methode unnötig, da nur Zähler ne Address haben und die nicht umziehen können
-
-	/**
-	 * This method allows an admin to change the user number of an existing user in
-	 * the database.
-	 * 
-	 * @param token The JWT of the admin to authenticate himself.
-	 * @param name  The new user number that should occure in the database entry of
-	 *              that user.
-	 * @param uid   The ID of the user whose user number should be changed.
-	 * @return A boolean that shows if the operation was successful.
-	 */
-	@PutMapping("api/users/{uid}")
-	public String updateUserNumber(@RequestParam String number, @PathVariable String uid) {
-//		String updaterId = token.getId(); // hier gucken, wie das geht..
-//		Person person = personRepository.findById(updaterId);
-//		User user = userRepository.findById(uid);
-//		if (person.getRole().equals(Role.Admin) && !number.isEmpty()) {
-//			Date date = new Date();
-//			user.setUpdatedAt(date);
-//			user.setUserNumber(number);
-//		}
-
 		return null;
 	}
 
@@ -296,7 +248,7 @@ public class UserController {
 	 *                 with himself.
 	 * @return A boolean that shows if the operation was successful.
 	 */
-	@PutMapping("api/users/{uid}")
+	@PutMapping("api/users/{uid}/meters")
 	public boolean addMetersToUser(@RequestParam List<String> meterIDs, @PathVariable String uid) {
 //		String personId = token.getId(); // hier gucken, wie das geht..
 //		Person person = personRepository.findById(personId);
@@ -322,7 +274,7 @@ public class UserController {
 	 *                 with his account.
 	 * @return A boolean that shows if the operation was successful.
 	 */
-	@DeleteMapping("api/users/{uid}")
+	@DeleteMapping("api/users/{uid}/meters")
 	public boolean removeMetersFromUser(@RequestParam List<Meter> meterIDs, @PathVariable String uid) {
 //		String personId = token.getId(); // hier gucken, wie das geht..
 //		Person person = personRepository.findById(personId);
