@@ -12,6 +12,8 @@ import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import okhttp3.mockwebserver.RecordedRequest;
 
+import static org.junit.Assert.assertTrue;
+
 public class MainControllerTest {
 
   @Test
@@ -22,10 +24,7 @@ public class MainControllerTest {
       // instance for every unit test.
       MockWebServer server = new MockWebServer();
 
-      // Schedule some responses.
-      // TODO build some responses
-      String customerNumber = "diesistdiecustomernumber";
-      User exampleUser = new User("diesistdieID", customerNumber);
+      User exampleUser = new User("diesistdieID", "diesistdiecustomernumber");
       server.enqueue(new MockResponse().setBody(exampleUser.serialize()));
       // Start the server.
 
@@ -45,6 +44,9 @@ public class MainControllerTest {
 
       RecordedRequest loginRequest = server.takeRequest();
       // initial login should not send a token (since there is none saved)
+
+
+      assertTrue(MainController.isLoggedIn());
 
       server.shutdown();
 

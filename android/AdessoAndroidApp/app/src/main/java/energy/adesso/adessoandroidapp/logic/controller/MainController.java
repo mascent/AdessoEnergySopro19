@@ -189,7 +189,7 @@ public class MainController {
   }
 
     public static boolean isLoggedIn() {
-      if(usePersistence &&(PersistanceController.getInstance().load("username")==null)!=NetworkController.isLoggedIn())
+      if(usePersistence&&(PersistanceController.getInstance().load("username")==null)!=NetworkController.isLoggedIn())
         // Logged in information must be synced between parts of the controller
         throw new IllegalStateException();
       return NetworkController.isLoggedIn();
