@@ -58,7 +58,7 @@ public class NetworkController {
 
   static String post(String path, String json, boolean useCredentials) throws NetworkException {
     //TODO accept token
-    RequestBody body = RequestBody.create(JSON, json);
+    RequestBody body = RequestBody.create(json, JSON);
     Request request;
     if (useCredentials)
       request = new Request.Builder()
@@ -86,7 +86,7 @@ public class NetworkController {
 
   public static String put(String path, String json, boolean useCredentials) throws NetworkException {
     //TODO accept token
-    RequestBody body = RequestBody.create(JSON, json);
+    RequestBody body = RequestBody.create(json, JSON);
     Request request;
     if (useCredentials)
       request = new Request.Builder()
