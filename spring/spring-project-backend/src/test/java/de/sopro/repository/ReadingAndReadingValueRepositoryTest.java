@@ -30,8 +30,8 @@ public class ReadingAndReadingValueRepositoryTest {
 		@BeforeEach
 		public void addReadingAndReadingValues() {
 			reading = new Reading();
-			reading.getReadingValues().add(new ReadingValue(1, null, 1));
-			reading.getReadingValues().add(new ReadingValue(2, null, 2));
+			reading.getReadingValues().add(new ReadingValue(1, null, "1"));
+			reading.getReadingValues().add(new ReadingValue(2, null, "2"));
 			reading = readingRepository.save(reading);
 		}
 		
@@ -39,7 +39,7 @@ public class ReadingAndReadingValueRepositoryTest {
 		@Test
 		public void testBooksArePersistedWithAuthor() throws Exception {
 
-			assertTrue(readingRepository.existsById(reading.getReadingID()), "Reading #" + reading.getReadingID() + " exists in database");
+			assertTrue(readingRepository.existsById(reading.getReadingId()), "Reading #" + reading.getReadingId() + " exists in database");
 			for (ReadingValue rv : reading.getReadingValues()) {
 				assertTrue(readingValueRepository.existsById(rv.getReadingValueID()), "Reading Value #" + rv.getReadingValueID() + " exists in database");
 			}
