@@ -19,6 +19,7 @@ import energy.adesso.adessoandroidapp.logic.model.identifiable.Issue;
 import energy.adesso.adessoandroidapp.logic.model.identifiable.Meter;
 import energy.adesso.adessoandroidapp.logic.model.identifiable.Reading;
 import energy.adesso.adessoandroidapp.logic.model.exception.*;
+import energy.adesso.adessoandroidapp.logic.model.identifiable.User;
 
 import static energy.adesso.adessoandroidapp.ui.activities.MainActivity.getMeter;
 
@@ -27,9 +28,6 @@ public class MainController {
   private static MainController instance;
   private static String ip;
   private static SharedPreferences prefs;
-
-  private static Token token = null;
-  private static Token refreshToken = null;
   private static String uid;
 
   // Private because of static class
@@ -46,12 +44,10 @@ public class MainController {
   public static void init(SharedPreferences prefs) {
     // init Persistance
     PersistanceController.getInstance().init(prefs);
+    String username = PersistanceController.getInstance().load("username");
+    String password = PersistanceController.getInstance().load("password");
 
-
-    NetworkController.setAddress(PersistanceController.getInstance().load("address"));
-    token = (Token) Token.deserialize(PersistanceController.getInstance().load("token"));
-    refreshToken = (Token) Token.deserialize(PersistanceController.getInstance().load("refreshToken"));
-    uid = PersistanceController.getInstance().load("uid");
+    NetworkController.setCredentials(username,password);
   }
 
 
@@ -65,7 +61,7 @@ public class MainController {
    */
   public static List<Reading> getReadings(String meterId) throws NetworkException, CredentialException {
     String request = "/api/users/me/readings/" + meterId;
-    List<Reading> readingList = new PagingHelper<Reading>().getAll(request, token);
+    List<Reading> readingList = new PagingHelper<Reading>().getAll(request);
     return readingList;
   }
 
@@ -85,37 +81,23 @@ public class MainController {
     String json = new Gson().toJson(map);
     String reString = NetworkController.post("/api/login", json, true);
 
-    // Save locally
-    Type castType = new HashMap<String, String>() {
-    }.getClass();
-    HashMap<String, String> re = new Gson().fromJson(reString, castType);
-    token = (Token) Token.deserialize(re.get("token"));
-    refreshToken = (Token) Token.deserialize(re.get("refreshToken"));
-    uid = re.get("uid");
+    User user = User.deserialize(reString);
+    uid = user.getId();
+
+    NetworkController.setCredentials(username, password);
 
     // Save persistently
-    PersistanceController.getInstance().save("token", re.get("token"));
-    PersistanceController.getInstance().save("refreshToken", re.get("refreshToken"));
-    PersistanceController.getInstance().save("uid", re.get("uid"));
+    PersistanceController.getInstance().save("username", username);
+    PersistanceController.getInstance().save("password", password);
+    PersistanceController.getInstance().save("uid", uid);
 
   }
 
   public static void logOut() throws NetworkException {
-    // Send Request to Server
-    String tokenString = token.getToken();
-    HashMap<String, String> map = new HashMap<String, String>();
-    map.put("token", tokenString);
-    String json = new Gson().toJson(map);
-    NetworkController.put("/api/logout", json, true);
-
-    // Clear Local Vars
-    token = null;
-    refreshToken = null;
+    NetworkController.setCredentials(null,null);
     uid = null;
-
-    // Clear Persistant Vars
-    PersistanceController.getInstance().delete("token");
-    PersistanceController.getInstance().delete("refreshToken");
+    PersistanceController.getInstance().delete("username");
+    PersistanceController.getInstance().delete("password");
     PersistanceController.getInstance().delete("uid");
   }
 
@@ -176,7 +158,7 @@ public class MainController {
   public static List<Meter> getOverview() throws NetworkException, CredentialException {
 
     String request = "/api/users/me/meters/";
-    return new PagingHelper<Meter>().getAll(request, token);
+    return new PagingHelper<Meter>().getAll(request);
   }
 
   /**
@@ -202,6 +184,9 @@ public class MainController {
   }
 
     public static boolean isLoggedIn() {
-      return false;
+      if((PersistanceController.getInstance().load("username")==null)!=NetworkController.isLoggedIn())
+        // Logged in information must be synced between parts of the controller
+        throw new IllegalStateException();
+      return NetworkController.isLoggedIn();
     }
 }

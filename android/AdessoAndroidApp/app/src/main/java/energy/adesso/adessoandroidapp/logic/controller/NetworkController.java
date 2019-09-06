@@ -1,21 +1,15 @@
 package energy.adesso.adessoandroidapp.logic.controller;
 
-import android.content.SharedPreferences;
-
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import java.io.IOException;
 
 import energy.adesso.adessoandroidapp.logic.model.exception.NetworkException;
-import okhttp3.Authenticator;
+import energy.adesso.adessoandroidapp.logic.model.NetworkBundle;
 import okhttp3.Credentials;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import okhttp3.Route;
 
 public class NetworkController {
   private final static String defaultURL = "124.245.1.240:3001";
@@ -25,7 +19,6 @@ public class NetworkController {
   private static String password;
 
   private static OkHttpClient ok = new OkHttpClient();
-
 
   private static NetworkController instance;
 
@@ -37,74 +30,74 @@ public class NetworkController {
 
   }
 
-  public static String get(String path, boolean useCredentials) throws NetworkException {
+  public static NetworkBundle get(String path, boolean useCredentials) throws NetworkException {
     //TODO accept token
     Request request;
     if (useCredentials)
       request = new Request.Builder()
               .addHeader("Authorization", Credentials.basic(username, password))
-              .addHeader("Host",baseURL)
+              .addHeader("Host", baseURL)
               .url(baseURL + path)
               .build();
     else
       request = new Request.Builder()
-              .addHeader("Host",baseURL)
+              .addHeader("Host", baseURL)
               .url(baseURL + path)
               .build();
     try {
       Response response = ok.newCall(request).execute();
-      return response.body().string();
+      return new NetworkBundle(response.body().string(), response.isSuccessful());
     } catch (IOException | NullPointerException e) {
       throw new NetworkException();
     }
   }
 
-  public static String post(String path, String json, boolean useCredentials) throws NetworkException {
+  public static NetworkBundle post(String path, String json, boolean useCredentials) throws NetworkException {
     //TODO accept token
     RequestBody body = RequestBody.create(JSON, json);
     Request request;
     if (useCredentials)
       request = new Request.Builder()
               .addHeader("Authorization", Credentials.basic(username, password))
-              .addHeader("Host",baseURL)
+              .addHeader("Host", baseURL)
               .url(baseURL + path)
               .post(body)
               .build();
     else
       request = new Request.Builder()
-              .addHeader("Host",baseURL)
+              .addHeader("Host", baseURL)
               .url(baseURL + path)
               .post(body)
               .build();
     try {
       Response response = ok.newCall(request).execute();
-      return response.body().string();
+      return new NetworkBundle(response.body().string(), response.isSuccessful());
     } catch (IOException | NullPointerException e) {
       throw new NetworkException();
     }
   }
 
-  public static String put(String path, String json, boolean useCredentials) throws NetworkException {
+  public static NetworkBundle put(String path, String json, boolean useCredentials) throws NetworkException {
     //TODO accept token
     RequestBody body = RequestBody.create(JSON, json);
     Request request;
     if (useCredentials)
-    request = new Request.Builder()
-            .addHeader("Authorization", Credentials.basic(username, password))
-            .addHeader("Host",baseURL)
-            .url(baseURL + path)
-            .put(body)
-            .build();
+      request = new Request.Builder()
+              .addHeader("Authorization", Credentials.basic(username, password))
+              .addHeader("Host", baseURL)
+              .url(baseURL + path)
+              .put(body)
+              .build();
     else
       request = new Request.Builder()
-              .addHeader("Host",baseURL)
+              .addHeader("Host", baseURL)
               .url(baseURL + path)
               .put(body)
               .build();
 
     try {
       Response response = ok.newCall(request).execute();
-      return response.body().string();
+      return new NetworkBundle(response.body().string(), response.isSuccessful());
     } catch (IOException | NullPointerException e) {
       throw new NetworkException();
     }
@@ -124,4 +117,7 @@ public class NetworkController {
   }
 
 
+  public static boolean isLoggedIn() {
+    return username == null;
+  }
 }

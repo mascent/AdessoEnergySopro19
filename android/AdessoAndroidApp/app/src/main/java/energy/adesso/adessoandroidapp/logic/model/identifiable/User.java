@@ -14,4 +14,20 @@ public class User extends IdentifiableObject {
   public static User deserialize(String source) {
     return gson.fromJson(source, User.class);
   }
+
+  public String getCustomerNumber() {
+    return customerNumber;
+  }
+
+  public String getFirstName() {
+    return firstName;
+  }
+
+  public String getLastName() {
+    return lastName;
+  }
+
+  public String getEmail() {
+    return email;
+  }
 }
