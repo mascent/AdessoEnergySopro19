@@ -9,15 +9,11 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 
 import android.text.InputType;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import org.joda.time.format.DateTimeFormatter;
 
 import java.util.List;
 
@@ -36,10 +32,9 @@ public class DetailActivity extends ListActivity {
         setContentView(R.layout.activity_detail);
 
         // Set up toolbar
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.detail_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.addView(getLayoutInflater().inflate(R.layout.button_detail_edit, null));
 
         // Setting the onClickEvent in XML results in an error
         CardView cardButton = ((CardView)findViewById(R.id.cardButton));

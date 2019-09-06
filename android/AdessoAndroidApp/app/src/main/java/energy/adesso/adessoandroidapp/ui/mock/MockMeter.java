@@ -69,6 +69,11 @@ public class MockMeter extends Meter {
         });
     }
 
+    @Override
+    public void setName(String newName) throws NetworkException {
+
+    }
+
     public Meter toMeter() {
         return new Meter(super.getId(),MockController.time,MockController.time,MockController.time,
             getName(),getMeterNumber(),super.getKind(),getOwnerId(),getLastReading());

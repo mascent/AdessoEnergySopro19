@@ -39,21 +39,9 @@ import static org.hamcrest.core.IsNot.not;
 @LargeTest
 public class LoginTest {
 
-    private String stringToBetyped;
-
     @Rule
     public IntentsTestRule<LoginActivity> intentsRule
             = new IntentsTestRule<>(LoginActivity.class);
-
-    @Rule
-    public ActivityTestRule<LoginActivity> activityTestRule =
-            new ActivityTestRule<>(LoginActivity.class);
-
-    @Before
-    public void initValidString() {
-        // Specify a valid string.
-        stringToBetyped = "Espresso";
-    }
 
     @Test
     public void correct_login() {
@@ -62,13 +50,5 @@ public class LoginTest {
         onView(withId(R.id.login)).perform(click());
 
         intended(hasComponent(MainActivity.class.getName()));
-    }
-
-    @Test
-    public void false_login() {
-        LoginActivity activity = activityTestRule.getActivity();
-        onView(withText(R.string.wrong_login)).
-                inRoot(withDecorView(not(is(activity.getWindow().getDecorView())))).
-                check(matches(isDisplayed()));
     }
 }
