@@ -11,6 +11,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static org.junit.jupiter.api.Assertions.*;
 import de.sopro.data.Meter;
+import de.sopro.data.MeterType;
 import de.sopro.data.Reading;
 
 @ExtendWith(SpringExtension.class)
@@ -28,7 +29,7 @@ public class MeterAndReadingRepositoryTest {
 
 	@BeforeEach
 	public void addReadingAndReadingValues() {
-		meter = new Meter("GasTest", null);
+		meter = new Meter("GasTest",0,MeterType.Gas);
 		meter.getReadings().add(new Reading());
 		meter.getReadings().add(new Reading());
 		meter = meterRepository.save(meter);
@@ -37,11 +38,11 @@ public class MeterAndReadingRepositoryTest {
 	@Test
 	public void testBooksArePersistedWithAuthor() throws Exception {
 
-		assertTrue(readingRepository.existsById(meter.getMeterID()),
-				"Meter #" + meter.getMeterID() + " exists in database");
+		assertTrue(readingRepository.existsById(meter.getMeterId()),
+				"Meter #" + meter.getMeterId() + " exists in database");
 		for (Reading r : meter.getReadings()) {
-			assertTrue(readingRepository.existsById(r.getReadingID()),
-					"Reading Value #" + r.getReadingID() + " exists in database");
+			assertTrue(readingRepository.existsById(r.getReadingId()),
+					"Reading Value #" + r.getReadingId() + " exists in database");
 		}
 	}
 
