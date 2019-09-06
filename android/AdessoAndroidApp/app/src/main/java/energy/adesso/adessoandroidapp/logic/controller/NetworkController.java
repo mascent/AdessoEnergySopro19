@@ -30,7 +30,7 @@ public class NetworkController {
 
   }
 
-  public static NetworkBundle get(String path, boolean useCredentials) throws NetworkException {
+  public static String get(String path, boolean useCredentials) throws NetworkException {
     //TODO accept token
     Request request;
     if (useCredentials)
@@ -46,13 +46,17 @@ public class NetworkController {
               .build();
     try {
       Response response = ok.newCall(request).execute();
-      return new NetworkBundle(response.body().string(), response.isSuccessful());
+      if(!response.isSuccessful())
+        handleError(response.body().string());
+
+      return response.body().string();
     } catch (IOException | NullPointerException e) {
       throw new NetworkException();
     }
   }
 
-  public static NetworkBundle post(String path, String json, boolean useCredentials) throws NetworkException {
+
+  static String post(String path, String json, boolean useCredentials) throws NetworkException {
     //TODO accept token
     RequestBody body = RequestBody.create(JSON, json);
     Request request;
@@ -71,13 +75,16 @@ public class NetworkController {
               .build();
     try {
       Response response = ok.newCall(request).execute();
-      return new NetworkBundle(response.body().string(), response.isSuccessful());
+      if(!response.isSuccessful())
+        handleError(response.body().string());
+
+      return response.body().string();
     } catch (IOException | NullPointerException e) {
       throw new NetworkException();
     }
   }
 
-  public static NetworkBundle put(String path, String json, boolean useCredentials) throws NetworkException {
+  public static String put(String path, String json, boolean useCredentials) throws NetworkException {
     //TODO accept token
     RequestBody body = RequestBody.create(JSON, json);
     Request request;
@@ -97,7 +104,10 @@ public class NetworkController {
 
     try {
       Response response = ok.newCall(request).execute();
-      return new NetworkBundle(response.body().string(), response.isSuccessful());
+      if(!response.isSuccessful())
+        handleError(response.body().string());
+
+      return response.body().string();
     } catch (IOException | NullPointerException e) {
       throw new NetworkException();
     }
@@ -119,5 +129,10 @@ public class NetworkController {
 
   public static boolean isLoggedIn() {
     return username == null;
+  }
+
+  private static String handleError(String errorString) throws NetworkException {
+    // TODO handle better
+    throw new NetworkException();
   }
 }

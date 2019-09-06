@@ -13,18 +13,15 @@ import energy.adesso.adessoandroidapp.logic.model.exception.CredentialException;
 import energy.adesso.adessoandroidapp.logic.model.exception.NetworkException;
 import energy.adesso.adessoandroidapp.logic.model.NetworkBundle;
 
-public class PagingHelper<T> {
+class PagingHelper<T> {
 
-  public Either<String, List<T>> getAll(String request) throws NetworkException, CredentialException {
-    ArrayList<T> list = new ArrayList<T>();
+  List<T> getAll(String request) throws NetworkException, CredentialException {
+    ArrayList<T> list = new ArrayList<>();
     int pageNumber = 0;
     while (true) {
       // get current page
-      String url = "/api/users/me/meters/" + "?" + pageNumber++;
-      NetworkBundle bundle = NetworkController.get(url, true);
-      // Netzwerkfehlerfall
-      if (bundle.isError())
-        return new Either<String, List<T>>(bundle.getPayload(), null);
+      String url = request + "?" + pageNumber++;
+      String pagingString = NetworkController.get(url, true);
       Type pagingType = new Paging<T>() {
       }.getClass();
       Paging<T> paging = new Gson().fromJson(pagingString, pagingType);
@@ -33,6 +30,6 @@ public class PagingHelper<T> {
       if (paging.isLast) break;
     }
     // Erfolgsfall
-    return new Either<String, List<T>>(null, list);
+    return list;
   }
 }

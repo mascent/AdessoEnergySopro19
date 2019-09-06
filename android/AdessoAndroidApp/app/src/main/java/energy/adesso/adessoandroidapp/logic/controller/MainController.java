@@ -14,14 +14,11 @@ import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.List;
 
-import energy.adesso.adessoandroidapp.logic.model.Token;
 import energy.adesso.adessoandroidapp.logic.model.identifiable.Issue;
 import energy.adesso.adessoandroidapp.logic.model.identifiable.Meter;
 import energy.adesso.adessoandroidapp.logic.model.identifiable.Reading;
 import energy.adesso.adessoandroidapp.logic.model.exception.*;
 import energy.adesso.adessoandroidapp.logic.model.identifiable.User;
-
-import static energy.adesso.adessoandroidapp.ui.activities.MainActivity.getMeter;
 
 
 public class MainController {
