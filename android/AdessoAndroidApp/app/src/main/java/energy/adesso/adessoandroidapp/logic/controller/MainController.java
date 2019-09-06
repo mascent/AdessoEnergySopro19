@@ -22,10 +22,9 @@ import energy.adesso.adessoandroidapp.logic.model.identifiable.User;
 
 
 public class MainController {
+  private static PersistenceController persistence;
+
   private static boolean usePersistence = true;
-  private static MainController instance;
-  private static String ip;
-  private static SharedPreferences prefs;
   private static String uid;
 
   // Private because of static class
@@ -41,11 +40,10 @@ public class MainController {
 
   public static void init(SharedPreferences prefs) {
     // init Persistance
-    PersistanceController.getInstance().init(prefs);
+    persistence = new PersistenceController(prefs);
     if(usePersistence) {
-    PersistanceController.getInstance().init(prefs);
-    String username = PersistanceController.getInstance().load("username");
-    String password = PersistanceController.getInstance().load("password");
+      String username = persistence.load("username");
+      String password = persistence.load("password");
       NetworkController.setCredentials(username,password);
     }
   }
@@ -88,9 +86,9 @@ public class MainController {
 
     // Save persistently
     if(usePersistence) {
-      PersistanceController.getInstance().save("username", username);
-      PersistanceController.getInstance().save("password", password);
-      PersistanceController.getInstance().save("uid", uid);
+      persistence.save("username", username);
+      persistence.save("password", password);
+      persistence.save("uid", uid);
     }
 
   }
@@ -99,9 +97,9 @@ public class MainController {
     NetworkController.setCredentials(null,null);
     uid = null;
     if(usePersistence) {
-    PersistanceController.getInstance().delete("username");
-    PersistanceController.getInstance().delete("password");
-    PersistanceController.getInstance().delete("uid");
+    persistence.delete("username");
+    persistence.delete("password");
+    persistence.delete("uid");
     }
   }
 
@@ -138,9 +136,9 @@ public class MainController {
   public static void setServer(String newAddress) {
     if(usePersistence) {
     if(newAddress == null)
-      PersistanceController.getInstance().delete("address");
+      persistence.delete("address");
     else
-      PersistanceController.getInstance().save("address", newAddress);
+      persistence.save("address", newAddress);
     }
     NetworkController.setAddress(newAddress);
   }
@@ -189,7 +187,8 @@ public class MainController {
   }
 
     public static boolean isLoggedIn() {
-      if(usePersistence&&(PersistanceController.getInstance().load("username")==null)!=NetworkController.isLoggedIn())
+    // check if persistent state and local copy are identical
+      if(usePersistence&&(persistence.load("username")==null)!=NetworkController.isLoggedIn())
         // Logged in information must be synced between parts of the controller
         throw new IllegalStateException();
       return NetworkController.isLoggedIn();

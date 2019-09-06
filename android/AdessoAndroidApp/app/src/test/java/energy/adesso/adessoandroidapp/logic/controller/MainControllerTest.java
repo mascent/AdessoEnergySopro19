@@ -6,25 +6,31 @@ import org.junit.Test;
 
 import org.mockito.Mockito;
 
+import java.lang.reflect.Field;
+
 import energy.adesso.adessoandroidapp.logic.model.identifiable.User;
 import okhttp3.HttpUrl;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import okhttp3.mockwebserver.RecordedRequest;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class MainControllerTest {
 
   @Test
   public void testMainControllerLogin() {
     try {
+      String uid = "ichbineineuidichbincool";
+      String username = "thelegend27";
+      String password = "password1";
 
       // Create a MockWebServer. These are lean enough that you can create a new
       // instance for every unit test.
       MockWebServer server = new MockWebServer();
 
-      User exampleUser = new User("diesistdieID", "diesistdiecustomernumber");
+      User exampleUser = new User(uid, "diesistdiecustomernumber");
       server.enqueue(new MockResponse().setBody(exampleUser.serialize()));
       // Start the server.
 
@@ -40,12 +46,27 @@ public class MainControllerTest {
       MainController.init(sp);
       MainController.setServer(baseUrl.toString());
 
-      MainController.login("hallo", "wasgeht");
+      MainController.login(username, password);
 
       RecordedRequest loginRequest = server.takeRequest();
       // initial login should not send a token (since there is none saved)
 
 
+      // check if things behaved as they should
+      // Hack into the mainframe and disable their algorithms https://www.reddit.com/r/antimeme/comments/9s1zld/when_you_hack_into_the_mainframe_and_disable/
+      Field uidField = MainController.class.getDeclaredField("uid");
+      Field usernameField = NetworkController.class.getDeclaredField("username");
+      Field passwordField = NetworkController.class.getDeclaredField("password");
+      uidField.setAccessible(true);
+      usernameField.setAccessible(true);
+      passwordField.setAccessible(true);
+      String reflectedUid = (String) uidField.get(null);
+      String reflectedUsername = (String) usernameField.get(null);
+      String reflectedPassword = (String) passwordField.get(null);
+
+      assertEquals(uid,reflectedUid);
+      assertEquals(username,reflectedUsername);
+      assertEquals(password,reflectedPassword);
       assertTrue(MainController.isLoggedIn());
 
       server.shutdown();
