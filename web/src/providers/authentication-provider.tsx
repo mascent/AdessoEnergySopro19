@@ -4,9 +4,12 @@ import React, {
   useLayoutEffect,
   useCallback
 } from 'react';
+import { auth, config } from '../services/ad-api';
 
 interface AuthenticationContext {
   token: string | null;
+  userId: string;
+  isAdmin: boolean;
   login: (username: string, password: string) => void;
   logout: () => void;
 }
@@ -15,7 +18,10 @@ const AuthenticationContext = React.createContext<
   AuthenticationContext | undefined
 >(undefined);
 
-function useToken() {
+function useToken(): [
+  string | null | undefined,
+  React.Dispatch<React.SetStateAction<string | null | undefined>>
+] {
   const [token, setToken] = useState<string | null | undefined>(undefined);
 
   useEffect(() => {
@@ -23,35 +29,52 @@ function useToken() {
 
     // TODO: Make sure that the token is not expired
     if (token !== null) setToken(token);
+
+    setToken(null);
   }, []);
 
-  return token;
+  return [token, setToken];
 }
 
-const AuthenticationProvider: React.FC = ({ children }) => {
-  const token = useToken();
+export const AuthenticationProvider: React.FC = ({ children }) => {
+  const [token, setToken] = useToken();
+  const [userId, setUserId] = useState<string>('');
+  const [isAdmin, setIsAdmin] = useState<boolean>(false);
 
   useLayoutEffect(() => {
     if (typeof token !== 'undefined' && token !== null) {
-      // TODO: Set config token
+      config.token = token;
+      // TODO: UserId and isAdmin has to be decoded from the jwt token.
+      // But: Are we still using JWT when switching to basic auth?
+      setUserId('sdjsdk');
+      setIsAdmin(false);
     }
   }, [token]);
 
-  const login = useCallback((username: string, password: string) => {
-    // TODO: Figure out what we have to do
-  }, []);
+  const login = useCallback(
+    async (username: string, password: string) => {
+      const token = await auth.login(username, password);
+      setToken(token);
+      localStorage.setItem('access_token', token);
+    },
+    [setToken]
+  );
 
   const logout = useCallback(() => {}, []);
 
   return typeof token !== 'undefined' ? (
-    <AuthenticationContext.Provider value={{ token, login, logout }}>
+    <AuthenticationContext.Provider
+      value={{ token, userId, isAdmin, login, logout }}
+    >
       {children}
     </AuthenticationContext.Provider>
   ) : null;
 };
 
-function useAuth(): {
+export function useAuth(): {
   token: string | null;
+  userId: string;
+  isAdmin: boolean;
   login: (username: string, password: string) => void;
   logout: () => void;
 } {
