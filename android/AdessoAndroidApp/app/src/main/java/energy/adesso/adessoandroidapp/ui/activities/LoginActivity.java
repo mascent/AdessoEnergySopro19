@@ -24,7 +24,7 @@ public class LoginActivity extends ParentActivity {
 
         MainController.init(getPreferences(Context.MODE_PRIVATE));
 
-        if (MainController.isLoggedIn()) {
+        if (MockController.isLoggedIn()) {
             startNewActivity(MainActivity.class, Intent.FLAG_ACTIVITY_CLEAR_TASK);
         }
     }

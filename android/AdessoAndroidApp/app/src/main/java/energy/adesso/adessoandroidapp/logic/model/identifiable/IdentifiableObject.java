@@ -12,13 +12,13 @@ import energy.adesso.adessoandroidapp.logic.model.SerializableObject;
 public abstract class IdentifiableObject extends SerializableObject {
   private String id;
   @Nullable
-  private String updatedAt;
+  protected String updatedAt;
   @Nullable
-  private String createdAt;
+  protected String createdAt;
   @Nullable
-  private String deletedAt;
+  protected String deletedAt;
 
-  private final static transient DateTimeFormatter dateTimeStrategy = ISODateTimeFormat.dateTime();
+  protected final static transient DateTimeFormatter dateTimeStrategy = ISODateTimeFormat.dateTime();
 
   public IdentifiableObject(String id){
     this.id = id;

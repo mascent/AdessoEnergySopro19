@@ -3,6 +3,7 @@ package energy.adesso.adessoandroidapp.logic.model.identifiable;
 
 import energy.adesso.adessoandroidapp.logic.controller.MainController;
 import energy.adesso.adessoandroidapp.logic.model.exception.NetworkException;
+import energy.adesso.adessoandroidapp.ui.mock.MockController;
 
 public class Issue extends IdentifiableObject {
 
@@ -18,7 +19,7 @@ public class Issue extends IdentifiableObject {
 
 
   public void send() throws NetworkException {
-    MainController.sendIssue(this);
+    MockController.sendIssue(this);
   }
 
   public static Issue deserialize(String source){
