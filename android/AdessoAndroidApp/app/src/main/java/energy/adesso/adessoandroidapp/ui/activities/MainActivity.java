@@ -34,7 +34,6 @@ import java.util.IllegalFormatException;
 import java.util.List;
 
 import energy.adesso.adessoandroidapp.R;
-import energy.adesso.adessoandroidapp.logic.controller.MainController;
 import energy.adesso.adessoandroidapp.logic.model.exception.AdessoException;
 import energy.adesso.adessoandroidapp.logic.model.identifiable.Meter;
 import energy.adesso.adessoandroidapp.ui.mock.MockController;
@@ -222,28 +221,28 @@ public class MainActivity extends ListActivity {
         Drawable testIcon = testIcon = getDrawable(R.drawable.logo_drop_circle);
 
         addListTitle("Title1", "Unit1");
-        addListElement(testIcon, "Hauptsitz6", "98 765 434", Integer.toString(i++), onListElementClick);
-        addListElement(testIcon, "element2", "98 765 434", Integer.toString(i++), onListElementClick);
+        addMeterListElement(testIcon, "Hauptsitz6", "98 765 434", Integer.toString(i++), onListElementClick);
+        addMeterListElement(testIcon, "element2", "98 765 434", Integer.toString(i++), onListElementClick);
         addListLine();
         addListTitle("Title2", "Unit2");
-        addListElement(testIcon, "1Hauptsitz", "98 765 434", Integer.toString(i++), onListElementClick);
-        addListElement(testIcon, "element2", "98 765 434", Integer.toString(i++), onListElementClick);
+        addMeterListElement(testIcon, "1Hauptsitz", "98 765 434", Integer.toString(i++), onListElementClick);
+        addMeterListElement(testIcon, "element2", "98 765 434", Integer.toString(i++), onListElementClick);
         addListLine();
         addListTitle("Title3", "Unit3");
-        addListElement(testIcon, "2Hauptsitz", "98 765 434", Integer.toString(i++), onListElementClick);
-        addListElement(testIcon, "element2", "98 765 434", Integer.toString(i++), onListElementClick);
+        addMeterListElement(testIcon, "2Hauptsitz", "98 765 434", Integer.toString(i++), onListElementClick);
+        addMeterListElement(testIcon, "element2", "98 765 434", Integer.toString(i++), onListElementClick);
         addListLine();
         addListTitle("Title4", "Unit4");
-        addListElement(testIcon, "2Hauptsitz", "98 765 434", Integer.toString(i++), onListElementClick);
-        addListElement(testIcon, "element2", "98 765 434", Integer.toString(i++), onListElementClick);
+        addMeterListElement(testIcon, "2Hauptsitz", "98 765 434", Integer.toString(i++), onListElementClick);
+        addMeterListElement(testIcon, "element2", "98 765 434", Integer.toString(i++), onListElementClick);
         addListLine();
         addListTitle("Title5", "Unit5");
-        addListElement(testIcon, "2Hauptsitz", "98 765 434", Integer.toString(i++), onListElementClick);
-        addListElement(testIcon, "element2", "98 765 434", Integer.toString(i++), onListElementClick);
+        addMeterListElement(testIcon, "2Hauptsitz", "98 765 434", Integer.toString(i++), onListElementClick);
+        addMeterListElement(testIcon, "element2", "98 765 434", Integer.toString(i++), onListElementClick);
         addListLine();
         addListTitle("Title6", "Unit6");
-        addListElement(testIcon, "2Hauptsitz", "98 765 434", Integer.toString(i++), onListElementClick);
-        addListElement(testIcon, "element2", "98 765 434", Integer.toString(i++), onListElementClick);
+        addMeterListElement(testIcon, "2Hauptsitz", "98 765 434", Integer.toString(i++), onListElementClick);
+        addMeterListElement(testIcon, "element2", "98 765 434", Integer.toString(i++), onListElementClick);
     }
     void showMeters(List<Meter> meters) {
         clearList();
@@ -264,15 +263,15 @@ public class MainActivity extends ListActivity {
 
         addListTitle("Strom", "kWh");
         for (Meter m : electricMeters)
-            addListElement(getDrawable(R.drawable.icon_electricity), m.getName(), m.getMeterNumber(), m.getLastReading().getValue(), onListElementClick);
+            addMeterListElement(getDrawable(R.drawable.icon_electricity), m.getName(), m.getMeterNumber(), m.getLastReading().getValue(), onListElementClick);
         addListLine();
         addListTitle("Gas", "m³");
         for (Meter m : gasMeters)
-            addListElement(getDrawable(R.drawable.icon_gas), m.getName(), m.getMeterNumber(), m.getLastReading().getValue(), onListElementClick);
+            addMeterListElement(getDrawable(R.drawable.icon_gas), m.getName(), m.getMeterNumber(), m.getLastReading().getValue(), onListElementClick);
         addListLine();
         addListTitle("Wasser", "m³");
         for (Meter m : waterMeters)
-            addListElement(getDrawable(R.drawable.icon_water), m.getName(), m.getMeterNumber(), m.getLastReading().getValue(), onListElementClick);
+            addMeterListElement(getDrawable(R.drawable.icon_water), m.getName(), m.getMeterNumber(), m.getLastReading().getValue(), onListElementClick);
 
         Log.println(Log.INFO, "", "Added list elements");
     }
