@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import de.sopro.data.Meter;
 import de.sopro.data.Person;
 import de.sopro.data.Role;
+import de.sopro.repository.IssueRepository;
 import de.sopro.repository.PersonRepository;
 
 /**
@@ -47,20 +48,20 @@ public class IssueController {
 	 * @return The ID of the issue that was created.
 	 */
 	@PostMapping("/api/issues")
-	public String createIssue(@RequestParam Jwt token, @RequestParam String name, @RequestParam String email, @RequestParam String subject,
-			@RequestParam String description) {
-		if (!name.isEmpty() && !email.isEmpty() && !subject.isEmpty() && !description.isEmpty()) {
-			String issuerId = token.getId(); //hier gucken, wie das geht..
-			Person person = personRepository.findById(issuerId);
-			if(person.getRole().equals(Role.User)) { //Admins sollten imo keine Tickets stellen
-				Issue issue = new Issue(name, email, subject, description, issuerId)
-				String issueId = issue.getIssueId();
-				issueRepository.save(issue);
-				return issueId;
-			}
-			return null; //wahrscheinlich lieber Fehler
-		}
-		return null; //wahrscheinlich lieber Fehler
+	public String createIssue(@RequestParam Jwt token, @RequestParam String name, @RequestParam String email,
+			@RequestParam String subject, @RequestParam String description) {
+//		if (!name.isEmpty() && !email.isEmpty() && !subject.isEmpty() && !description.isEmpty()) {
+//			String issuerId = token.getId(); //hier gucken, wie das geht..
+//			Person person = personRepository.findById(issuerId);
+//			if(person.getRole().equals(Role.User)) { //Admins sollten imo keine Tickets stellen
+//				Issue issue = new Issue(name, email, subject, description, issuerId)
+//				String issueId = issue.getIssueId();
+//				issueRepository.save(issue);
+//				return issueId;
+//			}
+//			return null; //wahrscheinlich lieber Fehler
+//		}
+		return null; // wahrscheinlich lieber Fehler
 	}
 
 	/**
@@ -73,14 +74,14 @@ public class IssueController {
 	 */
 	@DeleteMapping("/api/issues/{iid}")
 	public Boolean closeIssue(@RequestParam Jwt token, @PathVariable Long iid) {
-		String closerId = token.getId();
-		Person person = personRepository.findById(closerId);
-		if (person.getRole().equals(Role.Admin)) {
-			Issue issue = issueRepository.findById(iid);
-			issue.setCloserId(closerId);
-			issueRepository.save(iid);
-			return true;
-		}
+//		String closerId = token.getId();
+//		Person person = personRepository.findById(closerId);
+//		if (person.getRole().equals(Role.Admin)) {
+//			Issue issue = issueRepository.findById(iid);
+//			issue.setCloserId(closerId);
+//			issueRepository.save(iid);
+//			return true;
+//		}
 		return false;
 	}
 
@@ -94,15 +95,16 @@ public class IssueController {
 	 */
 	@GetMapping("/api/issues/{iid}")
 	public String getIssue(@RequestParam Jwt token, @PathVariable Long iid) {
-		String closerId = token.getId();
-		Person person = personRepository.findById(closerId);
-		if (person.getRole().equals(Role.Admin)) {
-			Issue issue = issueRepository.findById(iid);
-			return issue;
-		} else if (person.getRole().equals(Role.User)) { // nur wenn Zähler zu User gehört, über User Meter Asso
-			Issue issue = issueRepository.findById(iid);
-			return issue;
-		}
+//		String closerId = token.getId();
+//		Person person = personRepository.findById(closerId);
+//		if (person.getRole().equals(Role.Admin)) {
+//			Issue issue = issueRepository.findById(iid);
+//			return issue;
+//		} else if (person.getRole().equals(Role.User)) { // nur wenn Zähler zu User gehört, über User Meter Asso
+//			Issue issue = issueRepository.findById(iid);
+//			return issue;
+//		}
+		return null;
 	}
 
 	/**
@@ -114,11 +116,12 @@ public class IssueController {
 	 */
 	@GetMapping("/api/issues")
 	public String getIssues(@RequestParam Jwt token) {
-		String closerId = token.getId();
-		Person person = personRepository.findById(closerId);
-		if (person.getRole().equals(Role.Admin)) {
-			List<Issue> allIssues = (List<Issue>) issueRepository.findAll();
-			return allIssues;
-		}
+//		String closerId = token.getId();
+//		Person person = personRepository.findById(closerId);
+//		if (person.getRole().equals(Role.Admin)) {
+//			List<Issue> allIssues = (List<Issue>) issueRepository.findAll();
+//			return allIssues;
+//		}
+		return null;
 	}
 }

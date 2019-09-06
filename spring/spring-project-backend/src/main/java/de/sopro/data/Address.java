@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.*;
 
 @Entity
 public class Address {
@@ -17,6 +18,8 @@ public Address() {
 	meters = new ArrayList<Meter>();
 }
 
+
+@NotNull
 @OneToMany(mappedBy = "address", cascade=CascadeType.ALL)
 private List<Meter> meters;
 
@@ -63,9 +66,14 @@ public void setPostalCode(int postalCode) {
 	this.postalCode = postalCode;
 }
 
+@NotNull
 private String street;
 
+@NotNull
 private String number;
 
+@Positive
+@Size(min = 5, max = 5) //Für deutsche PLZ
+@NotNull
 private int postalCode;
 }

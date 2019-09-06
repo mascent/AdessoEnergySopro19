@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class UserMeterAssociation {
@@ -20,9 +21,11 @@ public UserMeterAssociation(User user, Meter meter) {
 	
 
 @ManyToOne
+@NotNull
 private User user;
 
 @ManyToOne
+@NotNull
 private Meter meter;
 
 public User getUser() {

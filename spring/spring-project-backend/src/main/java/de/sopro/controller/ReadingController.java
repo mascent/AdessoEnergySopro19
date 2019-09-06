@@ -60,15 +60,16 @@ public class ReadingController {
 	@PutMapping("api/meters/{mid}/readings/{rid}") //gucken ob dieser Pfad noch stimmt
 	public String updateReading(@RequestParam Jwt token, @RequestParam int value, @PathVariable String rid,
 			@RequestParam String reason) {
-		String changerId = token.getId();
-		Person person = personRepository.findById(changerId);
-		if (person.getRole().equals(Role.Admin)) {
-			Reading reading = readingRepository.findById(rid);
-			List<ReadingValue> readingValues = reading.getReadingValues();
-			Date date = new Date();
-			ReadingValue newValue = new ReadingValue(value, date, changerId);
-			readingValues.add(newValue);
-		}
+//		String changerId = token.getId();
+//		Person person = personRepository.findById(changerId);
+//		if (person.getRole().equals(Role.Admin)) {
+//			Reading reading = readingRepository.findById(rid);
+//			List<ReadingValue> readingValues = reading.getReadingValues();
+//			Date date = new Date();
+//			ReadingValue newValue = new ReadingValue(value, date, changerId);
+//			readingValues.add(newValue);
+//		}
+		return null;
 	}
 
 	/**
@@ -84,13 +85,15 @@ public class ReadingController {
 	 */
 	@GetMapping("api/meters/{mid}/readings/{rid}") //gucken ob dieser Pfad noch stimmt
 	public List<ReadingValue> getReadingHistory(@RequestParam Jwt token, @PathVariable String rid) {
-		String getterId = token.getId();
-		Person person = personRepository.findById(getterId);
-		if (person.getRole().equals(Role.Admin)) {
-			Reading reading = readingRepository.findById(rid);
-			List<ReadingValue> readingValues = reading.getReadingValues();
-			return readingValues;
-		}
+//		String getterId = token.getId();
+//		Person person = personRepository.findById(getterId);
+//		if (person.getRole().equals(Role.Admin)) {
+//			Reading reading = readingRepository.findById(rid);
+//			List<ReadingValue> readingValues = reading.getReadingValues();
+//			return readingValues;
+//		}
+//		
+		return null;
 	}
 
 	/**

@@ -62,24 +62,26 @@ public class MeterController {
 	 */
 	@PostMapping("/api/meters/{mid}/readings")
 	public String addReading(@RequestParam Jwt token, @PathVariable String mid, int value) {
-		Meter meter = meterRepository.findById(mid); // Zähler finden //wie hier optional fixen?
-		List<Reading> readingsList = meter.getReadings(); // alle Stände des Zählers
-		int pos = readingsList.size() - 1;
-		Reading reading = readingsList.get(pos); // aktuellster Stand steht an letzter Stelle
-		List<ReadingValue> valuesList = reading.getReadingValues(); // alle Values des Standes bekommen (mehrere Stände
-																	// durch Update)
-		int pos1 = valuesList.size() - 1;
-		ReadingValue actualValue = valuesList.get(pos1); // aktuellsten Stand kriegen
-		int oldValue = actualValue.getValue(); // von dem den Wert auslesen, da Rest nicht interessiert
-		if (value >= oldValue) {
-			Reading newReading = new Reading();
-			String changerId = token.getId(); // hier gucken, wie das geht..
-			Date date = new Date();
-			ReadingValue newReadingValue = new ReadingValue(value, date, changerId);
-			List<ReadingValue> newValuesList = new ArrayList<>();
-			newValuesList.add(newReadingValue);
-			newReading.setReadingValues(newValuesList);
-		}
+//		Meter meter = meterRepository.findById(mid); // Zähler finden //wie hier optional fixen?
+//		List<Reading> readingsList = meter.getReadings(); // alle Stände des Zählers
+//		int pos = readingsList.size() - 1;
+//		Reading reading = readingsList.get(pos); // aktuellster Stand steht an letzter Stelle
+//		List<ReadingValue> valuesList = reading.getReadingValues(); // alle Values des Standes bekommen (mehrere Stände
+//																	// durch Update)
+//		int pos1 = valuesList.size() - 1;
+//		ReadingValue actualValue = valuesList.get(pos1); // aktuellsten Stand kriegen
+//		int oldValue = actualValue.getValue(); // von dem den Wert auslesen, da Rest nicht interessiert
+//		if (value >= oldValue) {
+//			Reading newReading = new Reading();
+//			String changerId = token.getId(); // hier gucken, wie das geht..
+//			Date date = new Date();
+//			ReadingValue newReadingValue = new ReadingValue(value, date, changerId);
+//			List<ReadingValue> newValuesList = new ArrayList<>();
+//			newValuesList.add(newReadingValue);
+//			newReading.setReadingValues(newValuesList);
+//		}
+
+		return null;
 	}
 
 //	/** //Vincent sagt brauchen wir nicht
@@ -124,18 +126,20 @@ public class MeterController {
 	 */
 	@GetMapping("/api/meters/{mid}/readings")
 	public List<Reading> lookUpReadings(@RequestParam Jwt token, @PathVariable String mid) {
-		String userId = token.getId(); // hier gucken, wie das geht..
-		Person person = personRepository.findById(userId);
-		if (person.getRole().equals(Role.Admin)) {
-			Meter newMeter = meterRepository.findById(mid);
-			List<Reading> readingList = newMeter.getReadings();
-			return readingList;
-		} else if (person.getRole().equals(Role.User)) { // hier noch Check ob User berechtigt ist, also ob sein Zähler,
-															// probably über UserMeterAssociation
-			Meter newMeter = meterRepository.findById(mid);
-			List<Reading> readingList = newMeter.getReadings();
-			return readingList;
-		}
+//		String userId = token.getId(); // hier gucken, wie das geht..
+//		Person person = personRepository.findById(userId);
+//		if (person.getRole().equals(Role.Admin)) {
+//			Meter newMeter = meterRepository.findById(mid);
+//			List<Reading> readingList = newMeter.getReadings();
+//			return readingList;
+//		} else if (person.getRole().equals(Role.User)) { // hier noch Check ob User berechtigt ist, also ob sein Zähler,
+//															// probably über UserMeterAssociation
+//			Meter newMeter = meterRepository.findById(mid);
+//			List<Reading> readingList = newMeter.getReadings();
+//			return readingList;
+//		}
+
+		return null;
 	}
 
 	/**
@@ -153,18 +157,18 @@ public class MeterController {
 	@PostMapping("api/meters")
 	public String createMeter(@RequestParam Jwt token, @RequestParam String meterNumber,
 			@RequestParam int initialReading, MeterType meterType) {
-		if (!meterNumber.isEmpty() && initialReading >= 0 && (meterType.equals("Gas") || meterType.equals("Water") || meterType.equals("Electricity"))) {
-			String creatorId = token.getId(); //hier gucken, wie das geht..
-			Person person = personRepository.findById(creatorId);
-			if(person.getRole().equals(Role.Admin)) {
-				Meter meter = new Meter(meterNumber, initialReading, meterType)
-				String meterId = meter.getMeterId();
-				meterRepository.save(meter);
-				return meterId;
-			}
-			return null; //wahrscheinlich lieber Fehler
-		}
-		return null; //wahrscheinlich lieber Fehler
+//		if (!meterNumber.isEmpty() && initialReading >= 0 && (meterType.equals("Gas") || meterType.equals("Water") || meterType.equals("Electricity"))) {
+//			String creatorId = token.getId(); //hier gucken, wie das geht..
+//			Person person = personRepository.findById(creatorId);
+//			if(person.getRole().equals(Role.Admin)) {
+//				Meter meter = new Meter(meterNumber, initialReading, meterType)
+//				String meterId = meter.getMeterId();
+//				meterRepository.save(meter);
+//				return meterId;
+//			}
+//			return null; //wahrscheinlich lieber Fehler
+//		}
+		return null; // wahrscheinlich lieber Fehler
 	}
 
 	/**
@@ -183,22 +187,20 @@ public class MeterController {
 	@PostMapping("api/meters")
 	public String createMeter(@RequestParam Jwt token, @RequestParam String meterNumber, @RequestParam String uid,
 			@RequestParam int initialReading, MeterType meterType) {
-		if (!meterNumber.isEmpty() && initialReading >= 0 && (meterType.equals("Gas") && meterType.equals("Water") && meterType.equals("Electricity"))) {
-			String creatorId = token.getId(); //hier gucken, wie das geht..
-			Person person = personRepository.findById(creatorId);
-			if(person.getRole().equals(Role.Admin)) {
-				Meter meter = new Meter(meterNumber, initialReading, meterType)
-				String meterId = meter.getMeterId();
-				meterRepository.save(meter);
-				User user = userRepository.findById(uid)
-				UserMeterAssociation connection = new UserMeterAssociation(user, meter);
-				return meterId;
-			}
-			return null; //wahrscheinlich lieber Fehler
-		}
-		return null; //wahrscheinlich lieber Fehler
-	}
-
+//		if (!meterNumber.isEmpty() && initialReading >= 0 && (meterType.equals("Gas") && meterType.equals("Water") && meterType.equals("Electricity"))) {
+//			String creatorId = token.getId(); //hier gucken, wie das geht..
+//			Person person = personRepository.findById(creatorId);
+//			if(person.getRole().equals(Role.Admin)) {
+//				Meter meter = new Meter(meterNumber, initialReading, meterType)
+//				String meterId = meter.getMeterId();
+//				meterRepository.save(meter);
+//				User user = userRepository.findById(uid)
+//				UserMeterAssociation connection = new UserMeterAssociation(user, meter);
+//				return meterId;
+//			}
+//			return null; //wahrscheinlich lieber Fehler
+//		}
+		return null; // wahrscheinlich lieber Fehler
 	}
 
 	// Hier unklar welches Attribut, definitiv adden oder Methode löschen.
@@ -223,13 +225,15 @@ public class MeterController {
 	 */
 	@DeleteMapping("/api/meters/{mid}")
 	public String deleteMeter(@RequestParam Jwt token, @PathVariable String mid) {
-		String deleterId = token.getId(); // hier gucken, wie das geht..
-		Person person = personRepository.findById(deleterId);
-		Meter meter = meterRepository.findById(mid);
-		if (person.getRole().equals(Role.Admin)) {
-			Date date = new Date();
-			meter.setDeletedAt(date);
-		}
+//		String deleterId = token.getId(); // hier gucken, wie das geht..
+//		Person person = personRepository.findById(deleterId);
+//		Meter meter = meterRepository.findById(mid);
+//		if (person.getRole().equals(Role.Admin)) {
+//			Date date = new Date();
+//			meter.setDeletedAt(date);
+//		}
+
+		return null;
 	}
 
 	/**
@@ -241,12 +245,12 @@ public class MeterController {
 	 */
 	@GetMapping("/api/meters")
 	public List<Meter> getMeters(@RequestParam Jwt token) {
-		String closerId = token.getId();
-		Person person = personRepository.findById(closerId);
-		if (person.getRole().equals(Role.Admin)) {
-			List<Meter> metersList = (List<Meter>) meterRepository.findAll();
-			return metersList;
-		}
+//		String closerId = token.getId();
+//		Person person = personRepository.findById(closerId);
+//		if (person.getRole().equals(Role.Admin)) {
+//			List<Meter> metersList = (List<Meter>) meterRepository.findAll();
+//			return metersList;
+//		}
 		return null; // lieber Fehler
 	}
 
@@ -261,14 +265,16 @@ public class MeterController {
 	 */
 	@GetMapping("api/meters/{mid}")
 	public Meter getMeter(@RequestParam Jwt token, @PathVariable String mid) {
-		String closerId = token.getId();
-		Person person = personRepository.findById(closerId);
-		if (person.getRole().equals(Role.Admin)) {
-			Meter meter = meterRepository.findById(mid);
-			return meter;
-		} else if (person.getRole().equals(Role.User)) { // nur wenn Zähler zu User gehört, über User Meter Asso
-			Meter meter = meterRepository.findById(mid);
-			return meter;
-		}
+//		String closerId = token.getId();
+//		Person person = personRepository.findById(closerId);
+//		if (person.getRole().equals(Role.Admin)) {
+//			Meter meter = meterRepository.findById(mid);
+//			return meter;
+//		} else if (person.getRole().equals(Role.User)) { // nur wenn Zähler zu User gehört, über User Meter Asso
+//			Meter meter = meterRepository.findById(mid);
+//			return meter;
+//		}
+
+		return null;
 	}
 }

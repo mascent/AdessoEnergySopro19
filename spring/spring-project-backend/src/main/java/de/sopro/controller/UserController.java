@@ -1,11 +1,7 @@
 package de.sopro.controller;
 
-import java.util.Date;
 import java.util.List;
 
-import javax.validation.Valid;
-
-import org.apache.tomcat.jni.Address;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties.Jwt;
 import org.springframework.stereotype.Controller;
@@ -16,10 +12,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import de.sopro.data.Meter;
-import de.sopro.data.Person;
 import de.sopro.data.Role;
-import de.sopro.data.User;
-import de.sopro.data.UserMeterAssociation;
 import de.sopro.repository.MeterRepository;
 import de.sopro.repository.PersonRepository;
 import de.sopro.repository.UserMeterAssociationRepository;
@@ -59,18 +52,18 @@ public class UserController {
 	@PostMapping("api/users")
 	public String createUser(Jwt token, String name, String surname, String eMailAddress, String userNumber,
 			String userName, String password, Role role) {
-		if (!name.isEmpty() && !surname.isEmpty() && !eMailAddress.isEmpty() && !userNumber.isEmpty()
-				&& !userName.isEmpty() && !password.isEmpty() && password.length() > 7 && password.length() < 51) {
-			String creatorId = token.getId(); // hier gucken, wie das geht..
-			Person person = personRepository.findById(creatorId);
-			if (person.getRole().equals(Role.Admin)) {
-				User user = new User(name, surname, eMailAddress, userNumber, userName, password, role);
-				String userId = user.getUserId();
-				userRepository.save(user);
-				return userId;
-			}
-			return null; // wahrscheinlich lieber Fehler
-		}
+//		if (!name.isEmpty() && !surname.isEmpty() && !eMailAddress.isEmpty() && !userNumber.isEmpty()
+//				&& !userName.isEmpty() && !password.isEmpty() && password.length() > 7 && password.length() < 51) {
+//			String creatorId = token.getId(); // hier gucken, wie das geht..
+//			Person person = personRepository.findById(creatorId);
+//			if (person.getRole().equals(Role.Admin)) {
+//				User user = new User(name, surname, eMailAddress, userNumber, userName, password, role);
+//				String userId = user.getUserId();
+//				userRepository.save(user);
+//				return userId;
+//			}
+//			return null; // wahrscheinlich lieber Fehler
+//		}
 		return null; // wahrscheinlich lieber Fehler
 	}
 
@@ -84,13 +77,14 @@ public class UserController {
 	 */
 	@DeleteMapping("api/users/{uid}")
 	public String deleteUser(Jwt token, @PathVariable String uid) {
-		String deleterId = token.getId(); // hier gucken, wie das geht..
-		Person person = personRepository.findById(deleterId);
-		User user = userRepository.findById(uid);
-		if (person.getRole().equals(Role.Admin)) {
-			Date date = new Date();
-			user.setDeletedAt(date);
-		}
+//		String deleterId = token.getId(); // hier gucken, wie das geht..
+//		Person person = personRepository.findById(deleterId);
+//		User user = userRepository.findById(uid);
+//		if (person.getRole().equals(Role.Admin)) {
+//			Date date = new Date();
+//			user.setDeletedAt(date);
+//		}
+		return null;
 	}
 
 	/**
@@ -105,14 +99,15 @@ public class UserController {
 	 */
 	@PutMapping("api/users/{uid}")
 	public String updateUserName(@RequestParam Jwt token, @RequestParam String name, @PathVariable String uid) {
-		String updaterId = token.getId(); // hier gucken, wie das geht..
-		Person person = personRepository.findById(updaterId);
-		User user = userRepository.findById(uid);
-		if (person.getRole().equals(Role.Admin) && !name.isEmpty()) {
-			Date date = new Date();
-			user.setUpdatedAt(date);
-			user.setName(name);
-		}
+//		String updaterId = token.getId(); // hier gucken, wie das geht..
+//		Person person = personRepository.findById(updaterId);
+//		User user = userRepository.findById(uid);
+//		if (person.getRole().equals(Role.Admin) && !name.isEmpty()) {
+//			Date date = new Date();
+//			user.setUpdatedAt(date);
+//			user.setName(name);
+//		}
+		return null;
 	}
 
 	/**
@@ -127,14 +122,15 @@ public class UserController {
 	 */
 	@PutMapping("api/users/{uid}")
 	public String updateUserSurname(@RequestParam Jwt token, @RequestParam String surname, @PathVariable Long uid) {
-		String updaterId = token.getId(); // hier gucken, wie das geht..
-		Person person = personRepository.findById(updaterId);
-		User user = userRepository.findById(uid);
-		if (person.getRole().equals(Role.Admin) && !surname.isEmpty()) {
-			Date date = new Date();
-			user.setUpdatedAt(date);
-			user.setSurname(surname);
-		}
+//		String updaterId = token.getId(); // hier gucken, wie das geht..
+//		Person person = personRepository.findById(updaterId);
+//		User user = userRepository.findById(uid);
+//		if (person.getRole().equals(Role.Admin) && !surname.isEmpty()) {
+//			Date date = new Date();
+//			user.setUpdatedAt(date);
+//			user.setSurname(surname);
+//		}
+		return null;
 	}
 
 	/**
@@ -149,14 +145,15 @@ public class UserController {
 	 */
 	@PutMapping("api/users/{uid}")
 	public String updateUserEmail(@RequestParam Jwt token, @RequestParam String email, @PathVariable Long uid) {
-		String updaterId = token.getId(); // hier gucken, wie das geht..
-		Person person = personRepository.findById(updaterId);
-		User user = userRepository.findById(uid);
-		if (person.getRole().equals(Role.Admin) && !email.isEmpty()) {
-			Date date = new Date();
-			user.setUpdatedAt(date);
-			user.setEMailAddress(email);
-		}
+//		String updaterId = token.getId(); // hier gucken, wie das geht..
+//		Person person = personRepository.findById(updaterId);
+//		User user = userRepository.findById(uid);
+//		if (person.getRole().equals(Role.Admin) && !email.isEmpty()) {
+//			Date date = new Date();
+//			user.setUpdatedAt(date);
+//			user.setEMailAddress(email);
+//		}
+		return null;
 	}
 
 	/**
@@ -170,14 +167,15 @@ public class UserController {
 	 */
 	@PutMapping("api/users/me")
 	public String updateOwnEmail(@RequestParam Jwt token, @RequestParam String email) {
-		String updaterId = token.getId(); // hier gucken, wie das geht..
-		Person person = personRepository.findById(updaterId);
-		if (person.getRole().equals(Role.User) && !email.isEmpty()) {
-			Date date = new Date();
-			User user = (User) person;
-			user.setUpdatedAt(date);
-			user.setEMailAddress(email);
-		}
+//		String updaterId = token.getId(); // hier gucken, wie das geht..
+//		Person person = personRepository.findById(updaterId);
+//		if (person.getRole().equals(Role.User) && !email.isEmpty()) {
+//			Date date = new Date();
+//			User user = (User) person;
+//			user.setUpdatedAt(date);
+//			user.setEMailAddress(email);
+//		}
+		return null;
 	}
 
 //Update Address Methode unnötig, da nur Zähler ne Address haben und die nicht umziehen können
@@ -194,14 +192,16 @@ public class UserController {
 	 */
 	@PutMapping("api/users/{uid}")
 	public String updateUserNumber(@RequestParam Jwt token, @RequestParam String number, @PathVariable String uid) {
-		String updaterId = token.getId(); // hier gucken, wie das geht..
-		Person person = personRepository.findById(updaterId);
-		User user = userRepository.findById(uid);
-		if (person.getRole().equals(Role.Admin) && !number.isEmpty()) {
-			Date date = new Date();
-			user.setUpdatedAt(date);
-			user.setUserNumber(number);
-		}
+//		String updaterId = token.getId(); // hier gucken, wie das geht..
+//		Person person = personRepository.findById(updaterId);
+//		User user = userRepository.findById(uid);
+//		if (person.getRole().equals(Role.Admin) && !number.isEmpty()) {
+//			Date date = new Date();
+//			user.setUpdatedAt(date);
+//			user.setUserNumber(number);
+//		}
+		
+		return null;
 	}
 
 	/**
@@ -218,16 +218,16 @@ public class UserController {
 	 */
 	@PutMapping("api/users/{uid}")
 	public boolean addMetersToUser(@RequestParam Jwt token, @RequestParam List<String> meterIDs, @PathVariable String uid) {
-		String personId = token.getId(); // hier gucken, wie das geht..
-		Person person = personRepository.findById(personId);
-		if (person.getRole().equals(Role.Admin) {
-			User user = userRepository.findById(uid);
-			for(String m : meterIDs) {
-				Meter meter = meterRepository.findById(m);
-				UserMeterAssociation newUserMeterA = new UserMeterAssociation(user, meter);
-				return true;
-			}
-		}
+//		String personId = token.getId(); // hier gucken, wie das geht..
+//		Person person = personRepository.findById(personId);
+//		if (person.getRole().equals(Role.Admin) {
+//			User user = userRepository.findById(uid);
+//			for(String m : meterIDs) {
+//				Meter meter = meterRepository.findById(m);
+//				UserMeterAssociation newUserMeterA = new UserMeterAssociation(user, meter);
+//				return true;
+//			}
+//		}
 		return false;
 	}
 
@@ -245,16 +245,16 @@ public class UserController {
 	@DeleteMapping("api/users/{uid}")
 	public boolean removeMetersFromUser(@RequestParam Jwt token, @RequestParam List<Meter> meterIDs,
 			@PathVariable String uid) {
-		String personId = token.getId(); // hier gucken, wie das geht..
-		Person person = personRepository.findById(personId);
-		if (person.getRole().equals(Role.Admin) {
-			User user = userRepository.findById(uid);
-			for(String m : meterIDs) {
-				Meter meter = meterRepository.findById(m);
-				//hier UserMeterAssociationn getten und löschen
-				return true;
-			}
-		}	
+//		String personId = token.getId(); // hier gucken, wie das geht..
+//		Person person = personRepository.findById(personId);
+//		if (person.getRole().equals(Role.Admin) {
+//			User user = userRepository.findById(uid);
+//			for(String m : meterIDs) {
+//				Meter meter = meterRepository.findById(m);
+//				//hier UserMeterAssociationn getten und löschen
+//				return true;
+//			}
+//		}	
 		return false;
 	}
 }
