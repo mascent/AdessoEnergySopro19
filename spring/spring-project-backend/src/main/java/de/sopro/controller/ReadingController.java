@@ -1,12 +1,18 @@
 package de.sopro.controller;
 
-import org.springframework.stereotype.Controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import de.sopro.repository.MeterRepository;
+import de.sopro.repository.PersonRepository;
+import de.sopro.repository.ReadingRepository;
+import de.sopro.repository.ReadingValueRepository;
 
 /**
  * The reading controller contains operations to manage all requests belonging
@@ -17,6 +23,18 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 public class ReadingController {
+
+	@Autowired
+	PersonRepository personRepository;
+
+	@Autowired
+	MeterRepository meterRepository;
+
+	@Autowired
+	ReadingRepository readingRepository;
+
+	@Autowired
+	ReadingValueRepository readingValueRepository;
 
 	/**
 	 * This method allows an admin to update a reading. This means to change the
@@ -35,6 +53,15 @@ public class ReadingController {
 	@PutMapping("api/meters/{mid}/readings/{rid}")
 	public String updateReading(@PathVariable Long mid, @RequestParam int value, @PathVariable Long rid,
 			@RequestParam String reason) {
+//		String changerId = token.getId();
+//		Person person = personRepository.findById(changerId);
+//		if (person.getRole().equals(Role.Admin)) {
+//			Reading reading = readingRepository.findById(rid);
+//			List<ReadingValue> readingValues = reading.getReadingValues();
+//			Date date = new Date();
+//			ReadingValue newValue = new ReadingValue(value, date, changerId);
+//			readingValues.add(newValue);
+//		}
 		return null;
 	}
 
@@ -51,6 +78,14 @@ public class ReadingController {
 	 */
 	@GetMapping("api/meters/{mid}/readings/{rid}")
 	public String getReadingHistory(@PathVariable Long mid, @PathVariable Long rid) {
+//		String getterId = token.getId();
+//		Person person = personRepository.findById(getterId);
+//		if (person.getRole().equals(Role.Admin)) {
+//			Reading reading = readingRepository.findById(rid);
+//			List<ReadingValue> readingValues = reading.getReadingValues();
+//			return readingValues;
+//		}
+//		
 		return null;
 	}
 

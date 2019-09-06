@@ -1,13 +1,15 @@
 package de.sopro.controller;
 
-import org.springframework.stereotype.Controller;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import de.sopro.repository.IssueRepository;
+import de.sopro.repository.PersonRepository;
 
 /**
  * The issue controller contains operations to manage all requests belonging to
@@ -18,6 +20,12 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 public class IssueController {
+
+	@Autowired
+	IssueRepository issueRepository;
+
+	@Autowired
+	PersonRepository personRepository;
 
 	/**
 	 * This method allows an user to create a ticket for an issue that occurs.
@@ -33,9 +41,20 @@ public class IssueController {
 	 * @return The ID of the issue that was created.
 	 */
 	@PostMapping("/api/issues")
-	public String createIssue(@RequestParam String name, @RequestParam String email, @RequestParam String subject,
-			@RequestParam String description) {
-		return null;
+	public String createIssue(@RequestParam String name, @RequestParam String email,
+			@RequestParam String subject, @RequestParam String description) {
+//		if (!name.isEmpty() && !email.isEmpty() && !subject.isEmpty() && !description.isEmpty()) {
+//			String issuerId = token.getId(); //hier gucken, wie das geht..
+//			Person person = personRepository.findById(issuerId);
+//			if(person.getRole().equals(Role.User)) { //Admins sollten imo keine Tickets stellen
+//				Issue issue = new Issue(name, email, subject, description, issuerId)
+//				String issueId = issue.getIssueId();
+//				issueRepository.save(issue);
+//				return issueId;
+//			}
+//			return null; //wahrscheinlich lieber Fehler
+//		}
+		return null; // wahrscheinlich lieber Fehler
 	}
 
 	/**
@@ -47,8 +66,16 @@ public class IssueController {
 	 * @return A boolean that shows if the closing was successful.
 	 */
 	@DeleteMapping("/api/issues/{iid}")
-	public String closeIssue(@PathVariable Long iid) {
-		return null;
+	public Boolean closeIssue(@PathVariable Long iid) {
+//		String closerId = token.getId();
+//		Person person = personRepository.findById(closerId);
+//		if (person.getRole().equals(Role.Admin)) {
+//			Issue issue = issueRepository.findById(iid);
+//			issue.setCloserId(closerId);
+//			issueRepository.save(iid);
+//			return true;
+//		}
+		return false;
 	}
 
 	/**
@@ -61,6 +88,15 @@ public class IssueController {
 	 */
 	@GetMapping("/api/issues/{iid}")
 	public String getIssue(@PathVariable Long iid) {
+//		String closerId = token.getId();
+//		Person person = personRepository.findById(closerId);
+//		if (person.getRole().equals(Role.Admin)) {
+//			Issue issue = issueRepository.findById(iid);
+//			return issue;
+//		} else if (person.getRole().equals(Role.User)) { // nur wenn Zähler zu User gehört, über User Meter Asso
+//			Issue issue = issueRepository.findById(iid);
+//			return issue;
+//		}
 		return null;
 	}
 
@@ -73,6 +109,12 @@ public class IssueController {
 	 */
 	@GetMapping("/api/issues")
 	public String getIssues() {
+//		String closerId = token.getId();
+//		Person person = personRepository.findById(closerId);
+//		if (person.getRole().equals(Role.Admin)) {
+//			List<Issue> allIssues = (List<Issue>) issueRepository.findAll();
+//			return allIssues;
+//		}
 		return null;
 	}
 }

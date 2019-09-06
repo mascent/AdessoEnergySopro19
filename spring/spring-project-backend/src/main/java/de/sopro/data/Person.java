@@ -5,29 +5,27 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 @Entity
 public class Person {
-	
+
 	public Person(String username, String password, Role role) {
 		this.role = role;
 		this.username = username;
 		this.password = password;
 	}
-	
 
-	@Id @GeneratedValue(strategy = GenerationType.AUTO)
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	Integer personID;
-	
+
 	@NotNull
 	private String username;
-	
+
 	@NotNull
-	//@Size(min = 8, max = 50)
+	// @Size(min = 8, max = 50)
 	private String password;
 
-	
 	private Role role;
 
 	public Integer getPersonID() {
