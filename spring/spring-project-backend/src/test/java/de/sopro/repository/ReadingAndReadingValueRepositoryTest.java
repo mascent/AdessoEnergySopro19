@@ -41,7 +41,7 @@ public class ReadingAndReadingValueRepositoryTest {
 
 			assertTrue(readingRepository.existsById(reading.getReadingId()), "Reading #" + reading.getReadingId() + " exists in database");
 			for (ReadingValue rv : reading.getReadingValues()) {
-				assertTrue(readingValueRepository.existsById(rv.getReadingValueID()), "Reading Value #" + rv.getReadingValueID() + " exists in database");
+				assertTrue(readingValueRepository.existsById(rv.getReadingValueId()), "Reading Value #" + rv.getReadingValueId() + " exists in database");
 			}
 		}
 		

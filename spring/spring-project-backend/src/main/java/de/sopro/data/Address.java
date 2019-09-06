@@ -32,13 +32,13 @@ public void setMeters(List<Meter> meters) {
 }
 
 @Id @GeneratedValue(strategy = GenerationType.AUTO)
-private String addressID;
+private Long addressID;
 
-public String getAddressID() {
+public Long getAddressID() {
 	return addressID;
 }
 
-public void setAddressID(String addressID) {
+public void setAddressID(Long addressID) {
 	this.addressID = addressID;
 }
 

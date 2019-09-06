@@ -17,7 +17,7 @@ public class Person {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	Integer personID;
+	Long personId;
 
 	@NotNull
 	private String username;
@@ -28,12 +28,12 @@ public class Person {
 
 	private Role role;
 
-	public Integer getPersonID() {
-		return personID;
+	public Long getPersonId() {
+		return personId;
 	}
 
-	public void setPersonID(Integer personID) {
-		this.personID = personID;
+	public void setPersonId(Long personId) {
+		this.personId = personId;
 	}
 
 	public String getUsername() {
