@@ -21,14 +21,14 @@ public Reading() {
 private List <ReadingValue> readingValues;
 
 @Id @GeneratedValue(strategy = GenerationType.AUTO)
-private String readingID;
+private String readingId;
 
-public String getReadingID() {
-	return readingID;
+public String getReadingId() {
+	return readingId;
 }
 
-public void setReadingID(String readingID) {
-	this.readingID = readingID;
+public void setReadingId(String readingId) {
+	this.readingId = readingId;
 }
 
 public List<ReadingValue> getReadingValues() {

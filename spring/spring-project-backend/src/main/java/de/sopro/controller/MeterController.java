@@ -82,37 +82,37 @@ public class MeterController {
 		}
 	}
 
-	/**
-	 * This method allows an user to add a new reading to one of his meters or an
-	 * admin to add a new reading to any meter. The reading is added as a picture
-	 * here which is evaluated by another method.
-	 * 
-	 * @param token The JWT of the user/admin to authenticate himself.
-	 * @param mid   The ID of the meter the new reading belongs to.
-	 * @return A boolean that shows if the adding was successful.
-	 */
-	@PostMapping("/api/meters/{mid}/readings")
-	public String addReadingViaPicture(@RequestParam Jwt token, @PathVariable Long mid, @RequestParam Image pic) {
-		int value = PictureController.analyze(token, pic);
-		Meter meter = meterRepository.findById(mid); // Zähler finden //wie hier optional fixen?
-		List<Reading> readingsList = meter.getReadings(); // alle Stände des Zählers
-		int pos = readingsList.size() - 1;
-		Reading reading = readingsList.get(pos); // aktuellster Stand steht an letzter Stelle
-		List<ReadingValue> valuesList = reading.getReadingValues(); // alle Values des Standes bekommen (mehrere Stände
-																	// durch Update)
-		int pos1 = valuesList.size() - 1;
-		ReadingValue actualValue = valuesList.get(pos1); // aktuellsten Stand kriegen
-		int oldValue = actualValue.getValue(); // von dem den Wert auslesen, da Rest nicht interessiert
-		if (value >= oldValue) {
-			Reading newReading = new Reading();
-			String changerId = token.getId(); // hier gucken, wie das geht..
-			Date date = new Date();
-			ReadingValue newReadingValue = new ReadingValue(value, date, changerId);
-			List<ReadingValue> newValuesList = new ArrayList<>();
-			newValuesList.add(newReadingValue);
-			newReading.setReadingValues(newValuesList);
-		}
-	}
+//	/** //Vincent sagt brauchen wir nicht
+//	 * This method allows an user to add a new reading to one of his meters or an
+//	 * admin to add a new reading to any meter. The reading is added as a picture
+//	 * here which is evaluated by another method.
+//	 * 
+//	 * @param token The JWT of the user/admin to authenticate himself.
+//	 * @param mid   The ID of the meter the new reading belongs to.
+//	 * @return A boolean that shows if the adding was successful.
+//	 */
+//	@PostMapping("/api/meters/{mid}/readings")
+//	public String addReadingViaPicture(@RequestParam Jwt token, @PathVariable Long mid, @RequestParam Image pic) {
+//		int value = PictureController.analyze(token, pic);
+//		Meter meter = meterRepository.findById(mid); // Zähler finden //wie hier optional fixen?
+//		List<Reading> readingsList = meter.getReadings(); // alle Stände des Zählers
+//		int pos = readingsList.size() - 1;
+//		Reading reading = readingsList.get(pos); // aktuellster Stand steht an letzter Stelle
+//		List<ReadingValue> valuesList = reading.getReadingValues(); // alle Values des Standes bekommen (mehrere Stände
+//																	// durch Update)
+//		int pos1 = valuesList.size() - 1;
+//		ReadingValue actualValue = valuesList.get(pos1); // aktuellsten Stand kriegen
+//		int oldValue = actualValue.getValue(); // von dem den Wert auslesen, da Rest nicht interessiert
+//		if (value >= oldValue) {
+//			Reading newReading = new Reading();
+//			String changerId = token.getId(); // hier gucken, wie das geht..
+//			Date date = new Date();
+//			ReadingValue newReadingValue = new ReadingValue(value, date, changerId);
+//			List<ReadingValue> newValuesList = new ArrayList<>();
+//			newValuesList.add(newReadingValue);
+//			newReading.setReadingValues(newValuesList);
+//		}
+//	}
 
 	/**
 	 * This method allows an user to look up all readings belonging to one of his
