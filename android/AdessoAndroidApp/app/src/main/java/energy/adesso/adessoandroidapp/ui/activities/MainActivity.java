@@ -98,12 +98,12 @@ public class MainActivity extends ListActivity {
     void onImageReceived(Bitmap b) {
         try {
             LinearLayout l = (LinearLayout)getLayoutInflater().inflate(R.layout.dialog_reading_check,null);
-            Pair<Integer, Integer> p = MainController.getInstance().azureAnalyze(b);
+            Pair<Meter, String> p = MainController.azureAnalyze(b);
 
             // TODO: remind richard that azureAnalyze should return the meter number and not the mid
 
-            ((TextView)l.findViewById(R.id.number)).setText(R.string.not_implemented_message);
-            ((TextView)l.findViewById(R.id.usage)).setText(p.second.toString());
+            ((TextView)l.findViewById(R.id.number)).setText(p.first.getMeterNumber());
+            ((TextView)l.findViewById(R.id.usage)).setText(p.second);
 
             new AlertDialog.Builder(this)
                     .setTitle(R.string.check_image)
@@ -175,7 +175,7 @@ public class MainActivity extends ListActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         try {
-                            MainController.getInstance().setServer(input.getText().toString());
+                            MainController.setServer(input.getText().toString());
                         } catch (IllegalFormatException e) {
                             Toast.makeText(a, R.string.generic_error_message, Toast.LENGTH_SHORT).show();
                         }
@@ -203,7 +203,7 @@ public class MainActivity extends ListActivity {
                 .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         try {
-                            MainController.getInstance().logOut();
+                            MainController.logOut();
                         } catch (AdessoException e) { }
                         finish();
                         System.exit(0);
@@ -278,7 +278,7 @@ public class MainActivity extends ListActivity {
     }
     public static Meter getMeter(String number) {
         for (Meter m : meters)
-            if (m.meterNumber.equals(number))
+            if (m.equals(number))
                 return m;
         return null;
     }

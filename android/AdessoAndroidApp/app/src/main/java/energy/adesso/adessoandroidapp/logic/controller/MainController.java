@@ -201,7 +201,7 @@ public class MainController {
     NetworkController.put(url,json,token.getToken());
   }
 
-    public boolean isLoggedIn() {
-    return false;
+    public static boolean isLoggedIn() {
+      return false;
     }
 }

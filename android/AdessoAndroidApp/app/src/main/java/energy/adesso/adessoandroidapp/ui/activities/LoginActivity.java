@@ -22,9 +22,9 @@ public class LoginActivity extends ParentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        MainController.getInstance().init(getPreferences(Context.MODE_PRIVATE));
+        MainController.init(getPreferences(Context.MODE_PRIVATE));
 
-        if (MainController.getInstance().isLoggedIn()) {
+        if (MainController.isLoggedIn()) {
             startNewActivity(MainActivity.class, Intent.FLAG_ACTIVITY_CLEAR_TASK);
         }
     }
