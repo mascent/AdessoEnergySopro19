@@ -21,6 +21,7 @@ public class AdessoUserDetailsService implements UserDetailsService {
 		Person person = personRepository.findByUsername(username);
 
 		if (person == null) {
+			System.out.println("nonexistens " + username);
 			throw new UsernameNotFoundException("a person by that username does not exists");
 		}
 		return User.withUsername(person.getUsername()).password(person.getPassword()).roles(person.getRole().toString())
