@@ -20,28 +20,30 @@ import energy.adesso.adessoandroidapp.logic.model.identifiable.Meter;
 import energy.adesso.adessoandroidapp.logic.model.identifiable.Reading;
 import energy.adesso.adessoandroidapp.logic.model.exception.*;
 
+import static energy.adesso.adessoandroidapp.ui.activities.MainActivity.getMeter;
+
 
 public class MainController {
   private static MainController instance;
-  private String ip;
-  private SharedPreferences prefs;
+  private static String ip;
+  private static SharedPreferences prefs;
 
-  private Token token = null;
-  private Token refreshToken = null;
-  private String uid;
+  private static Token token = null;
+  private static Token refreshToken = null;
+  private static String uid;
 
-  // Private because of singleton pattern
+  // Private because of static class
   private MainController() {
 
   }
 
-  public void sendIssue(Issue issue) throws NetworkException {
+  public static void sendIssue(Issue issue) throws NetworkException {
     String json = issue.serialize();
     String url = "api/issues";
     NetworkController.post(url,json,token.getToken());
   }
 
-  public void init(SharedPreferences prefs) {
+  public static void init(SharedPreferences prefs) {
     // init Persistance
     PersistanceController.getInstance().init(prefs);
 
@@ -52,17 +54,6 @@ public class MainController {
     uid = PersistanceController.getInstance().load("uid");
   }
 
-  /**
-   * Singleton-getInstance.
-   *
-   * @return
-   */
-  public static MainController getInstance() {
-    if (instance != null)
-      return instance;
-    instance = new MainController();
-    return instance;
-  }
 
   /**
    * gets all readings associated with the meter with the given ID
@@ -72,7 +63,7 @@ public class MainController {
    * @throws NetworkException
    * @throws CredentialException when not logged in
    */
-  public List<Reading> getReadings(String meterId) throws NetworkException, CredentialException {
+  public static List<Reading> getReadings(String meterId) throws NetworkException, CredentialException {
     String request = "/api/users/me/readings/" + meterId;
     List<Reading> readingList = new PagingHelper<Reading>().getAll(request, token);
     return readingList;
@@ -86,7 +77,7 @@ public class MainController {
    * @param password
    * @throws NetworkException
    */
-  public void login(String username, String password) throws NetworkException {
+  public static void login(String username, String password) throws NetworkException {
     // Send
     HashMap<String, String> map = new HashMap<String, String>();
     map.put("username", username);
@@ -109,7 +100,7 @@ public class MainController {
 
   }
 
-  public void logOut() throws NetworkException {
+  public static void logOut() throws NetworkException {
     // Send Request to Server
     String tokenString = token.getToken();
     HashMap<String, String> map = new HashMap<String, String>();
@@ -135,13 +126,21 @@ public class MainController {
    * @return a Tuple of number, reading
    * @throws CredentialException when not logged in
    */
-  public Pair<Integer, Integer> azureAnalyze(Bitmap image) throws NetworkException, CredentialException {
+  public static Pair<Meter, String> azureAnalyze(Bitmap image) throws NetworkException, CredentialException {
     // TODO this is def. wrong
     String url = "api/picture";
     String string = NetworkController.post(url, toBase64(image), token.getToken());
-    Type castType = new Pair<Integer, Integer>(0, 0) {
+    Type castType = new Pair<String, String>("", "") {
     }.getClass();
-    return new Gson().fromJson(string, castType);
+    Pair<String, String> answer1 = new Gson().fromJson(string, castType);
+    Meter m = getMeter(answer1.first);
+    return new Pair<Meter, String>(m,answer1.second);
+  }
+
+  private static Meter getMeter(String mid) throws NetworkException {
+    String url = ""+mid; // TODO:
+    String json = NetworkController.get(url,token.getToken());
+    return (Meter) Meter.deserialize(json);
   }
 
   /**
@@ -150,7 +149,7 @@ public class MainController {
    * @param newAddress the ip tp connect to
    * @throws NetworkException when the Network is faulty
    */
-  public void setServer(String newAddress) {
+  public static void setServer(String newAddress) {
     if(newAddress == null)
       PersistanceController.getInstance().delete("address");
     else
@@ -159,7 +158,7 @@ public class MainController {
     NetworkController.setAddress(newAddress);
   }
 
-  public void createReading(String mid, String value) throws NetworkException, CredentialException {
+  public static void createReading(String mid, String value) throws NetworkException, CredentialException {
     String url = "/api/meters";
     Reading reading = new Reading(null, mid, uid, value);
     String readingString = reading.serialize();
@@ -174,7 +173,7 @@ public class MainController {
    * @throws NetworkException    when the Network is faulty
    * @throws CredentialException when the User is not logged in
    */
-  public List<Meter> getOverview() throws NetworkException, CredentialException {
+  public static List<Meter> getOverview() throws NetworkException, CredentialException {
 
     String request = "/api/users/me/meters/";
     return new PagingHelper<Meter>().getAll(request, token);
@@ -183,20 +182,20 @@ public class MainController {
   /**
    * Converts a bitmap to Base64 String
    */
-  private String toBase64(Bitmap bitmap) {
+  private static String toBase64(Bitmap bitmap) {
     ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
     bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
     byte[] byteArray = byteArrayOutputStream.toByteArray();
     return Base64.encodeToString(byteArray, Base64.DEFAULT);
   }
 
-  public void correctReading(Reading reading) throws NetworkException {
+  public static void correctReading(Reading reading) throws NetworkException {
     String url = "/api/meters/<mid>/readings/" + reading.getId();
     String json = reading.serialize();
     NetworkController.put(url,json,token.getToken());
   }
 
-  public void updateMeterName(Meter meter) throws NetworkException {
+  public static void updateMeterName(Meter meter) throws NetworkException {
     String url = "/api/meters/" + meter.getId();
     String json = meter.serialize();
     NetworkController.put(url,json,token.getToken());

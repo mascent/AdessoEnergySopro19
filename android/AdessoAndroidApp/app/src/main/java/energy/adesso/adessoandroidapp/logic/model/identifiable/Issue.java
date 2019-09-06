@@ -18,7 +18,7 @@ public class Issue extends IdentifiableObject {
 
 
   public void send() throws NetworkException {
-    MainController.getInstance().sendIssue(this);
+    MainController.sendIssue(this);
   }
 
   public static Issue deserialize(String source){
@@ -60,5 +60,7 @@ public class Issue extends IdentifiableObject {
   public String getStatus() {
     return status;
   }
+
+
 
 }

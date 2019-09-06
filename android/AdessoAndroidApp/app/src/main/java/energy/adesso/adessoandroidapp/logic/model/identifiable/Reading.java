@@ -26,7 +26,7 @@ public class Reading extends IdentifiableObject {
 
   public void correct(String newValue) throws NetworkException {
     this.value = newValue;
-    MainController.getInstance().correctReading(this);
+    MainController.correctReading(this);
   }
 
   public String getMeterId() {
