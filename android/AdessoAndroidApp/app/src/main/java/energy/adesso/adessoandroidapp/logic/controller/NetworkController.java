@@ -30,10 +30,10 @@ public class NetworkController {
 
   }
 
-  public static String get(String path, boolean useCredentials) throws NetworkException {
+  public static String get(String path) throws NetworkException {
     //TODO accept token
     Request request;
-    if (useCredentials)
+    if (username!=null)
       request = new Request.Builder()
               .addHeader("Authorization", Credentials.basic(username, password))
               .addHeader("Host", baseURL)
@@ -56,11 +56,11 @@ public class NetworkController {
   }
 
 
-  static String post(String path, String json, boolean useCredentials) throws NetworkException {
+  static String post(String path, String json) throws NetworkException {
     //TODO accept token
     RequestBody body = RequestBody.create(json, JSON);
     Request request;
-    if (useCredentials)
+    if (username!=null)
       request = new Request.Builder()
               .addHeader("Authorization", Credentials.basic(username, password))
               .addHeader("Host", baseURL)
@@ -84,11 +84,11 @@ public class NetworkController {
     }
   }
 
-  public static String put(String path, String json, boolean useCredentials) throws NetworkException {
+  public static String put(String path, String json) throws NetworkException {
     //TODO accept token
     RequestBody body = RequestBody.create(json, JSON);
     Request request;
-    if (useCredentials)
+    if (username!=null)
       request = new Request.Builder()
               .addHeader("Authorization", Credentials.basic(username, password))
               .addHeader("Host", baseURL)

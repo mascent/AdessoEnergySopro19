@@ -7,7 +7,6 @@ public class PersistanceController {
 
   private static PersistanceController instance;
 
-
   private PersistanceController() {
 
   }

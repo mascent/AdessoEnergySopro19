@@ -21,7 +21,7 @@ class PagingHelper<T> {
     while (true) {
       // get current page
       String url = request + "?" + pageNumber++;
-      String pagingString = NetworkController.get(url, true);
+      String pagingString = NetworkController.get(url);
       Type pagingType = new Paging<T>() {
       }.getClass();
       Paging<T> paging = new Gson().fromJson(pagingString, pagingType);

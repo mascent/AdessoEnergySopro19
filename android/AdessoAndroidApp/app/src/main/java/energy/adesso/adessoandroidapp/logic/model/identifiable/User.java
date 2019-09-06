@@ -11,6 +11,11 @@ public class User extends IdentifiableObject {
     super(id);
   }
 
+  public User(String id, String customerNumber) {
+    super(id);
+    this.customerNumber = customerNumber;
+  }
+
   public static User deserialize(String source) {
     return gson.fromJson(source, User.class);
   }

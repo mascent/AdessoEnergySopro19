@@ -22,6 +22,7 @@ import energy.adesso.adessoandroidapp.logic.model.identifiable.User;
 
 
 public class MainController {
+  private static boolean usePersistence = true;
   private static MainController instance;
   private static String ip;
   private static SharedPreferences prefs;
@@ -35,16 +36,18 @@ public class MainController {
   public static void sendIssue(Issue issue) throws NetworkException {
     String json = issue.serialize();
     String url = "api/issues";
-    NetworkController.post(url,json,true);
+    NetworkController.post(url,json);
   }
 
   public static void init(SharedPreferences prefs) {
     // init Persistance
     PersistanceController.getInstance().init(prefs);
+    if(usePersistence) {
+    PersistanceController.getInstance().init(prefs);
     String username = PersistanceController.getInstance().load("username");
     String password = PersistanceController.getInstance().load("password");
-
-    NetworkController.setCredentials(username,password);
+      NetworkController.setCredentials(username,password);
+    }
   }
 
 
@@ -76,7 +79,7 @@ public class MainController {
     map.put("username", username);
     map.put("password", password);
     String json = new Gson().toJson(map);
-    String reString = NetworkController.post("/api/login", json, true);
+    String reString = NetworkController.post("/api/login", json);
 
     User user = User.deserialize(reString);
     uid = user.getId();
@@ -84,18 +87,22 @@ public class MainController {
     NetworkController.setCredentials(username, password);
 
     // Save persistently
-    PersistanceController.getInstance().save("username", username);
-    PersistanceController.getInstance().save("password", password);
-    PersistanceController.getInstance().save("uid", uid);
+    if(usePersistence) {
+      PersistanceController.getInstance().save("username", username);
+      PersistanceController.getInstance().save("password", password);
+      PersistanceController.getInstance().save("uid", uid);
+    }
 
   }
 
   public static void logOut() throws NetworkException {
     NetworkController.setCredentials(null,null);
     uid = null;
+    if(usePersistence) {
     PersistanceController.getInstance().delete("username");
     PersistanceController.getInstance().delete("password");
     PersistanceController.getInstance().delete("uid");
+    }
   }
 
   /**
@@ -108,7 +115,7 @@ public class MainController {
   public static Pair<Meter, String> azureAnalyze(Bitmap image) throws NetworkException, CredentialException {
     // TODO this is def. wrong
     String url = "api/picture";
-    String string = NetworkController.post(url, toBase64(image), true);
+    String string = NetworkController.post(url, toBase64(image));
     Type castType = new Pair<String, String>("", "") {
     }.getClass();
     Pair<String, String> answer1 = new Gson().fromJson(string, castType);
@@ -118,7 +125,7 @@ public class MainController {
 
   private static Meter getMeter(String mid) throws NetworkException {
     String url = ""+mid; // TODO:
-    String json = NetworkController.get(url,true);
+    String json = NetworkController.get(url);
     return (Meter) Meter.deserialize(json);
   }
 
@@ -129,11 +136,12 @@ public class MainController {
    * @throws NetworkException when the Network is faulty
    */
   public static void setServer(String newAddress) {
+    if(usePersistence) {
     if(newAddress == null)
       PersistanceController.getInstance().delete("address");
     else
       PersistanceController.getInstance().save("address", newAddress);
-
+    }
     NetworkController.setAddress(newAddress);
   }
 
@@ -141,7 +149,7 @@ public class MainController {
     String url = "/api/meters";
     Reading reading = new Reading(null, mid, uid, value);
     String readingString = reading.serialize();
-    NetworkController.post(url, readingString, true);
+    NetworkController.post(url, readingString);
   }
 
   /**
@@ -171,19 +179,23 @@ public class MainController {
   public static void correctReading(Reading reading) throws NetworkException {
     String url = "/api/meters/<mid>/readings/" + reading.getId();
     String json = reading.serialize();
-    NetworkController.put(url,json,true);
+    NetworkController.put(url,json);
   }
 
   public static void updateMeterName(Meter meter) throws NetworkException {
     String url = "/api/meters/" + meter.getId();
     String json = meter.serialize();
-    NetworkController.put(url,json,true);
+    NetworkController.put(url,json);
   }
 
     public static boolean isLoggedIn() {
-      if((PersistanceController.getInstance().load("username")==null)!=NetworkController.isLoggedIn())
+      if(usePersistence &&(PersistanceController.getInstance().load("username")==null)!=NetworkController.isLoggedIn())
         // Logged in information must be synced between parts of the controller
         throw new IllegalStateException();
       return NetworkController.isLoggedIn();
     }
+
+  public static void setUsePersistence(boolean usePersistence) {
+    MainController.usePersistence = usePersistence;
+  }
 }
