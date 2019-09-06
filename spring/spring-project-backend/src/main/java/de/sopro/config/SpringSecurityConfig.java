@@ -1,17 +1,27 @@
 package de.sopro.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+import de.sopro.data.Role;
 
 @Configuration
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
+	@Autowired
+	AdessoUserDetailsService userDetailsService;
+
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.inMemoryAuthentication().withUser("user").password("{noop}password").roles("USER").and().withUser("admin")
-				.password("{noop}password").roles("USER", "ADMIN");
+//		auth.inMemoryAuthentication().withUser("user").password("{noop}password").roles("USER").and().withUser("admin")
+//				.password("{noop}password").roles("USER", "ADMIN");
+		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
 	}
 
 	@Override
@@ -19,11 +29,17 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
 		http
 				// HTTP Basic authentication
-				.httpBasic().and().authorizeRequests().antMatchers(HttpMethod.GET, "/api/users").hasRole("USER")
-				.antMatchers(HttpMethod.GET, "/api/users/**").hasRole("USER").antMatchers(HttpMethod.POST, "/api/**")
-				.hasRole("ADMIN").antMatchers(HttpMethod.PUT, "/api/**").hasRole("ADMIN")
-				.antMatchers(HttpMethod.PATCH, "/api/**").hasRole("ADMIN").antMatchers(HttpMethod.DELETE, "/api/**")
-				.hasRole("ADMIN").and().csrf().disable().formLogin().disable();
+				.httpBasic()
+					.and()
+					.authorizeRequests()
+					.antMatchers(HttpMethod.GET, "/api/users/me").hasRole(Role.User.toString())
+					.antMatchers(HttpMethod.GET, "/api/users/me/**").hasRole(Role.User.toString())
+					.antMatchers(HttpMethod.GET, "/api/**").hasRole(Role.Admin.toString())
+					.antMatchers(HttpMethod.POST, "/api/**").hasRole(Role.Admin.toString())
+					.antMatchers(HttpMethod.PUT, "/api/**").hasRole(Role.Admin.toString())
+					.antMatchers(HttpMethod.PATCH, "/api/**").hasRole(Role.Admin.toString())
+					.antMatchers(HttpMethod.DELETE, "/api/**").hasRole(Role.Admin.toString())
+					.and().csrf().disable().formLogin().disable();
 	}
 	/*
 	 * @Bean public UserDetailsService userDetailsService() { //ok for demo
@@ -36,4 +52,9 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 	 * "ADMIN").build()); return manager; }
 	 */
 
+	
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+	    return new BCryptPasswordEncoder();
+	}
 }

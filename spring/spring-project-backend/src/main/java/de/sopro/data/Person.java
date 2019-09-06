@@ -1,13 +1,33 @@
 package de.sopro.data;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Entity
+@Table(name="person")
 public class Person {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	Long personId;
+
+	@NotNull    
+	@Column(nullable = false, unique = true)
+	private String username;
+
+	@NotNull
+	//@Size(min = 8, max = 50)
+	private String password;
+
+	private Role role;
 
 	public Person(String username, String password, Role role) {
 		this.role = role;
@@ -15,25 +35,13 @@ public class Person {
 		this.password = password;
 	}
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	Long personId;
+	public Person() {
 
-	@NotNull
-	private String username;
+	}
 
-	@NotNull
-	// @Size(min = 8, max = 50)
-	private String password;
-
-	private Role role;
 
 	public Long getPersonId() {
 		return personId;
-	}
-
-	public void setPersonId(Long personId) {
-		this.personId = personId;
 	}
 
 	public String getUsername() {
