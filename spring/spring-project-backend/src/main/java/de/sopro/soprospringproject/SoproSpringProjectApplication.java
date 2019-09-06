@@ -10,4 +10,5 @@ public class SoproSpringProjectApplication {
 		SpringApplication.run(SoproSpringProjectApplication.class, args);
 	}
 
+
 }

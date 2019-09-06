@@ -3,16 +3,22 @@ package de.sopro.controller;
 import java.util.List;
 
 import org.apache.tomcat.jni.Address;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties.Jwt;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import de.sopro.data.Meter;
+import de.sopro.data.Role;
 import de.sopro.data.User;
+import de.sopro.repository.UserRepository;
 
 /**
  * The user controller contains operations manage all requests belonging to user
@@ -21,8 +27,16 @@ import de.sopro.data.User;
  * @author Mattis
  *
  */
-@Controller
+@RestController
 public class UserController {
+
+	@Autowired
+	UserRepository userRepository;
+
+	@GetMapping("/api/users")
+	public Iterable<User> getUsers() {
+		return userRepository.findAll();
+	}
 
 	/**
 	 * This method allows an admin to create a new user in the system. The user
@@ -33,9 +47,11 @@ public class UserController {
 	 * @param user  The object of the user to store in the database.
 	 * @return A boolean that shows if the creation was successful.
 	 */
-	@PostMapping("api/users")
-	public String createUser(Jwt token, User user) {
-		return null;
+	@PostMapping("/api/users")
+	public User createUser(@RequestParam String name, @RequestParam String surname, @RequestParam String eMailAdress,
+			@RequestParam String userNumber,@RequestParam String uname, @RequestParam String pwd) {
+		System.out.println("test");
+		return userRepository.save(new User(name, surname, eMailAdress, userNumber, uname, pwd, Role.User));
 	}
 
 	/**
