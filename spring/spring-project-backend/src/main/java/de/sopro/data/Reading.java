@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
@@ -17,10 +18,22 @@ public class Reading {
 public Reading() {
 	 readingValues = new ArrayList<ReadingValue>();
 }
+
+@ManyToOne
+private Meter meter;
 	
+public Meter getMeter() {
+	return meter;
+}
+
+public void setMeter(Meter meter) {
+	this.meter = meter;
+}
+
 @OneToMany(mappedBy = "reading",cascade = CascadeType.ALL)
 @NotNull
 private List <ReadingValue> readingValues;
+
 
 @Id @GeneratedValue(strategy = GenerationType.AUTO)
 private String readingID;

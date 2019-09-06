@@ -1,6 +1,5 @@
 package de.sopro.controller;
 
-import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties.Jwt;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,6 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import de.sopro.data.Reading;
 
@@ -18,7 +18,7 @@ import de.sopro.data.Reading;
  * @author Mattis
  *
  */
-@Controller
+@RestController
 public class MeterController {
 
 	/**
@@ -32,7 +32,7 @@ public class MeterController {
 	 * @return A boolean that shows if the adding was successful.
 	 */
 	@PostMapping("/api/meters/{mid}/readings")
-	public String addReading(@RequestParam Jwt token, @PathVariable Long mid, int value) {
+	public String addReading(@PathVariable Long mid, int value) {
 		return null;
 	}
 
@@ -46,7 +46,7 @@ public class MeterController {
 	 * @return A boolean that shows if the adding was successful.
 	 */
 	@PostMapping("/api/meters/{mid}/readings")
-	public String addReadingViaPicture(@RequestParam Jwt token, @PathVariable Long mid) {
+	public String addReadingViaPicture(@PathVariable Long mid) {
 		return null;
 	}
 
@@ -59,7 +59,7 @@ public class MeterController {
 	 * @return A list of readings and dates they were uploaded.
 	 */
 	@GetMapping("/api/meters/{mid}/readings")
-	public String lookUpReadings(@RequestParam Jwt token, @PathVariable Long mid) {
+	public String lookUpReadings( @PathVariable Long mid) {
 		return null;
 	}
 
@@ -75,9 +75,9 @@ public class MeterController {
 	 *                       provider.
 	 * @return The ID of the created meter.
 	 */
-	@PostMapping("api/meters")
-	public String createMeter(@RequestParam Jwt token, @RequestParam String meterNumber,
-			@RequestParam Reading initialReading) {
+	@PostMapping("/api/meters")
+	public String createMeter(@RequestParam String meterNumber,
+			@RequestParam Long initialReading) {
 		return null;
 	}
 
@@ -95,8 +95,8 @@ public class MeterController {
 	 * @return The ID of the created meter.
 	 */
 	@PostMapping("api/meters")
-	public String createMeter(@RequestParam Jwt token, @RequestParam String meterNumber, @RequestParam Long uid,
-			@RequestParam Reading initialReading) {
+	public String createMeter(@RequestParam String meterNumber, @RequestParam Long uid,
+			@RequestParam Long initialReading) {
 		return null;
 	}
 
@@ -109,7 +109,7 @@ public class MeterController {
 	 * @return A boolean that shows if the update was successful.
 	 */
 	@PutMapping("/api/meters/{mid}")
-	public String updateMeter(@RequestParam Jwt token, @PathVariable Long mid) {
+	public String updateMeter(@PathVariable Long mid) {
 		return null;
 	}
 
@@ -121,7 +121,7 @@ public class MeterController {
 	 * @return A boolean that shows if the update was successful.
 	 */
 	@DeleteMapping("/api/meters/{mid}")
-	public String deleteMeter(@RequestParam Jwt token, @PathVariable Long mid) {
+	public String deleteMeter(@PathVariable Long mid) {
 		return null;
 	}
 
@@ -133,7 +133,7 @@ public class MeterController {
 	 * @return A list of meters.
 	 */
 	@GetMapping("/api/meters")
-	public String getMeters(@RequestParam Jwt token) {
+	public String getMeters() {
 		return null;
 	}
 
@@ -147,7 +147,7 @@ public class MeterController {
 	 *         no meter with the given ID exists.
 	 */
 	@GetMapping("api/meters/{mid}")
-	public String getMeter(@RequestParam Jwt token, @PathVariable Long mid) {
+	public String getMeter(@PathVariable Long mid) {
 		return null;
 	}
 

@@ -1,6 +1,5 @@
 package de.sopro.controller;
 
-import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties.Jwt;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,6 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * The issue controller contains operations to manage all requests belonging to
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @author Mattis
  *
  */
-@Controller
+@RestController
 public class IssueController {
 
 	/**
@@ -47,7 +47,7 @@ public class IssueController {
 	 * @return A boolean that shows if the closing was successful.
 	 */
 	@DeleteMapping("/api/issues/{iid}")
-	public String closeIssue(@RequestParam Jwt token, @PathVariable Long iid) {
+	public String closeIssue(@PathVariable Long iid) {
 		return null;
 	}
 
@@ -60,7 +60,7 @@ public class IssueController {
 	 * @return The issue object belonging to the given ID.
 	 */
 	@GetMapping("/api/issues/{iid}")
-	public String getIssue(@RequestParam Jwt token, @PathVariable Long iid) {
+	public String getIssue(@PathVariable Long iid) {
 		return null;
 	}
 
@@ -72,7 +72,7 @@ public class IssueController {
 	 * @return A list of all issue IDs and their status (closed/open).
 	 */
 	@GetMapping("/api/issues")
-	public String getIssues(@RequestParam Jwt token) {
+	public String getIssues() {
 		return null;
 	}
 }

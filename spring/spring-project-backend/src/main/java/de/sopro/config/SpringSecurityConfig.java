@@ -14,32 +14,27 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 		auth.inMemoryAuthentication().withUser("user").password("{noop}password").roles("USER").and().withUser("admin")
 				.password("{noop}password").roles("USER", "ADMIN");
 	}
-	  @Override
-	    protected void configure(HttpSecurity http) throws Exception {
 
-	        http
-	                //HTTP Basic authentication
-	                .httpBasic()
-	                .and()
-	                .authorizeRequests()
-	                .antMatchers(HttpMethod.GET, "/api/users").hasRole("USER")
-	                .antMatchers(HttpMethod.POST, "/api/**").hasRole("ADMIN")
-	                .antMatchers(HttpMethod.PUT, "/api/**").hasRole("ADMIN")
-	                .antMatchers(HttpMethod.PATCH, "/api/**").hasRole("ADMIN")
-	                .antMatchers(HttpMethod.DELETE, "/api/**").hasRole("ADMIN")
-	                .and()
-	                .csrf().disable()
-	                .formLogin().disable();
-	    }
-	 /*@Bean
-    public UserDetailsService userDetailsService() {
-        //ok for demo
-        User.UserBuilder users = User.withDefaultPasswordEncoder();
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {
 
-        InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
-        manager.createUser(users.username("user").password("password").roles("USER").build());
-        manager.createUser(users.username("admin").password("password").roles("USER", "ADMIN").build());
-        return manager;
-    }*/
+		http
+				// HTTP Basic authentication
+				.httpBasic().and().authorizeRequests().antMatchers(HttpMethod.GET, "/api/users").hasRole("USER")
+				.antMatchers(HttpMethod.GET, "/api/users/**").hasRole("USER").antMatchers(HttpMethod.POST, "/api/**")
+				.hasRole("ADMIN").antMatchers(HttpMethod.PUT, "/api/**").hasRole("ADMIN")
+				.antMatchers(HttpMethod.PATCH, "/api/**").hasRole("ADMIN").antMatchers(HttpMethod.DELETE, "/api/**")
+				.hasRole("ADMIN").and().csrf().disable().formLogin().disable();
+	}
+	/*
+	 * @Bean public UserDetailsService userDetailsService() { //ok for demo
+	 * User.UserBuilder users = User.withDefaultPasswordEncoder();
+	 * 
+	 * InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
+	 * manager.createUser(users.username("user").password("password").roles("USER").
+	 * build());
+	 * manager.createUser(users.username("admin").password("password").roles("USER",
+	 * "ADMIN").build()); return manager; }
+	 */
 
 }

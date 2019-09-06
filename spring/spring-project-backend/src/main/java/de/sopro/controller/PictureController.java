@@ -2,10 +2,10 @@ package de.sopro.controller;
 
 import java.awt.Image;
 
-import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties.Jwt;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * The picture controller contains operations to evaluate pictures.
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @author Mattis
  *
  */
-@Controller
+@RestController
 public class PictureController {
 
 	/**
@@ -27,7 +27,7 @@ public class PictureController {
 	 *         not found return error code.
 	 */
 	@PostMapping("api/pictures")
-	public String analyze(@RequestParam Jwt token, @RequestParam Image pic) {
+	public String analyze(@RequestParam Image pic) {
 		return null;
 	}
 }

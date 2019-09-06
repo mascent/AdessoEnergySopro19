@@ -12,7 +12,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import static org.junit.jupiter.api.Assertions.*;
 import de.sopro.data.Meter;
 import de.sopro.data.Reading;
-import de.sopro.data.ReadingValue;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest

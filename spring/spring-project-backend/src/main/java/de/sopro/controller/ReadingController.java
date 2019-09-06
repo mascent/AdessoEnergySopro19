@@ -1,12 +1,12 @@
 package de.sopro.controller;
 
-import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties.Jwt;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * The reading controller contains operations to manage all requests belonging
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @author Mattis
  *
  */
-@Controller
+@RestController
 public class ReadingController {
 
 	/**
@@ -33,8 +33,8 @@ public class ReadingController {
 	 * @return A boolean that shows if the change was successful.
 	 */
 	@PutMapping("api/meters/{mid}/readings/{rid}")
-	public String updateReading(@RequestParam Jwt token, @PathVariable Long mid, @RequestParam int value,
-			@PathVariable Long rid, @RequestParam String reason) {
+	public String updateReading(@PathVariable Long mid, @RequestParam int value, @PathVariable Long rid,
+			@RequestParam String reason) {
 		return null;
 	}
 
@@ -50,7 +50,7 @@ public class ReadingController {
 	 *         for the changes.
 	 */
 	@GetMapping("api/meters/{mid}/readings/{rid}")
-	public String getReadingHistory(@RequestParam Jwt token, @PathVariable Long mid, @PathVariable Long rid) {
+	public String getReadingHistory(@PathVariable Long mid, @PathVariable Long rid) {
 		return null;
 	}
 
@@ -69,8 +69,7 @@ public class ReadingController {
 	 * @return A boolean that shows if the deletion was successful.
 	 */
 	@DeleteMapping("api/meters/{mid}/readings/{rid}")
-	public String deleteReading(@RequestParam Jwt token, @PathVariable Long mid, @PathVariable Long rid,
-			@RequestParam String reason) {
+	public String deleteReading(@PathVariable Long mid, @PathVariable Long rid, @RequestParam String reason) {
 		return null;
 	}
 

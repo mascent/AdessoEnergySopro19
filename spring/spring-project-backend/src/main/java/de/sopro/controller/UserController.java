@@ -4,9 +4,6 @@ import java.util.List;
 
 import org.apache.tomcat.jni.Address;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties.Jwt;
-import org.springframework.security.access.annotation.Secured;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,8 +31,8 @@ public class UserController {
 	UserRepository userRepository;
 
 	@GetMapping("/api/users")
-	public Iterable<User> getUsers() {
-		return userRepository.findAll();
+	public String getUsers() {
+		return "test";
 	}
 
 	/**
@@ -49,7 +46,7 @@ public class UserController {
 	 */
 	@PostMapping("/api/users")
 	public User createUser(@RequestParam String name, @RequestParam String surname, @RequestParam String eMailAdress,
-			@RequestParam String userNumber,@RequestParam String uname, @RequestParam String pwd) {
+			@RequestParam String userNumber, @RequestParam String uname, @RequestParam String pwd) {
 		System.out.println("test");
 		return userRepository.save(new User(name, surname, eMailAdress, userNumber, uname, pwd, Role.User));
 	}
@@ -63,7 +60,7 @@ public class UserController {
 	 * @return A boolean that shows if the deletion was successful.
 	 */
 	@DeleteMapping("api/users/{uid}")
-	public String deleteUser(Jwt token, @PathVariable Long uid) {
+	public String deleteUser(@PathVariable Long uid) {
 		return null;
 	}
 
@@ -78,7 +75,7 @@ public class UserController {
 	 * @return A boolean that shows if the change was successful.
 	 */
 	@PutMapping("api/users/{uid}")
-	public String updateUserName(@RequestParam Jwt token, @RequestParam String name, @PathVariable Long uid) {
+	public String updateUserName(@RequestParam String name, @PathVariable Long uid) {
 		return null;
 	}
 
@@ -93,7 +90,7 @@ public class UserController {
 	 * @return A boolean that shows if the change was successful.
 	 */
 	@PutMapping("api/users/{uid}")
-	public String updateUserSurname(@RequestParam Jwt token, @RequestParam String name, @PathVariable Long uid) {
+	public String updateUserSurname(@RequestParam String name, @PathVariable Long uid) {
 		return null;
 	}
 
@@ -108,7 +105,7 @@ public class UserController {
 	 * @return A boolean that shows if the change was successful.
 	 */
 	@PutMapping("api/users/{uid}")
-	public String updateUserEmail(@RequestParam Jwt token, @RequestParam String email, @PathVariable Long uid) {
+	public String updateUserEmail(@RequestParam String email, @PathVariable Long uid) {
 		return null;
 	}
 
@@ -122,7 +119,7 @@ public class UserController {
 	 * @return A boolean that shows if the change was successful.
 	 */
 	@PutMapping("api/users/me")
-	public String updateOwnEmail(@RequestParam Jwt token, @RequestParam String name) {
+	public String updateOwnEmail(@RequestParam String name) {
 		return null;
 	}
 
@@ -137,7 +134,7 @@ public class UserController {
 	 * @return A boolean that shows if the operation was successful.
 	 */
 	@PutMapping("api/users/{uid}")
-	public String updateUserAddress(@RequestParam Jwt token, @RequestParam Address address, @PathVariable Long uid) {
+	public String updateUserAddress(@RequestParam Address address, @PathVariable Long uid) {
 		return null;
 	}
 
@@ -152,7 +149,7 @@ public class UserController {
 	 * @return A boolean that shows if the operation was successful.
 	 */
 	@PutMapping("api/users/{uid}")
-	public String updateUserNumber(@RequestParam Jwt token, @RequestParam String number, @PathVariable Long uid) {
+	public String updateUserNumber(@RequestParam String number, @PathVariable Long uid) {
 		return null;
 	}
 
@@ -169,7 +166,7 @@ public class UserController {
 	 * @return A boolean that shows if the operation was successful.
 	 */
 	@PutMapping("api/users/{uid}")
-	public String addMetersToUser(@RequestParam Jwt token, @RequestParam List<Meter> meterIDs, @PathVariable Long uid) {
+	public String addMetersToUser(@RequestParam List<Meter> meterIDs, @PathVariable Long uid) {
 		return null;
 	}
 
@@ -185,8 +182,7 @@ public class UserController {
 	 * @return A boolean that shows if the operation was successful.
 	 */
 	@DeleteMapping("api/users/{uid}")
-	public String removeMetersFromUser(@RequestParam Jwt token, @RequestParam List<Meter> meterIDs,
-			@PathVariable Long uid) {
+	public String removeMetersFromUser(@RequestParam List<Meter> meterIDs, @PathVariable Long uid) {
 		return null;
 	}
 }
