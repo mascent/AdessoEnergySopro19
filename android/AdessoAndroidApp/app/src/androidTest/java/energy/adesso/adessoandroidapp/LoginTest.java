@@ -37,7 +37,7 @@ import static org.hamcrest.core.IsNot.not;
 
 @RunWith(AndroidJUnit4.class)
 @LargeTest
-public class MyFirstTest {
+public class LoginTest {
 
     private String stringToBetyped;
 

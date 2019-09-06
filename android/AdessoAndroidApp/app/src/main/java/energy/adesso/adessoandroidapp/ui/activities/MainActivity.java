@@ -36,10 +36,8 @@ import java.util.List;
 import energy.adesso.adessoandroidapp.R;
 import energy.adesso.adessoandroidapp.logic.controller.MainController;
 import energy.adesso.adessoandroidapp.logic.model.exception.AdessoException;
-import energy.adesso.adessoandroidapp.logic.model.exception.FormatException;
-import energy.adesso.adessoandroidapp.logic.model.exception.NetworkException;
 import energy.adesso.adessoandroidapp.logic.model.identifiable.Meter;
-import energy.adesso.adessoandroidapp.ui.MockDeliverer;
+import energy.adesso.adessoandroidapp.ui.mock.MockController;
 import energy.adesso.adessoandroidapp.ui.parents.ListActivity;
 
 public class MainActivity extends ListActivity {
@@ -57,7 +55,7 @@ public class MainActivity extends ListActivity {
         setSupportActionBar(toolbar);
 
         try {
-            meters = MainController.getInstance().getOverview();
+            meters = MockController.getOverview();
             showMeters(meters);
         } catch (Exception e) {
             Toast.makeText(this, "Couldn't get meters!", Toast.LENGTH_LONG);

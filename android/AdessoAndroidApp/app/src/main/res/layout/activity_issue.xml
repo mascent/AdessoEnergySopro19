@@ -71,6 +71,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:background="@drawable/trans"
+            android:onClick="onSendClick"
             android:text="@string/send_button"
             android:textColor="@color/colorAccent" />
     </LinearLayout>
