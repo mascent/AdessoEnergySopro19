@@ -108,14 +108,18 @@ public class DetailActivity extends ListActivity {
         LinearLayout l = (LinearLayout)getLayoutInflater().
                 inflate(R.layout.dialog_edit, null);
         final EditText input = (EditText)l.findViewById(R.id.name);
-        input.setText(m.name);
+        input.setText(m.getName());
         builder.setView(l);
 
         // Set up events
         builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                m.name = input.getText().toString();
+                try {
+                    m.setName(input.getText().toString());
+                } catch (AdessoException e) {
+                    Toast.makeText(a, R.string.generic_error_message, Toast.LENGTH_SHORT).show();
+                }
                 updateTitleInfo();
             }
         });
@@ -138,12 +142,12 @@ public class DetailActivity extends ListActivity {
                 addListElement(getDrawable(R.drawable.icon_hashtag), "-",
                         r.getCreatedAt().toLocalDate().toString("dd.MM.yyyy"), r.getValue());
         } catch (AdessoException e) {
-            Toast.makeText(this, R.string.generic_error_message, Toast.LENGTH_SHORT);
+            Toast.makeText(this, R.string.generic_error_message, Toast.LENGTH_SHORT).show();
         }
     }
     void updateTitleInfo() {
-        ((TextView)findViewById(R.id.name)).setText(m.name);
-        ((TextView)findViewById(R.id.number)).setText(m.meterNumber);
+        ((TextView)findViewById(R.id.name)).setText(m.getName());
+        ((TextView)findViewById(R.id.number)).setText(m.getMeterNumber());
         ((TextView)findViewById(R.id.usage)).setText(m.getLastReading().getValue() +  " kWh");
     }
 }
