@@ -22,7 +22,7 @@ public class MockController {
             throw new AdessoException();
     }
 
-    public static List<Meter> getMockMeterList()
+    public static List<Meter> getOverview()
     {
         DateTime time = DateTime.now();
         String lastReading = "12345,987";
