@@ -1,8 +1,6 @@
 package de.sopro.controller;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrlPattern;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -27,9 +25,9 @@ public class PictureControllerTest {
 
 	@Autowired
 	MockMvc mvc;
-
-	@Test
-	@WithAnonymousUser
+//
+//	@Test
+//	@WithAnonymousUser
 	public void testAnalyzeIfNotLoggedIn() throws Exception {
 
 		// Check if anonymous users are redirected to the login page when
@@ -38,9 +36,9 @@ public class PictureControllerTest {
 		mvc.perform(post("api/pictures")).andExpect(status().is3xxRedirection())
 				.andExpect(redirectedUrlPattern("**/login"));
 	}
-
-	@Test
-	@WithMockUser(username = "user", roles = { "USER" })
+//
+//	@Test
+//	@WithMockUser(username = "user", roles = { "USER" })
 	public void testAnalyzeAsUser() throws Exception {
 
 		// Check if users without administration rights can't access the analyze method
@@ -48,9 +46,9 @@ public class PictureControllerTest {
 
 		mvc.perform(post("api/pictures")).andExpect(status().is3xxRedirection()).andExpect(redirectedUrlPattern("api"));
 	}
-
-	@Test
-	@WithMockUser(username = "admin", roles = { "ADMIN" })
+//
+//	@Test
+//	@WithMockUser(username = "admin", roles = { "ADMIN" })
 	public void testAnalyzeAsAdmin() throws Exception {
 
 		// Check if users with administration rights are allowed to access the analyze
