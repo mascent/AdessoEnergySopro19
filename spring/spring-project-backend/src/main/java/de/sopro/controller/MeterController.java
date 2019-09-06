@@ -1,6 +1,5 @@
 package de.sopro.controller;
 
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,13 +11,12 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import de.sopro.data.Meter;
-import de.sopro.data.MeterType;
 import de.sopro.data.Reading;
 import de.sopro.repository.MeterRepository;
 import de.sopro.repository.PersonRepository;
 import de.sopro.repository.ReadingRepository;
 import de.sopro.repository.UserRepository;
+
 /**
  * The meter controller contains operations to manage all requests belonging to
  * meters.
@@ -28,9 +26,6 @@ import de.sopro.repository.UserRepository;
  */
 @RestController
 public class MeterController {
-
-	
-
 
 	@Autowired
 	MeterRepository meterRepository;
@@ -43,6 +38,7 @@ public class MeterController {
 
 	@Autowired
 	UserRepository userRepository;
+
 	/**
 	 * This method allows an admin to get a list of all meters existing in the
 	 * system.
@@ -61,7 +57,7 @@ public class MeterController {
 //		}
 		return null;
 	}
-	
+
 	/**
 	 * This method allows an admin to create a new meter which is not belonging to
 	 * anyone.
@@ -75,22 +71,9 @@ public class MeterController {
 	 * @return The ID of the created meter.
 	 */
 	@PostMapping("/api/meters")
-	public String createMeter(@RequestParam String meterNumber,
-			@RequestParam Long initialReading) {
-//		if (!meterNumber.isEmpty() && initialReading >= 0 && (meterType.equals("Gas") || meterType.equals("Water") || meterType.equals("Electricity"))) {
-//			String creatorId = token.getId(); //hier gucken, wie das geht..
-//			Person person = personRepository.findById(creatorId);
-//			if(person.getRole().equals(Role.Admin)) {
-//				Meter meter = new Meter(meterNumber, initialReading, meterType)
-//				String meterId = meter.getMeterId();
-//				meterRepository.save(meter);
-//				return meterId;
-//			}
-//			return null; //wahrscheinlich lieber Fehler
-//		}
+	public String createMeter(@RequestParam String meterNumber, @RequestParam Long initialReading) {
 		return null; // wahrscheinlich lieber Fehler
 	}
-	
 	/**
 	 * This method allows an user to add a new reading to one of his meters or an
 	 * admin to add a new reading to any meter. The reading is added as a textual
@@ -101,8 +84,8 @@ public class MeterController {
 	 * @param value The value of the reading that should be added.
 	 * @return A boolean that shows if the adding was successful.
 	 */
-	@PostMapping("/api/meters/{mid}/readings")
-	public String addReading( @PathVariable String mid, int value) {
+//	@PostMapping("/api/meters/{mid}/readings")
+//	public String addReading( @PathVariable String mid, int value) {
 //		Meter meter = meterRepository.findById(mid); // Zähler finden //wie hier optional fixen?
 //		List<Reading> readingsList = meter.getReadings(); // alle Stände des Zählers
 //		int pos = readingsList.size() - 1;
@@ -122,8 +105,9 @@ public class MeterController {
 //			newReading.setReadingValues(newValuesList);
 //		}
 
-		return null;
-	}
+//	return null;
+
+//	}
 
 //	/** //Vincent sagt brauchen wir nicht
 //	 * This method allows an user to add a new reading to one of his meters or an
@@ -170,58 +154,6 @@ public class MeterController {
 	public String getMeter(@PathVariable Long mid) {
 		return null;
 	}
-	@GetMapping("/api/meters/{mid}/readings")
-	public List<Reading> lookUpReadings(@PathVariable String mid) {
-//		String userId = token.getId(); // hier gucken, wie das geht..
-//		Person person = personRepository.findById(userId);
-//		if (person.getRole().equals(Role.Admin)) {
-//			Meter newMeter = meterRepository.findById(mid);
-//			List<Reading> readingList = newMeter.getReadings();
-//			return readingList;
-//		} else if (person.getRole().equals(Role.User)) { // hier noch Check ob User berechtigt ist, also ob sein Zähler,
-//															// probably über UserMeterAssociation
-//			Meter newMeter = meterRepository.findById(mid);
-//			List<Reading> readingList = newMeter.getReadings();
-//			return readingList;
-//		}
-
-		return null;
-	}
-
-	
-	
-
-	/**
-	 * This method allows an admin to create a new meter which is belonging to a
-	 * user.
-	 * 
-	 * @param token          The JWT of the admin to authenticate himself.
-	 * @param meterNumber    The number of the meter which is given from adesso
-	 *                       energy.
-	 * @param uid            The ID of the user this meter belongs to.
-	 * @param initialReading The initial reading of the counter. This is not 0 every
-	 *                       time because for example the meter could change the
-	 *                       provider.
-	 * @return The ID of the created meter.
-	 */
-	@PostMapping("/api/meters")
-	public String createMeter(@RequestParam String meterNumber, @RequestParam String uid,
-			@RequestParam int initialReading, MeterType meterType) {
-//		if (!meterNumber.isEmpty() && initialReading >= 0 && (meterType.equals("Gas") && meterType.equals("Water") && meterType.equals("Electricity"))) {
-//			String creatorId = token.getId(); //hier gucken, wie das geht..
-//			Person person = personRepository.findById(creatorId);
-//			if(person.getRole().equals(Role.Admin)) {
-//				Meter meter = new Meter(meterNumber, initialReading, meterType)
-//				String meterId = meter.getMeterId();
-//				meterRepository.save(meter);
-//				User user = userRepository.findById(uid)
-//				UserMeterAssociation connection = new UserMeterAssociation(user, meter);
-//				return meterId;
-//			}
-//			return null; //wahrscheinlich lieber Fehler
-//		}
-		return null; // wahrscheinlich lieber Fehler
-	}
 
 	// Hier unklar welches Attribut, definitiv adden oder Methode löschen.
 	/**
@@ -233,7 +165,7 @@ public class MeterController {
 	 */
 	@PutMapping("/api/meters/{mid}")
 	public String updateMeter(@PathVariable Long mid) {
-		return null; 
+		return null;
 	}
 
 	/**
@@ -255,7 +187,6 @@ public class MeterController {
 
 		return null;
 	}
-	
 
 	/**
 	 * This method allows an user to look up all readings belonging to one of his
@@ -265,12 +196,25 @@ public class MeterController {
 	 * @param mid   The ID of the meter whose readings should be returned.
 	 * @return A list of readings and dates they were uploaded.
 	 */
+
 	@GetMapping("/api/meters/{mid}/readings")
-	public String lookUpReadings( @PathVariable Long mid) {
+	public List<Reading> lookUpReadings(@PathVariable String mid) {
+//		String userId = token.getId(); // hier gucken, wie das geht..
+//		Person person = personRepository.findById(userId);
+//		if (person.getRole().equals(Role.Admin)) {
+//			Meter newMeter = meterRepository.findById(mid);
+//			List<Reading> readingList = newMeter.getReadings();
+//			return readingList;
+//		} else if (person.getRole().equals(Role.User)) { // hier noch Check ob User berechtigt ist, also ob sein Zähler,
+//															// probably über UserMeterAssociation
+//			Meter newMeter = meterRepository.findById(mid);
+//			List<Reading> readingList = newMeter.getReadings();
+//			return readingList;
+//		}
+
 		return null;
 	}
 
-	
 	/**
 	 * This method allows an user to add a new reading to one of his meters or an
 	 * admin to add a new reading to any meter. The reading is added as a textual
@@ -286,20 +230,4 @@ public class MeterController {
 		return null;
 	}
 
-
-
-	@GetMapping("api/meters/{mid}")
-	public Meter getMeter(@PathVariable String mid) {
-//		String closerId = token.getId();
-//		Person person = personRepository.findById(closerId);
-//		if (person.getRole().equals(Role.Admin)) {
-//			Meter meter = meterRepository.findById(mid);
-//			return meter;
-//		} else if (person.getRole().equals(Role.User)) { // nur wenn Zähler zu User gehört, über User Meter Asso
-//			Meter meter = meterRepository.findById(mid);
-//			return meter;
-//		}
-
-		return null;
-	}
 }
