@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import de.sopro.data.Issue;
+import de.sopro.data.Role;
 import de.sopro.repository.IssueRepository;
 import de.sopro.repository.PersonRepository;
 
@@ -41,9 +43,8 @@ public class IssueController {
 	 * @return The ID of the issue that was created.
 	 */
 	@PostMapping("/api/issues")
-	public String createIssue(@RequestParam String name, @RequestParam String email,
-			@RequestParam String subject, @RequestParam String description) {
-//		if (!name.isEmpty() && !email.isEmpty() && !subject.isEmpty() && !description.isEmpty()) {
+	public Long createIssue(@RequestParam String name, @RequestParam String email, @RequestParam String subject,
+			@RequestParam String description) {
 //			String issuerId = token.getId(); //hier gucken, wie das geht..
 //			Person person = personRepository.findById(issuerId);
 //			if(person.getRole().equals(Role.User)) { //Admins sollten imo keine Tickets stellen
@@ -52,9 +53,15 @@ public class IssueController {
 //				issueRepository.save(issue);
 //				return issueId;
 //			}
-//			return null; //wahrscheinlich lieber Fehler
-//		}
-		return null; // wahrscheinlich lieber Fehler
+		
+		Long issuerId = (long) 0; // TODO generate from request
+		if (checkPermission(Role.User, issuerId)) {
+			Issue issue = new Issue(name, email, subject, description, issuerId);
+			Long issueId = issue.getIssueId();
+			issueRepository.save(issue);
+			return issueId;
+		} else
+			return null; // TODO Fehler catchen?
 	}
 
 	/**
@@ -67,12 +74,11 @@ public class IssueController {
 	 */
 	@DeleteMapping("/api/issues/{iid}")
 	public Boolean closeIssue(@PathVariable Long iid) {
-//		String closerId = token.getId();
 //		Person person = personRepository.findById(closerId);
 //		if (person.getRole().equals(Role.Admin)) {
 //			Issue issue = issueRepository.findById(iid);
 //			issue.setCloserId(closerId);
-//			issueRepository.save(iid);
+//			issueRepository.save(issue);
 //			return true;
 //		}
 		return false;
@@ -116,5 +122,17 @@ public class IssueController {
 //			return allIssues;
 //		}
 		return null;
+	}
+
+	/**
+	 * Method to check if the Person has the given role.
+	 * 
+	 * @param role
+	 * @param pid  Person id
+	 * @return
+	 */
+	private boolean checkPermission(Role role, Long pid) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }
