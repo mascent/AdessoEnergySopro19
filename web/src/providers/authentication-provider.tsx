@@ -29,6 +29,8 @@ function useToken(): [
 
     // TODO: Make sure that the token is not expired
     if (token !== null) setToken(token);
+
+    setToken(null);
   }, []);
 
   return [token, setToken];
@@ -53,6 +55,7 @@ export const AuthenticationProvider: React.FC = ({ children }) => {
     async (username: string, password: string) => {
       const token = await auth.login(username, password);
       setToken(token);
+      localStorage.setItem('access_token', token);
     },
     [setToken]
   );
