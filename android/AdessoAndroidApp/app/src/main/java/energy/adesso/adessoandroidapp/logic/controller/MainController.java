@@ -40,7 +40,7 @@ public class MainController {
   public static void sendIssue(Issue issue) throws NetworkException {
     String json = issue.serialize();
     String url = "api/issues";
-    NetworkController.post(url,json,token.getToken());
+    NetworkController.post(url,json,true);
   }
 
   public static void init(SharedPreferences prefs) {
@@ -83,7 +83,7 @@ public class MainController {
     map.put("username", username);
     map.put("password", password);
     String json = new Gson().toJson(map);
-    String reString = NetworkController.post("/api/login", json, null);
+    String reString = NetworkController.post("/api/login", json, true);
 
     // Save locally
     Type castType = new HashMap<String, String>() {
@@ -106,7 +106,7 @@ public class MainController {
     HashMap<String, String> map = new HashMap<String, String>();
     map.put("token", tokenString);
     String json = new Gson().toJson(map);
-    NetworkController.put("/api/logout", json, token.getToken());
+    NetworkController.put("/api/logout", json, true);
 
     // Clear Local Vars
     token = null;
@@ -129,7 +129,7 @@ public class MainController {
   public static Pair<Meter, String> azureAnalyze(Bitmap image) throws NetworkException, CredentialException {
     // TODO this is def. wrong
     String url = "api/picture";
-    String string = NetworkController.post(url, toBase64(image), token.getToken());
+    String string = NetworkController.post(url, toBase64(image), true);
     Type castType = new Pair<String, String>("", "") {
     }.getClass();
     Pair<String, String> answer1 = new Gson().fromJson(string, castType);
@@ -139,7 +139,7 @@ public class MainController {
 
   private static Meter getMeter(String mid) throws NetworkException {
     String url = ""+mid; // TODO:
-    String json = NetworkController.get(url,token.getToken());
+    String json = NetworkController.get(url,true);
     return (Meter) Meter.deserialize(json);
   }
 
@@ -162,7 +162,7 @@ public class MainController {
     String url = "/api/meters";
     Reading reading = new Reading(null, mid, uid, value);
     String readingString = reading.serialize();
-    NetworkController.post(url, readingString, token.getToken());
+    NetworkController.post(url, readingString, true);
   }
 
   /**
@@ -192,13 +192,13 @@ public class MainController {
   public static void correctReading(Reading reading) throws NetworkException {
     String url = "/api/meters/<mid>/readings/" + reading.getId();
     String json = reading.serialize();
-    NetworkController.put(url,json,token.getToken());
+    NetworkController.put(url,json,true);
   }
 
   public static void updateMeterName(Meter meter) throws NetworkException {
     String url = "/api/meters/" + meter.getId();
     String json = meter.serialize();
-    NetworkController.put(url,json,token.getToken());
+    NetworkController.put(url,json,true);
   }
 
     public static boolean isLoggedIn() {
