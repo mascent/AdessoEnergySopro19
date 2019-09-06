@@ -1,4 +1,4 @@
-package energy.adesso.adessoandroidapp.ui;
+package energy.adesso.adessoandroidapp.ui.mock;
 
 import android.util.Log;
 
@@ -10,20 +10,19 @@ import java.util.List;
 import energy.adesso.adessoandroidapp.logic.model.MeterKind;
 import energy.adesso.adessoandroidapp.logic.model.exception.AdessoException;
 import energy.adesso.adessoandroidapp.logic.model.identifiable.Meter;
-import energy.adesso.adessoandroidapp.logic.model.identifiable.Reading;
 
-public class MockDeliverer {
-    public static boolean login(String username, String password) throws AdessoException
+public class MockController {
+    public static void login(String username, String password) throws AdessoException
     {
         Log.println(Log.INFO, "", "Login with " + username + ", "  + password);
 
         if (username.equals("1234") && password.equals("."))
-            return true;
+            return;
         else
-            return false;
+            throw new AdessoException();
     }
 
-    public static List<Meter> getMockMeterList()
+    public static List<Meter> getOverview()
     {
         DateTime time = DateTime.now();
         String lastReading = "12345,987";

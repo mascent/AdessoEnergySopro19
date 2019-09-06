@@ -1,5 +1,6 @@
 package energy.adesso.adessoandroidapp.ui.activities;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
@@ -14,12 +15,20 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import org.joda.time.format.DateTimeFormatter;
+
+import java.util.List;
 
 import energy.adesso.adessoandroidapp.R;
+import energy.adesso.adessoandroidapp.logic.model.exception.AdessoException;
 import energy.adesso.adessoandroidapp.logic.model.identifiable.Meter;
+import energy.adesso.adessoandroidapp.logic.model.identifiable.Reading;
 import energy.adesso.adessoandroidapp.ui.parents.ListActivity;
 
 public class DetailActivity extends ListActivity {
+    Activity a = this;
     Meter m;
 
     @Override protected void onCreate(Bundle savedInstanceState) {
@@ -72,8 +81,13 @@ public class DetailActivity extends ListActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String newReading = input.getText().toString();
+                try { m.createReading(newReading); }
+                catch (AdessoException e) {
+                    Toast.makeText(a, R.string.generic_error_message, Toast.LENGTH_SHORT).show();
+                }
                 listReadings();
-                // TODO: Add newReading to m
+
+                // TODO: Soll: Thread network calls?
             }
         });
         builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -118,7 +132,14 @@ public class DetailActivity extends ListActivity {
     void listReadings() {
         clearList();
         addListTitle("Datum", "kWh");
-        // TODO: Populate readings
+        try {
+            List<Reading> readings = m.getReadings();
+            for (Reading r : readings)
+                addListElement(getDrawable(R.drawable.icon_hashtag), "-",
+                        r.getCreatedAt().toLocalDate().toString("dd.MM.yyyy"), r.getValue());
+        } catch (AdessoException e) {
+            Toast.makeText(this, R.string.generic_error_message, Toast.LENGTH_SHORT);
+        }
     }
     void updateTitleInfo() {
         ((TextView)findViewById(R.id.name)).setText(m.name);
