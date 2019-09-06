@@ -17,7 +17,7 @@ public class Person {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	Long personID;
+	Long personId;
 
 	@NotNull    
 	@Column(nullable = false, unique = true)
@@ -39,8 +39,9 @@ public class Person {
 
 	}
 
-	public Long getPersonID() {
-		return personID;
+
+	public Long getPersonId() {
+		return personId;
 	}
 
 	public String getUsername() {

@@ -1,6 +1,6 @@
 package de.sopro.data;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,23 +14,23 @@ import javax.validation.constraints.Positive;
 @Entity
 public class ReadingValue {
 	
-public ReadingValue(int value, Date date, String changerId, String reason){
+public ReadingValue(int value,  Long changerId, String reason){
 	this.value=value;
-	this.date=date;
 	this.changerId = changerId;
 	this.reason = reason;
+	lastChange = LocalDateTime.now();
 }
 
 // smart constructor for first initialization
-public ReadingValue(int value, Date date, String changerId) {
+public ReadingValue(int value, Long changerId) {
 	this.value=value;
-	this.date=date;
 	this.changerId = changerId;
 	this.reason = "creation";
+	lastChange = LocalDateTime.now();
 }
 
 @Id @GeneratedValue(strategy = GenerationType.AUTO)
-private String readingValueID;
+private Long readingValueId;
 
 
 @ManyToOne
@@ -42,18 +42,18 @@ private int value;
 
 @NotNull
 @Past
-private Date date;
+private LocalDateTime lastChange;
 
-private String changerId;
+private Long changerId;
 
 private String reason;
 
-public String getReadingValueID() {
-	return readingValueID;
+public Long getReadingValueId() {
+	return readingValueId;
 }
 
-public void setReadingValueID(String readingValueID) {
-	this.readingValueID = readingValueID;
+public void setReadingValueId(Long readingValueId) {
+	this.readingValueId = readingValueId;
 }
 
 public int getValue() {
@@ -64,19 +64,19 @@ public void setValue(int value) {
 	this.value = value;
 }
 
-public Date getDate() {
-	return date;
+public LocalDateTime getCreatedAt() {
+	return lastChange;
 }
 
-public void setDate(Date date) {
-	this.date = date;
+public void setDate(LocalDateTime date) {
+	this.lastChange = date;
 }
 
-public String getChangerId() {
+public Long getChangerId() {
 	return changerId;
 }
 
-public void setChangerID(String changerId) {
+public void setChangerId(Long changerId) {
 	this.changerId = changerId;
 }
 

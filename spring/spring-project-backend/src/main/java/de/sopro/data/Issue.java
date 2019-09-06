@@ -9,7 +9,7 @@ public class Issue {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private String issueID;
+	private Long issueId;
 
     @NotNull
 	private String name;
@@ -23,12 +23,12 @@ public class Issue {
 	@NotNull
 	private String description;
 	
-	private String closerId;
+	private Long closerId;
 	
 	@NotNull
-	private String issuerId;
+	private Long issuerId;
 
-	public Issue(String name, String email, String subject, String description, String issuerId) {
+	public Issue(String name, String email, String subject, String description, Long issuerId) {
 		this.name = name;
 		this.email = email;
 		this.subject = subject;
@@ -37,8 +37,8 @@ public class Issue {
 	}
 
 
-	public String getIssueId() {
-		return issueID;
+	public Long getIssueId() {
+		return issueId;
 	}
 
 
@@ -74,19 +74,19 @@ public class Issue {
 		this.description = description;
 	}
 
-	public String getCloserId() {
+	public Long getCloserId() {
 		return closerId;
 	}
 
-	public void setCloserId(String closerId) {
+	public void setCloserId(Long closerId) {
 		this.closerId = closerId;
 	}
 
-	public String getIssuerId() {
+	public Long getIssuerId() {
 		return issuerId;
 	}
 
-	public void setIssuerId(String issuerId) {
+	public void setIssuerId(Long issuerId) {
 		this.issuerId = issuerId;
 	}
 	

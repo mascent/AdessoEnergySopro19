@@ -1,5 +1,6 @@
 package de.sopro.dto;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import de.sopro.data.User;
@@ -11,12 +12,12 @@ public class UserDTO {
 	private String firstName;
 	private String lastName;
 	private String email;
-	private Date createdAt;
-	private Date updateAt;
-	private Date deletedAt;
+	private LocalDateTime createdAt;
+	private LocalDateTime updateAt;
+	private LocalDateTime deletedAt;
 
 	public UserDTO(User u) {
-		this.id = u.getPersonID();
+		this.id = u.getPersonId();
 		this.customerNumber = u.getUsername();
 		this.firstName = u.getName();
 		this.lastName = u.getSurname();
@@ -47,15 +48,15 @@ public class UserDTO {
 		return email;
 	}
 
-	public Date getCreatedAt() {
+	public LocalDateTime getCreatedAt() {
 		return createdAt;
 	}
 
-	public Date getUpdateAt() {
+	public LocalDateTime getUpdateAt() {
 		return updateAt;
 	}
 
-	public Date getDeletedAt() {
+	public LocalDateTime getDeletedAt() {
 		return deletedAt;
 	}
 }

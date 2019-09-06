@@ -173,7 +173,7 @@ public class UserController {
 	@PutMapping("/api/users/me/email")
 	public UserDTO updateOwnEmail(HttpServletRequest request, @RequestParam String email) {
 		User u = userRepository.findByUsername(request.getUserPrincipal().getName());
-		return updateUserEmail(email, u.getPersonID());
+		return updateUserEmail(email, u.getPersonId());
 	}
 
 	/**
