@@ -14,7 +14,7 @@ public class Token extends SerializableObject{
     return access_token;
   }
 
-  public String getExpirationDate() {
+  public String getExpiration() {
     return expires_in;
   }
 

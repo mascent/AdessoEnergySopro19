@@ -15,11 +15,11 @@ import energy.adesso.adessoandroidapp.logic.model.exception.NetworkException;
 
 public class Meter extends IdentifiableObject {
   private String kind;
-  public String name;
+  private String name;
   @Nullable
-  public String ownerId;
-  public Reading lastReading; // nullable
-  public String meterNumber;
+  private String ownerId;
+  private Reading lastReading; // nullable
+  private String meterNumber;
 
   public Meter(String id) {
     super(id);
@@ -88,15 +88,17 @@ public class Meter extends IdentifiableObject {
   }
 
   public void createReading(String value) throws NetworkException, CredentialException {
-    MainController.getInstance().createReading(this.getId(),value);
+    MainController.createReading(this.getId(),value);
   }
 
   public void setName(String newName) throws NetworkException {
     this.name = newName;
-    MainController.getInstance().updateMeterName(this);
+    MainController.updateMeterName(this);
   }
 
   public List<Reading> getReadings() throws CredentialException, NetworkException {
-    return MainController.getInstance().getReadings(this.getId());
+    return MainController.getReadings(this.getId());
   }
+
+
 }
