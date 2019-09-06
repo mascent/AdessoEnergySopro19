@@ -1,0 +1,17 @@
+@import 'theme/colors';
+@import 'theme/shadows';
+@import 'theme/fonts';
+@import 'theme/spacings';
+
+.message {
+  width: $spacing-384;
+  word-wrap: break-word;
+  line-break: auto;
+  height: $spacing-128;
+  line-height: $spacing-128;
+  font-family: $fontFamily;
+}
+
+.button {
+  margin-right: $spacing-12;
+}
