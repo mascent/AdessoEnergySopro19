@@ -36,13 +36,13 @@ private List <ReadingValue> readingValues;
 
 
 @Id @GeneratedValue(strategy = GenerationType.AUTO)
-private String readingId;
+private Long readingId;
 
-public String getReadingId() {
+public Long getReadingId() {
 	return readingId;
 }
 
-public void setReadingId(String readingId) {
+public void setReadingId(Long readingId) {
 	this.readingId = readingId;
 }
 

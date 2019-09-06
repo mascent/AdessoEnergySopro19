@@ -1,7 +1,7 @@
 package de.sopro.data;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -16,12 +16,11 @@ import javax.persistence.OneToMany;
 public class Meter {
 
 	public Meter(String meternumber, int initialValue, MeterType meterType) {
-		// createdAt = now;
+		createdAt = LocalDateTime.now();
 		this.meternumber = meternumber;
 		readings = new ArrayList<Reading>();
 		Reading initialReading = new Reading();
-		Date date = new Date();
-		ReadingValue initialReadingValue = new ReadingValue(initialValue, date, null);
+		ReadingValue initialReadingValue = new ReadingValue(initialValue, null);
 		List<ReadingValue> initialReadingValueList = new ArrayList<>();
 		initialReadingValueList.add(initialReadingValue);
 		initialReading.setReadingValues(initialReadingValueList);
@@ -52,16 +51,16 @@ public class Meter {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private String meterId;
+	private Long meterId;
 
 	@OneToMany(mappedBy = "meter", cascade = CascadeType.ALL)
 	private List<Reading> readings;
 
-	private Date createdAt;
+	private LocalDateTime createdAt;
 
-	private Date deletedAt;
+	private LocalDateTime deletedAt;
 
-	private Date updatedAt;
+	private LocalDateTime updatedAt;
 
 	@ManyToOne
 	private Address address;
@@ -98,31 +97,31 @@ public class Meter {
 		this.meternumber = meternumber;
 	}
 
-	public String getMeterId() {
+	public Long getMeterId() {
 		return meterId;
 	}
 
-	public void setMeterId(String meterId) {
+	public void setMeterId(Long meterId) {
 		this.meterId = meterId;
 	}
 
-	public Date getCreatedAt() {
+	public LocalDateTime getCreatedAt() {
 		return createdAt;
 	}
 
-	public Date getDeletedAt() {
+	public LocalDateTime getDeletedAt() {
 		return deletedAt;
 	}
 
-	public void setDeletedAt(Date deletedAt) {
+	public void setDeletedAt(LocalDateTime deletedAt) {
 		this.deletedAt = deletedAt;
 	}
 
-	public Date getUpdatedAt() {
+	public LocalDateTime getUpdatedAt() {
 		return updatedAt;
 	}
 
-	public void setUpdatedAt(Date updatedAt) {
+	public void setUpdatedAt(LocalDateTime updatedAt) {
 		this.updatedAt = updatedAt;
 	}
 

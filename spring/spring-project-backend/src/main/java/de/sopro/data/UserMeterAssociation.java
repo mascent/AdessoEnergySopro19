@@ -25,6 +25,14 @@ public class UserMeterAssociation {
 	@ManyToOne
 	@NotNull
 	private Meter meter;
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long aId;
+
+	private Date beginOfAssociation;
+
+	private Date endOfAssociation;
 
 	public User getUser() {
 		return user;
@@ -42,20 +50,12 @@ public class UserMeterAssociation {
 		this.meter = meter;
 	}
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private String aID;
-
-	private Date beginOfAssociation;
-
-	private Date endOfAssociation;
-
-	public String getaID() {
-		return aID;
+	public Long getaId() {
+		return aId;
 	}
 
-	public void setaID(String aID) {
-		this.aID = aID;
+	public void setaId(Long aId) {
+		this.aId = aId;
 	}
 
 	public Date getBeginOfAssociation() {
