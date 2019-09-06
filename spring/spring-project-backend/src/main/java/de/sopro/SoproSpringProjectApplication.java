@@ -1,4 +1,4 @@
-package de.sopro.soprospringproject;
+package de.sopro;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,5 +9,6 @@ public class SoproSpringProjectApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(SoproSpringProjectApplication.class, args);
 	}
+
 
 }

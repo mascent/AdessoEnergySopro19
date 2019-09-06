@@ -1,20 +1,13 @@
 package de.sopro.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties.Jwt;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import de.sopro.data.Meter;
-import de.sopro.data.Person;
-import de.sopro.data.Role;
 import de.sopro.repository.IssueRepository;
 import de.sopro.repository.PersonRepository;
 
@@ -25,7 +18,7 @@ import de.sopro.repository.PersonRepository;
  * @author Mattis
  *
  */
-@Controller
+@RestController
 public class IssueController {
 
 	@Autowired
@@ -48,7 +41,7 @@ public class IssueController {
 	 * @return The ID of the issue that was created.
 	 */
 	@PostMapping("/api/issues")
-	public String createIssue(@RequestParam Jwt token, @RequestParam String name, @RequestParam String email,
+	public String createIssue(@RequestParam String name, @RequestParam String email,
 			@RequestParam String subject, @RequestParam String description) {
 //		if (!name.isEmpty() && !email.isEmpty() && !subject.isEmpty() && !description.isEmpty()) {
 //			String issuerId = token.getId(); //hier gucken, wie das geht..
@@ -73,7 +66,7 @@ public class IssueController {
 	 * @return A boolean that shows if the closing was successful.
 	 */
 	@DeleteMapping("/api/issues/{iid}")
-	public Boolean closeIssue(@RequestParam Jwt token, @PathVariable Long iid) {
+	public Boolean closeIssue(@PathVariable Long iid) {
 //		String closerId = token.getId();
 //		Person person = personRepository.findById(closerId);
 //		if (person.getRole().equals(Role.Admin)) {
@@ -94,7 +87,7 @@ public class IssueController {
 	 * @return The issue object belonging to the given ID.
 	 */
 	@GetMapping("/api/issues/{iid}")
-	public String getIssue(@RequestParam Jwt token, @PathVariable Long iid) {
+	public String getIssue(@PathVariable Long iid) {
 //		String closerId = token.getId();
 //		Person person = personRepository.findById(closerId);
 //		if (person.getRole().equals(Role.Admin)) {
@@ -115,7 +108,7 @@ public class IssueController {
 	 * @return A list of all issue IDs and their status (closed/open).
 	 */
 	@GetMapping("/api/issues")
-	public String getIssues(@RequestParam Jwt token) {
+	public String getIssues() {
 //		String closerId = token.getId();
 //		Person person = personRepository.findById(closerId);
 //		if (person.getRole().equals(Role.Admin)) {

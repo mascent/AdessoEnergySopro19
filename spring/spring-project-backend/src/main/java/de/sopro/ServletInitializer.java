@@ -1,4 +1,4 @@
-package de.sopro.soprospringproject;
+package de.sopro;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;

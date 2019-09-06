@@ -9,8 +9,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.criteria.CriteriaBuilder.Case;
 
 @Entity
 public class Meter {
@@ -62,6 +62,17 @@ public class Meter {
 	private Date deletedAt;
 
 	private Date updatedAt;
+
+	@ManyToOne
+	private Address address;
+
+	public Address getAdress() {
+		return address;
+	}
+
+	public void setAdress(Address address) {
+		this.address = address;
+	}
 
 	public List<Reading> getReadings() {
 		return readings;
