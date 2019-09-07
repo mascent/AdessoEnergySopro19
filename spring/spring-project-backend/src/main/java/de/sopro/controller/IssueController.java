@@ -41,8 +41,8 @@ public class IssueController {
 	 * @return The ID of the issue that was created.
 	 */
 	@PostMapping("/api/issues")
-	public String createIssue(@RequestParam String name, @RequestParam String email,
-			@RequestParam String subject, @RequestParam String description) {
+	public String createIssue(@RequestParam String name, @RequestParam String email, @RequestParam String subject,
+			@RequestParam String description) {
 //		if (!name.isEmpty() && !email.isEmpty() && !subject.isEmpty() && !description.isEmpty()) {
 //			String issuerId = token.getId(); //hier gucken, wie das geht..
 //			Person person = personRepository.findById(issuerId);

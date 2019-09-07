@@ -8,8 +8,7 @@ import javax.validation.constraints.NotNull;
 @Entity
 public class User extends Person {
 
-	public User(String name, String surname, String eMailAddress, String username, String password,
-			Role role) {
+	public User(String name, String surname, String eMailAddress, String username, String password, Role role) {
 		super(username, password, role);
 		this.name = name;
 		this.surname = surname;
@@ -60,7 +59,6 @@ public class User extends Person {
 	public void setEMailAddress(String eMailAddress) {
 		this.eMailAddress = eMailAddress;
 	}
-
 
 	public LocalDateTime getCreatedAt() {
 		return createdAt;

@@ -1,7 +1,7 @@
 package de.sopro.data;
 
-import java.util.ArrayList;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -62,6 +62,10 @@ public class Meter {
 
 	private LocalDateTime updatedAt;
 
+	private int lengthOfReading;
+
+	private int commaPosition;
+
 	@ManyToOne
 	private Address address;
 
@@ -80,10 +84,6 @@ public class Meter {
 	public void setReadings(List<Reading> readings) {
 		this.readings = readings;
 	}
-
-	private int lengthOfReading = 0;
-
-	private int commaPosition = 0;
 
 	public boolean delete() {
 		return false;
@@ -128,6 +128,14 @@ public class Meter {
 	public boolean update(Reading reading) {
 		// todo updatelogic -- needed?
 		return false;
+	}
+
+	public int getLengthOfReading() {
+		return this.lengthOfReading;
+	}
+
+	public int getCommaPossition() {
+		return this.commaPosition;
 	}
 
 }

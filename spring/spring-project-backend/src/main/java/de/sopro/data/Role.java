@@ -1,9 +1,8 @@
 package de.sopro.data;
 
 public enum Role {
-	Admin,
-	User;
-	
+	Admin, User;
+
 	public String toString() {
 		switch (this) {
 		case Admin:

@@ -4,6 +4,6 @@ import org.springframework.data.repository.CrudRepository;
 
 import de.sopro.data.Meter;
 
-public interface MeterRepository extends CrudRepository<Meter,Long>{
+public interface MeterRepository extends CrudRepository<Meter, Long> {
 
 }
