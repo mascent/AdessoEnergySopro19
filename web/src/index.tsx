@@ -7,7 +7,6 @@ import { AuthenticationProvider } from './providers/authentication-provider';
 import { config } from './services/ad-api';
 
 config.init({
-  clientId: 'do we have a client id?',
   baseUrl: 'https://localhost'
 });
 
