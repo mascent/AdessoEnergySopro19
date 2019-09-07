@@ -29,17 +29,14 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
 		http
 				// HTTP Basic authentication
-				.httpBasic()
-					.and()
-					.authorizeRequests()
-					.antMatchers(HttpMethod.GET, "/api/users/me").hasRole(Role.User.toString())
-					.antMatchers(HttpMethod.GET, "/api/users/me/**").hasRole(Role.User.toString())
-					.antMatchers(HttpMethod.GET, "/api/**").hasRole(Role.Admin.toString())
-					.antMatchers(HttpMethod.POST, "/api/**").hasRole(Role.Admin.toString())
-					.antMatchers(HttpMethod.PUT, "/api/**").hasRole(Role.Admin.toString())
-					.antMatchers(HttpMethod.PATCH, "/api/**").hasRole(Role.Admin.toString())
-					.antMatchers(HttpMethod.DELETE, "/api/**").hasRole(Role.Admin.toString())
-					.and().csrf().disable().formLogin().disable();
+				.httpBasic().and().authorizeRequests().antMatchers(HttpMethod.GET, "/api/users/me")
+				.hasRole(Role.User.toString()).antMatchers(HttpMethod.GET, "/api/users/me/**")
+				.hasRole(Role.User.toString()).antMatchers(HttpMethod.GET, "/api/**").hasRole(Role.Admin.toString())
+				.antMatchers(HttpMethod.POST, "/api/**").hasRole(Role.Admin.toString())
+				.antMatchers(HttpMethod.PUT, "/api/**").hasRole(Role.Admin.toString())
+				.antMatchers(HttpMethod.PATCH, "/api/**").hasRole(Role.Admin.toString())
+				.antMatchers(HttpMethod.DELETE, "/api/**").hasRole(Role.Admin.toString()).and().csrf().disable()
+				.formLogin().disable();
 	}
 	/*
 	 * @Bean public UserDetailsService userDetailsService() { //ok for demo
@@ -52,9 +49,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 	 * "ADMIN").build()); return manager; }
 	 */
 
-	
 	@Bean
 	public PasswordEncoder passwordEncoder() {
-	    return new BCryptPasswordEncoder();
+		return new BCryptPasswordEncoder();
 	}
 }

@@ -1,7 +1,6 @@
 package de.sopro.dto;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 import de.sopro.data.User;
 

@@ -1,20 +1,15 @@
 package de.sopro.controller;
 
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-
-import static org.assertj.core.api.Assertions.fail;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrlPattern;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.test.context.support.WithAnonymousUser;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
@@ -29,7 +24,6 @@ public class IssueControllerTest {
 
 	@Autowired
 	MockMvc mvc;
-
 
 //	@Test
 //	@WithAnonymousUser
@@ -50,12 +44,14 @@ public class IssueControllerTest {
 
 		mvc.perform(post("/api/issues").contentType("applications/json")).andExpect(status().isOk());
 	}
+
 //
 //	@Test
 //	@WithMockUser(username = "admin", roles = { "ADMIN" })
 	public void testCreateIssueAsAdmin() throws Exception { // Admins sollten imo keine Tickets erstellen
 		mvc.perform(post("/api/issues")).andExpect(status().is3xxRedirection());
 	}
+
 //
 //	@Test
 //	@WithAnonymousUser
@@ -67,6 +63,7 @@ public class IssueControllerTest {
 		mvc.perform(delete("/api/issues/{iid}")).andExpect(status().is3xxRedirection())
 				.andExpect(redirectedUrlPattern("**/login"));
 	}
+
 //
 //	@Test
 //	@WithMockUser(username = "user", roles = { "USER" })
@@ -77,12 +74,14 @@ public class IssueControllerTest {
 		mvc.perform(delete("/api/issues/{iid}")).andExpect(status().is3xxRedirection())
 				.andExpect(redirectedUrlPattern("/api/issues"));
 	}
+
 //
 //	@Test
 //	@WithMockUser(username = "admin", roles = { "ADMIN" })
 	public void testDeleteIssueAsAdmin() throws Exception {
 		mvc.perform(delete("/api/issues/{iid}").contentType("applications/json")).andExpect(status().isOk());
 	}
+
 //
 //	@Test
 //	@WithAnonymousUser
@@ -94,6 +93,7 @@ public class IssueControllerTest {
 		mvc.perform(get("/api/issues/{iid}")).andExpect(status().is3xxRedirection())
 				.andExpect(redirectedUrlPattern("**/login"));
 	}
+
 //
 //	@Test
 //	@WithMockUser(username = "user", roles = { "USER" })
@@ -104,12 +104,14 @@ public class IssueControllerTest {
 		mvc.perform(get("/api/issues/{iid}")).andExpect(status().is3xxRedirection())
 				.andExpect(redirectedUrlPattern("/api/issues"));
 	}
+
 //
 //	@Test
 //	@WithMockUser(username = "admin", roles = { "ADMIN" })
 	public void testGetIssueByIDsAdmin() throws Exception {
 		mvc.perform(get("/api/issues/{iid}").contentType("applications/json")).andExpect(status().isOk());
 	}
+
 //
 //	@Test
 //	@WithAnonymousUser
@@ -121,6 +123,7 @@ public class IssueControllerTest {
 		mvc.perform(get("/api/issues")).andExpect(status().is3xxRedirection())
 				.andExpect(redirectedUrlPattern("**/login"));
 	}
+
 //
 //	@Test
 //	@WithMockUser(username = "user", roles = { "USER" })
@@ -130,6 +133,7 @@ public class IssueControllerTest {
 
 		mvc.perform(get("/api/issues")).andExpect(status().is3xxRedirection());
 	}
+
 //
 //	@Test
 //	@WithMockUser(username = "admin", roles = { "ADMIN" })

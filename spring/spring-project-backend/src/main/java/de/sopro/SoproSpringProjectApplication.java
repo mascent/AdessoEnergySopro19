@@ -9,7 +9,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import de.sopro.data.Person;
 import de.sopro.data.Role;
-import de.sopro.data.User;
 import de.sopro.repository.PersonRepository;
 import de.sopro.repository.UserRepository;
 

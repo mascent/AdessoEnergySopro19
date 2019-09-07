@@ -1,7 +1,5 @@
 package de.sopro.data;
 
 public enum MeterType {
-	Gas,
-	Water,
-	Electricity
+	Gas, Water, Electricity
 }
