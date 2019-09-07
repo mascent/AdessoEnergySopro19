@@ -7,21 +7,31 @@ import {
 } from 'react-router-dom';
 
 import { SectionHeader } from './components/generics/text';
+import Logo from './components/generics/logo';
 
 const TempGreeting = () => (
   <main
     style={{
       display: 'flex',
-      alignContent: 'center',
-      justifyContent: 'center'
+      alignItems: 'center',
+      justifyContent: 'center',
+      height: '100vh',
+      boxSizing: 'border-box',
+      padding: '24px'
     }}
   >
-    <SectionHeader>
-      Hi. It's nice that you found your way to the future. The part your are
-      currently looking at is still under active construction. Like a old man
-      once said: "The future is never finished". Way don't you grab yourself a
-      drink and wait for us to finish it?
-    </SectionHeader>
+    <div
+      style={{
+        maxWidth: '550px'
+      }}
+    >
+      <SectionHeader>
+        Hi. It's nice that you found your way to the future. The part your are
+        currently looking at is still under active construction. Like an old man
+        once said: "The future may never be finished". Why don't you grab
+        yourself a drink and wait for us until we finish it?
+      </SectionHeader>
+    </div>
   </main>
 );
 
