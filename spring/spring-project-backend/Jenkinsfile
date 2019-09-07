@@ -10,6 +10,12 @@ pipeline {
 				sh "java -version"
 			}
 		}
+		
+		stage ('mvn clean') {
+            steps{
+                sh "cd spring/spring-project-backend && mvn clean"
+            }
+		}
 		stage ('Test project') {
 			steps {
 				sh "cd spring/spring-project-backend && mvn test"
