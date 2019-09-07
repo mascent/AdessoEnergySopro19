@@ -17,36 +17,6 @@
 | `npm test -- --coverage`       | Creates a coverage report.                                                                                         |
 | `npm run test:generate-output` | Generates a test run result which can be used in storybook to display tests                                        |
 
-## How to deploy the web application
-
-The web app can easily be deployed as a docker image. At build time 2
-environment variables are required to configure the react build.
-
-| Variable          | Description                                              |
-| ----------------- | -------------------------------------------------------- |
-| `base_domain`     | The domain the app is deployed to. Default: _nothing_    |
-| `api_base_domain` | Base domain of the api. Default: `https://adesso.energy` |
-
-### Steps to deploy the docker image
-
-1. Build the image
-
-```bash
-docker build --build-arg base_domain=<base-domain> --build-arg api_base_domain=<api-domain> -t web-app .
-```
-
-> If the website will be accessed via a non default port (80, 443), the port
-> must be specified in the argument.
->
->The base_domain is only required if the
-> website is **not** deployed at the server root.
-
-2. Run the image
-
-```bash
-docker run -p <port>:80 --rm web-app
-```
-
 ## Conventions
 
 ### Naming

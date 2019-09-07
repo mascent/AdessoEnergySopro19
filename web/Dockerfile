@@ -6,11 +6,7 @@ COPY package.json /app/package.json
 RUN npm install --silent
 RUN npm install react-scripts -g --silent
 COPY . /app
-ARG base_domain
-ARG api_base_domain=https://adesso.energy
 ENV SASS_PATH=node_modules:src
-ENV PUBLIC_URL=$base_domain
-ENV REACT_APP_API_BASE_DOMAIN=$api_base_domain
 RUN npm run build
 
 # production environment
