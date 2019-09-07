@@ -1,6 +1,9 @@
 package de.sopro.controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -14,7 +17,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import de.sopro.data.Meter;
 import de.sopro.data.Role;
 import de.sopro.data.User;
 import de.sopro.dto.UserDTO;
@@ -47,35 +49,71 @@ public class UserController {
 	@Autowired
 	PasswordEncoder passwordEncoder;
 
+	/**
+	 * Create a list of basic-users and show to a admin-user. Can only be called
+	 * when sufficient authentication is called.
+	 * 
+	 * @return A itterable UserList;
+	 */
 	@GetMapping("/api/users")
-	public Iterable<User> getUsers() {
-		return userRepository.findAll();
+	public Iterable<UserDTO> getUsers() {
+		return StreamSupport.stream(userRepository.findAll().spliterator(), false).map(u -> new UserDTO(u))
+				.collect(Collectors.toList());
 	}
 
 	/**
-	 * This method allows an admin to create a new user in the system. The user
-	 * object is created in before, given as a parameter and stored in the database
-	 * when this method is executed.
-	 *
-	 * @param token The JWT of the admin to authenticate himself.
-	 * @param user  The object of the user to store in the database.
-	 * @return A boolean that shows if the creation was successful.
+	 * 
+	 * This method allows an admin-user to create a new basic-user in the system.
+	 * The password is not saved in plain text, but rather encoded using the
+	 * PasswordEncoderBean.
+	 * 
+	 * @param firstName      The first name of the new user.
+	 * @param lastName       The last name of the new user.
+	 * @param eMailAdress    The eMail-Address of the new user.
+	 * @param customerNumber The customerNumber given by Adesso. Also doubles as
+	 *                       username for basic-users.
+	 * @param password       The inital password for the new user.
+	 * @return A UserDTO to represent the saved user.
 	 */
-	@PostMapping("/api/users")
-	public UserDTO createUser(@RequestParam String name, @RequestParam String surname, @RequestParam String eMailAdress,
-			@RequestParam String userNumber, @RequestParam String username, @RequestParam String password) {
-		return new UserDTO(userRepository
-				.save(new User(name, surname, eMailAdress, username, passwordEncoder.encode(password), Role.User)));
+	@PostMapping(path = "/api/users", params = { "firstName", "lastName", "eMailAddress", "customerNumber",
+			"password" })
+	public UserDTO createUser(@RequestParam String firstName, @RequestParam String lastName,
+			@RequestParam String eMailAddress, @RequestParam String customerNumber, @RequestParam String password) {
 
+		if (userRepository.findByUsername(customerNumber) != null
+				|| userRepository.findByEMailAddress(eMailAddress) != null) {
+			return null;
+		}
+		User u;
+		try {
+			u = userRepository.save(new User(firstName, lastName, eMailAddress, customerNumber,
+					passwordEncoder.encode(password), Role.User));
+		} catch (Exception e) {
+			return null;
+		}
+
+		return new UserDTO(u);
+
+	}
+
+	/**
+	 * Create user using a userDTO
+	 * 
+	 * @param userDTO  The userDTO with all information needed.
+	 * @param password the password for the new user.
+	 * @return A UserDTO to represent the saved user.
+	 */
+	@PostMapping(path = "/api/users", params = { "userDTO", "password" })
+	public UserDTO createUser(UserDTO userDTO, String password) {
+		return createUser(userDTO.getFirstName(), userDTO.getLastName(), userDTO.getEmail(),
+				userDTO.getCustomerNumber(), password);
 	}
 
 	/**
 	 * This method allows an admin to delete a user out of the system. The user
 	 * object is deleted out of the database.
 	 * 
-	 * @param token The JWT of the admin to authenticate himself.
-	 * @param uid   The ID of the user that should be deleted.
-	 * @return
+	 * @param uid The user-ID of the user that should be deleted.
 	 * @return A boolean that shows if the deletion was successful.
 	 */
 	@DeleteMapping("api/users")
@@ -93,61 +131,45 @@ public class UserController {
 	 * This method allows an admin to change the surname of an existing user in the
 	 * database.
 	 * 
-	 * @param token The JWT of the admin to authenticate himself.
-	 * @param name  The new surname that should occure in the database entry of that
-	 *              user.
-	 * @param uid   The ID of the user whose surname should be changed.
+	 * @param name The new surname that should be stored in the database entry of
+	 *             the specified user.
+	 * @param uid  The ID of the user whose surname should be changed.
 	 * @return A boolean that shows if the change was successful.
 	 */
 	@PutMapping("api/users/{uid}/surname")
 	public UserDTO updateUserSurname(@RequestParam String object, @RequestParam String surname,
 			@PathVariable Long uid) {
 		User u = userRepository.findById(uid).orElse(null);
-		if (u != null) {
-			u.setSurname(surname);
-			userRepository.save(u);
-			return new UserDTO(u);
+		if (u == null) {
+			return null;
 		}
-		return null;
+		u.setLastName(surname);
+		u.setUpdatedAt(LocalDateTime.now());
+		userRepository.save(u);
+		return new UserDTO(u);
 	}
 
 	/**
-	 * This method allows an admin to change the email adress of an existing user in
-	 * the database.
+	 * This method allows an admin to change the email address of an existing user
+	 * in the database.
 	 * 
-	 * @param token The JWT of the admin to authenticate himself.
-	 * @param name  The new email adress that should occure in the database entry of
-	 *              that user.
-	 * @param uid   The ID of the user whose email adress should be changed.
-	 * @return A boolean that shows if the change was successful.
+	 * @param name The new email address that should be saved in the database entry
+	 *             of the specified user.
+	 * @param uid  The ID of the user whose email address should be changed.
+	 * @return A UserDTO representing the updated user or {@code null} when the
+	 *         email-Address is already in the database or no such user exists.
 	 */
 	@PutMapping("api/users/{uid}/email")
 	public UserDTO updateUserEmail(@RequestParam String email, @PathVariable Long uid) {
 		User u = userRepository.findById(uid).orElse(null);
-		if (u != null) {
-			u.setEMailAddress(email);
-			userRepository.save(u);
-			return new UserDTO(u);
+		if (u == null || userRepository.findByEMailAddress(email) != null) {
+			return null;
 		}
-		return null;
+		u.setEMailAddress(email);
+		u.setUpdatedAt(LocalDateTime.now());
+		userRepository.save(u);
+		return new UserDTO(u);
 	}
-
-//	/**
-//	 * This method allows an admin to add new meters to the account of an user. The
-//	 * meters are stored as a list in the database entry of the user its belonging
-//	 * to.
-//	 * 
-//	 * @param token    The JWT of the admin to authenticate himself.
-//	 * @param meterIDs The list of meters which should be added to the users
-//	 *                 account. The list needs to contain at least one meter.
-//	 * @param uid      The ID of the user who should become new meters associated
-//	 *                 with himself.
-//	 * @return A boolean that shows if the operation was successful.
-//	 */
-//	@PutMapping("api/users/{uid}")
-//	public String addMetersToUser(@RequestParam List<Meter> meterIDs, @PathVariable Long uid) {
-//		return null;
-//	}
 
 	@GetMapping("/api/users/me")
 	public UserDTO getOwnData(HttpServletRequest request) {
@@ -155,21 +177,14 @@ public class UserController {
 		// return null;
 	}
 
-//	/**
-//	 * This method allows an admin to delete meters from an user account. So to
-//	 * remove meters from the list of meters associated with this users account
-//	 * 
-//	 * @param token    The JWT of the admin to authenticate himself.
-//	 * @param meterIDs The list of meters which should be deleted from the users
-//	 *                 account. The list needs to contain at least one meter.
-//	 * @param uid      The ID of the user who should have less meters associated
-//	 *                 with his account.
-//	 * @return A boolean that shows if the operation was successful.
-//	 */
-//	@DeleteMapping("api/users/{uid}")
-//	public String removeMetersFromUser(@RequestParam List<Meter> meterIDs, @PathVariable Long uid) {
-//		return null;
-//	}
+	/**
+	 * Let's a user change his own email-address.
+	 * 
+	 * @param request The Http-Request, it's used to identify the user.
+	 * @param email   The new eMail-Address.
+	 * @return A UserDTO representing the updated user or {@code null} when the
+	 *         email-Address is already in the database.
+	 */
 	@PutMapping("/api/users/me/email")
 	public UserDTO updateOwnEmail(HttpServletRequest request, @RequestParam String email) {
 		User u = userRepository.findByUsername(request.getUserPrincipal().getName());
@@ -189,8 +204,10 @@ public class UserController {
 	 * @return A boolean that shows if the operation was successful.
 	 */
 	@PutMapping("api/users/{uid}/meters")
-	public boolean addMetersToUser(@RequestParam List<String> meterIDs, @PathVariable String uid) {
+	public boolean addMetersToUser(@RequestParam List<Long> meterIDs, @PathVariable String uid) {
 
+		//TODO write logic
+		//TODO rewrite JavaDoc
 		return false;
 
 	}
@@ -207,8 +224,9 @@ public class UserController {
 	 * @return A boolean that shows if the operation was successful.
 	 */
 	@DeleteMapping("api/users/{uid}/meters")
-	public boolean removeMetersFromUser(@RequestParam List<Meter> meterIDs, @PathVariable String uid) {
-
+	public boolean removeMetersFromUser(@RequestParam List<Long> meterIDs, @PathVariable String uid) {
+		//TODO write logic
+		//TODO rewrite JavaDoc
 		return false;
 	}
 }
