@@ -49,6 +49,7 @@ public class IssueController {
 	 * @param description A textual description of the problem.
 	 * @return The ID of the issue that was created.
 	 */
+	 // Ich würde hier auch den request mit ausgeben lassen und schauen ob der user seine richtigen Daten angegeben hat bzw ist das überhaupt nötig? wir wissen ja eh wer die Anfrage stellt.
 	@PostMapping(path = "/api/issues", params = { "name", "email", "subject", "description" })
 	public IssueDTO createIssue(@RequestParam String name, @RequestParam String email, @RequestParam String subject,
 			@RequestParam String description) {
@@ -78,17 +79,19 @@ public class IssueController {
 	@DeleteMapping("/api/issues/{iid}")
 	public Boolean closeIssue(@PathVariable Long iid) {
 		if (issueRepository.existsById(iid)) {
+		    //wir wollen hier nicht tatsächlich löschen, sondern nur deletedAt und By setzen
 			issueRepository.deleteById(iid);
 			return true;
 		}
 		return false;
 	}
 
+//Get mappings for Put, Post und Delete mappings
 	/**
 	 * This method allows an admin to get the name, email address, subject and
 	 * description belonging to an issue by its ID.
 	 * 
-	 * @param token The JWT of the admin to authenticate himself.
+	 * @param token The JWT of the admin to authenticate himself. 
 	 * @param iid   The ID of the issue.
 	 * @return The issue object belonging to the given ID.
 	 */
@@ -101,6 +104,8 @@ public class IssueController {
 			return new IssueDTO(i);
 	}
 
+
+// Nach Länge der URL sortieren
 	/**
 	 * This method allows an admin to get a list of all issues existing in the
 	 * system and their status.
