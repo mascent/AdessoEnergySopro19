@@ -25,7 +25,7 @@ public class UserMeterAssociation {
 	@ManyToOne
 	@NotNull
 	private Meter meter;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long aId;

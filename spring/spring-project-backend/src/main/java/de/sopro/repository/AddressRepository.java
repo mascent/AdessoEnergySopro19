@@ -4,6 +4,6 @@ import org.springframework.data.repository.CrudRepository;
 
 import de.sopro.data.Address;
 
-public interface AddressRepository extends CrudRepository<Address,Long> {
+public interface AddressRepository extends CrudRepository<Address, Long> {
 
 }

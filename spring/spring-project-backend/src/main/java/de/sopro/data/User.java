@@ -65,7 +65,6 @@ public class User extends Person {
 		this.eMailAddress = eMailAddress;
 	}
 
-
 	public LocalDateTime getCreatedAt() {
 		return createdAt;
 	}

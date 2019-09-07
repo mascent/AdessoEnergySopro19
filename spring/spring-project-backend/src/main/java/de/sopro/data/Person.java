@@ -7,24 +7,21 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Entity
-@Table(name="person")
+@Table(name = "person")
 public class Person {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	Long personId;
 
-	@NotNull    
+	@NotNull
 	@Column(nullable = false, unique = true)
 	private String username;
 
 	@NotNull
-	//@Size(min = 8, max = 50)
+	// @Size(min = 8, max = 50)
 	private String password;
 
 	private Role role;
@@ -38,7 +35,6 @@ public class Person {
 	public Person() {
 
 	}
-
 
 	public Long getPersonId() {
 		return personId;
