@@ -1,8 +1,5 @@
 pipeline {
 	agent any
-	tools {
-		maven "maven"
-	}
 	stages {
 		stage ('Check ENV') {
 			steps {
@@ -13,20 +10,19 @@ pipeline {
 		
 		stage ('mvn clean') {
             steps{
-                cd spring/spring-project-backend 
-				mvn clean
+                sh "cd spring/spring-project-backend && mvn clean"
             }
 		}
 		stage ('Test project') {
 			steps {
-				sh "mvn test"
+				sh "cd spring/spring-project-backend && mvn test"
 			}
 		}
 		stage ('Build project') {
 			steps {
-			    /usr/local/tomcat/bin/shutdown.sh
-				sh "mvn package"
-			    /usr/local/tomcat/bin/deploy.sh
+			    sh "/usr/local/tomcat/bin/shutdown.sh"
+				sh "cd spring/spring-project-backend && mvn package"
+			    sh "/usr/local/tomcat/bin/deploy.sh"
 			}
 		}
 	}
