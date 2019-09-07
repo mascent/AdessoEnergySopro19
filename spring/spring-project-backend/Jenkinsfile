@@ -28,7 +28,7 @@ pipeline {
 	}
 	post{
 	    always{
-			cd /usr/local/tomcat/bin && ./startup.sh
+			sh "/usr/local/tomcat/bin/startup.sh"
 	    }
 	}
 }
