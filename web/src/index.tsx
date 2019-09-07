@@ -5,10 +5,11 @@ import * as serviceWorker from './service-worker';
 import './index.scss';
 import { AuthenticationProvider } from './providers/authentication-provider';
 import { config } from './services/ad-api';
+import { getApiBaseDomain } from './lib/app-config';
 
 config.init({
   clientId: 'do we have a client id?',
-  baseUrl: 'https://localhost'
+  baseUrl: getApiBaseDomain()
 });
 
 ReactDOM.render(
