@@ -70,7 +70,7 @@
                         android:textSize="@dimen/titleLeftTextSize" />
                 </LinearLayout>
 
-                <ListView
+                <energy.adesso.adessoandroidapp.ui.views.NonScrollListView
                     android:id="@+id/elec_list"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -115,7 +115,7 @@
 
                 </LinearLayout>
 
-                <ListView
+                <energy.adesso.adessoandroidapp.ui.views.NonScrollListView
                     android:id="@+id/gas_list"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -159,7 +159,7 @@
                         android:textSize="@dimen/titleLeftTextSize" />
                 </LinearLayout>
 
-                <ListView
+                <energy.adesso.adessoandroidapp.ui.views.NonScrollListView
                     android:id="@+id/water_list"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

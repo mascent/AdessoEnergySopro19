@@ -125,16 +125,23 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     void listReadings() {
-        try {
-            // Get the icon
-            Drawable icon = null;
-            if (m.getKind().equals(MeterKind.ELECTRIC))
-                icon = getDrawable(R.drawable.icon_electricity);
-            else if (m.getKind().equals(MeterKind.GAS))
-                icon = getDrawable(R.drawable.icon_gas);
-            else if (m.getKind().equals(MeterKind.WATER))
-                icon = getDrawable(R.drawable.icon_water);
+        // Get the icon and set the unit TextView
+        Drawable icon = null;
+        TextView unit = ((TextView)findViewById(R.id.unit));
+        if (m.getKind().equals(MeterKind.ELECTRIC)) {
+            icon = getDrawable(R.drawable.icon_electricity);
+            unit.setText(R.string.elecUnit);
+        }
+        else if (m.getKind().equals(MeterKind.GAS)) {
+            icon = getDrawable(R.drawable.icon_gas);
+            unit.setText(R.string.gasUnit);
+        }
+        else if (m.getKind().equals(MeterKind.WATER)) {
+            icon = getDrawable(R.drawable.icon_water);
+            unit.setText(R.string.gasUnit);
+        }
 
+        try {
             // Init the adapter
             listAdapter = new ReadingAdapter(this.getBaseContext(), m.getReadings(), icon);
             ListView detailList = findViewById(R.id.detail_list);
