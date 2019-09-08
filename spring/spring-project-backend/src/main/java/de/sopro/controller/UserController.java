@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -56,6 +57,7 @@ public class UserController {
 	 * @return A itterable UserList;
 	 */
 	@GetMapping("/api/users")
+	@CrossOrigin
 	public Iterable<UserDTO> getUsers() {
 		return StreamSupport.stream(userRepository.findAll().spliterator(), false).map(u -> new UserDTO(u))
 				.collect(Collectors.toList());
@@ -77,6 +79,7 @@ public class UserController {
 	 */
 	@PostMapping(path = "/api/users", params = { "firstName", "lastName", "eMailAddress", "customerNumber",
 			"password" })
+	@CrossOrigin
 	public UserDTO createUser(@RequestParam String firstName, @RequestParam String lastName,
 			@RequestParam String eMailAddress, @RequestParam String customerNumber, @RequestParam String password) {
 
@@ -104,6 +107,7 @@ public class UserController {
 	 * @return A UserDTO to represent the saved user.
 	 */
 	@PostMapping(path = "/api/users", params = { "userDTO", "password" })
+	@CrossOrigin
 	public UserDTO createUser(UserDTO userDTO, String password) {
 		return createUser(userDTO.getFirstName(), userDTO.getLastName(), userDTO.getEmail(),
 				userDTO.getCustomerNumber(), password);
@@ -117,6 +121,7 @@ public class UserController {
 	 * @return A boolean that shows if the deletion was successful.
 	 */
 	@DeleteMapping("api/users")
+	@CrossOrigin
 	public boolean deleteUser(@RequestParam Long uid) {
 
 		if (userRepository.existsById(uid)) {
@@ -137,6 +142,7 @@ public class UserController {
 	 * @return A boolean that shows if the change was successful.
 	 */
 	@PutMapping("api/users/{uid}/surname")
+	@CrossOrigin
 	public UserDTO updateUserSurname(@RequestParam String object, @RequestParam String surname,
 			@PathVariable Long uid) {
 		User u = userRepository.findById(uid).orElse(null);
@@ -160,6 +166,7 @@ public class UserController {
 	 *         email-Address is already in the database or no such user exists.
 	 */
 	@PutMapping("api/users/{uid}/email")
+	@CrossOrigin
 	public UserDTO updateUserEmail(@RequestParam String email, @PathVariable Long uid) {
 		User u = userRepository.findById(uid).orElse(null);
 		if (u == null || userRepository.findByEMailAddress(email) != null) {
@@ -172,6 +179,7 @@ public class UserController {
 	}
 
 	@GetMapping("/api/users/me")
+	@CrossOrigin
 	public UserDTO getOwnData(HttpServletRequest request) {
 		return new UserDTO(userRepository.findByUsername(request.getUserPrincipal().getName()));
 		// return null;
@@ -186,6 +194,7 @@ public class UserController {
 	 *         email-Address is already in the database.
 	 */
 	@PutMapping("/api/users/me/email")
+	@CrossOrigin
 	public UserDTO updateOwnEmail(HttpServletRequest request, @RequestParam String email) {
 		User u = userRepository.findByUsername(request.getUserPrincipal().getName());
 		return updateUserEmail(email, u.getPersonId());
@@ -204,6 +213,7 @@ public class UserController {
 	 * @return A boolean that shows if the operation was successful.
 	 */
 	@PutMapping("api/users/{uid}/meters")
+	@CrossOrigin
 	public boolean addMetersToUser(@RequestParam List<Long> meterIDs, @PathVariable String uid) {
 
 		//TODO write logic
@@ -224,6 +234,7 @@ public class UserController {
 	 * @return A boolean that shows if the operation was successful.
 	 */
 	@DeleteMapping("api/users/{uid}/meters")
+	@CrossOrigin
 	public boolean removeMetersFromUser(@RequestParam List<Long> meterIDs, @PathVariable String uid) {
 		//TODO write logic
 		//TODO rewrite JavaDoc

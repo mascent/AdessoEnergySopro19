@@ -30,8 +30,6 @@ public class User extends Person {
 	@NotNull
 	private String lastName;
 
-	@NotNull
-	@Column(nullable = false, unique = true)
 	private String eMailAddress;
 
 	@NotNull
