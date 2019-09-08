@@ -32,15 +32,7 @@ class NetworkController {
   }
 
   static String get(String path) throws NetworkException, CredentialException {
-    //TODO accept token
-    Request request;
-    if (username == null)
-      throw new CredentialException();
-    request = new Request.Builder()
-        .addHeader("Authorization", Credentials.basic(username, password))
-        .addHeader("Host", baseURL)
-        .url(baseURL + path)
-        .build();
+    Request request = buildRequest(path, null);
     try {
       Response response = ok.newCall(request).execute();
       if (!response.isSuccessful())
@@ -54,17 +46,7 @@ class NetworkController {
 
 
   static String post(String path, String json) throws NetworkException, CredentialException {
-    //TODO accept token
-    RequestBody body = RequestBody.create(json, JSON);
-    Request request;
-    if (username == null)
-      throw new CredentialException();
-    request = new Request.Builder()
-        .addHeader("Authorization", Credentials.basic(username, password))
-        .addHeader("Host", baseURL)
-        .url(baseURL + path)
-        .post(body)
-        .build();
+    Request request = buildRequest(path, json);
     try {
       Response response = ok.newCall(request).execute();
       if (!response.isSuccessful())
@@ -77,17 +59,7 @@ class NetworkController {
   }
 
   static String put(String path, String json) throws NetworkException, CredentialException {
-    //TODO accept token
-    RequestBody body = RequestBody.create(json, JSON);
-    Request request;
-    if (username == null)
-      throw new CredentialException();
-    request = new Request.Builder()
-        .addHeader("Authorization", Credentials.basic(username, password))
-        .addHeader("Host", baseURL)
-        .url(baseURL + path)
-        .put(body)
-        .build();
+    Request request = buildRequest(path, json);
     try {
       Response response = ok.newCall(request).execute();
       if (!response.isSuccessful())
@@ -129,4 +101,27 @@ class NetworkController {
     // TODO handle better
     throw new NetworkException();
   }
+
+  private static Request buildRequest(String path, String json) throws CredentialException {
+    if (username == null)
+      throw new CredentialException();
+
+    Request request;
+    if(json!=null && !json.equals("")) {
+      RequestBody body = RequestBody.create(json, JSON);
+      request = new Request.Builder()
+        .addHeader("Authorization", Credentials.basic(username, password))
+        .addHeader("Host", baseURL)
+        .url(baseURL + path)
+        .post(body)
+        .build();
+  }else{
+      request = new Request.Builder()
+          .addHeader("Authorization", Credentials.basic(username, password))
+          .addHeader("Host", baseURL)
+          .url(baseURL + path)
+          .build();
+    }
+    return request;
+}
 }
