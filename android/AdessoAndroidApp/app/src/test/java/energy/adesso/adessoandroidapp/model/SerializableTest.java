@@ -17,8 +17,8 @@ import energy.adesso.adessoandroidapp.logic.model.identifiable.User;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-// TODO: prevent nullpointerExceptions with samesame
-public class SerializationTest {
+// TODO: prevent nullpointerExceptions with samesame everywhere
+public class SerializableTest {
   private final static String basePath = "/src/test/java/energy/adesso/adessoandroidapp/model/resources/";
 
   @Test
@@ -29,9 +29,12 @@ public class SerializationTest {
     DateTime updatedAt = new DateTime(1938, 3, 11, 11, 43, 21, DateTimeZone.forID("Europe/Berlin"));
     DateTime deletedAt = new DateTime(1999, 11, 21, 8, 11, 17, DateTimeZone.forID("Europe/Berlin"));
 
-
+    // Test if converting the json back-and forth causes any issues
     User u = User.deserialize(json);
+    String fromObject = u.serialize();
+    assertEquals(json, fromObject);
 
+    // Test the getters (including those with logic)
     assertEquals(u.getId(), "gjasgk");
     assertEquals(u.getCustomerNumber(), "337189857");
     assertEquals(u.getFirstName(), "Hanß");
@@ -51,8 +54,12 @@ public class SerializationTest {
     DateTime deletedAt = new DateTime(1999, 11, 21, 8, 11, 17, DateTimeZone.forID("Europe/Berlin"));
 
 
+    // Test if converting the json back-and forth causes any issues
     Reading r = Reading.deserialize(json);
+    String fromObject = r.serialize();
+    assertEquals(json, fromObject);
 
+    // Test the getters (including those with logic)
     assertEquals(r.getId(), "asdgwhgwo");
     assertEquals(r.getMeterId(), "beibeva");
     assertEquals(r.getOwnerId(), "kkanaöböa");
@@ -63,6 +70,7 @@ public class SerializationTest {
     assertEquals(r.getCreatedAt(), createdAt);
     assertEquals(r.getUpdatedAt(), updatedAt);
     assertEquals(r.getDeletedAt(), deletedAt);
+
   }
 
   @Test
@@ -73,16 +81,19 @@ public class SerializationTest {
     DateTime updatedAt = null;
     DateTime deletedAt = null;
 
-
+    // Test if converting the json back-and forth causes any issues
     Issue i = Issue.deserialize(json);
+    String fromObject = i.serialize();
+    assertEquals(json, fromObject);
 
+    // Test the getters (including those with logic)
     assertEquals(i.getId(), "ohfgoasgoag");
     assertEquals(i.getEmail(), "citizen23571825@rome.net");
     assertEquals(i.getName(), "Roman Citizen");
     assertEquals(i.getSubject(), "to constantine");
     assertEquals(i.getMessage(), "Hi, I live in the Roman Empire, and I was wondering: IS LOVING JESUS LEGAL YET?");
     assertEquals(i.getStatus(), "UNRESOLVED");
-    // assertEquals(i.getCreatedAt(), createdAt);
+    assertEquals(i.getCreatedAt(), createdAt);
     assertTrue(samesame(i.getUpdatedAt(), updatedAt));
     assertTrue(samesame(i.getDeletedAt(), deletedAt));
 
@@ -100,8 +111,12 @@ public class SerializationTest {
     DateTime updatedAtReading = new DateTime(1938, 3, 11, 11, 43, 21, DateTimeZone.forID("Europe/Berlin"));
     DateTime deletedAtReading = new DateTime(2007, 3, 4, 10, 26, 45, DateTimeZone.forID("Europe/Berlin"));
 
+    // Test if converting the json back-and forth causes any issues
     Meter m = Meter.deserialize(json);
+    String fromObject = m.serialize();
+    assertEquals(json, fromObject);
 
+    // Test the getters (including those with logic)
     assertEquals(m.getId(), "h8aghawo");
     assertEquals(m.getMeterNumber(), "123456");
     assertEquals(m.getKind(), MeterKind.WATER);
