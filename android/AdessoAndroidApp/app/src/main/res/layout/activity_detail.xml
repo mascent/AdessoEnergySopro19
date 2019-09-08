@@ -27,10 +27,14 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_gravity="right|end"
+            android:layout_margin="12dp"
             android:background="@drawable/trans"
             android:foreground="@drawable/icon_edit"
             android:gravity="right|end"
-            android:onClick="onEditClick" />
+            android:onClick="onEditClick"
+            android:padding="16dp"
+            tools:layout_editor_absoluteX="381dp"
+            tools:layout_editor_absoluteY="13dp" />
     </androidx.appcompat.widget.Toolbar>
 
     <LinearLayout
@@ -55,7 +59,8 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:layout_weight="1"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingLeft="16dp">
 
                 <TextView
                     android:id="@+id/name"
@@ -82,6 +87,7 @@
                 android:layout_margin="8dp"
                 android:layout_weight="1"
                 android:gravity="right"
+                android:paddingEnd="8dp"
                 android:text="TextView"
                 android:textColor="@color/colorPrimary" />
         </LinearLayout>
@@ -113,7 +119,7 @@
                 android:gravity="center"
                 android:text="@string/new_input_title"
                 android:textColor="@color/colorText"
-                android:textSize="18dp"
+                android:textSize="18sp"
                 android:textStyle="bold" />
         </androidx.cardview.widget.CardView>
     </LinearLayout>

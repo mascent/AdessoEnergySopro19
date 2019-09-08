@@ -64,7 +64,7 @@ public class MainActivity extends ListActivity {
         @Override
         public void onClick(View view) {
             startActivity(new Intent(a, DetailActivity.class).
-                putExtra("number", getListElementNumber(view)));
+                putExtra("number", getMeterListElementNumber(view)));
         }
     };
     public void onFABClick(View view) {

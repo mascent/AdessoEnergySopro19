@@ -48,7 +48,8 @@ public abstract class ListActivity extends ParentActivity {
 
         ((TextView) listElement.getChildAt(2)).setText(usage);
 
-        ((LinearLayout) findViewById(R.id.list)).addView(listElement);
+        listElement.setId(getList().getChildCount() + 1);
+        getList().addView(listElement);
     }
     protected void addListTitle(String title, String unit) {
         LinearLayout childLayout = (LinearLayout) getLayoutInflater().inflate(R.layout.list_title, null);
@@ -61,7 +62,7 @@ public abstract class ListActivity extends ParentActivity {
         getList().addView(childLayout);
     }
 
-    protected String getListElementNumber(View elementView) {
+    protected String getMeterListElementNumber(View elementView) {
         return ((TextView)
                 ((LinearLayout) ((LinearLayout)elementView).getChildAt(1) ).
                 getChildAt(1) ).
