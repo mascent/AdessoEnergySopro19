@@ -49,13 +49,13 @@ public class Meter extends IdentifiableObject {
   public MeterKind getKind(){
     MeterKind re;
     switch(type){
-      case "WATER":
+      case "water":
         re=MeterKind.WATER;
         break;
-      case "ELECTRIC":
+      case "electric":
         re=MeterKind.ELECTRIC;
         break;
-      case "GAS":
+      case "gas":
         re=MeterKind.GAS;
         break;
       default: throw new Error(); //TODO: find a better exception to throw
