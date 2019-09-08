@@ -91,7 +91,7 @@ public class MainControllerTest {
     }
   }
 
-  @Test
+  // @Test
   public void testMainControllerLogin() throws CredentialException, NetworkException {
 
     String username = "jd172";
