@@ -11,7 +11,6 @@ import com.google.gson.Gson;
 
 import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Type;
-import java.util.HashMap;
 import java.util.List;
 
 import energy.adesso.adessoandroidapp.logic.model.identifiable.Issue;
@@ -35,16 +34,16 @@ public class MainController {
   public static void sendIssue(Issue issue) throws NetworkException, CredentialException {
     String json = issue.serialize();
     String url = "api/issues";
-    NetworkController.post(url,json);
+    NetworkController.post(url, json);
   }
 
   public static void init(SharedPreferences prefs) {
     // init Persistance
     persistence = new PersistenceController(prefs);
-    if(usePersistence) {
+    if (usePersistence) {
       String username = persistence.load("username");
       String password = persistence.load("password");
-      NetworkController.setCredentials(username,password);
+      NetworkController.setCredentials(username, password);
     }
   }
 
@@ -80,7 +79,7 @@ public class MainController {
     uid = user.getId();
 
     // Save persistently
-    if(usePersistence) {
+    if (usePersistence) {
       persistence.save("username", username);
       persistence.save("password", password);
       persistence.save("uid", uid);
@@ -89,12 +88,12 @@ public class MainController {
   }
 
   public static void logOut() throws NetworkException {
-    NetworkController.setCredentials(null,null);
+    NetworkController.setCredentials(null, null);
     uid = null;
-    if(usePersistence) {
-    persistence.delete("username");
-    persistence.delete("password");
-    persistence.delete("uid");
+    if (usePersistence) {
+      persistence.delete("username");
+      persistence.delete("password");
+      persistence.delete("uid");
     }
   }
 
@@ -113,11 +112,11 @@ public class MainController {
     }.getClass();
     Pair<String, String> answer1 = new Gson().fromJson(string, castType);
     Meter m = getMeter(answer1.first);
-    return new Pair<Meter, String>(m,answer1.second);
+    return new Pair<Meter, String>(m, answer1.second);
   }
 
   private static Meter getMeter(String mid) throws NetworkException, CredentialException {
-    String url = ""+mid; // TODO:
+    String url = "" + mid; // TODO:
     String json = NetworkController.get(url);
     return (Meter) Meter.deserialize(json);
   }
@@ -129,11 +128,11 @@ public class MainController {
    * @throws NetworkException when the Network is faulty
    */
   public static void setServer(String newAddress) {
-    if(usePersistence) {
-    if(newAddress == null)
-      persistence.delete("address");
-    else
-      persistence.save("address", newAddress);
+    if (usePersistence) {
+      if (newAddress == null)
+        persistence.delete("address");
+      else
+        persistence.save("address", newAddress);
     }
     NetworkController.setAddress(newAddress);
   }
@@ -172,22 +171,22 @@ public class MainController {
   public static void correctReading(Reading reading) throws NetworkException, CredentialException {
     String url = "/api/meters/<mid>/readings/" + reading.getId();
     String json = reading.serialize();
-    NetworkController.put(url,json);
+    NetworkController.put(url, json);
   }
 
   public static void updateMeterName(Meter meter) throws NetworkException, CredentialException {
     String url = "/api/meters/" + meter.getId();
     String json = meter.serialize();
-    NetworkController.put(url,json);
+    NetworkController.put(url, json);
   }
 
-    public static boolean isLoggedIn() {
+  public static boolean isLoggedIn() {
     // check if persistent state and local copy are identical
-      if(usePersistence&&(persistence.load("username")==null)!=NetworkController.isLoggedIn())
-        // Logged in information must be synced between parts of the controller
-        throw new IllegalStateException();
-      return NetworkController.isLoggedIn();
-    }
+    if (usePersistence && (persistence.load("username") == null) != NetworkController.isLoggedIn())
+      // Logged in information must be synced between parts of the controller
+      throw new IllegalStateException();
+    return NetworkController.isLoggedIn();
+  }
 
   public static void setUsePersistence(boolean usePersistence) {
     MainController.usePersistence = usePersistence;
