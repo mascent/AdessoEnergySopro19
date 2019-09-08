@@ -110,7 +110,8 @@ public class DetailActivity extends AppCompatActivity {
                     m.setName(input.getText().toString());
                     updateTitleInfo();
                 } catch (AdessoException e) {
-                    Toast.makeText(a, R.string.generic_error_message, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(a, R.string.generic_error_message,
+                            Toast.LENGTH_SHORT).show();
                 }
                 updateTitleInfo();
             }
