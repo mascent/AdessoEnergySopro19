@@ -1,5 +1,7 @@
 package energy.adesso.adessoandroidapp.logic.controller;
 
+import android.util.Pair;
+
 import java.io.IOException;
 
 import energy.adesso.adessoandroidapp.logic.model.exception.CredentialException;
@@ -32,7 +34,8 @@ class NetworkController {
   }
 
   static String get(String path) throws NetworkException, CredentialException {
-    Request request = buildRequest(path, null);
+    Pair<Request.Builder, RequestBody> details = buildRequest(path, null);
+    Request request = details.first.get().build();
     try {
       Response response = ok.newCall(request).execute();
       if (!response.isSuccessful())
@@ -46,7 +49,8 @@ class NetworkController {
 
 
   static String post(String path, String json) throws NetworkException, CredentialException {
-    Request request = buildRequest(path, json);
+    Pair<Request.Builder, RequestBody> details = buildRequest(path, null);
+    Request request = details.first.post(details.second).build();
     try {
       Response response = ok.newCall(request).execute();
       if (!response.isSuccessful())
@@ -59,7 +63,8 @@ class NetworkController {
   }
 
   static String put(String path, String json) throws NetworkException, CredentialException {
-    Request request = buildRequest(path, json);
+    Pair<Request.Builder, RequestBody> details = buildRequest(path, null);
+    Request request = details.first.put(details.second).build();
     try {
       Response response = ok.newCall(request).execute();
       if (!response.isSuccessful())
@@ -102,26 +107,22 @@ class NetworkController {
     throw new NetworkException();
   }
 
-  private static Request buildRequest(String path, String json) throws CredentialException {
+  private static Pair<Request.Builder, RequestBody> buildRequest(String path, String json) throws CredentialException {
     if (username == null)
       throw new CredentialException();
 
-    Request request;
-    if(json!=null && !json.equals("")) {
-      RequestBody body = RequestBody.create(json, JSON);
-      request = new Request.Builder()
+    Request.Builder request;
+    request = new Request.Builder()
         .addHeader("Authorization", Credentials.basic(username, password))
         .addHeader("Host", baseURL)
-        .url(baseURL + path)
-        .post(body)
-        .build();
-  }else{
-      request = new Request.Builder()
-          .addHeader("Authorization", Credentials.basic(username, password))
-          .addHeader("Host", baseURL)
-          .url(baseURL + path)
-          .build();
-    }
-    return request;
-}
+        .url(baseURL + path);
+
+    RequestBody body;
+    if (json != null && !json.equals(""))
+      body = RequestBody.create(new byte[0], null);
+    else
+      body = RequestBody.create(json, JSON);
+
+    return new Pair(request, body);
+  }
 }

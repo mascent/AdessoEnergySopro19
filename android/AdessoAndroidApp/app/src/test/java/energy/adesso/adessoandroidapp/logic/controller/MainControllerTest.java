@@ -18,6 +18,7 @@ import okhttp3.mockwebserver.MockWebServer;
 import okhttp3.mockwebserver.RecordedRequest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class MainControllerTest {
@@ -86,6 +87,46 @@ public class MainControllerTest {
     try {
       server.shutdown();
     } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
+  @Test
+  public void testMainControllerLogin() throws CredentialException, NetworkException {
+
+    String username = "jd172";
+    String password = "password";
+
+    String baseUrl = "http://adesso.energy:8080/sopro-spring-project-0.0.1-SNAPSHOT";
+
+    // Exercise your application code, which should make those HTTP requests.
+    // Responses are returned in the same order that they are enqueued.
+    MainController.setUsePersistence(false);
+    SharedPreferences sp = Mockito.mock(SharedPreferences.class);
+    MainController.init(sp);
+    MainController.setServer(baseUrl);
+
+    MainController.login(username, password);
+
+    try {
+      // check if things behaved as they should
+      // Hack into the mainframe and disable their algorithms https://www.reddit.com/r/antimeme/comments/9s1zld/when_you_hack_into_the_mainframe_and_disable/
+      Field uidField = MainController.class.getDeclaredField("uid");
+      Field usernameField = NetworkController.class.getDeclaredField("username");
+      Field passwordField = NetworkController.class.getDeclaredField("password");
+
+      uidField.setAccessible(true);
+      usernameField.setAccessible(true);
+      passwordField.setAccessible(true);
+      String reflectedUid = (String) uidField.get(null);
+      String reflectedUsername = (String) usernameField.get(null);
+      String reflectedPassword = (String) passwordField.get(null);
+
+      assertNotNull(reflectedUid);
+      assertEquals(username, reflectedUsername);
+      assertEquals(password, reflectedPassword);
+      assertTrue(MainController.isLoggedIn());
+    } catch (NoSuchFieldException | IllegalAccessException e) {
       e.printStackTrace();
     }
 
