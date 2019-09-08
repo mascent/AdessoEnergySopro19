@@ -6,7 +6,7 @@ public class Paging<T> {
   private int size;
   private int page;
   private int totalPages;
-  private int totalEntries;
+  private int total;
   private boolean isFirst;
   private boolean isLast;
   // own
@@ -37,7 +37,7 @@ public class Paging<T> {
   }
 
   public int getTotalEntries() {
-    return totalEntries;
+    return total;
   }
 
   public boolean isFirst() {

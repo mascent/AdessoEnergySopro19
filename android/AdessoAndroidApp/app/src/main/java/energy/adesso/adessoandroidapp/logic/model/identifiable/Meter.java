@@ -1,7 +1,5 @@
 package energy.adesso.adessoandroidapp.logic.model.identifiable;
 
-import android.net.Network;
-
 import androidx.annotation.Nullable;
 
 import org.joda.time.DateTime;
@@ -14,12 +12,12 @@ import energy.adesso.adessoandroidapp.logic.model.exception.CredentialException;
 import energy.adesso.adessoandroidapp.logic.model.exception.NetworkException;
 
 public class Meter extends IdentifiableObject {
-  private String kind;
+  private String meterNumber;
+  private String type;
   private String name;
   @Nullable
   private String ownerId;
   private Reading lastReading; // nullable
-  private String meterNumber;
 
   public Meter(String id) {
     super(id);
@@ -31,7 +29,7 @@ public class Meter extends IdentifiableObject {
     this.ownerId = ownerId;
     this.lastReading = lastReading;
     this.meterNumber = meterNumber;
-    this.kind = kind.name();
+    this.type = kind.name();
   }
 
   public Meter(String id, DateTime createdAt, DateTime updatedAt, DateTime deletedAt, String name, String meterNumber, MeterKind kind,  String ownerId, String lastReading){
@@ -41,7 +39,7 @@ public class Meter extends IdentifiableObject {
     //TODO: remove this constructor when no longer needed
     this.lastReading = new Reading("eineIDlol","eineID2lol","einownerLol", lastReading);
     this.meterNumber = meterNumber;
-    this.kind = kind.name();
+    this.type = kind.name();
   }
 
   public static Meter deserialize(String source){
@@ -50,7 +48,7 @@ public class Meter extends IdentifiableObject {
 
   public MeterKind getKind(){
     MeterKind re;
-    switch(kind){
+    switch(type){
       case "WATER":
         re=MeterKind.WATER;
         break;
@@ -67,7 +65,7 @@ public class Meter extends IdentifiableObject {
 
   // TODO change return to MeterKind
   public String getType() {
-    return kind;
+    return type;
   }
 
   public String getName() {
