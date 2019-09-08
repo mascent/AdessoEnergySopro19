@@ -1,12 +1,10 @@
 package energy.adesso.adessoandroidapp.logic.controller;
 
-import android.util.Pair;
-
 import java.io.IOException;
 
+import energy.adesso.adessoandroidapp.logic.model.Pair;
 import energy.adesso.adessoandroidapp.logic.model.exception.CredentialException;
 import energy.adesso.adessoandroidapp.logic.model.exception.NetworkException;
-import energy.adesso.adessoandroidapp.logic.model.NetworkBundle;
 import okhttp3.Credentials;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -108,21 +106,23 @@ class NetworkController {
   }
 
   private static Pair<Request.Builder, RequestBody> buildRequest(String path, String json) throws CredentialException {
+    Pair<Request.Builder, RequestBody> pair = new Pair();
     if (username == null)
       throw new CredentialException();
 
-    Request.Builder request;
-    request = new Request.Builder()
+
+    pair.first = new Request.Builder()
         .addHeader("Authorization", Credentials.basic(username, password))
         .addHeader("Host", baseURL)
         .url(baseURL + path);
 
     RequestBody body;
-    if (json != null && !json.equals(""))
+    if (json == null || json.equals(""))
       body = RequestBody.create(new byte[0], null);
     else
       body = RequestBody.create(json, JSON);
+    pair.second = body;
 
-    return new Pair(request, body);
+    return pair;
   }
 }
