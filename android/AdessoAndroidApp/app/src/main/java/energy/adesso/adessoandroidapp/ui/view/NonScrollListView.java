@@ -1,4 +1,4 @@
-package energy.adesso.adessoandroidapp.ui.views;
+package energy.adesso.adessoandroidapp.ui.view;
 
 import android.content.Context;
 import android.util.AttributeSet;

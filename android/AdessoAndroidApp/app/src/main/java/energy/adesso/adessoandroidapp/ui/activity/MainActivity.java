@@ -198,7 +198,7 @@ public class MainActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-    AdapterView.OnItemClickListener onAdapterElementClick = new AdapterView.OnItemClickListener() {
+    final AdapterView.OnItemClickListener onAdapterElementClick = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             startActivity(new Intent(a, DetailActivity.class).

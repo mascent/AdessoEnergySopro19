@@ -45,6 +45,9 @@ public class ReadingAdapter extends ArrayAdapter<Reading> {
         ((TextView) childLayout.getChildAt(0)).setText(r.getCreatedAt().toLocalDate().
                 toString("dd.MM.yyyy"));
         ((TextView) childLayout.getChildAt(1)).setText("");
+        childLayout.getChildAt(1).setLayoutParams(
+                new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                        0, 0.0f));
 
         ((TextView) listElement.getChildAt(2)).setText(r.getValue());
 

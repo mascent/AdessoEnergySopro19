@@ -127,6 +127,10 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:fadingEdgeLength="@dimen/fading_edge"
+        android:verticalScrollbarPosition="defaultPosition"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/detail_layout1">
 
         <LinearLayout
@@ -167,7 +171,7 @@
 
             </LinearLayout>
 
-            <energy.adesso.adessoandroidapp.ui.views.NonScrollListView
+            <energy.adesso.adessoandroidapp.ui.view.NonScrollListView
                 android:id="@+id/detail_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

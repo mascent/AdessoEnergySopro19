@@ -9,7 +9,6 @@
 
     android:background="?attr/selectableItemBackground"
     android:contentDescription="@string/listElementDesc"
-    android:focusable="false"
     android:orientation="horizontal">
 
     <ImageView

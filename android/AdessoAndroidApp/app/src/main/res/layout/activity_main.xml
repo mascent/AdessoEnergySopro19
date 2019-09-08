@@ -31,10 +31,15 @@
             app:titleTextColor="@color/colorPrimary"></androidx.appcompat.widget.Toolbar>
 
         <ScrollView
+            style="@android:style/Widget.DeviceDefault.ScrollView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:fadingEdgeLength="@dimen/fading_edge"
+            android:foregroundTint="@color/colorAccent"
+            android:foregroundTintMode="add">
 
             <LinearLayout
+                android:id="@+id/list_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -70,7 +75,7 @@
                         android:textSize="@dimen/titleLeftTextSize" />
                 </LinearLayout>
 
-                <energy.adesso.adessoandroidapp.ui.views.NonScrollListView
+                <energy.adesso.adessoandroidapp.ui.view.NonScrollListView
                     android:id="@+id/elec_list"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -115,7 +120,7 @@
 
                 </LinearLayout>
 
-                <energy.adesso.adessoandroidapp.ui.views.NonScrollListView
+                <energy.adesso.adessoandroidapp.ui.view.NonScrollListView
                     android:id="@+id/gas_list"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -159,11 +164,15 @@
                         android:textSize="@dimen/titleLeftTextSize" />
                 </LinearLayout>
 
-                <energy.adesso.adessoandroidapp.ui.views.NonScrollListView
+                <energy.adesso.adessoandroidapp.ui.view.NonScrollListView
                     android:id="@+id/water_list"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:divider="@null" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="75dp" />
 
             </LinearLayout>
         </ScrollView>
