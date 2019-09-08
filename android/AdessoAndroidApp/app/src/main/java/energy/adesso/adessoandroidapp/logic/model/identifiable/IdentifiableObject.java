@@ -50,4 +50,8 @@ public abstract class IdentifiableObject extends SerializableObject {
   public static IdentifiableObject deserialize(String source){
     return gson.fromJson(source, IdentifiableObject.class);
   }
+
+  public static DateTimeFormatter getDateTimeStrategy() {
+    return dateTimeStrategy;
+  }
 }
