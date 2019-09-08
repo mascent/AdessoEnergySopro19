@@ -7,11 +7,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import energy.adesso.adessoandroidapp.logic.model.Either;
 import energy.adesso.adessoandroidapp.logic.model.Paging;
 import energy.adesso.adessoandroidapp.logic.model.exception.CredentialException;
 import energy.adesso.adessoandroidapp.logic.model.exception.NetworkException;
-import energy.adesso.adessoandroidapp.logic.model.NetworkBundle;
 
 class PagingHelper<T> {
 
@@ -27,7 +25,7 @@ class PagingHelper<T> {
       Paging<T> paging = new Gson().fromJson(pagingString, pagingType);
       List<T> content = Arrays.asList(paging.getContent());
       list.addAll(content);
-      if (paging.isLast) break;
+      if (paging.isLast()) break;
     }
     // Erfolgsfall
     return list;
