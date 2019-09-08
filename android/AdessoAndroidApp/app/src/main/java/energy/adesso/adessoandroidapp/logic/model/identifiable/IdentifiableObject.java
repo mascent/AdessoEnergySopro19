@@ -4,6 +4,7 @@ package energy.adesso.adessoandroidapp.logic.model.identifiable;
 import androidx.annotation.Nullable;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 
@@ -18,7 +19,8 @@ public abstract class IdentifiableObject extends SerializableObject {
   @Nullable
   private String deletedAt;
 
-  private final static transient DateTimeFormatter dateTimeStrategy = ISODateTimeFormat.dateTime();
+  //TODO: FRICKING TIME ZONES
+  private final static transient DateTimeFormatter dateTimeStrategy = ISODateTimeFormat.dateTime().withZone(DateTimeZone.forID("Europe/Berlin"));
 
   public IdentifiableObject(String id){
     this.id = id;
@@ -32,15 +34,15 @@ public abstract class IdentifiableObject extends SerializableObject {
   }
 
   public DateTime getCreatedAt(){
-    return DateTime.parse(createdAt,dateTimeStrategy);
+    return parse(createdAt);
   }
 
   public DateTime getUpdatedAt(){
-    return DateTime.parse(updatedAt,dateTimeStrategy);
+    return parse(updatedAt);
   }
 
   public DateTime getDeletedAt(){
-    return DateTime.parse(deletedAt,dateTimeStrategy);
+    return parse(deletedAt);
   }
 
   public String getId(){
@@ -54,4 +56,12 @@ public abstract class IdentifiableObject extends SerializableObject {
   public static DateTimeFormatter getDateTimeStrategy() {
     return dateTimeStrategy;
   }
+
+  private DateTime parse(String s){
+    if(s == null || s.equals(""))
+      return null;
+    else return DateTime.parse(s,dateTimeStrategy);
+  }
+
+
 }
