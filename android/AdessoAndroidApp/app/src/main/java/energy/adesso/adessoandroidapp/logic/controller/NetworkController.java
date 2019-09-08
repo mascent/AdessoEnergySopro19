@@ -2,6 +2,7 @@ package energy.adesso.adessoandroidapp.logic.controller;
 
 import java.io.IOException;
 
+import energy.adesso.adessoandroidapp.logic.model.exception.CredentialException;
 import energy.adesso.adessoandroidapp.logic.model.exception.NetworkException;
 import energy.adesso.adessoandroidapp.logic.model.NetworkBundle;
 import okhttp3.Credentials;
@@ -30,20 +31,16 @@ class NetworkController {
 
   }
 
-  static String get(String path) throws NetworkException {
+  static String get(String path) throws NetworkException, CredentialException {
     //TODO accept token
     Request request;
-    if (username != null)
-      request = new Request.Builder()
-          .addHeader("Authorization", Credentials.basic(username, password))
-          .addHeader("Host", baseURL)
-          .url(baseURL + path)
-          .build();
-    else
-      request = new Request.Builder()
-          .addHeader("Host", baseURL)
-          .url(baseURL + path)
-          .build();
+    if (username == null)
+      throw new CredentialException();
+    request = new Request.Builder()
+        .addHeader("Authorization", Credentials.basic(username, password))
+        .addHeader("Host", baseURL)
+        .url(baseURL + path)
+        .build();
     try {
       Response response = ok.newCall(request).execute();
       if (!response.isSuccessful())
@@ -56,23 +53,18 @@ class NetworkController {
   }
 
 
-  static String post(String path, String json) throws NetworkException {
+  static String post(String path, String json) throws NetworkException, CredentialException {
     //TODO accept token
     RequestBody body = RequestBody.create(json, JSON);
     Request request;
-    if (username != null)
-      request = new Request.Builder()
-          .addHeader("Authorization", Credentials.basic(username, password))
-          .addHeader("Host", baseURL)
-          .url(baseURL + path)
-          .post(body)
-          .build();
-    else
-      request = new Request.Builder()
-          .addHeader("Host", baseURL)
-          .url(baseURL + path)
-          .post(body)
-          .build();
+    if (username == null)
+      throw new CredentialException();
+    request = new Request.Builder()
+        .addHeader("Authorization", Credentials.basic(username, password))
+        .addHeader("Host", baseURL)
+        .url(baseURL + path)
+        .post(body)
+        .build();
     try {
       Response response = ok.newCall(request).execute();
       if (!response.isSuccessful())
@@ -84,24 +76,18 @@ class NetworkController {
     }
   }
 
-  static String put(String path, String json) throws NetworkException {
+  static String put(String path, String json) throws NetworkException, CredentialException {
     //TODO accept token
     RequestBody body = RequestBody.create(json, JSON);
     Request request;
-    if (username != null)
-      request = new Request.Builder()
-          .addHeader("Authorization", Credentials.basic(username, password))
-          .addHeader("Host", baseURL)
-          .url(baseURL + path)
-          .put(body)
-          .build();
-    else
-      request = new Request.Builder()
-          .addHeader("Host", baseURL)
-          .url(baseURL + path)
-          .put(body)
-          .build();
-
+    if (username == null)
+      throw new CredentialException();
+    request = new Request.Builder()
+        .addHeader("Authorization", Credentials.basic(username, password))
+        .addHeader("Host", baseURL)
+        .url(baseURL + path)
+        .put(body)
+        .build();
     try {
       Response response = ok.newCall(request).execute();
       if (!response.isSuccessful())
@@ -127,7 +113,6 @@ class NetworkController {
   }
 
   /**
-   *
    * @return whether the user is logged in
    */
   static boolean isLoggedIn() {

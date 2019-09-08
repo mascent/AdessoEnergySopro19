@@ -32,7 +32,7 @@ public class MainController {
 
   }
 
-  public static void sendIssue(Issue issue) throws NetworkException {
+  public static void sendIssue(Issue issue) throws NetworkException, CredentialException {
     String json = issue.serialize();
     String url = "api/issues";
     NetworkController.post(url,json);
@@ -71,18 +71,13 @@ public class MainController {
    * @param password
    * @throws NetworkException
    */
-  public static void login(String username, String password) throws NetworkException {
+  public static void login(String username, String password) throws NetworkException, CredentialException {
     // Send
-    HashMap<String, String> map = new HashMap<String, String>();
-    map.put("username", username);
-    map.put("password", password);
-    String json = new Gson().toJson(map);
-    String reString = NetworkController.post("/api/login", json);
+    NetworkController.setCredentials(username, password);
+    String reString = NetworkController.post("/api/login", "");
 
     User user = User.deserialize(reString);
     uid = user.getId();
-
-    NetworkController.setCredentials(username, password);
 
     // Save persistently
     if(usePersistence) {
@@ -121,7 +116,7 @@ public class MainController {
     return new Pair<Meter, String>(m,answer1.second);
   }
 
-  private static Meter getMeter(String mid) throws NetworkException {
+  private static Meter getMeter(String mid) throws NetworkException, CredentialException {
     String url = ""+mid; // TODO:
     String json = NetworkController.get(url);
     return (Meter) Meter.deserialize(json);
@@ -174,13 +169,13 @@ public class MainController {
     return Base64.encodeToString(byteArray, Base64.DEFAULT);
   }
 
-  public static void correctReading(Reading reading) throws NetworkException {
+  public static void correctReading(Reading reading) throws NetworkException, CredentialException {
     String url = "/api/meters/<mid>/readings/" + reading.getId();
     String json = reading.serialize();
     NetworkController.put(url,json);
   }
 
-  public static void updateMeterName(Meter meter) throws NetworkException {
+  public static void updateMeterName(Meter meter) throws NetworkException, CredentialException {
     String url = "/api/meters/" + meter.getId();
     String json = meter.serialize();
     NetworkController.put(url,json);

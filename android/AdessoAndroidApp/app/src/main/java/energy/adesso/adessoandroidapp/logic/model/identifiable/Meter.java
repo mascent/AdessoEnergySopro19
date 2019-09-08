@@ -91,7 +91,7 @@ public class Meter extends IdentifiableObject {
     MainController.createReading(this.getId(),value);
   }
 
-  public void setName(String newName) throws NetworkException {
+  public void setName(String newName) throws NetworkException, CredentialException {
     this.name = newName;
     MainController.updateMeterName(this);
   }

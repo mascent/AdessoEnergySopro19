@@ -6,8 +6,11 @@ import org.junit.Test;
 
 import org.mockito.Mockito;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
 
+import energy.adesso.adessoandroidapp.logic.model.exception.CredentialException;
+import energy.adesso.adessoandroidapp.logic.model.exception.NetworkException;
 import energy.adesso.adessoandroidapp.logic.model.identifiable.User;
 import okhttp3.HttpUrl;
 import okhttp3.mockwebserver.MockResponse;
@@ -20,43 +23,51 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class MainControllerTest {
 
   @Test
-  public void testMainControllerLogin() {
+  public void testMainControllerLoginMock() throws CredentialException, NetworkException {
+
+    String uid = "ichbineineuidichbincool";
+    String username = "thelegend27";
+    String password = "password1";
+
+    // Create a MockWebServer. These are lean enough that you can create a new
+    // instance for every unit test.
+    MockWebServer server = new MockWebServer();
+
+    User exampleUser = new User(uid, "diesistdiecustomernumber");
+    server.enqueue(new MockResponse().setBody(exampleUser.serialize()));
+    // Start the server.
+
     try {
-      String uid = "ichbineineuidichbincool";
-      String username = "thelegend27";
-      String password = "password1";
-
-      // Create a MockWebServer. These are lean enough that you can create a new
-      // instance for every unit test.
-      MockWebServer server = new MockWebServer();
-
-      User exampleUser = new User(uid, "diesistdiecustomernumber");
-      server.enqueue(new MockResponse().setBody(exampleUser.serialize()));
-      // Start the server.
-
       server.start();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
 
-      // Ask the server for its URL. You'll need this to make HTTP requests.
-      HttpUrl baseUrl = server.url("");
+    // Ask the server for its URL. You'll need this to make HTTP requests.
+    HttpUrl baseUrl = server.url("");
 
-      // Exercise your application code, which should make those HTTP requests.
-      // Responses are returned in the same order that they are enqueued.
-      MainController.setUsePersistence(false);
-      SharedPreferences sp = Mockito.mock(SharedPreferences.class);
-      MainController.init(sp);
-      MainController.setServer(baseUrl.toString());
+    // Exercise your application code, which should make those HTTP requests.
+    // Responses are returned in the same order that they are enqueued.
+    MainController.setUsePersistence(false);
+    SharedPreferences sp = Mockito.mock(SharedPreferences.class);
+    MainController.init(sp);
+    MainController.setServer(baseUrl.toString());
 
-      MainController.login(username, password);
+    MainController.login(username, password);
 
+    try {
       RecordedRequest loginRequest = server.takeRequest();
-      // initial login should not send a token (since there is none saved)
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
 
-
+    try {
       // check if things behaved as they should
       // Hack into the mainframe and disable their algorithms https://www.reddit.com/r/antimeme/comments/9s1zld/when_you_hack_into_the_mainframe_and_disable/
       Field uidField = MainController.class.getDeclaredField("uid");
       Field usernameField = NetworkController.class.getDeclaredField("username");
       Field passwordField = NetworkController.class.getDeclaredField("password");
+
       uidField.setAccessible(true);
       usernameField.setAccessible(true);
       passwordField.setAccessible(true);
@@ -64,16 +75,20 @@ public class MainControllerTest {
       String reflectedUsername = (String) usernameField.get(null);
       String reflectedPassword = (String) passwordField.get(null);
 
-      assertEquals(uid,reflectedUid);
-      assertEquals(username,reflectedUsername);
-      assertEquals(password,reflectedPassword);
+      assertEquals(uid, reflectedUid);
+      assertEquals(username, reflectedUsername);
+      assertEquals(password, reflectedPassword);
       assertTrue(MainController.isLoggedIn());
-
-      server.shutdown();
-
-    } catch (Exception e) {
-      throw new IllegalStateException();
+    } catch (NoSuchFieldException | IllegalAccessException e) {
+      e.printStackTrace();
     }
+
+    try {
+      server.shutdown();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
   }
 
 }
