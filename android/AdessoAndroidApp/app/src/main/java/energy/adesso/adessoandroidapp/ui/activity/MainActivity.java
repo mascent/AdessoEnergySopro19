@@ -1,4 +1,4 @@
-package energy.adesso.adessoandroidapp.ui.activities;
+package energy.adesso.adessoandroidapp.ui.activity;
 
 import android.app.Activity;
 import android.content.DialogInterface;
@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.provider.MediaStore;
@@ -20,31 +21,35 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.util.ArrayList;
 
+import java.util.ArrayList;
 import java.util.IllegalFormatException;
 import java.util.List;
 
 import energy.adesso.adessoandroidapp.R;
 import energy.adesso.adessoandroidapp.logic.model.exception.AdessoException;
 import energy.adesso.adessoandroidapp.logic.model.identifiable.Meter;
+import energy.adesso.adessoandroidapp.ui.adapter.MeterAdapter;
 import energy.adesso.adessoandroidapp.ui.mock.MockController;
-import energy.adesso.adessoandroidapp.ui.parents.ListActivity;
 
-public class MainActivity extends ListActivity {
+public class MainActivity extends AppCompatActivity {
     final Activity a = this;
-    static List<Meter> meters;
     final int CAMERA_REQUEST_IMAGE_BITMAP = 1;
     final int CAMERA_REQUEST_IMAGE_URI = 2;
     final int GALLERY_REQUEST_IMAGE_BITMAP = 10;
+    static List<Meter> meters;
+    MeterAdapter listAdapter;
+    Drawable[] meterIcons;
 
     // Events
     @Override protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +58,11 @@ public class MainActivity extends ListActivity {
         Toolbar toolbar = findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
 
+        meterIcons = new Drawable[] {
+                getDrawable(R.drawable.icon_electricity),
+                getDrawable(R.drawable.icon_gas),
+                getDrawable(R.drawable.icon_water) };
+
         try {
             meters = MockController.getOverview();
             showMeters(meters);
@@ -60,13 +70,6 @@ public class MainActivity extends ListActivity {
             Toast.makeText(this, "Couldn't get meters!", Toast.LENGTH_LONG);
         }
     }
-    final View.OnClickListener onListElementClick = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            startActivity(new Intent(a, DetailActivity.class).
-                putExtra("number", getMeterListElementNumber(view)));
-        }
-    };
     public void onFABClick(View view) {
         new AlertDialog.Builder(this)
                 .setTitle(R.string.new_input_title)
@@ -195,6 +198,13 @@ public class MainActivity extends ListActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+    AdapterView.OnItemClickListener onAdapterElementClick = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            startActivity(new Intent(a, DetailActivity.class).
+                    putExtra("meter", meters.get(position)));
+        }
+    };
 
     void showLogoutMenu() {
         new AlertDialog.Builder(this)
@@ -216,39 +226,7 @@ public class MainActivity extends ListActivity {
                 .setIcon(R.drawable.logo_drop)
                 .show();
     }
-
-    // list
-    void buildTestList() {
-        int i = 12345;
-        Drawable testIcon = testIcon = getDrawable(R.drawable.logo_drop_circle);
-
-        addListTitle("Title1", "Unit1");
-        addMeterListElement(testIcon, "Hauptsitz6", "98 765 434", Integer.toString(i++), onListElementClick);
-        addMeterListElement(testIcon, "element2", "98 765 434", Integer.toString(i++), onListElementClick);
-        addListLine();
-        addListTitle("Title2", "Unit2");
-        addMeterListElement(testIcon, "1Hauptsitz", "98 765 434", Integer.toString(i++), onListElementClick);
-        addMeterListElement(testIcon, "element2", "98 765 434", Integer.toString(i++), onListElementClick);
-        addListLine();
-        addListTitle("Title3", "Unit3");
-        addMeterListElement(testIcon, "2Hauptsitz", "98 765 434", Integer.toString(i++), onListElementClick);
-        addMeterListElement(testIcon, "element2", "98 765 434", Integer.toString(i++), onListElementClick);
-        addListLine();
-        addListTitle("Title4", "Unit4");
-        addMeterListElement(testIcon, "2Hauptsitz", "98 765 434", Integer.toString(i++), onListElementClick);
-        addMeterListElement(testIcon, "element2", "98 765 434", Integer.toString(i++), onListElementClick);
-        addListLine();
-        addListTitle("Title5", "Unit5");
-        addMeterListElement(testIcon, "2Hauptsitz", "98 765 434", Integer.toString(i++), onListElementClick);
-        addMeterListElement(testIcon, "element2", "98 765 434", Integer.toString(i++), onListElementClick);
-        addListLine();
-        addListTitle("Title6", "Unit6");
-        addMeterListElement(testIcon, "2Hauptsitz", "98 765 434", Integer.toString(i++), onListElementClick);
-        addMeterListElement(testIcon, "element2", "98 765 434", Integer.toString(i++), onListElementClick);
-    }
     void showMeters(List<Meter> meters) {
-        clearList();
-
         List<Meter> electricMeters = new ArrayList<Meter>();
         List<Meter> gasMeters = new ArrayList<Meter>();
         List<Meter> waterMeters = new ArrayList<Meter>();
@@ -263,24 +241,22 @@ public class MainActivity extends ListActivity {
                 waterMeters.add(m);
         }
 
-        addListTitle("Strom", "kWh");
-        for (Meter m : electricMeters)
-            addMeterListElement(getDrawable(R.drawable.icon_electricity), m.getName(), m.getMeterNumber(), m.getLastReading().getValue(), onListElementClick);
-        addListLine();
-        addListTitle("Gas", "m³");
-        for (Meter m : gasMeters)
-            addMeterListElement(getDrawable(R.drawable.icon_gas), m.getName(), m.getMeterNumber(), m.getLastReading().getValue(), onListElementClick);
-        addListLine();
-        addListTitle("Wasser", "m³");
-        for (Meter m : waterMeters)
-            addMeterListElement(getDrawable(R.drawable.icon_water), m.getName(), m.getMeterNumber(), m.getLastReading().getValue(), onListElementClick);
+        // Electricity
+        listAdapter = new MeterAdapter(this.getBaseContext(), electricMeters, meterIcons);
+        ListView elecList = findViewById(R.id.elec_list);
+        elecList.setAdapter(listAdapter);
+        elecList.setOnItemClickListener(onAdapterElementClick);
 
-        Log.println(Log.INFO, "", "Added list elements");
-    }
-    public static Meter getMeter(String number) {
-        for (Meter m : meters)
-            if (m.getMeterNumber().equals(number))
-                return m;
-        return null;
+        // Gas
+        listAdapter = new MeterAdapter(this.getBaseContext(), gasMeters, meterIcons);
+        ListView gasList = findViewById(R.id.gas_list);
+        gasList.setAdapter(listAdapter);
+        gasList.setOnItemClickListener(onAdapterElementClick);
+
+        // Water
+        listAdapter = new MeterAdapter(this.getBaseContext(), waterMeters, meterIcons);
+        ListView waterList = findViewById(R.id.water_list);
+        waterList.setAdapter(listAdapter);
+        waterList.setOnItemClickListener(onAdapterElementClick);
     }
 }

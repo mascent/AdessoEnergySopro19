@@ -7,9 +7,11 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 
+import java.io.Serializable;
+
 import energy.adesso.adessoandroidapp.logic.model.SerializableObject;
 
-public abstract class IdentifiableObject extends SerializableObject {
+public abstract class IdentifiableObject extends SerializableObject implements Serializable {
   private String id;
   @Nullable
   protected String updatedAt;

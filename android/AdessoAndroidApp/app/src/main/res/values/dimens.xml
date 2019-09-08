@@ -4,4 +4,7 @@
     <dimen name="list_icon_width">45dp</dimen>
     <dimen name="cardButtonSideMargin">12dp</dimen>
     <dimen name="toolbar_elevation">10dp</dimen>
+    <dimen name="titleLeftTextSize">18sp</dimen>
+    <dimen name="titleLayoutMargin">16dp</dimen>
+    <dimen name="list_title_margin_side">16dp</dimen>
 </resources>

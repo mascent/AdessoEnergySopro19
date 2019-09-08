@@ -1,4 +1,4 @@
-package energy.adesso.adessoandroidapp.ui.activities;
+package energy.adesso.adessoandroidapp.ui.activity;
 
 import android.app.Activity;
 import android.content.Context;
@@ -8,13 +8,14 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import energy.adesso.adessoandroidapp.R;
 import energy.adesso.adessoandroidapp.logic.controller.MainController;
 import energy.adesso.adessoandroidapp.logic.model.exception.AdessoException;
 import energy.adesso.adessoandroidapp.ui.mock.MockController;
-import energy.adesso.adessoandroidapp.ui.parents.ParentActivity;
 
-public class LoginActivity extends ParentActivity {
+public class LoginActivity extends AppCompatActivity {
     final Activity a = this;
 
     @Override

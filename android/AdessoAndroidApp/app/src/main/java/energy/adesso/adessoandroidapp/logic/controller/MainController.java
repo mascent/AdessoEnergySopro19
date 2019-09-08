@@ -20,8 +20,6 @@ import energy.adesso.adessoandroidapp.logic.model.identifiable.Meter;
 import energy.adesso.adessoandroidapp.logic.model.identifiable.Reading;
 import energy.adesso.adessoandroidapp.logic.model.exception.*;
 
-import static energy.adesso.adessoandroidapp.ui.activities.MainActivity.getMeter;
-
 
 public class MainController {
   private static MainController instance;

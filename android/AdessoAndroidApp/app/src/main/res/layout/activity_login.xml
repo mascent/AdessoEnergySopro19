@@ -7,7 +7,7 @@
     android:layout_gravity="center"
     android:backgroundTintMode="add"
     android:clipChildren="false"
-    tools:context=".ui.activities.LoginActivity">
+    tools:context=".ui.activity.LoginActivity">
 
     <ImageView
         android:id="@+id/background"

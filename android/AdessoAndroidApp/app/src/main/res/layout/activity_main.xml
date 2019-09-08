@@ -4,46 +4,171 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.activities.MainActivity">
+    tools:context=".ui.activity.MainActivity">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/main_toolbar"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimaryDark"
-        android:clickable="false"
-        android:elevation="@dimen/toolbar_elevation"
-        android:hapticFeedbackEnabled="true"
-        android:minHeight="56dp"
-        android:theme="@style/AppTheme"
-        app:contentInsetStart="16dp"
-        app:contentInsetStartWithNavigation="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:title="@string/app_name"
-        app:titleTextColor="@color/colorPrimary"></androidx.appcompat.widget.Toolbar>
-
-    <ScrollView
-        android:id="@+id/scrollView"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:background="@color/colorPrimary"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/main_toolbar">
+        app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
-            android:id="@+id/list"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/main_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:paddingTop="12dp">
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorPrimaryDark"
+            android:clickable="false"
+            android:elevation="@dimen/toolbar_elevation"
+            android:hapticFeedbackEnabled="true"
+            android:minHeight="56dp"
+            android:theme="@style/AppTheme"
+            app:contentInsetStart="16dp"
+            app:contentInsetStartWithNavigation="16dp"
+            app:title="@string/app_name"
+            app:titleTextColor="@color/colorPrimary"></androidx.appcompat.widget.Toolbar>
 
-        </LinearLayout>
-    </ScrollView>
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/elec_title_lay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/titleLayoutMargin"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/elec_titel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:layout_marginLeft="@dimen/list_title_margin_side"
+                        android:layout_marginRight="@dimen/list_title_margin_side"
+                        android:text="@string/elecListTitle"
+                        android:textSize="@dimen/titleLeftTextSize"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/elec_unit"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:layout_marginLeft="@dimen/list_title_margin_side"
+                        android:layout_marginRight="@dimen/list_title_margin_side"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:text="@string/elecUnit"
+                        android:textSize="@dimen/titleLeftTextSize" />
+                </LinearLayout>
+
+                <ListView
+                    android:id="@+id/elec_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:divider="@null" />
+
+                <View
+                    android:id="@+id/divider1"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_margin="16dp"
+                    android:background="?android:attr/listDivider" />
+
+                <LinearLayout
+                    android:id="@+id/gas_title_lay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/titleLayoutMargin"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/gas_titel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:layout_marginLeft="@dimen/list_title_margin_side"
+                        android:layout_marginRight="@dimen/list_title_margin_side"
+                        android:text="@string/gasListTitle"
+                        android:textSize="@dimen/titleLeftTextSize"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/gas_unit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:layout_marginLeft="@dimen/list_title_margin_side"
+                        android:layout_marginRight="@dimen/list_title_margin_side"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:text="@string/gasUnit"
+                        android:textSize="@dimen/titleLeftTextSize" />
+
+                </LinearLayout>
+
+                <ListView
+                    android:id="@+id/gas_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:divider="@null" />
+
+                <View
+                    android:id="@+id/divider2"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_margin="16dp"
+                    android:background="?android:attr/listDivider" />
+
+                <LinearLayout
+                    android:id="@+id/water_title_lay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/titleLayoutMargin"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/water_titel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:layout_marginLeft="@dimen/list_title_margin_side"
+                        android:layout_marginRight="@dimen/list_title_margin_side"
+                        android:text="@string/water_list_title"
+                        android:textSize="@dimen/titleLeftTextSize"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/water_unit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:layout_marginLeft="@dimen/list_title_margin_side"
+                        android:layout_marginRight="@dimen/list_title_margin_side"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:text="@string/gasUnit"
+                        android:textSize="@dimen/titleLeftTextSize" />
+                </LinearLayout>
+
+                <ListView
+                    android:id="@+id/water_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:divider="@null" />
+
+            </LinearLayout>
+        </ScrollView>
+
+    </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
@@ -51,10 +176,10 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"
         android:layout_marginEnd="@dimen/fab_margin"
-        android:layout_marginBottom="@dimen/fab_margin"
+        android:layout_marginBottom="16dp"
         android:onClick="onFABClick"
         android:src="?attr/actionModeSelectAllDrawable"
-        app:layout_constraintBottom_toBottomOf="@+id/scrollView"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

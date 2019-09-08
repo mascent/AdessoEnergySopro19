@@ -33,4 +33,9 @@
     <string name="detail_edit_name_text">Gib dem Zähler einen Namen</string>
     <string name="dialog_set_meter_name">Gib dem Zähler einen Namen</string>
     <string name="listElementDesc">listElement</string>
+    <string name="elecListTitle">Strom</string>
+    <string name="elecUnit">kWh</string>
+    <string name="gasListTitle">Gas</string>
+    <string name="gasUnit">m³</string>
+    <string name="water_list_title">Wasser</string>
 </resources>

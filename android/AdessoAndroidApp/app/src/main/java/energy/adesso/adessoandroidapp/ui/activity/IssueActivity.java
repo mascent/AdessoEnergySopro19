@@ -1,4 +1,4 @@
-package energy.adesso.adessoandroidapp.ui.activities;
+package energy.adesso.adessoandroidapp.ui.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;

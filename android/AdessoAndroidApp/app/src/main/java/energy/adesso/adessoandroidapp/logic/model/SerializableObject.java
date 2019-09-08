@@ -2,7 +2,9 @@ package energy.adesso.adessoandroidapp.logic.model;
 
 import com.google.gson.Gson;
 
-public class SerializableObject {
+import java.io.Serializable;
+
+public class SerializableObject implements Serializable {
   protected static Gson gson = new Gson();
 
   public String serialize(){

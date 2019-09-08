@@ -6,6 +6,7 @@ import androidx.annotation.Nullable;
 
 import org.joda.time.DateTime;
 
+import java.io.Serializable;
 import java.util.List;
 
 import energy.adesso.adessoandroidapp.logic.controller.MainController;
@@ -14,7 +15,7 @@ import energy.adesso.adessoandroidapp.logic.model.exception.CredentialException;
 import energy.adesso.adessoandroidapp.logic.model.exception.NetworkException;
 import energy.adesso.adessoandroidapp.ui.mock.MockController;
 
-public class Meter extends IdentifiableObject {
+public class Meter extends IdentifiableObject implements Serializable {
   private String kind;
   private String name;
   @Nullable

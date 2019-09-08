@@ -1,10 +1,12 @@
-package energy.adesso.adessoandroidapp.ui.activities;
+package energy.adesso.adessoandroidapp.ui.activity;
 
 import android.app.Activity;
 import android.content.DialogInterface;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 
@@ -12,19 +14,23 @@ import android.text.InputType;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
 
 import energy.adesso.adessoandroidapp.R;
+import energy.adesso.adessoandroidapp.logic.model.MeterKind;
 import energy.adesso.adessoandroidapp.logic.model.exception.AdessoException;
 import energy.adesso.adessoandroidapp.logic.model.identifiable.Meter;
 import energy.adesso.adessoandroidapp.logic.model.identifiable.Reading;
-import energy.adesso.adessoandroidapp.ui.parents.ListActivity;
+import energy.adesso.adessoandroidapp.ui.adapter.MeterAdapter;
+import energy.adesso.adessoandroidapp.ui.adapter.ReadingAdapter;
 
-public class DetailActivity extends ListActivity {
+public class DetailActivity extends AppCompatActivity {
     Activity a = this;
+    ReadingAdapter listAdapter;
     Meter m;
 
     @Override protected void onCreate(Bundle savedInstanceState) {
@@ -45,8 +51,7 @@ public class DetailActivity extends ListActivity {
             }
         });
 
-        // TODO: Improve meter sending/receiving
-        m = MainActivity.getMeter(getIntent().getStringExtra("number"));
+        m = (Meter)getIntent().getSerializableExtra("meter");
         updateTitleInfo();
 
         listReadings();
@@ -120,13 +125,20 @@ public class DetailActivity extends ListActivity {
     }
 
     void listReadings() {
-        clearList();
-        addListTitle("Datum", "kWh");
         try {
-            List<Reading> readings = m.getReadings();
-            for (Reading r : readings)
-                addReadingListElement(m.getKind(),
-                    r.getCreatedAt().toLocalDate().toString("dd.MM.yyyy"), r.getValue());
+            // Get the icon
+            Drawable icon = null;
+            if (m.getKind().equals(MeterKind.ELECTRIC))
+                icon = getDrawable(R.drawable.icon_electricity);
+            else if (m.getKind().equals(MeterKind.GAS))
+                icon = getDrawable(R.drawable.icon_gas);
+            else if (m.getKind().equals(MeterKind.WATER))
+                icon = getDrawable(R.drawable.icon_water);
+
+            // Init the adapter
+            listAdapter = new ReadingAdapter(this.getBaseContext(), m.getReadings(), icon);
+            ListView detailList = findViewById(R.id.detail_list);
+            detailList.setAdapter(listAdapter);
         } catch (AdessoException e) {
             Toast.makeText(this, R.string.generic_error_message, Toast.LENGTH_SHORT).show();
         }
