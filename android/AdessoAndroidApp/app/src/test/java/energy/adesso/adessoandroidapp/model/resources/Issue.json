@@ -1,11 +1,1 @@
-{
-	"id": "ohfgoasgoag",
-	"email": "citizen23571825@rome.net",
-	"name": "Roman Citizen",
-	"subject": "to constantine",
-	"message": "Hi, I live in the Roman Empire, and I was wondering: IS LOVING JESUS LEGAL YET?",
-	"status": "UNRESOLVED",
-	"createdAt": "0320-04-02T16:23:37.000+01:00",
-	"updatedAt": null,
-	"deletedAt": null
-}
+{"email":"citizen23571825@rome.net","name":"Roman Citizen","subject":"to constantine","message":"Hi, I live in the Roman Empire, and I was wondering: IS LOVING JESUS LEGAL YET?","status":"UNRESOLVED","id":"ohfgoasgoag","createdAt":"0320-04-02T16:23:37.000+01:00"}
