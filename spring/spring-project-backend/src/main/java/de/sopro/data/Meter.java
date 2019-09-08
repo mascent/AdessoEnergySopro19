@@ -15,7 +15,29 @@ import javax.persistence.OneToMany;
 @Entity
 public class Meter {
 
-	public Meter(String meternumber, int initialValue, MeterType meterType) {
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long meterId;
+
+	private String meternumber;
+
+	@OneToMany(mappedBy = "meter", cascade = CascadeType.ALL)
+	private List<Reading> readings;
+
+	private LocalDateTime createdAt;
+
+	private LocalDateTime deletedAt;
+
+	private LocalDateTime updatedAt;
+
+	private int lengthOfReading;
+
+	private int commaPosition;
+
+	@ManyToOne
+	private Address address;
+
+	public Meter(String meternumber, Long initialValue, MeterType meterType) {
 		createdAt = LocalDateTime.now();
 		this.meternumber = meternumber;
 		readings = new ArrayList<Reading>();
@@ -46,28 +68,6 @@ public class Meter {
 		}
 
 	}
-
-	private String meternumber;
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long meterId;
-
-	@OneToMany(mappedBy = "meter", cascade = CascadeType.ALL)
-	private List<Reading> readings;
-
-	private LocalDateTime createdAt;
-
-	private LocalDateTime deletedAt;
-
-	private LocalDateTime updatedAt;
-
-	private int lengthOfReading;
-
-	private int commaPosition;
-
-	@ManyToOne
-	private Address address;
 
 	public Address getAdress() {
 		return address;

@@ -1,6 +1,8 @@
 package de.sopro.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -11,7 +13,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import de.sopro.data.Meter;
+import de.sopro.data.MeterType;
 import de.sopro.data.Reading;
+import de.sopro.dto.MeterDTO;
+import de.sopro.dto.UserDTO;
 import de.sopro.repository.MeterRepository;
 import de.sopro.repository.PersonRepository;
 import de.sopro.repository.ReadingRepository;
@@ -47,15 +53,9 @@ public class MeterController {
 	 * @return A list of meters.
 	 */
 	@GetMapping("/api/meters")
-	public String getMeters() {
-
-//		String closerId = token.getId();
-//		Person person = personRepository.findById(closerId);
-//		if (person.getRole().equals(Role.Admin)) {
-//			List<Meter> metersList = (List<Meter>) meterRepository.findAll();
-//			return metersList;
-//		}
-		return null;
+	public Iterable<MeterDTO> getMeters() {
+		return StreamSupport.stream(meterRepository.findAll().spliterator(), false).map(m -> new MeterDTO(m))
+				.collect(Collectors.toList());
 	}
 
 	/**
@@ -71,8 +71,12 @@ public class MeterController {
 	 * @return The ID of the created meter.
 	 */
 	@PostMapping("/api/meters")
-	public String createMeter(@RequestParam String meterNumber, @RequestParam Long initialReading) {
-		return null; // wahrscheinlich lieber Fehler
+	public MeterDTO createMeter(@RequestParam String meterNumber, @RequestParam Long initialReading,
+			MeterType meterType) {
+
+		Meter m = new Meter(meterNumber, initialReading, meterType);
+		meterRepository.save(m);
+		return new MeterDTO(m);
 	}
 	/**
 	 * This method allows an user to add a new reading to one of his meters or an
