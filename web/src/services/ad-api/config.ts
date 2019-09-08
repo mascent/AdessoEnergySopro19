@@ -1,16 +1,14 @@
 class ApiConfig {
   private isInitiated: boolean = false;
   private _baseUrl: string | undefined;
-  private _clientId: string | undefined;
   private _token: string | undefined;
 
-  public init(options: { baseUrl: string; clientId: string }) {
+  public init(options: { baseUrl: string }) {
     if (this.isInitiated)
       throw new Error('Adesso Energy API can only be initiated once.');
 
     this.isInitiated = true;
     this._baseUrl = options.baseUrl;
-    this._clientId = options.clientId;
   }
 
   public get baseUrl(): string {
@@ -20,13 +18,6 @@ class ApiConfig {
     return this._baseUrl;
   }
 
-  public get clientId(): string {
-    if (!this.isInitiated || !this._clientId)
-      throw new Error('Adesso Energy API need to be initiated first.');
-
-    return this._clientId;
-  }
-
   public get token(): string {
     if (!this._token)
       throw new Error('Token is not set. Make sure to set a token first.');
@@ -34,13 +25,17 @@ class ApiConfig {
     return this._token;
   }
 
-  public set token(token: string) {
-    if (token === '')
+  public setToken(username: string, password: string) {
+    if (username.trim() === '' || password.trim() === '')
       throw new TypeError(
         'Invalid token parameter. Token can not be an empty string'
       );
 
-    this._token = token;
+    this._token = btoa(`${username}:${password}`);
+  }
+
+  public resetToken() {
+    this._token = undefined;
   }
 }
 

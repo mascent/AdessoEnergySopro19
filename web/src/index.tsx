@@ -8,7 +8,6 @@ import { config } from './services/ad-api';
 import { getApiBaseDomain } from './lib/app-config';
 
 config.init({
-  clientId: 'do we have a client id?',
   baseUrl: getApiBaseDomain()
 });
 
