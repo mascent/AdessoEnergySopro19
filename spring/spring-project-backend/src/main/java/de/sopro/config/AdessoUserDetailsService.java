@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import de.sopro.data.Person;
+import de.sopro.data.Role;
 import de.sopro.repository.PersonRepository;
 
 @Service
@@ -26,7 +27,7 @@ public class AdessoUserDetailsService implements UserDetailsService {
 			System.out.println("nonexistens " + username);
 			throw new UsernameNotFoundException("a person by that username does not exists");
 		}
-		return User.withUsername(person.getUsername()).password(person.getPassword()).roles(person.getRole().toString())
+		return User.withUsername(person.getUsername()).password(person.getPassword()).roles(person.getRole().toString(), Role.Shared.toString())
 				.build();
 	}
 

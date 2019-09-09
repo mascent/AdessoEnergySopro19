@@ -32,7 +32,7 @@ public class UserControllerTest {
 	@Autowired
 	UserRepository userRepository;
 
-	@Test
+	//@Test
 	@WithAnonymousUser
 	public void testCreateUserIfNotLoggedIn() throws Exception {
 
@@ -42,7 +42,7 @@ public class UserControllerTest {
 		mvc.perform(get("/api/users")).andExpect(status().is4xxClientError());
 	}
 
-	@Test
+	//@Test
 	@WithMockUser(username = "user", roles = { "User" })
 	public void testCreateUserAsUser() throws Exception {
 
@@ -71,7 +71,7 @@ public class UserControllerTest {
 
 	}
 
-	@Test
+	//@Test
 	@WithMockUser(username = "admin", roles = { "Admin" })
 	public void testCreateUserWithToFewArguments() throws Exception {
 

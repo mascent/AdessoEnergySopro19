@@ -1,7 +1,6 @@
 package de.sopro.controller;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -178,7 +177,7 @@ public class UserController {
 	}
 
 	/**
-	 * Let's a user change his own email-address.
+	 * Lets a user change his own email-address.
 	 * 
 	 * @param request The Http-Request, it's used to identify the user.
 	 * @param email   The new eMail-Address.
@@ -191,42 +190,4 @@ public class UserController {
 		return updateUserEmail(email, u.getPersonId());
 	}
 
-	/**
-	 * This method allows an admin to add new meters to the account of an user. The
-	 * meters are stored as a list in the database entry of the user its belonging
-	 * to.
-	 * 
-	 * @param token    The JWT of the admin to authenticate himself.
-	 * @param meterIDs The list of meters which should be added to the users
-	 *                 account. The list needs to contain at least one meter.
-	 * @param uid      The ID of the user who should become new meters associated
-	 *                 with himself.
-	 * @return A boolean that shows if the operation was successful.
-	 */
-	@PutMapping("api/users/{uid}/meters")
-	public boolean addMetersToUser(@RequestParam List<Long> meterIDs, @PathVariable String uid) {
-
-		//TODO write logic
-		//TODO rewrite JavaDoc
-		return false;
-
-	}
-
-	/**
-	 * This method allows an admin to delete meters from an user account. So to
-	 * remove meters from the list of meters associated with this users account
-	 * 
-	 * @param token    The JWT of the admin to authenticate himself.
-	 * @param meterIDs The list of meters which should be deleted from the users
-	 *                 account. The list needs to contain at least one meter.
-	 * @param uid      The ID of the user who should have less meters associated
-	 *                 with his account.
-	 * @return A boolean that shows if the operation was successful.
-	 */
-	@DeleteMapping("api/users/{uid}/meters")
-	public boolean removeMetersFromUser(@RequestParam List<Long> meterIDs, @PathVariable String uid) {
-		//TODO write logic
-		//TODO rewrite JavaDoc
-		return false;
-	}
 }

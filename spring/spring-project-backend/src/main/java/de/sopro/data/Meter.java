@@ -1,30 +1,39 @@
 package de.sopro.data;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 
 @Entity
 public class Meter {
 
-	public Meter(String meternumber, int initialValue, MeterType meterType) {
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long meterId;
+
+	private String meternumber;
+
+	private LocalDateTime createdAt;
+
+	private LocalDateTime deletedAt;
+
+	private LocalDateTime updatedAt;
+
+	private int lengthOfReading;
+
+	private int commaPosition;
+
+	@ManyToOne
+	private Address address;
+
+	public Meter(String meternumber, Long initialValue, MeterType meterType) {
 		createdAt = LocalDateTime.now();
 		this.meternumber = meternumber;
-		readings = new ArrayList<Reading>();
-		Reading initialReading = new Reading();
-		ReadingValue initialReadingValue = new ReadingValue(initialValue, null);
-		List<ReadingValue> initialReadingValueList = new ArrayList<>();
-		initialReadingValueList.add(initialReadingValue);
-		initialReading.setReadingValues(initialReadingValueList);
-		readings.add(initialReading);
+
 		switch (meterType) {
 		case Gas:
 			lengthOfReading = 8;
@@ -47,42 +56,12 @@ public class Meter {
 
 	}
 
-	private String meternumber;
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long meterId;
-
-	@OneToMany(mappedBy = "meter", cascade = CascadeType.ALL)
-	private List<Reading> readings;
-
-	private LocalDateTime createdAt;
-
-	private LocalDateTime deletedAt;
-
-	private LocalDateTime updatedAt;
-
-	private int lengthOfReading;
-
-	private int commaPosition;
-
-	@ManyToOne
-	private Address address;
-
 	public Address getAdress() {
 		return address;
 	}
 
 	public void setAdress(Address address) {
 		this.address = address;
-	}
-
-	public List<Reading> getReadings() {
-		return readings;
-	}
-
-	public void setReadings(List<Reading> readings) {
-		this.readings = readings;
 	}
 
 	public boolean delete() {
@@ -113,8 +92,8 @@ public class Meter {
 		return deletedAt;
 	}
 
-	public void setDeletedAt(LocalDateTime deletedAt) {
-		this.deletedAt = deletedAt;
+	public void delet() {
+		this.deletedAt = LocalDateTime.now();
 	}
 
 	public LocalDateTime getUpdatedAt() {
@@ -136,6 +115,10 @@ public class Meter {
 
 	public int getCommaPossition() {
 		return this.commaPosition;
+	}
+	
+	public void addReading(Long value) {
+		
 	}
 
 }
