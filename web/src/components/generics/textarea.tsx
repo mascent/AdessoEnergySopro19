@@ -6,7 +6,6 @@ interface TextareaProps {
   className?: string;
   id: string;
   name?: string;
-  type: string;
   placeholder?: string;
   label: string;
   value?: string;
@@ -38,11 +37,10 @@ const Textarea: React.FC<TextareaProps> = ({
         placeholder={placeholder}
         onChange={e => onChange && onChange(e.target.value)}
         onBlur={e => onBlur && onBlur(e.target.value)}
-        data-error={typeof error === 'undefined' && error === ''}
+        data-error={typeof error === 'string' && error.trim() !== ''}
         rows={4}
-      >
-        {value}
-      </textarea>
+        value={value}
+      />
       <span className={styles.error}>{error}</span>
     </div>
   );

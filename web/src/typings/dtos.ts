@@ -1,3 +1,8 @@
+export interface LoginDTO {
+  userId: string;
+  isAdmin: boolean;
+}
+
 export interface Paging<T> {
   content: T[];
   size: number;

@@ -5,7 +5,7 @@ interface AuthenticationContext {
   isLoggedIn: boolean;
   userId: string;
   isAdmin: boolean;
-  login: (username: string, password: string) => void;
+  login: (username: string, password: string) => Promise<boolean>;
   logout: () => void;
 }
 
@@ -22,16 +22,25 @@ export const AuthenticationProvider: React.FC = ({ children }) => {
     // Set the token with experimental things.
     config.setToken(username, password);
     try {
-      const isTokenValid = await auth.login();
+      const { userId, isAdmin } = await auth.login();
 
-      if (isTokenValid) setIsLoggedIn(true);
+      setIsLoggedIn(true);
+      setUserId(userId);
+      setIsAdmin(isAdmin);
+      return true;
     } catch (e) {
       config.resetToken();
       setIsLoggedIn(false);
+      return false;
     }
   }, []);
 
-  const logout = useCallback(() => {}, []);
+  const logout = useCallback(() => {
+    config.resetToken();
+    setIsLoggedIn(false);
+    setUserId('');
+    setIsAdmin(false);
+  }, []);
 
   return (
     <AuthenticationContext.Provider
@@ -46,7 +55,7 @@ export function useAuth(): {
   isLoggedIn: boolean;
   userId: string;
   isAdmin: boolean;
-  login: (username: string, password: string) => void;
+  login: (username: string, password: string) => Promise<boolean>;
   logout: () => void;
 } {
   const context = React.useContext(AuthenticationContext);
