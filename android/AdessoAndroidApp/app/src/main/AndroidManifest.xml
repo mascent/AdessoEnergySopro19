@@ -19,26 +19,24 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.activities.IssueActivity">
+        <activity android:name=".ui.activity.IssueActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="energy.adesso.adessoandroidapp.ui.activities.MainActivity" />
+                android:value="energy.adesso.adessoandroidapp.ui.activity.MainActivity" />
         </activity>
         <activity
-            android:name=".ui.activities.DetailActivity"
-            android:label="@string/title_activity_detail"
-            android:parentActivityName=".ui.activities.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:name=".ui.activity.DetailActivity"
+            android:label="@string/title_activity_detail">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="energy.adesso.adessoandroidapp.ui.activities.MainActivity" />
+                android:value="energy.adesso.adessoandroidapp.ui.activity.MainActivity" />
         </activity>
         <activity
-            android:name=".ui.activities.MainActivity"
+            android:name=".ui.activity.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".ui.activities.LoginActivity"
+            android:name=".ui.activity.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>

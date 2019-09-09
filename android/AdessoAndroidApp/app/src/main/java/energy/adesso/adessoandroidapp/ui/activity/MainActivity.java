@@ -1,4 +1,4 @@
-package energy.adesso.adessoandroidapp.ui.activities;
+package energy.adesso.adessoandroidapp.ui.activity;
 
 import android.app.Activity;
 import android.content.DialogInterface;
@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.provider.MediaStore;
@@ -19,40 +20,51 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.util.ArrayList;
 
+import java.util.ArrayList;
 import java.util.IllegalFormatException;
 import java.util.List;
 
 import energy.adesso.adessoandroidapp.R;
-import energy.adesso.adessoandroidapp.logic.controller.MainController;
 import energy.adesso.adessoandroidapp.logic.model.exception.AdessoException;
 import energy.adesso.adessoandroidapp.logic.model.identifiable.Meter;
 import energy.adesso.adessoandroidapp.logic.model.Pair;
+import energy.adesso.adessoandroidapp.ui.adapter.MeterAdapter;
 import energy.adesso.adessoandroidapp.ui.mock.MockController;
-import energy.adesso.adessoandroidapp.ui.parents.ListActivity;
 
-public class MainActivity extends ListActivity {
+public class MainActivity extends AppCompatActivity {
     final Activity a = this;
-    static List<Meter> meters;
     final int CAMERA_REQUEST_IMAGE_BITMAP = 1;
     final int CAMERA_REQUEST_IMAGE_URI = 2;
     final int GALLERY_REQUEST_IMAGE_BITMAP = 10;
+    List<Meter> meters;
+    List<Meter> electricMeters;
+    List<Meter> gasMeters;
+    List<Meter> waterMeters;
+    MeterAdapter listAdapter;
+    Drawable[] meterIcons;
 
     // Events
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.mainToolbar);
         setSupportActionBar(toolbar);
+
+        meterIcons = new Drawable[] {
+                getDrawable(R.drawable.icon_electricity),
+                getDrawable(R.drawable.icon_gas),
+                getDrawable(R.drawable.icon_water) };
 
         try {
             meters = MockController.getOverview();
@@ -61,11 +73,6 @@ public class MainActivity extends ListActivity {
             Toast.makeText(this, "Couldn't get meters!", Toast.LENGTH_LONG);
         }
     }
-    final View.OnClickListener onListElementClick = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            startNewActivity(DetailActivity.class, "number", getListElementNumber(view)); }
-    };
     public void onFABClick(View view) {
         new AlertDialog.Builder(this)
                 .setTitle(R.string.new_input_title)
@@ -98,7 +105,7 @@ public class MainActivity extends ListActivity {
     void onImageReceived(Bitmap b) {
         try {
             LinearLayout l = (LinearLayout)getLayoutInflater().inflate(R.layout.dialog_reading_check,null);
-            Pair<Meter, String> p = MainController.azureAnalyze(b);
+            Pair<Meter, String> p = MockController.azureAnalyze(b);
 
             // TODO: remind richard that azureAnalyze should return the meter number and not the mid
 
@@ -154,14 +161,14 @@ public class MainActivity extends ListActivity {
     @Override public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.issue:
-                startNewActivity(IssueActivity.class);
+                startActivity(new Intent(a, IssueActivity.class));
                 return true;
             case R.id.logout:
                 showLogoutMenu();
                 return true;
             case R.id.choose_server:
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle(R.string.new_input_title);
+                builder.setTitle(R.string.menu_main_choose_server_button);
 
                 // Set up textbox
                 final EditText input = new EditText(this);
@@ -175,7 +182,7 @@ public class MainActivity extends ListActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         try {
-                            MainController.setServer(input.getText().toString());
+                            MockController.setServer(input.getText().toString());
                         } catch (IllegalFormatException e) {
                             Toast.makeText(a, R.string.generic_error_message, Toast.LENGTH_SHORT).show();
                         }
@@ -194,6 +201,27 @@ public class MainActivity extends ListActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+    final AdapterView.OnItemClickListener onAdapterElecElementClick = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            startActivity(new Intent(a, DetailActivity.class).
+                    putExtra("meter", electricMeters.get(position)));
+        }
+    };
+    final AdapterView.OnItemClickListener onAdapterGasElementClick = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            startActivity(new Intent(a, DetailActivity.class).
+                putExtra("meter", gasMeters.get(position)));
+        }
+    };
+    final AdapterView.OnItemClickListener onAdapterWaterElementClick = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            startActivity(new Intent(a, DetailActivity.class).
+                putExtra("meter", waterMeters.get(position)));
+        }
+    };
 
     void showLogoutMenu() {
         new AlertDialog.Builder(this)
@@ -203,7 +231,7 @@ public class MainActivity extends ListActivity {
                 .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         try {
-                            MainController.logOut();
+                            MockController.logOut();
                         } catch (AdessoException e) { }
                         finish();
                         System.exit(0);
@@ -215,42 +243,10 @@ public class MainActivity extends ListActivity {
                 .setIcon(R.drawable.logo_drop)
                 .show();
     }
-
-    // list
-    void buildTestList() {
-        int i = 12345;
-        Drawable testIcon = testIcon = getDrawable(R.drawable.logo_drop_circle);
-
-        addListTitle("Title1", "Unit1");
-        addListElement(testIcon, "Hauptsitz6", "98 765 434", Integer.toString(i++), onListElementClick);
-        addListElement(testIcon, "element2", "98 765 434", Integer.toString(i++), onListElementClick);
-        addListLine();
-        addListTitle("Title2", "Unit2");
-        addListElement(testIcon, "1Hauptsitz", "98 765 434", Integer.toString(i++), onListElementClick);
-        addListElement(testIcon, "element2", "98 765 434", Integer.toString(i++), onListElementClick);
-        addListLine();
-        addListTitle("Title3", "Unit3");
-        addListElement(testIcon, "2Hauptsitz", "98 765 434", Integer.toString(i++), onListElementClick);
-        addListElement(testIcon, "element2", "98 765 434", Integer.toString(i++), onListElementClick);
-        addListLine();
-        addListTitle("Title4", "Unit4");
-        addListElement(testIcon, "2Hauptsitz", "98 765 434", Integer.toString(i++), onListElementClick);
-        addListElement(testIcon, "element2", "98 765 434", Integer.toString(i++), onListElementClick);
-        addListLine();
-        addListTitle("Title5", "Unit5");
-        addListElement(testIcon, "2Hauptsitz", "98 765 434", Integer.toString(i++), onListElementClick);
-        addListElement(testIcon, "element2", "98 765 434", Integer.toString(i++), onListElementClick);
-        addListLine();
-        addListTitle("Title6", "Unit6");
-        addListElement(testIcon, "2Hauptsitz", "98 765 434", Integer.toString(i++), onListElementClick);
-        addListElement(testIcon, "element2", "98 765 434", Integer.toString(i++), onListElementClick);
-    }
     void showMeters(List<Meter> meters) {
-        clearList();
-
-        List<Meter> electricMeters = new ArrayList<Meter>();
-        List<Meter> gasMeters = new ArrayList<Meter>();
-        List<Meter> waterMeters = new ArrayList<Meter>();
+        electricMeters = new ArrayList<Meter>();
+        gasMeters = new ArrayList<Meter>();
+        waterMeters = new ArrayList<Meter>();
 
         for (Meter m : meters)
         {
@@ -262,24 +258,22 @@ public class MainActivity extends ListActivity {
                 waterMeters.add(m);
         }
 
-        addListTitle("Strom", "kWh");
-        for (Meter m : electricMeters)
-            addListElement(getDrawable(R.drawable.icon_electricity), m.getName(), m.getMeterNumber(), m.getLastReading().getValue(), onListElementClick);
-        addListLine();
-        addListTitle("Gas", "m³");
-        for (Meter m : gasMeters)
-            addListElement(getDrawable(R.drawable.icon_gas), m.getName(), m.getMeterNumber(), m.getLastReading().getValue(), onListElementClick);
-        addListLine();
-        addListTitle("Wasser", "m³");
-        for (Meter m : waterMeters)
-            addListElement(getDrawable(R.drawable.icon_water), m.getName(), m.getMeterNumber(), m.getLastReading().getValue(), onListElementClick);
+        // Electricity
+        listAdapter = new MeterAdapter(this.getBaseContext(), electricMeters, meterIcons);
+        ListView elecList = findViewById(R.id.elecList);
+        elecList.setAdapter(listAdapter);
+        elecList.setOnItemClickListener(onAdapterElecElementClick);
 
-        Log.println(Log.INFO, "", "Added list elements");
-    }
-    public static Meter getMeter(String number) {
-        for (Meter m : meters)
-            if (m.equals(number))
-                return m;
-        return null;
+        // Gas
+        listAdapter = new MeterAdapter(this.getBaseContext(), gasMeters, meterIcons);
+        ListView gasList = findViewById(R.id.GasList);
+        gasList.setAdapter(listAdapter);
+        gasList.setOnItemClickListener(onAdapterGasElementClick);
+
+        // Water
+        listAdapter = new MeterAdapter(this.getBaseContext(), waterMeters, meterIcons);
+        ListView waterList = findViewById(R.id.WaterList);
+        waterList.setAdapter(listAdapter);
+        waterList.setOnItemClickListener(onAdapterWaterElementClick);
     }
 }

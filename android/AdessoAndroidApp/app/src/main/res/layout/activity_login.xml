@@ -7,7 +7,7 @@
     android:layout_gravity="center"
     android:backgroundTintMode="add"
     android:clipChildren="false"
-    tools:context=".ui.activities.LoginActivity">
+    tools:context=".ui.activity.LoginActivity">
 
     <ImageView
         android:id="@+id/background"
@@ -73,6 +73,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:layout_marginTop="8dp"
+                android:backgroundTint="@color/lightGray"
                 android:ems="10"
                 android:hint="@string/number_hint"
                 android:inputType="numberDecimal" />
@@ -83,6 +84,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
+                android:backgroundTint="@color/lightGray"
                 android:ems="10"
                 android:hint="Passwort"
                 android:inputType="textPassword" />

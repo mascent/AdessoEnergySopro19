@@ -1,6 +1,8 @@
 package energy.adesso.adessoandroidapp.logic.model;
 
-public enum MeterKind {
+import java.io.Serializable;
+
+public enum MeterKind implements Serializable {
 
   WATER("water", 8, 3),
   ELECTRIC("electric", 7, 1),
