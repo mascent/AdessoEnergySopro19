@@ -28,6 +28,13 @@
       "git add"
     ]
   },
+  "jest": {
+   
+      "collectCoverageFrom": [
+        "!**/*.stories.*"
+      ]
+    
+  },
   "browserslist": {
     "production": [
       ">0.2%",
