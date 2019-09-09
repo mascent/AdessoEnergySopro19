@@ -10,7 +10,7 @@ public class IssueDTO {
 	private String subject;
 	private String  description;
 	private Long issuerId;
-	private Long closerId;
+	private Boolean isClosed;
 
 	public IssueDTO(Issue i) {
 		this.id = i.getIssueId();
@@ -19,7 +19,7 @@ public class IssueDTO {
 		this.subject = i.getSubject();
 		this.description = i.getDescription();
 		this.issuerId = i.getIssuerId();
-		this.closerId = i.getCloserId();
+		this.isClosed = i.getCloserId() == null;
 	}
 
 	public Long getId() {
@@ -46,8 +46,8 @@ public class IssueDTO {
 		return issuerId;
 	}
 
-	public Long getCloserId() {
-		return closerId;
+	public Boolean getIsClosed() {
+		return isClosed;
 	}
 
 }
