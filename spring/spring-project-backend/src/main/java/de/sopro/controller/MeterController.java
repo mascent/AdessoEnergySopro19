@@ -1,6 +1,5 @@
 package de.sopro.controller;
 
-import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -17,7 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import de.sopro.data.Meter;
 import de.sopro.data.MeterType;
+import de.sopro.data.Person;
 import de.sopro.data.Reading;
+import de.sopro.data.Role;
 import de.sopro.data.User;
 import de.sopro.data.UserMeterAssociation;
 import de.sopro.dto.MeterDTO;
@@ -30,8 +31,6 @@ import de.sopro.repository.UserRepository;
 /**
  * The meter controller contains operations to manage all requests belonging to
  * meters.
- * 
- * @author Mattis
  *
  */
 @RestController
@@ -44,8 +43,11 @@ public class MeterController {
 	ReadingRepository readingRepository;
 
 	@Autowired
+	PersonRepository personRepository;
+
+	@Autowired
 	UserRepository userRepository;
-	
+
 	@Autowired
 	UserMeterAssociationRepository userMeterAssociationRepository;
 
@@ -83,7 +85,6 @@ public class MeterController {
 		return new MeterDTO(m);
 	}
 
-
 	/**
 	 * This method allows an user to get one of his meters by its ID or an admin to
 	 * get any meter by its ad.
@@ -97,7 +98,6 @@ public class MeterController {
 	public String getMeter(@PathVariable Long mid) {
 		return null;
 	}
-
 
 //	/** //Vincent sagt brauchen wir nicht
 //	 * This method allows an user to add a new reading to one of his meters or an
@@ -130,7 +130,6 @@ public class MeterController {
 //			newReading.setReadingValues(newValuesList);
 //		}
 //	}
-
 
 	// Hier unklar welches Attribut, definitiv adden oder Methode löschen.
 	/**
@@ -175,24 +174,34 @@ public class MeterController {
 	 */
 
 	@GetMapping("/api/meters/{mid}/readings")
-	public List<Reading> lookUpReadings(@PathVariable String mid) {
-//		String userId = token.getId(); // hier gucken, wie das geht..
-//		Person person = personRepository.findById(userId);
-//		if (person.getRole().equals(Role.Admin)) {
-//			Meter newMeter = meterRepository.findById(mid);
-//			List<Reading> readingList = newMeter.getReadings();
-//			return readingList;
-//		} else if (person.getRole().equals(Role.User)) { // hier noch Check ob User berechtigt ist, also ob sein Zähler,
-//															// probably über UserMeterAssociation
-//			Meter newMeter = meterRepository.findById(mid);
-//			List<Reading> readingList = newMeter.getReadings();
-//			return readingList;
-//		}
+	public Iterable<Reading> lookUpReadings(HttpServletRequest request, @PathVariable Long mid) {
 
-		return null;
+		Person p = personRepository.findByUsername(request.getUserPrincipal().getName());
+		Meter m = meterRepository.findById(mid).orElse(null);
+
+		if (m == null || p == null) {
+			return null;
+		}
+
+		if (p.getRole().equals(Role.User)) {
+			User u = userRepository.findById(p.getPersonId()).orElse(null);
+			assert u != null;
+			Iterable<UserMeterAssociation> umas = userMeterAssociationRepository.findAllByUserAndMeter(u, m);
+			boolean activeConnection = false;
+			for (UserMeterAssociation uma : umas) {
+				if (uma.getEndOfAssociation() == null) {
+					activeConnection = true;
+					break;
+				}
+			}
+			if (!activeConnection) {
+				return null;
+			}
+		}
+		return readingRepository.findAllByMeter(m);
+
 	}
-	
-	
+
 	/**
 	 * This method allows an user to add a new reading to one of his meters or an
 	 * admin to add a new reading to any meter. The reading is added as a textual
@@ -213,12 +222,12 @@ public class MeterController {
 		}
 
 		Iterable<UserMeterAssociation> umas = userMeterAssociationRepository.findAllByUserAndMeter(user, meter);
-		
-		for(UserMeterAssociation uma : umas) {
-			if(uma.getEndOfAssociation() != null) {
+
+		for (UserMeterAssociation uma : umas) {
+			if (uma.getEndOfAssociation() != null) {
 			}
 		}
-		
+
 		return null;
 
 	}
