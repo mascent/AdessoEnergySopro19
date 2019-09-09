@@ -5,16 +5,16 @@ import com.google.gson.Gson;
 public class SerializableObject {
   protected static Gson gson = new Gson();
 
-  public String serialize(){
+  public String serialize() {
     return gson.toJson(this, this.getClass());
   }
 
-  public static Object deserialize(String source){
+  public static Object deserialize(String source) {
     try {
       Class currentClass = new Object() {
       }.getClass().getEnclosingClass();
       return gson.fromJson(source, currentClass);
-    } catch (Exception e){
+    } catch (Exception e) {
       return null;
     }
   }

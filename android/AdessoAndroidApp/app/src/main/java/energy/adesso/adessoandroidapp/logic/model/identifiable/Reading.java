@@ -2,6 +2,7 @@ package energy.adesso.adessoandroidapp.logic.model.identifiable;
 
 
 import energy.adesso.adessoandroidapp.logic.controller.MainController;
+import energy.adesso.adessoandroidapp.logic.model.exception.CredentialException;
 import energy.adesso.adessoandroidapp.logic.model.exception.NetworkException;
 
 public class Reading extends IdentifiableObject {
@@ -9,9 +10,9 @@ public class Reading extends IdentifiableObject {
   private final String meterId;
   private final String ownerId;
   private String value;
+  private int trend;
   private String lastEditorName;
   private String lastEditReason;
-  private int trend;
 
   public Reading(String id, String meterId, String ownerId, String value) {
     super(id);
@@ -24,7 +25,7 @@ public class Reading extends IdentifiableObject {
     return gson.fromJson(source, Reading.class);
   }
 
-  public void correct(String newValue) throws NetworkException {
+  public void correct(String newValue) throws NetworkException, CredentialException {
     this.value = newValue;
     MainController.correctReading(this);
   }

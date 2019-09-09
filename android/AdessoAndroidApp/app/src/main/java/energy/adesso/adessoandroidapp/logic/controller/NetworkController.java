@@ -2,8 +2,9 @@ package energy.adesso.adessoandroidapp.logic.controller;
 
 import java.io.IOException;
 
+import energy.adesso.adessoandroidapp.logic.model.Pair;
+import energy.adesso.adessoandroidapp.logic.model.exception.CredentialException;
 import energy.adesso.adessoandroidapp.logic.model.exception.NetworkException;
-import energy.adesso.adessoandroidapp.logic.model.NetworkBundle;
 import okhttp3.Credentials;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -11,7 +12,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class NetworkController {
+class NetworkController {
   private final static String defaultURL = "124.245.1.240:3001";
   private static String baseURL = defaultURL;
 
@@ -30,23 +31,12 @@ public class NetworkController {
 
   }
 
-  public static String get(String path, boolean useCredentials) throws NetworkException {
-    //TODO accept token
-    Request request;
-    if (useCredentials)
-      request = new Request.Builder()
-              .addHeader("Authorization", Credentials.basic(username, password))
-              .addHeader("Host", baseURL)
-              .url(baseURL + path)
-              .build();
-    else
-      request = new Request.Builder()
-              .addHeader("Host", baseURL)
-              .url(baseURL + path)
-              .build();
+  static String get(String path) throws NetworkException, CredentialException {
+    Pair<Request.Builder, RequestBody> details = buildRequest(path, null);
+    Request request = details.first.get().build();
     try {
       Response response = ok.newCall(request).execute();
-      if(!response.isSuccessful())
+      if (!response.isSuccessful())
         handleError(response.body().string());
 
       return response.body().string();
@@ -56,26 +46,12 @@ public class NetworkController {
   }
 
 
-  static String post(String path, String json, boolean useCredentials) throws NetworkException {
-    //TODO accept token
-    RequestBody body = RequestBody.create(json, JSON);
-    Request request;
-    if (useCredentials)
-      request = new Request.Builder()
-              .addHeader("Authorization", Credentials.basic(username, password))
-              .addHeader("Host", baseURL)
-              .url(baseURL + path)
-              .post(body)
-              .build();
-    else
-      request = new Request.Builder()
-              .addHeader("Host", baseURL)
-              .url(baseURL + path)
-              .post(body)
-              .build();
+  static String post(String path, String json) throws NetworkException, CredentialException {
+    Pair<Request.Builder, RequestBody> details = buildRequest(path, json);
+    Request request = details.first.post(details.second).build();
     try {
       Response response = ok.newCall(request).execute();
-      if(!response.isSuccessful())
+      if (!response.isSuccessful())
         handleError(response.body().string());
 
       return response.body().string();
@@ -84,27 +60,12 @@ public class NetworkController {
     }
   }
 
-  public static String put(String path, String json, boolean useCredentials) throws NetworkException {
-    //TODO accept token
-    RequestBody body = RequestBody.create(json, JSON);
-    Request request;
-    if (useCredentials)
-      request = new Request.Builder()
-              .addHeader("Authorization", Credentials.basic(username, password))
-              .addHeader("Host", baseURL)
-              .url(baseURL + path)
-              .put(body)
-              .build();
-    else
-      request = new Request.Builder()
-              .addHeader("Host", baseURL)
-              .url(baseURL + path)
-              .put(body)
-              .build();
-
+  static String put(String path, String json) throws NetworkException, CredentialException {
+    Pair<Request.Builder, RequestBody> details = buildRequest(path, json);
+    Request request = details.first.put(details.second).build();
     try {
       Response response = ok.newCall(request).execute();
-      if(!response.isSuccessful())
+      if (!response.isSuccessful())
         handleError(response.body().string());
 
       return response.body().string();
@@ -114,25 +75,53 @@ public class NetworkController {
   }
 
 
-  public static void setAddress(String address) {
+  static void setAddress(String address) {
     if (address != null)
       baseURL = address;
     else
       baseURL = defaultURL;
   }
 
-  public static void setCredentials(String usr, String pw) {
+  static void setCredentials(String usr, String pw) {
     username = usr;
     password = pw;
   }
 
-
-  public static boolean isLoggedIn() {
-    return username == null;
+  /**
+   * @return whether the user is logged in
+   */
+  static boolean isLoggedIn() {
+    return username != null;
   }
 
-  private static String handleError(String errorString) throws NetworkException {
+  /**
+   * A method that takes in a String representing an Error returned by the Server and throwing the appropriate Java Exception
+   *
+   * @param errorString The Exception by the Server
+   * @throws NetworkException
+   */
+  static void handleError(String errorString) throws NetworkException {
     // TODO handle better
     throw new NetworkException();
+  }
+
+  private static Pair<Request.Builder, RequestBody> buildRequest(String path, String json) throws CredentialException {
+    Pair<Request.Builder, RequestBody> pair = new Pair();
+    if (username == null)
+      throw new CredentialException();
+
+
+    pair.first = new Request.Builder()
+            .addHeader("Authorization", Credentials.basic(username, password))
+            .url(baseURL + path);
+
+    RequestBody body;
+    if (json == null || json.equals(""))
+      body = RequestBody.create(new byte[0], null);
+    else
+      body = RequestBody.create(json, JSON);
+    pair.second = body;
+
+    return pair;
   }
 }

@@ -2,6 +2,7 @@ package energy.adesso.adessoandroidapp.logic.model.identifiable;
 
 
 import energy.adesso.adessoandroidapp.logic.controller.MainController;
+import energy.adesso.adessoandroidapp.logic.model.exception.CredentialException;
 import energy.adesso.adessoandroidapp.logic.model.exception.NetworkException;
 
 public class Issue extends IdentifiableObject {
@@ -17,11 +18,11 @@ public class Issue extends IdentifiableObject {
   }
 
 
-  public void send() throws NetworkException {
+  public void send() throws NetworkException, CredentialException {
     MainController.sendIssue(this);
   }
 
-  public static Issue deserialize(String source){
+  public static Issue deserialize(String source) {
     return gson.fromJson(source, Issue.class);
   }
 
@@ -60,7 +61,6 @@ public class Issue extends IdentifiableObject {
   public String getStatus() {
     return status;
   }
-
 
 
 }

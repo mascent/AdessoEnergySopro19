@@ -5,7 +5,6 @@ package energy.adesso.adessoandroidapp.logic.controller;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.util.Base64;
-import android.util.Pair;
 
 import com.google.gson.Gson;
 
@@ -13,7 +12,9 @@ import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import energy.adesso.adessoandroidapp.logic.model.Pair;
 import energy.adesso.adessoandroidapp.logic.model.identifiable.Issue;
 import energy.adesso.adessoandroidapp.logic.model.identifiable.Meter;
 import energy.adesso.adessoandroidapp.logic.model.identifiable.Reading;
@@ -22,9 +23,9 @@ import energy.adesso.adessoandroidapp.logic.model.identifiable.User;
 
 
 public class MainController {
-  private static MainController instance;
-  private static String ip;
-  private static SharedPreferences prefs;
+  private static PersistenceController persistence;
+
+  private static boolean usePersistence = true;
   private static String uid;
 
   // Private because of static class
@@ -32,19 +33,20 @@ public class MainController {
 
   }
 
-  public static void sendIssue(Issue issue) throws NetworkException {
+  public static void sendIssue(Issue issue) throws NetworkException, CredentialException {
     String json = issue.serialize();
-    String url = "api/issues";
-    NetworkController.post(url,json,true);
+    String url = "/api/issues";
+    NetworkController.post(url, json);
   }
 
-  public static void init(SharedPreferences prefs) {
-    // init Persistance
-    PersistanceController.getInstance().init(prefs);
-    String username = PersistanceController.getInstance().load("username");
-    String password = PersistanceController.getInstance().load("password");
-
-    NetworkController.setCredentials(username,password);
+  public static void loadSharedPreferences(SharedPreferences prefs) {
+    // init Persistence
+    persistence = new PersistenceController(prefs);
+    if (usePersistence) {
+      String username = persistence.load("username");
+      String password = persistence.load("password");
+      NetworkController.setCredentials(username, password);
+    }
   }
 
 
@@ -70,55 +72,62 @@ public class MainController {
    * @param password
    * @throws NetworkException
    */
-  public static void login(String username, String password) throws NetworkException {
+  public static void login(String username, String password) throws NetworkException, CredentialException {
     // Send
-    HashMap<String, String> map = new HashMap<String, String>();
-    map.put("username", username);
-    map.put("password", password);
-    String json = new Gson().toJson(map);
-    String reString = NetworkController.post("/api/login", json, true);
+    NetworkController.setCredentials(username, password);
+    String reString = NetworkController.get("/api/login");
 
     User user = User.deserialize(reString);
     uid = user.getId();
 
-    NetworkController.setCredentials(username, password);
-
     // Save persistently
-    PersistanceController.getInstance().save("username", username);
-    PersistanceController.getInstance().save("password", password);
-    PersistanceController.getInstance().save("uid", uid);
+    if (usePersistence) {
+      persistence.save("username", username);
+      persistence.save("password", password);
+      persistence.save("uid", uid);
+    }
 
   }
 
   public static void logOut() throws NetworkException {
-    NetworkController.setCredentials(null,null);
+    NetworkController.setCredentials(null, null);
     uid = null;
-    PersistanceController.getInstance().delete("username");
-    PersistanceController.getInstance().delete("password");
-    PersistanceController.getInstance().delete("uid");
+    if (usePersistence) {
+      persistence.delete("username");
+      persistence.delete("password");
+      persistence.delete("uid");
+    }
   }
 
   /**
    * analyzes an image for readerNumber and current reading
    *
    * @param image the image to analyze
-   * @return a Tuple of number, reading
+   * @return a Tuple of the affected Meter, and scanned Value
    * @throws CredentialException when not logged in
    */
   public static Pair<Meter, String> azureAnalyze(Bitmap image) throws NetworkException, CredentialException {
-    // TODO this is def. wrong
-    String url = "api/picture";
-    String string = NetworkController.post(url, toBase64(image), true);
+    String url = "/api/picture";
+
+    Map<String, String> map = new HashMap();
+    map.put("image", toBase64(image));
+    String sendString = new Gson().toJson(map);
+
+    // casting answerString to pair of mid, value
+    String answerString = NetworkController.post(url, sendString);
     Type castType = new Pair<String, String>("", "") {
     }.getClass();
-    Pair<String, String> answer1 = new Gson().fromJson(string, castType);
-    Meter m = getMeter(answer1.first);
-    return new Pair<Meter, String>(m,answer1.second);
+    Pair<String, String> answerPair = new Gson().fromJson(answerString, castType);
+
+    Meter m = getMeter(answerPair.first);
+
+    // returning the meter and the proposed entryvalue
+    return new Pair<Meter, String>(m, answerPair.second);
   }
 
-  private static Meter getMeter(String mid) throws NetworkException {
-    String url = ""+mid; // TODO:
-    String json = NetworkController.get(url,true);
+  private static Meter getMeter(String mid) throws NetworkException, CredentialException {
+    String url = "" + mid; // TODO:
+    String json = NetworkController.get(url);
     return (Meter) Meter.deserialize(json);
   }
 
@@ -129,11 +138,12 @@ public class MainController {
    * @throws NetworkException when the Network is faulty
    */
   public static void setServer(String newAddress) {
-    if(newAddress == null)
-      PersistanceController.getInstance().delete("address");
-    else
-      PersistanceController.getInstance().save("address", newAddress);
-
+    if (usePersistence) {
+      if (newAddress == null)
+        persistence.delete("address");
+      else
+        persistence.save("address", newAddress);
+    }
     NetworkController.setAddress(newAddress);
   }
 
@@ -141,7 +151,7 @@ public class MainController {
     String url = "/api/meters";
     Reading reading = new Reading(null, mid, uid, value);
     String readingString = reading.serialize();
-    NetworkController.post(url, readingString, true);
+    NetworkController.post(url, readingString);
   }
 
   /**
@@ -168,22 +178,27 @@ public class MainController {
     return Base64.encodeToString(byteArray, Base64.DEFAULT);
   }
 
-  public static void correctReading(Reading reading) throws NetworkException {
+  public static void correctReading(Reading reading) throws NetworkException, CredentialException {
     String url = "/api/meters/<mid>/readings/" + reading.getId();
     String json = reading.serialize();
-    NetworkController.put(url,json,true);
+    NetworkController.put(url, json);
   }
 
-  public static void updateMeterName(Meter meter) throws NetworkException {
+  public static void updateMeterName(Meter meter) throws NetworkException, CredentialException {
     String url = "/api/meters/" + meter.getId();
     String json = meter.serialize();
-    NetworkController.put(url,json,true);
+    NetworkController.put(url, json);
   }
 
-    public static boolean isLoggedIn() {
-      if((PersistanceController.getInstance().load("username")==null)!=NetworkController.isLoggedIn())
-        // Logged in information must be synced between parts of the controller
-        throw new IllegalStateException();
-      return NetworkController.isLoggedIn();
-    }
+  public static boolean isLoggedIn() {
+    // check if persistent state and local copy are identical
+    if (usePersistence && (persistence.load("username") == null) != NetworkController.isLoggedIn())
+      // Logged in information must be synced between parts of the controller
+      throw new IllegalStateException();
+    return NetworkController.isLoggedIn();
+  }
+
+  public static void setUsePersistence(boolean usePersistence) {
+    MainController.usePersistence = usePersistence;
+  }
 }
