@@ -4,6 +4,7 @@ import { withKnobs, text } from '@storybook/addon-knobs';
 import { Span, Paragraph, SectionHeader, SubTitle, Title } from './text';
 
 storiesOf('Generics | Text', module)
+  .addParameters({ jest: ['text'] })
   .addDecorator(withKnobs)
   .add('default', () => (
     <div>
