@@ -39,9 +39,8 @@ const Textarea: React.FC<TextareaProps> = ({
         onBlur={e => onBlur && onBlur(e.target.value)}
         data-error={typeof error === 'string' && error.trim() !== ''}
         rows={4}
-      >
-        {value}
-      </textarea>
+        value={value}
+      />
       <span className={styles.error}>{error}</span>
     </div>
   );
