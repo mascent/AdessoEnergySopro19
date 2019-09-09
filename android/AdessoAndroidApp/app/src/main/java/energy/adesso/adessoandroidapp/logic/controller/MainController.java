@@ -33,7 +33,7 @@ public class MainController {
 
   public static void sendIssue(Issue issue) throws NetworkException, CredentialException {
     String json = issue.serialize();
-    String url = "api/issues";
+    String url = "/api/issues";
     NetworkController.post(url, json);
   }
 
@@ -106,7 +106,7 @@ public class MainController {
    */
   public static Pair<Meter, String> azureAnalyze(Bitmap image) throws NetworkException, CredentialException {
     // TODO this is def. wrong
-    String url = "api/picture";
+    String url = "/api/picture";
     String string = NetworkController.post(url, toBase64(image));
     Type castType = new Pair<String, String>("", "") {
     }.getClass();

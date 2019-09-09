@@ -19,7 +19,7 @@ public abstract class IdentifiableObject extends SerializableObject {
   @Nullable
   private String deletedAt;
 
-  //TODO: FRICKING TIME ZONES
+  //TODO: FLOCKING TIME ZONES
   private final static transient DateTimeFormatter dateTimeStrategy = ISODateTimeFormat.dateTime().withZone(DateTimeZone.forID("Europe/Berlin"));
 
   public IdentifiableObject(String id){

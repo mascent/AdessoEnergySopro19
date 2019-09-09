@@ -47,7 +47,7 @@ class NetworkController {
 
 
   static String post(String path, String json) throws NetworkException, CredentialException {
-    Pair<Request.Builder, RequestBody> details = buildRequest(path, null);
+    Pair<Request.Builder, RequestBody> details = buildRequest(path, json);
     Request request = details.first.post(details.second).build();
     try {
       Response response = ok.newCall(request).execute();
@@ -61,7 +61,7 @@ class NetworkController {
   }
 
   static String put(String path, String json) throws NetworkException, CredentialException {
-    Pair<Request.Builder, RequestBody> details = buildRequest(path, null);
+    Pair<Request.Builder, RequestBody> details = buildRequest(path, json);
     Request request = details.first.put(details.second).build();
     try {
       Response response = ok.newCall(request).execute();
