@@ -238,7 +238,6 @@ public class MainActivity extends AppCompatActivity {
                             MockController.logOut();
                         } catch (AdessoException e) { }
                         finish();
-                        System.exit(0);
                     }
                 })
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {

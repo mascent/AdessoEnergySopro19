@@ -42,6 +42,6 @@ public class LogoutTest {
         .check(matches(isDisplayed()))
         .perform(click());
 
-    assertTrue(mActivity.getActivity().isDestroyed());
+    assertTrue(mActivity.getActivity().isFinishing());
   }
 }
