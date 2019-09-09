@@ -106,7 +106,6 @@ public class MeterController {
 		
 		for(UserMeterAssociation uma : umas) {
 			if(uma.getEndOfAssociation() != null) {
-				Reading r = new Reading(value);
 			}
 		}
 		

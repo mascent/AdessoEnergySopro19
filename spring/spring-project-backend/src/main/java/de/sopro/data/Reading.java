@@ -1,8 +1,5 @@
 package de.sopro.data;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,13 +20,11 @@ public class Reading {
 	@NotNull
 	private Iterable<ReadingValue> readingValues;
 
-	public Reading(Long value) {
-		readingValues = new ArrayList<ReadingValue>();
-		readingValues.add(new ReadingValue(value, null, "Initial Reading"));
-	}
-
 	@ManyToOne
 	private Meter meter;
+
+	public Reading() {
+	}
 
 	public Meter getMeter() {
 		return meter;
@@ -47,11 +42,4 @@ public class Reading {
 		this.readingId = readingId;
 	}
 
-	public List<ReadingValue> getReadingValues() {
-		return readingValues;
-	}
-
-	public void setReadingValues(List<ReadingValue> readingValues) {
-		this.readingValues = readingValues;
-	}
 }

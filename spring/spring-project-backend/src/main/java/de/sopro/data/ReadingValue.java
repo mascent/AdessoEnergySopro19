@@ -13,22 +13,6 @@ import javax.validation.constraints.Positive;
 
 @Entity
 public class ReadingValue {
-
-	public ReadingValue(Long value, Long changerId, String reason) {
-		this.value = value;
-		this.changerId = changerId;
-		this.reason = reason;
-		lastChange = LocalDateTime.now();
-	}
-
-// smart constructor for first initialization
-	public ReadingValue(Long value, Long changerId) {
-		this.value = value;
-		this.changerId = changerId;
-		this.reason = "creation";
-		lastChange = LocalDateTime.now();
-	}
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long readingValueId;
@@ -47,6 +31,22 @@ public class ReadingValue {
 	private Long changerId;
 
 	private String reason;
+	
+
+	public ReadingValue(Long value, Long changerId, String reason) {
+		this.value = value;
+		this.changerId = changerId;
+		this.reason = reason;
+		lastChange = LocalDateTime.now();
+	}
+
+// smart constructor for first initialization
+	public ReadingValue(Long value, Long changerId) {
+		this.value = value;
+		this.changerId = changerId;
+		this.reason = "creation";
+		lastChange = LocalDateTime.now();
+	}
 
 	public Long getReadingValueId() {
 		return readingValueId;

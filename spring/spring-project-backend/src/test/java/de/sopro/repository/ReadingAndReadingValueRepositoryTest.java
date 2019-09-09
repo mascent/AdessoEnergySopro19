@@ -28,7 +28,7 @@ public class ReadingAndReadingValueRepositoryTest {
 
 	@BeforeEach
 	public void addReadingAndReadingValues() {
-		reading = new Reading();
+		reading = new Reading((long) 1);
 		reading.getReadingValues().add(new ReadingValue((long) 1, null, "1"));
 		reading.getReadingValues().add(new ReadingValue((long) 2, null, "2"));
 		reading = readingRepository.save(reading);
