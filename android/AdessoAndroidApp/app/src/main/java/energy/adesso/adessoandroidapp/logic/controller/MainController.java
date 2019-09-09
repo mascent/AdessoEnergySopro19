@@ -73,7 +73,7 @@ public class MainController {
   public static void login(String username, String password) throws NetworkException, CredentialException {
     // Send
     NetworkController.setCredentials(username, password);
-    String reString = NetworkController.post("/api/login", "");
+    String reString = NetworkController.get("/api/login");
 
     User user = User.deserialize(reString);
     uid = user.getId();
