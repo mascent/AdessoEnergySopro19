@@ -32,7 +32,7 @@ public class SoproSpringProjectApplication {
 
 		return args -> {
 			if (repo.findByUsername("admin5") != null) {
-				repo.delete(repo.findByUsername("admin5"));
+				repo.deleteByUsername("admin5");
 			}
 			repo.save(new Person("admin5", passwordEncoder.encode("password3"), Role.Admin));
 		};
