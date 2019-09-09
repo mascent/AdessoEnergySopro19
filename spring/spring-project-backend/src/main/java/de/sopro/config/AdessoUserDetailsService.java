@@ -1,5 +1,7 @@
 package de.sopro.config;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,7 +21,7 @@ public class AdessoUserDetailsService implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		Person person = personRepository.findByUsername(username);
+		Person person = personRepository.findByUsername(username).orElse(null);
 
 		if (person == null) {
 			System.out.println("nonexistens " + username);
