@@ -25,7 +25,7 @@ public class SerializableTest {
   public void testUserConversion() {
     String json = readFromDisk("User.json");
 
-    DateTime createdAt = new DateTime(320, 4, 2, 16, 23, 37, DateTimeZone.forID("Europe/Berlin"));
+    DateTime createdAt = new DateTime(1990, 6, 21, 16, 23, 37, DateTimeZone.forID("Europe/Berlin"));
     DateTime updatedAt = new DateTime(1938, 3, 11, 11, 43, 21, DateTimeZone.forID("Europe/Berlin"));
     DateTime deletedAt = new DateTime(1999, 11, 21, 8, 11, 17, DateTimeZone.forID("Europe/Berlin"));
 
@@ -77,7 +77,7 @@ public class SerializableTest {
   public void testIssueConversion() {
     String json = readFromDisk("Issue.json");
 
-    DateTime createdAt = new DateTime(320, 4, 2, 16, 23, 37, DateTimeZone.forID("Europe/Berlin"));
+    DateTime createdAt = new DateTime(2200, 4, 2, 16, 23, 37, DateTimeZone.forID("Europe/Berlin"));
     DateTime updatedAt = null;
     DateTime deletedAt = null;
 
@@ -91,7 +91,7 @@ public class SerializableTest {
     assertEquals(i.getEmail(), "citizen23571825@rome.net");
     assertEquals(i.getName(), "Roman Citizen");
     assertEquals(i.getSubject(), "to constantine");
-    assertEquals(i.getMessage(), "Hi, I live in the Roman Empire, and I was wondering: IS LOVING JESUS LEGAL YET?");
+    assertEquals(i.getMessage(), "Hi, I live in the new Roman Empire, and I was wondering: IS LOVING JESUS LEGAL YET?");
     assertEquals(i.getStatus(), "UNRESOLVED");
     assertEquals(i.getCreatedAt(), createdAt);
     assertTrue(samesame(i.getUpdatedAt(), updatedAt));
