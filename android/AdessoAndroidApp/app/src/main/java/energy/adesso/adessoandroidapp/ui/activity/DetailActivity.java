@@ -104,7 +104,6 @@ public class DetailActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 try {
                     m.setName(input.getText().toString());
-                    updateTitleInfo();
                 } catch (AdessoException e) {
                     Toast.makeText(a, R.string.generic_error_message,
                             Toast.LENGTH_SHORT).show();

@@ -73,59 +73,6 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Couldn't get meters!", Toast.LENGTH_LONG);
         }
     }
-    public void onFABClick(View view) {
-        new AlertDialog.Builder(this)
-                .setTitle(R.string.new_input_title)
-                .setMessage(R.string.new_input_messsage)
-                .setCancelable(true)
-                .setPositiveButton(R.string.take_photo, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) { onPhotoButtonClick();
-                    }
-                })
-                .setNegativeButton(R.string.select_from_gallery, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) { onGalleryButtonClick();
-                    }
-                })
-                .setIcon(R.drawable.logo_drop)
-                .show();
-    }
-    void onPhotoButtonClick() {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(takePictureIntent, CAMERA_REQUEST_IMAGE_BITMAP);
-        }
-    }
-    void onGalleryButtonClick() {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"),
-                GALLERY_REQUEST_IMAGE_BITMAP);
-    }
-    void onImageReceived(Bitmap b) {
-        try {
-            LinearLayout l = (LinearLayout)getLayoutInflater().inflate(R.layout.dialog_reading_check,null);
-            Pair<Meter, String> p = MockController.azureAnalyze(b);
-
-            // TODO: remind richard that azureAnalyze should return the meter number and not the mid
-
-            ((TextView)l.findViewById(R.id.number)).setText(p.first.getMeterNumber());
-            ((TextView)l.findViewById(R.id.usage)).setText(p.second);
-
-            new AlertDialog.Builder(this)
-                    .setTitle(R.string.check_image)
-                    .setCancelable(true)
-                    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) { }
-                    })
-                    .setNegativeButton(R.string.cancel, null)
-                    .setIcon(R.drawable.logo_drop)
-                    .setView(l)
-                    .show();
-        } catch (AdessoException e) {
-            Toast.makeText(this, R.string.generic_error_message, Toast.LENGTH_SHORT);
-        }
-    }
     @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.println(Log.INFO, "", "ActivityResult: " +
                 Integer.toString(requestCode)  + " " + Integer.toString(resultCode) + " ");
@@ -199,6 +146,63 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+    @Override public void onTopResumedActivityChanged(boolean isTopResumedActivity) {
+        if (isTopResumedActivity)
+            showMeters(meters);
+    }
+    public void onFABClick(View view) {
+        new AlertDialog.Builder(this)
+            .setTitle(R.string.new_input_title)
+            .setMessage(R.string.new_input_messsage)
+            .setCancelable(true)
+            .setPositiveButton(R.string.take_photo, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) { onPhotoButtonClick();
+                }
+            })
+            .setNegativeButton(R.string.select_from_gallery, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) { onGalleryButtonClick();
+                }
+            })
+            .setIcon(R.drawable.logo_drop)
+            .show();
+    }
+    void onPhotoButtonClick() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, CAMERA_REQUEST_IMAGE_BITMAP);
+        }
+    }
+    void onGalleryButtonClick() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"),
+            GALLERY_REQUEST_IMAGE_BITMAP);
+    }
+    void onImageReceived(Bitmap b) {
+        try {
+            LinearLayout l = (LinearLayout)getLayoutInflater().inflate(R.layout.dialog_reading_check,null);
+            Pair<Meter, String> p = MockController.azureAnalyze(b);
+
+            // TODO: remind richard that azureAnalyze should return the meter number and not the mid
+
+            ((TextView)l.findViewById(R.id.number)).setText(p.first.getMeterNumber());
+            ((TextView)l.findViewById(R.id.usage)).setText(p.second);
+
+            new AlertDialog.Builder(this)
+                .setTitle(R.string.check_image)
+                .setCancelable(true)
+                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) { }
+                })
+                .setNegativeButton(R.string.cancel, null)
+                .setIcon(R.drawable.logo_drop)
+                .setView(l)
+                .show();
+        } catch (AdessoException e) {
+            Toast.makeText(this, R.string.generic_error_message, Toast.LENGTH_SHORT);
         }
     }
     final AdapterView.OnItemClickListener onAdapterElecElementClick = new AdapterView.OnItemClickListener() {
