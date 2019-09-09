@@ -1,5 +1,6 @@
 package de.sopro.data;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,11 +24,19 @@ public class Reading {
 	@NotNull
 	private List<ReadingValue> readingValues;
 
-	public Reading() {
-	}
-
+	
 	@ManyToOne
 	private Meter meter;
+
+	
+	public Reading(Meter meter, Long initalReading) {
+		this.meter = meter;
+		readingValues = new ArrayList<ReadingValue>();
+		readingValues.add(new ReadingValue(initalReading, null, "Inital Reading"));
+	}
+	
+	public Reading() {
+	}
 
 	public Meter getMeter() {
 		return meter;
@@ -51,5 +60,15 @@ public class Reading {
 
 	public void setReadingValues(List<ReadingValue> readingValues) {
 		this.readingValues = readingValues;
+	}
+
+	public LocalDateTime getCreatedAt() {
+		LocalDateTime oldestTime = LocalDateTime.now();
+		for (ReadingValue rv : readingValues) {
+			if (rv.getCreatedAt().isBefore(oldestTime)) {
+				oldestTime = rv.getCreatedAt();
+			}
+		}
+		return oldestTime;
 	}
 }

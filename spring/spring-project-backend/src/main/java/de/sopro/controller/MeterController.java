@@ -1,5 +1,6 @@
 package de.sopro.controller;
 
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -99,38 +100,6 @@ public class MeterController {
 		return null;
 	}
 
-//	/** //Vincent sagt brauchen wir nicht
-//	 * This method allows an user to add a new reading to one of his meters or an
-//	 * admin to add a new reading to any meter. The reading is added as a picture
-//	 * here which is evaluated by another method.
-//	 * 
-//	 * @param token The JWT of the user/admin to authenticate himself.
-//	 * @param mid   The ID of the meter the new reading belongs to.
-//	 * @return A boolean that shows if the adding was successful.
-//	 */
-//	@PostMapping("/api/meters/{mid}/readings")
-//	public String addReadingViaPicture(@RequestParam Jwt token, @PathVariable Long mid, @RequestParam Image pic) {
-//		int value = PictureController.analyze(token, pic);
-//		Meter meter = meterRepository.findById(mid); // Zähler finden //wie hier optional fixen?
-//		List<Reading> readingsList = meter.getReadings(); // alle Stände des Zählers
-//		int pos = readingsList.size() - 1;
-//		Reading reading = readingsList.get(pos); // aktuellster Stand steht an letzter Stelle
-//		List<ReadingValue> valuesList = reading.getReadingValues(); // alle Values des Standes bekommen (mehrere Stände
-//																	// durch Update)
-//		int pos1 = valuesList.size() - 1;
-//		ReadingValue actualValue = valuesList.get(pos1); // aktuellsten Stand kriegen
-//		int oldValue = actualValue.getValue(); // von dem den Wert auslesen, da Rest nicht interessiert
-//		if (value >= oldValue) {
-//			Reading newReading = new Reading();
-//			String changerId = token.getId(); // hier gucken, wie das geht..
-//			Date date = new Date();
-//			ReadingValue newReadingValue = new ReadingValue(value, date, changerId);
-//			List<ReadingValue> newValuesList = new ArrayList<>();
-//			newValuesList.add(newReadingValue);
-//			newReading.setReadingValues(newValuesList);
-//		}
-//	}
-
 	// Hier unklar welches Attribut, definitiv adden oder Methode löschen.
 	/**
 	 * This method allows an user to update a meter to a current reading.
@@ -152,16 +121,13 @@ public class MeterController {
 	 * @return A boolean that shows if the update was successful.
 	 */
 	@DeleteMapping("/api/meters/{mid}")
-	public String deleteMeter(@PathVariable Long mid) {
-//		String deleterId = token.getId(); // hier gucken, wie das geht..
-//		Person person = personRepository.findById(deleterId);
-//		Meter meter = meterRepository.findById(mid);
-//		if (person.getRole().equals(Role.Admin)) {
-//			Date date = new Date();
-//			meter.setDeletedAt(date);
-//		}
+	public Boolean deleteMeter(@PathVariable Long mid) {
+		Meter m = meterRepository.findById(mid).orElseThrow();
+		m.delet();
 
-		return null;
+		meterRepository.save(m);
+
+		return true;
 	}
 
 	/**
@@ -176,8 +142,8 @@ public class MeterController {
 	@GetMapping("/api/meters/{mid}/readings")
 	public Iterable<Reading> lookUpReadings(HttpServletRequest request, @PathVariable Long mid) {
 
-		Person p = personRepository.findByUsername(request.getUserPrincipal().getName());
-		Meter m = meterRepository.findById(mid).orElse(null);
+		Person p = personRepository.findByUsername(request.getUserPrincipal().getName()).orElseThrow();
+		Meter m = meterRepository.findById(mid).orElseThrow();
 
 		if (m == null || p == null) {
 			return null;
@@ -187,16 +153,21 @@ public class MeterController {
 			User u = userRepository.findById(p.getPersonId()).orElse(null);
 			assert u != null;
 			Iterable<UserMeterAssociation> umas = userMeterAssociationRepository.findAllByUserAndMeter(u, m);
-			boolean activeConnection = false;
+			List<Reading> readings = StreamSupport.stream(readingRepository.findAllByMeter(m).spliterator(), false)
+					.map(r -> r).collect(Collectors.toList());
 			for (UserMeterAssociation uma : umas) {
-				if (uma.getEndOfAssociation() == null) {
-					activeConnection = true;
-					break;
+				for (Reading reading : readings) {
+					if (uma.getEndOfAssociation() != null) {
+						if (reading.getCreatedAt().isAfter(uma.getEndOfAssociation())) {
+							readings.remove(reading);
+						}
+					}
+					if (reading.getCreatedAt().isBefore(uma.getBeginOfAssociation())) {
+						readings.remove(reading);
+					}
 				}
 			}
-			if (!activeConnection) {
-				return null;
-			}
+			return readings;
 		}
 		return readingRepository.findAllByMeter(m);
 
@@ -214,17 +185,16 @@ public class MeterController {
 	 */
 	@PostMapping("/api/meters/{mid}/readings")
 	public String addReading(HttpServletRequest request, @PathVariable Long mid, Long value) {
-		Meter meter = meterRepository.findById(mid).orElse(null); // Zähler finden //wie hier optional fixen?
+		Meter meter = meterRepository.findById(mid).orElseThrow();
 		User user = userRepository.findByUsername(request.getUserPrincipal().getName());
 
-		if (meter == null || user == null) {
-			return null;
-		}
+		assert meter != null && user != null;
 
 		Iterable<UserMeterAssociation> umas = userMeterAssociationRepository.findAllByUserAndMeter(user, meter);
 
 		for (UserMeterAssociation uma : umas) {
-			if (uma.getEndOfAssociation() != null) {
+			if (uma.getEndOfAssociation() == null) {
+				readingRepository.save(new Reading(meter, value));
 			}
 		}
 

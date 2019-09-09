@@ -17,7 +17,6 @@ public class Meter {
 
 	private String meternumber;
 
-
 	private LocalDateTime createdAt;
 
 	private LocalDateTime deletedAt;
@@ -34,7 +33,7 @@ public class Meter {
 	public Meter(String meternumber, Long initialValue, MeterType meterType) {
 		createdAt = LocalDateTime.now();
 		this.meternumber = meternumber;
-		
+
 		switch (meterType) {
 		case Gas:
 			lengthOfReading = 8;
@@ -65,7 +64,6 @@ public class Meter {
 		this.address = address;
 	}
 
-
 	public boolean delete() {
 		return false;
 	}
@@ -94,8 +92,8 @@ public class Meter {
 		return deletedAt;
 	}
 
-	public void setDeletedAt(LocalDateTime deletedAt) {
-		this.deletedAt = deletedAt;
+	public void delet() {
+		this.deletedAt = LocalDateTime.now();
 	}
 
 	public LocalDateTime getUpdatedAt() {
@@ -117,6 +115,10 @@ public class Meter {
 
 	public int getCommaPossition() {
 		return this.commaPosition;
+	}
+	
+	public void addReading(Long value) {
+		
 	}
 
 }
