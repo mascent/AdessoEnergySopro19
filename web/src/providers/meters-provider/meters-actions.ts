@@ -80,12 +80,12 @@ export function updateMeterRequest(id: string): UpdateMeterRequestAction {
   };
 }
 
-interface UpdateUserSuccessAction {
+interface UpdateMeterSuccessAction {
   type: 'UPDATE_METER_SUCCESS';
   meter: Meter;
 }
 
-export function updateMeterSuccess(meter: Meter): UpdateUserSuccessAction {
+export function updateMeterSuccess(meter: Meter): UpdateMeterSuccessAction {
   return {
     type: 'UPDATE_METER_SUCCESS',
     meter
@@ -117,5 +117,5 @@ export type Action =
   | AddMeterSuccessAction
   | AddMeterFailureAction
   | UpdateMeterRequestAction
-  | UpdateUserSuccessAction
+  | UpdateMeterSuccessAction
   | UpdateMeterFailureAction;

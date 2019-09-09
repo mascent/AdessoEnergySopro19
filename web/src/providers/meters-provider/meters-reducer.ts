@@ -1,5 +1,5 @@
 import { Meter } from '../../typings/provider-data-interfaces';
-import { Action } from './meters-action';
+import { Action } from './meters-actions';
 
 export interface MetersState {
   meters: Meter[];

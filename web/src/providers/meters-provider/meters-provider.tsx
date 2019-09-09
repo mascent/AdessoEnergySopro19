@@ -10,7 +10,7 @@ import {
   addMeterFailure,
   updateMeterRequest,
   updateMeterFailure
-} from './meters-action';
+} from './meters-actions';
 
 interface MetersContext {
   meters: Meter[];
@@ -99,7 +99,7 @@ interface MetersKit {
   meters: Meter[];
   isLoading: boolean;
   error: Error | null;
-  addMeter: (meters: Partial<Meter>) => Promise<void>;
+  addMeter: (meter: Partial<Meter>) => Promise<void>;
 }
 
 let fetching = false;
@@ -122,7 +122,7 @@ export function useMeters(): MetersKit {
 }
 
 interface MeterKit {
-  user: Meter;
+  meter: Meter;
   updateMeter: (update: Partial<Meter>) => Promise<void>;
 }
 
@@ -141,5 +141,5 @@ export function useMeter(id: string): MeterKit | null {
 
   if (typeof meter === 'undefined') return null;
 
-  return { user: meter, updateMeter: updateMeter.bind(undefined, meter.id) };
+  return { meter, updateMeter: updateMeter.bind(undefined, meter.id) };
 }
