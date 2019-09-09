@@ -6,4 +6,8 @@ public class Pair<A, B> {
 
   public Pair(A first, B second) {
   }
+
+  public Pair(){
+
+  }
 }
