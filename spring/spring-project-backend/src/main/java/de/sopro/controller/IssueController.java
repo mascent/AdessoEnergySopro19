@@ -41,22 +41,6 @@ public class IssueController {
 	PersonRepository personRepository;
 
 	/**
-	 * This method allows an admin to get the name, email address, subject and
-	 * description belonging to an issue by its ID.
-	 * 
-	 * @param iid The ID of the issue.
-	 * @return The issue belonging to the given ID packed as an IssueDTO.
-	 */
-	@GetMapping(path = "/api/issues/{iid}", params = { "iid" })
-	public IssueDTO getIssue(@PathVariable Long iid) {
-		Issue i = issueRepository.findById(iid).orElse(null);
-		if (i == null) {
-			return null;
-		}
-		return new IssueDTO(i);
-	}
-
-	/**
 	 * This method allows an user to create a ticket for an issue that occurs.
 	 * 
 	 * @param request     The HTTPServletRequest that shows the identity of the
@@ -96,6 +80,22 @@ public class IssueController {
 	public Iterable<IssueDTO> getIssues() {
 		return StreamSupport.stream(issueRepository.findAll().spliterator(), false).map(i -> new IssueDTO(i))
 				.collect(Collectors.toList());
+	}
+	
+	/**
+	 * This method allows an admin to get the name, email address, subject and
+	 * description belonging to an issue by its ID.
+	 * 
+	 * @param iid The ID of the issue.
+	 * @return The issue belonging to the given ID packed as an IssueDTO.
+	 */
+	@GetMapping(path = "/api/issues/{iid}", params = { "iid" })
+	public IssueDTO getIssue(@PathVariable Long iid) {
+		Issue i = issueRepository.findById(iid).orElse(null);
+		if (i == null) {
+			return null;
+		}
+		return new IssueDTO(i);
 	}
 
 	/**
