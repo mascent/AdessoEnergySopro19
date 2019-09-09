@@ -53,5 +53,9 @@ public class UserMeterAssociation {
 	public LocalDateTime getEndOfAssociation() {
 		return endOfAssociation;
 	}
+	
+	public void endAssociation() {
+		this.endOfAssociation = LocalDateTime.now();
+	}
 
 }

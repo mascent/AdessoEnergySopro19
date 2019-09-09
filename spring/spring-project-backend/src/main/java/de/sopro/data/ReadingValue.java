@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Positive;
@@ -20,6 +21,7 @@ public class ReadingValue {
 	@ManyToOne
 	private Reading reading;
 
+
 	@Positive
 	@NotNull
 	private Long value;
@@ -31,7 +33,6 @@ public class ReadingValue {
 	private Long changerId;
 
 	private String reason;
-	
 
 	public ReadingValue(Long value, Long changerId, String reason) {
 		this.value = value;
@@ -78,6 +79,10 @@ public class ReadingValue {
 
 	public String getReason() {
 		return reason;
+	}
+
+	public Reading getReading() {
+		return reading;
 	}
 
 	public void setReason(String reason) {

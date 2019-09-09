@@ -83,35 +83,21 @@ public class MeterController {
 		return new MeterDTO(m);
 	}
 
+
 	/**
-	 * This method allows an user to add a new reading to one of his meters or an
-	 * admin to add a new reading to any meter. The reading is added as a textual
-	 * input here.
+	 * This method allows an user to get one of his meters by its ID or an admin to
+	 * get any meter by its ad.
 	 * 
 	 * @param token The JWT of the user/admin to authenticate himself.
-	 * @param mid   The ID of the meter the new reading belongs to.
-	 * @param value The value of the reading that should be added.
-	 * @return A boolean that shows if the adding was successful.
+	 * @param mid   The ID of the meter that should be returned.
+	 * @return The object of the meter belonging to the given ID or an error code if
+	 *         no meter with the given ID exists.
 	 */
-	@PostMapping("/api/meters/{mid}/readings")
-	public String addReading(HttpServletRequest request, @PathVariable Long mid, Long value) {
-		Meter meter = meterRepository.findById(mid).orElse(null); // Zähler finden //wie hier optional fixen?
-		User user = userRepository.findByUsername(request.getUserPrincipal().getName());
-
-		if (meter == null || user == null) {
-			return null;
-		}
-
-		Iterable<UserMeterAssociation> umas = userMeterAssociationRepository.findAllByUserAndMeter(user, meter);
-		
-		for(UserMeterAssociation uma : umas) {
-			if(uma.getEndOfAssociation() != null) {
-			}
-		}
-		
+	@GetMapping("/api/meters/{mid}")
+	public String getMeter(@PathVariable Long mid) {
 		return null;
-
 	}
+
 
 //	/** //Vincent sagt brauchen wir nicht
 //	 * This method allows an user to add a new reading to one of his meters or an
@@ -145,19 +131,6 @@ public class MeterController {
 //		}
 //	}
 
-	/**
-	 * This method allows an user to get one of his meters by its ID or an admin to
-	 * get any meter by its ad.
-	 * 
-	 * @param token The JWT of the user/admin to authenticate himself.
-	 * @param mid   The ID of the meter that should be returned.
-	 * @return The object of the meter belonging to the given ID or an error code if
-	 *         no meter with the given ID exists.
-	 */
-	@GetMapping("/api/meters/{mid}")
-	public String getMeter(@PathVariable Long mid) {
-		return null;
-	}
 
 	// Hier unklar welches Attribut, definitiv adden oder Methode löschen.
 	/**
@@ -218,7 +191,8 @@ public class MeterController {
 
 		return null;
 	}
-
+	
+	
 	/**
 	 * This method allows an user to add a new reading to one of his meters or an
 	 * admin to add a new reading to any meter. The reading is added as a textual
@@ -230,8 +204,23 @@ public class MeterController {
 	 * @return A boolean that shows if the adding was successful.
 	 */
 	@PostMapping("/api/meters/{mid}/readings")
-	public String addReading(@PathVariable Long mid, int value) {
+	public String addReading(HttpServletRequest request, @PathVariable Long mid, Long value) {
+		Meter meter = meterRepository.findById(mid).orElse(null); // Zähler finden //wie hier optional fixen?
+		User user = userRepository.findByUsername(request.getUserPrincipal().getName());
+
+		if (meter == null || user == null) {
+			return null;
+		}
+
+		Iterable<UserMeterAssociation> umas = userMeterAssociationRepository.findAllByUserAndMeter(user, meter);
+		
+		for(UserMeterAssociation uma : umas) {
+			if(uma.getEndOfAssociation() != null) {
+			}
+		}
+		
 		return null;
+
 	}
 
 }

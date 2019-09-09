@@ -88,9 +88,20 @@ public class UserMeterAssociationController {
 
 	@DeleteMapping("/api/meters/{mid}/users")
 	@CrossOrigin
-	public boolean removeMeterFromUser(@RequestParam Long uid, @PathVariable Long mid) {
-		// TODO write logic
-		// TODO rewrite JavaDoc
+	public Boolean removeMeterFromUser(@RequestParam Long uid, @PathVariable Long mid) {
+		User u = userRepository.findById(uid).orElse(null);
+		Meter m = meterRepository.findById(mid).orElse(null);
+
+		if (u != null && m != null) {
+			Iterable<UserMeterAssociation> umas = userMeterAssociationRepository.findAllByUserAndMeter(u, m);
+			for (UserMeterAssociation uma : umas) {
+				if (uma.getEndOfAssociation() == null) {
+					uma.endAssociation();
+					return true;
+				}
+
+			}
+		}
 
 		return false;
 	}
@@ -108,13 +119,15 @@ public class UserMeterAssociationController {
 	 */
 	@DeleteMapping("/api/users/{uid}/meters")
 	@CrossOrigin
-	public boolean removeMetersFromUser(@RequestParam List<Long> meterIDs, @PathVariable Long uid) {
+	public Boolean removeMetersFromUser(@RequestParam List<Long> meterIDs, @PathVariable Long uid) {
 
 		for (Long mID : meterIDs) {
-			removeMeterFromUser(uid, mID);
+			if (!removeMeterFromUser(uid, mID)) {
+				return false;
+			}
 		}
 
-		return false;
+		return true;
 	}
 
 }
