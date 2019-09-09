@@ -6,7 +6,7 @@ import Modal, { ModalBody, ModalFooter } from './generics/modal';
 import { useInputValidation } from 'use-input-validation';
 import styles from './ticket-modal.module.scss';
 import Textarea from './generics/textarea';
-import { validateEmail } from '../lib/validators';
+import { isValidEmail } from '../lib/validators';
 
 interface TicketModalProps {
   onSend: (
@@ -39,7 +39,7 @@ const TicketModal: React.FC<TicketModalProps> = ({
   const email = useInputValidation<string, string>(
     '',
     'Keine valide Email-Adresse',
-    validateEmail
+    isValidEmail
   );
 
   const subject = useInputValidation<string, string>(

@@ -4,6 +4,6 @@ export function isStringEmpty(str: string) {
   return str.trim() === '';
 }
 
-export function validateEmail(email: string) {
+export function isValidEmail(email: string) {
   return isEmail(email);
 }

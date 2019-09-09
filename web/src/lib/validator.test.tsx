@@ -1,5 +1,4 @@
-import { isStringEmpty } from './validators';
-import isEmail from 'validator/lib/isEmail';
+import { isStringEmpty, isValidEmail } from './validators';
 
 describe('isStringEmpty function', () => {
   test('is true for an empty string or only spaces', () => {
@@ -20,8 +19,8 @@ describe('isStringEmpty function', () => {
 
 describe('isEmail function', () => {
   test('is false for an empty email', () => {
-    expect(isEmail('')).toBeFalsy();
-    expect(isEmail('        ')).toBeFalsy();
+    expect(isValidEmail('')).toBeFalsy();
+    expect(isValidEmail('        ')).toBeFalsy();
   });
 
   const cases = [
@@ -34,6 +33,6 @@ describe('isEmail function', () => {
 
   test.each(cases)('email %s is %s', (mail, result) => {
     /// @ts-ignore TS things both are string | boolean. Don't know why...
-    expect(isEmail(mail)).toBe(result);
+    expect(isValidEmail(mail)).toBe(result);
   });
 });
