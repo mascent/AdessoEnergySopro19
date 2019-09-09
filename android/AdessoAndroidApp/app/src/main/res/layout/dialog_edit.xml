@@ -12,15 +12,15 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:id="@+id/imageView4"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:id="@+id/imageView"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:foreground="@drawable/icon_edit"
             android:foregroundTint="@color/colorPrimaryDark" />
 
         <EditText
             android:id="@+id/name"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName" />
@@ -28,9 +28,10 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/bottomText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/dialog_set_meter_name" />
+        android:layout_gravity="bottom|center_horizontal"
+        android:text="@string/detail_edit_name_text" />
 
 </LinearLayout>

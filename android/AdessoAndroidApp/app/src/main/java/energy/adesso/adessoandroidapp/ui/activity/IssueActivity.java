@@ -1,4 +1,4 @@
-package energy.adesso.adessoandroidapp.ui.activities;
+package energy.adesso.adessoandroidapp.ui.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -39,8 +39,17 @@ public class IssueActivity extends AppCompatActivity {
 
         try {
             i.send();
+
+            Toast.makeText(this, R.string.issue_send_successfully,
+                    Toast.LENGTH_SHORT).show();
+
+            try {
+                this.finish();
+                this.finalize();
+            } catch (Throwable e) { }
         } catch (AdessoException e) {
-            Toast.makeText(this, R.string.generic_error_message, Toast.LENGTH_SHORT);
+            Toast.makeText(this, R.string.generic_error_message,
+                    Toast.LENGTH_SHORT).show();
         }
     }
 }

@@ -4,6 +4,7 @@ package energy.adesso.adessoandroidapp.logic.model.identifiable;
 import energy.adesso.adessoandroidapp.logic.controller.MainController;
 import energy.adesso.adessoandroidapp.logic.model.exception.CredentialException;
 import energy.adesso.adessoandroidapp.logic.model.exception.NetworkException;
+import energy.adesso.adessoandroidapp.ui.mock.MockController;
 
 public class Issue extends IdentifiableObject {
 

@@ -8,19 +8,21 @@ import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 
+import java.io.Serializable;
+
 import energy.adesso.adessoandroidapp.logic.model.SerializableObject;
 
-public abstract class IdentifiableObject extends SerializableObject {
+public abstract class IdentifiableObject extends SerializableObject implements Serializable {
   private String id;
   @Nullable
-  private String updatedAt;
+  protected String updatedAt;
   @Nullable
-  private String createdAt;
+  protected String createdAt;
   @Nullable
-  private String deletedAt;
+  protected String deletedAt;
 
   //TODO: FLOCKING TIME ZONES
-  private final static transient DateTimeFormatter dateTimeStrategy = ISODateTimeFormat.dateTime().withZone(DateTimeZone.forID("Europe/Berlin"));
+  final static transient DateTimeFormatter dateTimeStrategy = ISODateTimeFormat.dateTime().withZone(DateTimeZone.forID("Europe/Berlin"));
 
   public IdentifiableObject(String id) {
     this.id = id;

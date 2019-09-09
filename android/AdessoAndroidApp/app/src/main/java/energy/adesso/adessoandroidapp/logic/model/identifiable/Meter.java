@@ -4,14 +4,16 @@ import androidx.annotation.Nullable;
 
 import org.joda.time.DateTime;
 
+import java.io.Serializable;
 import java.util.List;
 
 import energy.adesso.adessoandroidapp.logic.controller.MainController;
 import energy.adesso.adessoandroidapp.logic.model.MeterKind;
 import energy.adesso.adessoandroidapp.logic.model.exception.CredentialException;
 import energy.adesso.adessoandroidapp.logic.model.exception.NetworkException;
+import energy.adesso.adessoandroidapp.ui.mock.MockController;
 
-public class Meter extends IdentifiableObject {
+public class Meter extends IdentifiableObject implements Serializable {
   private String meterNumber;
   private String type;
   private String name;
@@ -29,7 +31,7 @@ public class Meter extends IdentifiableObject {
     this.ownerId = ownerId;
     this.lastReading = lastReading;
     this.meterNumber = meterNumber;
-    this.type = kind.name();
+    this.type = kind.name().toLowerCase();
   }
 
   public Meter(String id, DateTime createdAt, DateTime updatedAt, DateTime deletedAt, String name, String meterNumber, MeterKind kind, String ownerId, String lastReading) {

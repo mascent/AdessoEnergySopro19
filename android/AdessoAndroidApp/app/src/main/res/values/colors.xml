@@ -5,4 +5,5 @@
     <color name="colorAccent">#DE911D</color>
     <color name="colorText">#000000</color>
     <color name="colorPassForgot">#627D98</color>
+    <color name="lightGray">#c0c0c0</color>
 </resources>

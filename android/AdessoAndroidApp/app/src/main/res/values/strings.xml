@@ -19,7 +19,7 @@
     <string name="logout_title">Logout?</string>
     <string name="logout_text">Willst du dich wirklich ausloggen?</string>
     <string name="number_hint">Kundennummer</string>
-    <string name="wrong_login">That\'s the wrong Password</string>
+    <string name="wrong_login">Das eingegebene Passwort oder die Kundennummer ist falsch.</string>
     <string name="send_button">Senden</string>
     <string name="issue_textbox_name">Name</string>
     <string name="issue_textbox_email">Email</string>
@@ -31,5 +31,13 @@
     <string name="detail_toolbar_title">Zählerdetails</string>
     <string name="detail_edit_name_title">Zähler benennen</string>
     <string name="detail_edit_name_text">Gib dem Zähler einen Namen</string>
-    <string name="dialog_set_meter_name">Gib dem Zähler einen Namen</string>
+    <string name="listElementDesc">listElement</string>
+    <string name="elecListTitle">Strom</string>
+    <string name="elecUnit">kWh</string>
+    <string name="gasListTitle">Gas</string>
+    <string name="gasUnit">m³</string>
+    <string name="water_list_title">Wasser</string>
+    <string name="detail_list_dates_title">Datum</string>
+    <string name="issue_send_successfully">Die Nachricht wurde erfolgreich übermittelt.</string>
+    <string name="waterUnit">m³</string>
 </resources>

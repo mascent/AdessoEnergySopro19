@@ -1,4 +1,4 @@
-package energy.adesso.adessoandroidapp.ui.activities;
+package energy.adesso.adessoandroidapp.ui.activity;
 
 import android.app.Activity;
 import android.content.Context;
@@ -8,14 +8,14 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import energy.adesso.adessoandroidapp.R;
 import energy.adesso.adessoandroidapp.logic.controller.MainController;
 import energy.adesso.adessoandroidapp.logic.model.exception.AdessoException;
 import energy.adesso.adessoandroidapp.ui.mock.MockController;
-import energy.adesso.adessoandroidapp.ui.parents.ParentActivity;
 
-public class LoginActivity extends ParentActivity {
-    final Activity a = this;
+public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,18 +24,20 @@ public class LoginActivity extends ParentActivity {
 
         MainController.loadSharedPreferences(getPreferences(Context.MODE_PRIVATE));
 
-        if (MainController.isLoggedIn()) {
-            startNewActivity(MainActivity.class, Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        if (MockController.isLoggedIn()) {
+            startActivity(new Intent(this, MainActivity.class).
+                addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK));
         }
     }
     public void onLoginClick(View view) {
-        TextView num = (TextView)findViewById(R.id.number);
-        TextView pass = (TextView)findViewById(R.id.pass);
+        TextView num = findViewById(R.id.number);
+        TextView pass = findViewById(R.id.pass);
 
         if (login(num.getText().toString(), pass.getText().toString())) {
-            startNewActivity(MainActivity.class, Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(new Intent(this, MainActivity.class).
+                addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK));
         } else {
-            Toast.makeText(a, R.string.wrong_login, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.wrong_login, Toast.LENGTH_SHORT).show();
         }
 
         num.setText("");
@@ -43,7 +45,7 @@ public class LoginActivity extends ParentActivity {
     }
     public void onForgotPasswordClick(final View view) {
         // TODO: Add pass_forgot
-        Toast.makeText(a, R.string.not_implemented_message, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, R.string.not_implemented_message, Toast.LENGTH_SHORT).show();
     }
 
     boolean login(String username, String password) {

@@ -1,34 +1,32 @@
-package energy.adesso.adessoandroidapp.ui.activities;
+package energy.adesso.adessoandroidapp.ui.activity;
 
 import android.app.Activity;
 import android.content.DialogInterface;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 
 import android.text.InputType;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.joda.time.format.DateTimeFormatter;
-
-import java.util.List;
-
 import energy.adesso.adessoandroidapp.R;
+import energy.adesso.adessoandroidapp.logic.model.MeterKind;
 import energy.adesso.adessoandroidapp.logic.model.exception.AdessoException;
 import energy.adesso.adessoandroidapp.logic.model.identifiable.Meter;
-import energy.adesso.adessoandroidapp.logic.model.identifiable.Reading;
-import energy.adesso.adessoandroidapp.ui.parents.ListActivity;
+import energy.adesso.adessoandroidapp.ui.adapter.ReadingAdapter;
 
-public class DetailActivity extends ListActivity {
+public class DetailActivity extends AppCompatActivity {
     Activity a = this;
+    ReadingAdapter listAdapter;
     Meter m;
 
     @Override protected void onCreate(Bundle savedInstanceState) {
@@ -36,10 +34,9 @@ public class DetailActivity extends ListActivity {
         setContentView(R.layout.activity_detail);
 
         // Set up toolbar
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.detail_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.addView(getLayoutInflater().inflate(R.layout.button_detail_edit, null));
 
         // Setting the onClickEvent in XML results in an error
         CardView cardButton = ((CardView)findViewById(R.id.cardButton));
@@ -50,20 +47,10 @@ public class DetailActivity extends ListActivity {
             }
         });
 
-        // TODO: Improve meter sending/receiving
-        m = MainActivity.getMeter(getIntent().getStringExtra("number"));
+        m = (Meter)getIntent().getSerializableExtra("meter");
         updateTitleInfo();
 
         listReadings();
-    }
-    @Override public boolean onCreateOptionsMenu(Menu menu) {
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setOverflowIcon(getDrawable(R.drawable.icon_edit));
-        return true;
-    }
-    @Override public boolean onOptionsItemSelected(MenuItem item) {
-
-        return true;
     }
     public void onNewEntryClick(View view){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -81,13 +68,13 @@ public class DetailActivity extends ListActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String newReading = input.getText().toString();
-                try { m.createReading(newReading); }
-                catch (AdessoException e) {
+                try { m.createReading(newReading);
+                } catch (AdessoException e) {
                     Toast.makeText(a, R.string.generic_error_message, Toast.LENGTH_SHORT).show();
                 }
                 listReadings();
 
-                // TODO: Soll: Thread network calls?
+                // TODO: Thread network calls?
             }
         });
         builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -117,8 +104,10 @@ public class DetailActivity extends ListActivity {
             public void onClick(DialogInterface dialog, int which) {
                 try {
                     m.setName(input.getText().toString());
+                    updateTitleInfo();
                 } catch (AdessoException e) {
-                    Toast.makeText(a, R.string.generic_error_message, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(a, R.string.generic_error_message,
+                            Toast.LENGTH_SHORT).show();
                 }
                 updateTitleInfo();
             }
@@ -134,13 +123,27 @@ public class DetailActivity extends ListActivity {
     }
 
     void listReadings() {
-        clearList();
-        addListTitle("Datum", "kWh");
+        // Get the icon and set the unit TextView
+        Drawable icon = null;
+        TextView unit = ((TextView)findViewById(R.id.unit));
+        if (m.getKind().equals(MeterKind.ELECTRIC)) {
+            icon = getDrawable(R.drawable.icon_electricity);
+            unit.setText(R.string.elecUnit);
+        }
+        else if (m.getKind().equals(MeterKind.GAS)) {
+            icon = getDrawable(R.drawable.icon_gas);
+            unit.setText(R.string.gasUnit);
+        }
+        else if (m.getKind().equals(MeterKind.WATER)) {
+            icon = getDrawable(R.drawable.icon_water);
+            unit.setText(R.string.waterUnit);
+        }
+
         try {
-            List<Reading> readings = m.getReadings();
-            for (Reading r : readings)
-                addListElement(getDrawable(R.drawable.icon_hashtag), "-",
-                        r.getCreatedAt().toLocalDate().toString("dd.MM.yyyy"), r.getValue());
+            // Init the adapter
+            listAdapter = new ReadingAdapter(this.getBaseContext(), m.getReadings(), icon);
+            ListView detailList = findViewById(R.id.detail_list);
+            detailList.setAdapter(listAdapter);
         } catch (AdessoException e) {
             Toast.makeText(this, R.string.generic_error_message, Toast.LENGTH_SHORT).show();
         }
