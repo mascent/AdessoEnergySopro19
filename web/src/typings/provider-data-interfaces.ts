@@ -1,4 +1,4 @@
-interface Status {
+export interface Status {
   saving: boolean;
   saveError: Error | null;
   changed: boolean;
@@ -21,7 +21,7 @@ export interface Meter {
   id: string;
   type: 'water' | 'electricity' | 'gas';
   name: string;
-  userId: string | null;
+  ownerId: string | null;
   lastReading: Reading;
   meterNumber: string;
   status: Status;
@@ -33,9 +33,10 @@ export interface Meter {
 export interface Reading {
   id: string;
   meterId: string;
+  ownerId: string;
   value: string;
   trend: number;
-  lastEditor: User;
+  lastEditorName: string;
   lastEditReason: string;
   status: Status;
   createdAt: Date;
@@ -49,7 +50,7 @@ export interface Issue {
   name: string;
   subject: string;
   message: string;
-  state: 'unresolved' | 'resolved';
+  state: 'UNRESOLVED' | 'RESOLVED';
   status: Status;
   createdAt: Date;
   updatedAt: Date | null;
