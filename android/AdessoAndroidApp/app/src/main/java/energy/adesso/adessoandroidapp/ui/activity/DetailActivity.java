@@ -18,14 +18,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.List;
-
 import energy.adesso.adessoandroidapp.R;
 import energy.adesso.adessoandroidapp.logic.model.MeterKind;
 import energy.adesso.adessoandroidapp.logic.model.exception.AdessoException;
 import energy.adesso.adessoandroidapp.logic.model.identifiable.Meter;
-import energy.adesso.adessoandroidapp.logic.model.identifiable.Reading;
-import energy.adesso.adessoandroidapp.ui.adapter.MeterAdapter;
 import energy.adesso.adessoandroidapp.ui.adapter.ReadingAdapter;
 
 public class DetailActivity extends AppCompatActivity {
@@ -140,7 +136,7 @@ public class DetailActivity extends AppCompatActivity {
         }
         else if (m.getKind().equals(MeterKind.WATER)) {
             icon = getDrawable(R.drawable.icon_water);
-            unit.setText(R.string.gasUnit);
+            unit.setText(R.string.waterUnit);
         }
 
         try {

@@ -16,7 +16,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/main_toolbar"
+            android:id="@+id/mainToolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/colorPrimaryDark"
@@ -39,20 +39,20 @@
             android:foregroundTintMode="add">
 
             <LinearLayout
-                android:id="@+id/list_layout"
+                android:id="@+id/ListLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <LinearLayout
-                    android:id="@+id/elec_title_lay"
+                    android:id="@+id/ElecTitleLay"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/titleLayoutMargin"
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/elec_titel"
+                        android:id="@+id/elecTitel"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="left"
@@ -63,7 +63,7 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/elec_unit"
+                        android:id="@+id/elecUnit"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="right"
@@ -76,7 +76,7 @@
                 </LinearLayout>
 
                 <energy.adesso.adessoandroidapp.ui.view.NonScrollListView
-                    android:id="@+id/elec_list"
+                    android:id="@+id/elecList"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:divider="@null" />
@@ -89,14 +89,14 @@
                     android:background="?android:attr/listDivider" />
 
                 <LinearLayout
-                    android:id="@+id/gas_title_lay"
+                    android:id="@+id/GasTitleLay"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/titleLayoutMargin"
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/gas_titel"
+                        android:id="@+id/gasTitel"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="left"
@@ -107,7 +107,7 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/gas_unit"
+                        android:id="@+id/gasUnit"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="right"
@@ -121,7 +121,7 @@
                 </LinearLayout>
 
                 <energy.adesso.adessoandroidapp.ui.view.NonScrollListView
-                    android:id="@+id/gas_list"
+                    android:id="@+id/GasList"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:contentDescription="gas_meters"
@@ -135,14 +135,14 @@
                     android:background="?android:attr/listDivider" />
 
                 <LinearLayout
-                    android:id="@+id/water_title_lay"
+                    android:id="@+id/WaterTitleLay"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/titleLayoutMargin"
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/water_titel"
+                        android:id="@+id/waterTitel"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="left"
@@ -153,7 +153,7 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/water_unit"
+                        android:id="@+id/waterUnit"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="right"
@@ -161,12 +161,12 @@
                         android:layout_marginRight="@dimen/list_title_margin_side"
                         android:layout_weight="1"
                         android:gravity="right"
-                        android:text="@string/gasUnit"
+                        android:text="@string/waterUnit"
                         android:textSize="@dimen/titleLeftTextSize" />
                 </LinearLayout>
 
                 <energy.adesso.adessoandroidapp.ui.view.NonScrollListView
-                    android:id="@+id/water_list"
+                    android:id="@+id/WaterList"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:divider="@null" />

@@ -51,6 +51,7 @@ public class ReadingAdapter extends ArrayAdapter<Reading> {
 
         ((TextView) listElement.getChildAt(2)).setText(r.getValue());
 
+        listElement.setId(position + 1);
         return listElement;
     }
 }

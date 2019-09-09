@@ -1,10 +1,11 @@
 package energy.adesso.adessoandroidapp;
 
+import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 
 import androidx.test.espresso.intent.rule.IntentsTestRule;
+import androidx.test.platform.app.InstrumentationRegistry;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -12,64 +13,90 @@ import org.junit.Test;
 import energy.adesso.adessoandroidapp.ui.activity.DetailActivity;
 import energy.adesso.adessoandroidapp.ui.activity.MainActivity;
 
-import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.intent.Intents.intended;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasExtra;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasExtraWithKey;
-import static androidx.test.espresso.matcher.ViewMatchers.hasContentDescription;
-import static androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static energy.adesso.adessoandroidapp.Matchers.EspressoTestsMatchers.withDrawable;
 import static org.hamcrest.Matchers.hasEntry;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.core.AllOf.allOf;
 import static org.hamcrest.core.IsNot.not;
+import static org.junit.Assert.assertThat;
 
 public class ListElementClickTest {
   @Rule
   public IntentsTestRule<MainActivity> mActivity = new IntentsTestRule<MainActivity>(MainActivity.class);
 
   @Test
-  public void click_elec() {
-    if (hasChildren(R.id.elec_list)) {
+  public void clickElec() {
+    if (hasChildren(R.id.elecList)) {
       onView(allOf(
-          isDescendantOfA(withId(R.id.elec_list)),
+          isDescendantOfA(withId(R.id.elecList)),
           withId(1))).perform(click());
 
+      // check if meter is passed on
       intended(allOf(
               hasComponent(DetailActivity.class.getName()),
               hasExtraWithKey("meter")));
+
+      // check for right icon
+      onView(allOf(withId(R.id.listElementImage), isDescendantOfA(withId(1)))).
+          check(matches(withDrawable(R.drawable.icon_electricity)));
+
+      // check for right unit string
+      onView(allOf(withId(R.id.unit), isDescendantOfA(withId(R.id.detail_list_title)))).
+          check(matches(withText(R.string.elecUnit)));
     }
   }
 
   @Test
-  public void click_gas() {
-    if (hasChildren(R.id.gas_list)) {
+  public void clickGas() {
+    if (hasChildren(R.id.GasList)) {
       onView(allOf(
-          isDescendantOfA(withId(R.id.gas_list)),
+          isDescendantOfA(withId(R.id.GasList)),
           withId(1))).perform(click());
 
+      // check if meter is passed on
       intended(allOf(
               hasComponent(DetailActivity.class.getName()),
               hasExtraWithKey("meter")));
+
+      // check for right icon
+      onView(allOf(withId(R.id.listElementImage), isDescendantOfA(withId(1)))).
+          check(matches(withDrawable(R.drawable.icon_gas)));
+
+      // check for right unit string
+      onView(allOf(withId(R.id.unit), isDescendantOfA(withId(R.id.detail_list_title)))).
+          check(matches(withText(R.string.gasUnit)));
     }
   }
 
   @Test
-  public void click_water() {
-    if (hasChildren(R.id.water_list)) {
+  public void clickWater() {
+    if (hasChildren(R.id.WaterList)) {
       onView(allOf(
-          isDescendantOfA(withId(R.id.water_list)),
+          isDescendantOfA(withId(R.id.WaterList)),
           withId(1))).perform(click());
 
       intended(allOf(
               hasComponent(DetailActivity.class.getName()),
               hasExtraWithKey("meter")));
+
+      // check for right icon
+      onView(allOf(withId(R.id.listElementImage), isDescendantOfA(withId(1)))).
+          check(matches(withDrawable(R.drawable.icon_water)));
+
+      // check for right unit string
+      onView(allOf(withId(R.id.unit), isDescendantOfA(withId(R.id.detail_list_title)))).
+          check(matches(withText(R.string.waterUnit)));
     }
   }
 

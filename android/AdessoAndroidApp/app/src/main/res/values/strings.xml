@@ -38,5 +38,6 @@
     <string name="gasUnit">m³</string>
     <string name="water_list_title">Wasser</string>
     <string name="detail_list_dates_title">Datum</string>
-    <string name="issue_send_successfully">Die nachricht wurde erfolgreich übermittelt.</string>
+    <string name="issue_send_successfully">Die Nachricht wurde erfolgreich übermittelt.</string>
+    <string name="waterUnit">m³</string>
 </resources>

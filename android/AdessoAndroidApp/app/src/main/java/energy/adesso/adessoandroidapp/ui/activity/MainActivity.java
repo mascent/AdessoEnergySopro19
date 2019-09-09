@@ -47,7 +47,10 @@ public class MainActivity extends AppCompatActivity {
     final int CAMERA_REQUEST_IMAGE_BITMAP = 1;
     final int CAMERA_REQUEST_IMAGE_URI = 2;
     final int GALLERY_REQUEST_IMAGE_BITMAP = 10;
-    static List<Meter> meters;
+    List<Meter> meters;
+    List<Meter> electricMeters;
+    List<Meter> gasMeters;
+    List<Meter> waterMeters;
     MeterAdapter listAdapter;
     Drawable[] meterIcons;
 
@@ -55,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = findViewById(R.id.main_toolbar);
+        Toolbar toolbar = findViewById(R.id.mainToolbar);
         setSupportActionBar(toolbar);
 
         meterIcons = new Drawable[] {
@@ -165,7 +168,7 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.choose_server:
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle(R.string.new_input_title);
+                builder.setTitle(R.string.menu_main_choose_server_button);
 
                 // Set up textbox
                 final EditText input = new EditText(this);
@@ -198,11 +201,25 @@ public class MainActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-    final AdapterView.OnItemClickListener onAdapterElementClick = new AdapterView.OnItemClickListener() {
+    final AdapterView.OnItemClickListener onAdapterElecElementClick = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             startActivity(new Intent(a, DetailActivity.class).
-                    putExtra("meter", meters.get(position)));
+                    putExtra("meter", electricMeters.get(position)));
+        }
+    };
+    final AdapterView.OnItemClickListener onAdapterGasElementClick = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            startActivity(new Intent(a, DetailActivity.class).
+                putExtra("meter", gasMeters.get(position)));
+        }
+    };
+    final AdapterView.OnItemClickListener onAdapterWaterElementClick = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            startActivity(new Intent(a, DetailActivity.class).
+                putExtra("meter", waterMeters.get(position)));
         }
     };
 
@@ -227,9 +244,9 @@ public class MainActivity extends AppCompatActivity {
                 .show();
     }
     void showMeters(List<Meter> meters) {
-        List<Meter> electricMeters = new ArrayList<Meter>();
-        List<Meter> gasMeters = new ArrayList<Meter>();
-        List<Meter> waterMeters = new ArrayList<Meter>();
+        electricMeters = new ArrayList<Meter>();
+        gasMeters = new ArrayList<Meter>();
+        waterMeters = new ArrayList<Meter>();
 
         for (Meter m : meters)
         {
@@ -243,20 +260,20 @@ public class MainActivity extends AppCompatActivity {
 
         // Electricity
         listAdapter = new MeterAdapter(this.getBaseContext(), electricMeters, meterIcons);
-        ListView elecList = findViewById(R.id.elec_list);
+        ListView elecList = findViewById(R.id.elecList);
         elecList.setAdapter(listAdapter);
-        elecList.setOnItemClickListener(onAdapterElementClick);
+        elecList.setOnItemClickListener(onAdapterElecElementClick);
 
         // Gas
         listAdapter = new MeterAdapter(this.getBaseContext(), gasMeters, meterIcons);
-        ListView gasList = findViewById(R.id.gas_list);
+        ListView gasList = findViewById(R.id.GasList);
         gasList.setAdapter(listAdapter);
-        gasList.setOnItemClickListener(onAdapterElementClick);
+        gasList.setOnItemClickListener(onAdapterGasElementClick);
 
         // Water
         listAdapter = new MeterAdapter(this.getBaseContext(), waterMeters, meterIcons);
-        ListView waterList = findViewById(R.id.water_list);
+        ListView waterList = findViewById(R.id.WaterList);
         waterList.setAdapter(listAdapter);
-        waterList.setOnItemClickListener(onAdapterElementClick);
+        waterList.setOnItemClickListener(onAdapterWaterElementClick);
     }
 }
