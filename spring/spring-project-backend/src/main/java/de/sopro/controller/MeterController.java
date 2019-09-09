@@ -122,11 +122,14 @@ public class MeterController {
 	 */
 	@DeleteMapping("/api/meters/{mid}")
 	public Boolean deleteMeter(@PathVariable Long mid) {
-		Meter m = meterRepository.findById(mid).orElseThrow();
+		Meter m = meterRepository.findById(mid).orElse(null);
+		
+		if (m == null) {
+			return false;
+		}
+		
 		m.delet();
-
 		meterRepository.save(m);
-
 		return true;
 	}
 
@@ -142,8 +145,8 @@ public class MeterController {
 	@GetMapping("/api/meters/{mid}/readings")
 	public Iterable<Reading> lookUpReadings(HttpServletRequest request, @PathVariable Long mid) {
 
-		Person p = personRepository.findByUsername(request.getUserPrincipal().getName()).orElseThrow();
-		Meter m = meterRepository.findById(mid).orElseThrow();
+		Person p = personRepository.findByUsername(request.getUserPrincipal().getName()).orElse(null);
+		Meter m = meterRepository.findById(mid).orElse(null);
 
 		if (m == null || p == null) {
 			return null;
@@ -185,10 +188,12 @@ public class MeterController {
 	 */
 	@PostMapping("/api/meters/{mid}/readings")
 	public String addReading(HttpServletRequest request, @PathVariable Long mid, Long value) {
-		Meter meter = meterRepository.findById(mid).orElseThrow();
+		Meter meter = meterRepository.findById(mid).orElse(null);
 		User user = userRepository.findByUsername(request.getUserPrincipal().getName());
 
-		assert meter != null && user != null;
+		if (meter == null || user == null) {
+			return null;
+		}
 
 		Iterable<UserMeterAssociation> umas = userMeterAssociationRepository.findAllByUserAndMeter(user, meter);
 
