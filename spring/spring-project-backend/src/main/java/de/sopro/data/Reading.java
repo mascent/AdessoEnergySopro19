@@ -15,8 +15,17 @@ import javax.validation.constraints.NotNull;
 @Entity
 public class Reading {
 
-	public Reading() {
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long readingId;
+
+	@OneToMany(mappedBy = "reading", cascade = CascadeType.ALL)
+	@NotNull
+	private Iterable<ReadingValue> readingValues;
+
+	public Reading(Long value) {
 		readingValues = new ArrayList<ReadingValue>();
+		readingValues.add(new ReadingValue(value, null, "Initial Reading"));
 	}
 
 	@ManyToOne
@@ -29,14 +38,6 @@ public class Reading {
 	public void setMeter(Meter meter) {
 		this.meter = meter;
 	}
-
-	@OneToMany(mappedBy = "reading", cascade = CascadeType.ALL)
-	@NotNull
-	private List<ReadingValue> readingValues;
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long readingId;
 
 	public Long getReadingId() {
 		return readingId;

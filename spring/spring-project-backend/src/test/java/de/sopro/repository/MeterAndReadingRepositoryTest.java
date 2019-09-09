@@ -28,7 +28,7 @@ public class MeterAndReadingRepositoryTest {
 
 //	@BeforeEach
 	public void addReadingAndReadingValues() {
-		meter = new Meter("GasTest", 0, MeterType.Gas);
+		meter = new Meter("GasTest", (long) 0, MeterType.Gas);
 		meter.getReadings().add(new Reading());
 		meter.getReadings().add(new Reading());
 		meter = meterRepository.save(meter);
