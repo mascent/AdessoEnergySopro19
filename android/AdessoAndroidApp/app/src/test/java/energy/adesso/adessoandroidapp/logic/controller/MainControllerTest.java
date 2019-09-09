@@ -51,7 +51,7 @@ public class MainControllerTest {
     // Responses are returned in the same order that they are enqueued.
     MainController.setUsePersistence(false);
     SharedPreferences sp = Mockito.mock(SharedPreferences.class);
-    MainController.init(sp);
+    MainController.loadSharedPreferences(sp);
     MainController.setServer(baseUrl.toString());
 
     MainController.login(username, password);
@@ -103,7 +103,7 @@ public class MainControllerTest {
     // Responses are returned in the same order that they are enqueued.
     MainController.setUsePersistence(false);
     SharedPreferences sp = Mockito.mock(SharedPreferences.class);
-    MainController.init(sp);
+    MainController.loadSharedPreferences(sp);
     MainController.setServer(baseUrl);
 
     MainController.login(username, password);

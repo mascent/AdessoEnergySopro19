@@ -11,7 +11,9 @@ import com.google.gson.Gson;
 
 import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Type;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import energy.adesso.adessoandroidapp.logic.model.identifiable.Issue;
 import energy.adesso.adessoandroidapp.logic.model.identifiable.Meter;
@@ -37,8 +39,8 @@ public class MainController {
     NetworkController.post(url, json);
   }
 
-  public static void init(SharedPreferences prefs) {
-    // init Persistance
+  public static void loadSharedPreferences(SharedPreferences prefs) {
+    // init Persistence
     persistence = new PersistenceController(prefs);
     if (usePersistence) {
       String username = persistence.load("username");
@@ -105,14 +107,18 @@ public class MainController {
    * @throws CredentialException when not logged in
    */
   public static Pair<Meter, String> azureAnalyze(Bitmap image) throws NetworkException, CredentialException {
-    // TODO this is def. wrong
     String url = "/api/picture";
-    String string = NetworkController.post(url, toBase64(image));
+
+    Map<String, String> map = new HashMap();
+    map.put("image", toBase64(image));
+    String sendString = new Gson().toJson(map);
+
+    String answerString = NetworkController.post(url, sendString);
     Type castType = new Pair<String, String>("", "") {
     }.getClass();
-    Pair<String, String> answer1 = new Gson().fromJson(string, castType);
-    Meter m = getMeter(answer1.first);
-    return new Pair<Meter, String>(m, answer1.second);
+    Pair<String, String> answerPair = new Gson().fromJson(answerString, castType);
+    Meter m = getMeter(answerPair.first);
+    return new Pair<Meter, String>(m, answerPair.second);
   }
 
   private static Meter getMeter(String mid) throws NetworkException, CredentialException {
