@@ -5,7 +5,6 @@ package energy.adesso.adessoandroidapp.logic.controller;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.util.Base64;
-import android.util.Pair;
 
 import com.google.gson.Gson;
 
@@ -15,6 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import energy.adesso.adessoandroidapp.logic.model.Pair;
 import energy.adesso.adessoandroidapp.logic.model.identifiable.Issue;
 import energy.adesso.adessoandroidapp.logic.model.identifiable.Meter;
 import energy.adesso.adessoandroidapp.logic.model.identifiable.Reading;
@@ -103,7 +103,7 @@ public class MainController {
    * analyzes an image for readerNumber and current reading
    *
    * @param image the image to analyze
-   * @return a Tuple of number, reading
+   * @return a Tuple of the affected Meter, and scanned Value
    * @throws CredentialException when not logged in
    */
   public static Pair<Meter, String> azureAnalyze(Bitmap image) throws NetworkException, CredentialException {
@@ -113,11 +113,15 @@ public class MainController {
     map.put("image", toBase64(image));
     String sendString = new Gson().toJson(map);
 
+    // casting answerString to pair of mid, value
     String answerString = NetworkController.post(url, sendString);
     Type castType = new Pair<String, String>("", "") {
     }.getClass();
     Pair<String, String> answerPair = new Gson().fromJson(answerString, castType);
+
     Meter m = getMeter(answerPair.first);
+
+    // returning the meter and the proposed entryvalue
     return new Pair<Meter, String>(m, answerPair.second);
   }
 

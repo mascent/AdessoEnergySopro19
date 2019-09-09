@@ -23,8 +23,8 @@ public class Meter extends IdentifiableObject {
     super(id);
   }
 
-  public Meter(String id, DateTime createdAt, DateTime updatedAt, DateTime deletedAt, String name, String meterNumber, MeterKind kind,  String ownerId, Reading lastReading){
-    super(id,createdAt,updatedAt,deletedAt);
+  public Meter(String id, DateTime createdAt, DateTime updatedAt, DateTime deletedAt, String name, String meterNumber, MeterKind kind, String ownerId, Reading lastReading) {
+    super(id, createdAt, updatedAt, deletedAt);
     this.name = name;
     this.ownerId = ownerId;
     this.lastReading = lastReading;
@@ -32,33 +32,34 @@ public class Meter extends IdentifiableObject {
     this.type = kind.name();
   }
 
-  public Meter(String id, DateTime createdAt, DateTime updatedAt, DateTime deletedAt, String name, String meterNumber, MeterKind kind,  String ownerId, String lastReading){
-    super(id,createdAt,updatedAt,deletedAt);
+  public Meter(String id, DateTime createdAt, DateTime updatedAt, DateTime deletedAt, String name, String meterNumber, MeterKind kind, String ownerId, String lastReading) {
+    super(id, createdAt, updatedAt, deletedAt);
     this.name = name;
     this.ownerId = ownerId;
     //TODO: remove this constructor when no longer needed
-    this.lastReading = new Reading("eineIDlol","eineID2lol","einownerLol", lastReading);
+    this.lastReading = new Reading("eineIDlol", "eineID2lol", "einownerLol", lastReading);
     this.meterNumber = meterNumber;
     this.type = kind.name();
   }
 
-  public static Meter deserialize(String source){
+  public static Meter deserialize(String source) {
     return gson.fromJson(source, Meter.class);
   }
 
-  public MeterKind getKind(){
+  public MeterKind getKind() {
     MeterKind re;
-    switch(type){
+    switch (type) {
       case "water":
-        re=MeterKind.WATER;
+        re = MeterKind.WATER;
         break;
       case "electric":
-        re=MeterKind.ELECTRIC;
+        re = MeterKind.ELECTRIC;
         break;
       case "gas":
-        re=MeterKind.GAS;
+        re = MeterKind.GAS;
         break;
-      default: throw new Error(); //TODO: find a better exception to throw
+      default:
+        throw new Error(); //TODO: find a better exception to throw
     }
     return re;
   }
@@ -86,7 +87,7 @@ public class Meter extends IdentifiableObject {
   }
 
   public void createReading(String value) throws NetworkException, CredentialException {
-    MainController.createReading(this.getId(),value);
+    MainController.createReading(this.getId(), value);
   }
 
   public void setName(String newName) throws NetworkException, CredentialException {

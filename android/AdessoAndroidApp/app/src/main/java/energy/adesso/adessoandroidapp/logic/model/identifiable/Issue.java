@@ -22,7 +22,7 @@ public class Issue extends IdentifiableObject {
     MainController.sendIssue(this);
   }
 
-  public static Issue deserialize(String source){
+  public static Issue deserialize(String source) {
     return gson.fromJson(source, Issue.class);
   }
 
@@ -61,7 +61,6 @@ public class Issue extends IdentifiableObject {
   public String getStatus() {
     return status;
   }
-
 
 
 }

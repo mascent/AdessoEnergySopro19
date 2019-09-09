@@ -22,34 +22,34 @@ public abstract class IdentifiableObject extends SerializableObject {
   //TODO: FLOCKING TIME ZONES
   private final static transient DateTimeFormatter dateTimeStrategy = ISODateTimeFormat.dateTime().withZone(DateTimeZone.forID("Europe/Berlin"));
 
-  public IdentifiableObject(String id){
+  public IdentifiableObject(String id) {
     this.id = id;
   }
 
-  public IdentifiableObject(String id, DateTime createdAt, DateTime updatedAt, DateTime deletedAt){
+  public IdentifiableObject(String id, DateTime createdAt, DateTime updatedAt, DateTime deletedAt) {
     this.id = id;
     this.createdAt = createdAt.toString(dateTimeStrategy);
     this.updatedAt = updatedAt.toString(dateTimeStrategy);
     this.deletedAt = deletedAt.toString(dateTimeStrategy);
   }
 
-  public DateTime getCreatedAt(){
+  public DateTime getCreatedAt() {
     return parse(createdAt);
   }
 
-  public DateTime getUpdatedAt(){
+  public DateTime getUpdatedAt() {
     return parse(updatedAt);
   }
 
-  public DateTime getDeletedAt(){
+  public DateTime getDeletedAt() {
     return parse(deletedAt);
   }
 
-  public String getId(){
+  public String getId() {
     return id;
   }
 
-  public static IdentifiableObject deserialize(String source){
+  public static IdentifiableObject deserialize(String source) {
     return gson.fromJson(source, IdentifiableObject.class);
   }
 
@@ -57,10 +57,10 @@ public abstract class IdentifiableObject extends SerializableObject {
     return dateTimeStrategy;
   }
 
-  private DateTime parse(String s){
-    if(s == null || s.equals(""))
+  private DateTime parse(String s) {
+    if (s == null || s.equals(""))
       return null;
-    else return DateTime.parse(s,dateTimeStrategy);
+    else return DateTime.parse(s, dateTimeStrategy);
   }
 
 
