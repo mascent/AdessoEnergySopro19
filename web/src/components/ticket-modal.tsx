@@ -119,7 +119,6 @@ const TicketModal: React.FC<TicketModalProps> = ({
           <Textarea
             id="Message"
             label="Nachricht"
-            type="textarea"
             value={message.value}
             onChange={value => message.setValue(value)}
             onBlur={message.validate}
