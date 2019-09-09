@@ -5,10 +5,10 @@ import AdminApp from './admin-app';
 import UserApp from './user-app';
 
 const App: React.FC = () => {
-  const { token, isAdmin } = useAuth();
+  const { isLoggedIn, isAdmin } = useAuth();
 
   // Make sure that the user can only see areas of the app he is allowed to see
-  if (!token) {
+  if (!isLoggedIn) {
     return <UnAuthenticatedApp />;
   } else if (isAdmin) {
     return <AdminApp />;

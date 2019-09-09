@@ -13,7 +13,7 @@ abstract class AdessoEnergyApiComponent {
       mode: 'cors',
       redirect: 'error',
       headers: {
-        Authorization: `Bearer ${this.config.token}`,
+        Authorization: `Basic ${this.config.token}`,
         'Content-Type': 'application/json'
       }
     });
@@ -25,7 +25,7 @@ abstract class AdessoEnergyApiComponent {
       mode: 'cors',
       redirect: 'error',
       headers: {
-        Authorization: `Bearer ${this.config.token}`,
+        Authorization: `Basic ${this.config.token}`,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(body)
@@ -38,7 +38,7 @@ abstract class AdessoEnergyApiComponent {
       mode: 'cors',
       redirect: 'error',
       headers: {
-        Authorization: `Bearer ${this.config.token}`,
+        Authorization: `Basic ${this.config.token}`,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(body)
@@ -51,7 +51,7 @@ abstract class AdessoEnergyApiComponent {
       mode: 'cors',
       redirect: 'error',
       headers: {
-        Authorization: `Bearer ${this.config.token}`,
+        Authorization: `Basic ${this.config.token}`,
         'Content-Type': 'application/json'
       }
     });
