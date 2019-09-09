@@ -12,7 +12,7 @@ class Logger {
     category: string,
     message: string
   ) {
-    if (process.env.NODE_ENV !== 'production') {
+    if (process.env.NODE_ENV === 'development') {
       // Add console output
       console.groupCollapsed(
         '%cLogger: Breadcrumb - %s : %s',
@@ -32,7 +32,7 @@ class Logger {
    * @param exp Exception
    */
   public static captureException(exp: Error) {
-    if (process.env.NODE_ENV !== 'production') {
+    if (process.env.NODE_ENV === 'development') {
       // Add console output
       console.groupCollapsed(
         '%cLogger: Exception - %s',
