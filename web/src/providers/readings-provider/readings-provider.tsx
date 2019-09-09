@@ -59,7 +59,7 @@ export const ReadingsProvider: React.FC<ReadingsProviderProps> = ({
     }
   }, []);
 
-  const addReading = useCallback(async (meter: Partial<Reading>) => {
+  const addReading = useCallback(async (reading: Partial<Reading>) => {
     try {
       Logger.logBreadcrumb('info', 'readings-context', 'Adding reading');
       dispatch(addReadingRequest());
@@ -115,11 +115,11 @@ interface ReadingsKit {
 }
 
 let fetching = false;
-export function useMeters(): ReadingsKit {
+export function useReadings(): ReadingsKit {
   const context = useContext(ReadingsContext);
 
   if (typeof context === 'undefined')
-    throw new Error('useUsers must be used within a UsersProvider');
+    throw new Error('useReadings must be used within a ReadingsProvider');
 
   const { fetchReadings, updateReading, ...rest } = context;
 
@@ -138,11 +138,11 @@ interface ReadingKit {
   updateReading: (update: Partial<Reading>) => Promise<void>;
 }
 
-export function useMeter(id: string): ReadingKit | null {
+export function useReading(id: string): ReadingKit | null {
   const context = useContext(ReadingsContext);
 
   if (typeof context === 'undefined')
-    throw new Error('useUser must be used within a UsersProvider');
+    throw new Error('useReading must be used within a ReadingsProvider');
 
   const { readings, updateReading } = context;
 

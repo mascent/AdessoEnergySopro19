@@ -70,13 +70,13 @@ export const MetersProvider: React.FC<MetersProviderProps> = ({
   const updateMeter = useCallback(
     async (id: string, update: Partial<Meter>) => {
       try {
-        Logger.logBreadcrumb('info', 'meters-context', 'Updating user');
+        Logger.logBreadcrumb('info', 'meters-context', 'Updating meter');
         dispatch(updateMeterRequest(id));
         // Do fetch
-        Logger.logBreadcrumb('info', 'meters-context', 'Updated user');
+        Logger.logBreadcrumb('info', 'meters-context', 'Updated meter');
         // dispatch(updateMeterSuccess());
       } catch (e) {
-        Logger.logBreadcrumb('error', 'meters-context', 'Update user failed');
+        Logger.logBreadcrumb('error', 'meters-context', 'Update meter failed');
         Logger.captureException(e);
         dispatch(updateMeterFailure(id, e));
       }
@@ -107,7 +107,7 @@ export function useMeters(): MetersKit {
   const context = useContext(MetersContext);
 
   if (typeof context === 'undefined')
-    throw new Error('useUsers must be used within a UsersProvider');
+    throw new Error('useMeters must be used within a MetersProvider');
 
   const { fetchMeters, updateMeter, ...rest } = context;
 
@@ -130,7 +130,7 @@ export function useMeter(id: string): MeterKit | null {
   const context = useContext(MetersContext);
 
   if (typeof context === 'undefined')
-    throw new Error('useUser must be used within a UsersProvider');
+    throw new Error('useMeter must be used within a MetersProvider');
 
   const { meters, updateMeter } = context;
 
