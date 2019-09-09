@@ -2,6 +2,7 @@ package energy.adesso.adessoandroidapp;
 
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 
 import androidx.test.espresso.intent.rule.IntentsTestRule;
 
@@ -18,6 +19,8 @@ import static androidx.test.espresso.intent.Intents.intended;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasExtra;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasExtraWithKey;
+import static androidx.test.espresso.matcher.ViewMatchers.hasContentDescription;
+import static androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
@@ -33,10 +36,10 @@ public class ListElementClickTest {
 
   @Test
   public void click_elec() {
-    //onView(allOf(withContentDescription(R.string.listElementDesc), isDescendantOfA(withId(R.id.list)))).perform(click());
-
     if (hasChildren(R.id.elec_list)) {
-      onData(withId(R.id.elec_list)).atPosition(0).perform(click());
+      onView(allOf(
+          isDescendantOfA(withId(R.id.elec_list)),
+          withId(1))).perform(click());
 
       intended(allOf(
               hasComponent(DetailActivity.class.getName()),
@@ -46,10 +49,10 @@ public class ListElementClickTest {
 
   @Test
   public void click_gas() {
-    //onView(allOf(withContentDescription(R.string.listElementDesc), isDescendantOfA(withId(R.id.list)))).perform(click());
-
     if (hasChildren(R.id.gas_list)) {
-      onData(withId(R.id.gas_list)).atPosition(0).perform(click());
+      onView(allOf(
+          isDescendantOfA(withId(R.id.gas_list)),
+          withId(1))).perform(click());
 
       intended(allOf(
               hasComponent(DetailActivity.class.getName()),
@@ -59,10 +62,10 @@ public class ListElementClickTest {
 
   @Test
   public void click_water() {
-    //onView(allOf(withContentDescription(R.string.listElementDesc), isDescendantOfA(withId(R.id.list)))).perform(click());
-
     if (hasChildren(R.id.water_list)) {
-      onData(withId(R.id.water_list)).atPosition(0).perform(click());
+      onView(allOf(
+          isDescendantOfA(withId(R.id.water_list)),
+          withId(1))).perform(click());
 
       intended(allOf(
               hasComponent(DetailActivity.class.getName()),
@@ -70,7 +73,7 @@ public class ListElementClickTest {
     }
   }
 
-  public boolean hasChildren(int id) {
+  private boolean hasChildren(int id) {
     View v = null;
     try {
       v = ((ViewGroup)mActivity.getActivity().findViewById(id)).getChildAt(0);

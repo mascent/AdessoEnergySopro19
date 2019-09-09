@@ -56,6 +56,7 @@ public class MeterAdapter extends ArrayAdapter<Meter> {
 
         ((TextView) listElement.getChildAt(2)).setText(m.getLastReading().getValue());
 
+        listElement.setId(position + 1);
         return listElement;
     }
 }

@@ -124,6 +124,7 @@
                     android:id="@+id/gas_list"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:contentDescription="gas_meters"
                     android:divider="@null" />
 
                 <View
