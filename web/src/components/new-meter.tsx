@@ -2,7 +2,7 @@ import React from 'react';
 import { SubTitle } from './generics/text';
 import styles from './new-meter.module.scss';
 import { useInputValidation } from 'use-input-validation';
-import { isStringEmpty } from '../lib/validators';
+import { isStringEmpty, isMeterTypeValid } from '../lib/validators';
 import Input from './generics/input';
 import { PrimaryButton, SecondaryButton } from './generics/button';
 
@@ -20,25 +20,25 @@ interface NewMeterProps {
 const NewMeter: React.FC<NewMeterProps> = ({ onCreate }) => {
   const meterType = useInputValidation<string, string>(
     '',
-    'Keine valide Kundennummer',
-    stringNotEmpty
+    'Keine valider Zählertyp',
+    isMeterTypeValid
   );
 
   const name = useInputValidation<string, string>(
     '',
-    'Kein valides Passwort',
+    'Name darf nicht leer sein',
     stringNotEmpty
   );
 
   const meterNumber = useInputValidation<string, string>(
     '',
-    'Kein valides Passwort',
+    'Keine valide Zählernummer',
     stringNotEmpty
   );
 
   const initialValue = useInputValidation<string, string>(
     '',
-    'Kein valides Passwort',
+    'Startwert darf nicht leer sein',
     stringNotEmpty
   );
 
@@ -97,7 +97,7 @@ const NewMeter: React.FC<NewMeterProps> = ({ onCreate }) => {
 
         <Input
           id="initialValue"
-          type="text"
+          type="number"
           label="Initialer Wert"
           value={initialValue.value}
           onChange={value => initialValue.setValue(value)}
@@ -106,7 +106,10 @@ const NewMeter: React.FC<NewMeterProps> = ({ onCreate }) => {
         />
 
         <div className={styles.buttons}>
-          <SecondaryButton onClick={() => {}}> Abbrechen </SecondaryButton>
+          <SecondaryButton className={styles.cancelButton} onClick={() => {}}>
+            {' '}
+            Abbrechen{' '}
+          </SecondaryButton>
           <PrimaryButton onClick={() => {}}>Erstellen</PrimaryButton>
         </div>
       </form>
