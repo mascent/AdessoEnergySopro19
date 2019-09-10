@@ -160,14 +160,15 @@ public class DetailActivity extends AppCompatActivity {
       super.onSaveInstanceState(outState);
     }
     @Override public void onRestoreInstanceState(Bundle savedInstanceState) { }
-    final AdapterView.OnItemClickListener onAdapterElementClick = new AdapterView.OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-          showCorrectDialog(position);
-        }
-    };
 
     void listReadings() {
+        AdapterView.OnItemClickListener onAdapterElementClick = new AdapterView.OnItemClickListener() {
+          @Override
+          public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+            showCorrectDialog(position);
+          }
+        };
+
         // Get the icon and set the unit TextView
         Drawable icon = null;
         TextView unit = ((TextView)findViewById(R.id.unit));
@@ -206,6 +207,7 @@ public class DetailActivity extends AppCompatActivity {
           inflate(R.layout.dialog_edit, null);
       final EditText input = (EditText)l.findViewById(R.id.name);
       input.setText(readings.get(position).getValue());
+      ((TextView)l.findViewById(R.id.bottomText)).setText("");
       builder.setView(l);
 
       // Set up events
