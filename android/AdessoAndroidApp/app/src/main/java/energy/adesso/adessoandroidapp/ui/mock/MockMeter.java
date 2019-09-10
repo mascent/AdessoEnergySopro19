@@ -19,7 +19,6 @@ public class MockMeter extends Meter {
     public MockMeter(String id) {
         super(id);
     }
-
     public MockMeter(String name, String meterNumber, MeterKind kind, Reading lastReading){
         super("123",MockController.time,MockController.time,MockController.time,name,
             meterNumber,kind,"12345",lastReading);

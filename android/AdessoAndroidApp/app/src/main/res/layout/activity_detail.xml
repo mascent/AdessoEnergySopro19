@@ -23,15 +23,29 @@
         app:titleTextColor="@color/colorPrimary">
 
         <Button
-            android:id="@+id/button"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:id="@+id/buttonEdit"
+            android:layout_width="@dimen/detail_toolbar_button_size"
+            android:layout_height="@dimen/detail_toolbar_button_size"
             android:layout_gravity="right|end"
             android:layout_margin="12dp"
             android:background="@drawable/trans"
             android:foreground="@drawable/icon_edit"
             android:gravity="right|end"
             android:onClick="onEditClick"
+            android:padding="16dp"
+            tools:layout_editor_absoluteX="381dp"
+            tools:layout_editor_absoluteY="13dp" />
+
+        <Button
+            android:id="@+id/buttonStonks"
+            android:layout_width="@dimen/detail_toolbar_button_size"
+            android:layout_height="@dimen/detail_toolbar_button_size"
+            android:layout_gravity="right|end"
+            android:layout_margin="12dp"
+            android:background="@drawable/trans"
+            android:foreground="@drawable/icon_graph"
+            android:gravity="right|end"
+            android:onClick="onGraphClick"
             android:padding="16dp"
             tools:layout_editor_absoluteX="381dp"
             tools:layout_editor_absoluteY="13dp" />

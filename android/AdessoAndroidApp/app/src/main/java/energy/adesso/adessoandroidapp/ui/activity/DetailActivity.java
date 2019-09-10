@@ -2,6 +2,7 @@ package energy.adesso.adessoandroidapp.ui.activity;
 
 import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
@@ -12,21 +13,29 @@ import androidx.cardview.widget.CardView;
 
 import android.text.InputType;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import energy.adesso.adessoandroidapp.R;
 import energy.adesso.adessoandroidapp.logic.model.MeterKind;
 import energy.adesso.adessoandroidapp.logic.model.exception.AdessoException;
+import energy.adesso.adessoandroidapp.logic.model.exception.CredentialException;
+import energy.adesso.adessoandroidapp.logic.model.exception.NetworkException;
 import energy.adesso.adessoandroidapp.logic.model.identifiable.Meter;
+import energy.adesso.adessoandroidapp.logic.model.identifiable.Reading;
 import energy.adesso.adessoandroidapp.ui.adapter.ReadingAdapter;
 
 public class DetailActivity extends AppCompatActivity {
     Activity a = this;
     ReadingAdapter listAdapter;
+    List<Reading> readings;
     Meter m;
 
     @Override protected void onCreate(Bundle savedInstanceState) {
@@ -120,6 +129,20 @@ public class DetailActivity extends AppCompatActivity {
 
         builder.show();
     }
+    public void onGraphClick(View view) {
+      int[] valuePackage = new int[readings.size()];
+      for (int i = 0; i < readings.size(); i++)
+        valuePackage[i] = Integer.parseInt(readings.get(i).getValue());
+      startActivity(new Intent(this, GraphActivity.class).
+          putExtra("meter", m).
+          putExtra("readings", valuePackage));
+    }
+    final AdapterView.OnItemClickListener onAdapterElementClick = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+          showCorrectDialog(position);
+        }
+    };
 
     void listReadings() {
         // Get the icon and set the unit TextView
@@ -139,13 +162,50 @@ public class DetailActivity extends AppCompatActivity {
         }
 
         try {
-            // Init the adapter
-            listAdapter = new ReadingAdapter(this.getBaseContext(), m.getReadings(), icon);
+            // Init the adapter and the list
+            readings = m.getReadings();
+            listAdapter = new ReadingAdapter(this.getBaseContext(), readings, icon);
             ListView detailList = findViewById(R.id.detail_list);
             detailList.setAdapter(listAdapter);
+            detailList.setOnItemClickListener(onAdapterElementClick);
+            detailList.scrollTo(0,0);
         } catch (AdessoException e) {
             Toast.makeText(this, R.string.generic_error_message, Toast.LENGTH_SHORT).show();
         }
+    }
+    void showCorrectDialog(final int position) {
+      AlertDialog.Builder builder = new AlertDialog.Builder(a);
+      builder.setTitle(R.string.detail_correct_dialog_title);
+      builder.setMessage(R.string.detail_correct_dialog_desc);
+
+      // Set up textbox
+      LinearLayout l = (LinearLayout)getLayoutInflater().
+          inflate(R.layout.dialog_edit, null);
+      final EditText input = (EditText)l.findViewById(R.id.name);
+      input.setText(readings.get(position).getValue());
+      builder.setView(l);
+
+      // Set up events
+      builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+          try {
+            readings.get(position).correct(input.getText().toString());
+          } catch (AdessoException e) {
+            Toast.makeText(a, R.string.generic_error_message,
+                Toast.LENGTH_SHORT).show();
+          }
+          listReadings();
+        }
+      });
+      builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+          dialog.cancel();
+        }
+      });
+
+      builder.show();
     }
     void updateTitleInfo() {
         ((TextView)findViewById(R.id.name)).setText(m.getName());
