@@ -6,7 +6,6 @@
   align-items: center;
   justify-content: space-between;
   text-decoration: none;
-  width: fit-content;
   border-radius: 4px;
   outline-color: $color-yellow-500;
   padding: $spacing-8;
@@ -31,11 +30,13 @@
 .infoContainer {
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
 
 .textContainer {
   display: flex;
   justify-content: space-between;
+  width: 100%;
 
   & > :first-child {
     margin-right: $spacing-12;
@@ -48,6 +49,7 @@
 
 .arrow {
   color: $color-grey-500;
+  flex-shrink: 0;
 }
 
 .goodTrend {
