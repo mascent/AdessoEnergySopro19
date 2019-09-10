@@ -32,19 +32,19 @@ const NewUserForm: React.FC<NewUserFormProps> = ({ onCreate, onCancel }) => {
 
   const password = useInputValidation<string, string>(
     '',
-    'Kein valides Passwort',
+    'Passwort darf nicht leer sein',
     stringNotEmpty
   );
 
   const passwordValidator = useInputValidation<string, string>(
     '',
-    'Passwort ist nicht gleich',
+    'Bestätigtes Passwort ist nicht gleich',
     confirmedPasswordValidator(password.value)
   );
 
   const name = useInputValidation<string, string>(
     '',
-    'Kein valider Name',
+    'Name darf nicht leer sein',
     stringNotEmpty
   );
 
@@ -133,8 +133,8 @@ const NewUserForm: React.FC<NewUserFormProps> = ({ onCreate, onCancel }) => {
         />
       </div>
       <div className={styles.button}>
-        <SecondaryButton onClick={() => {}}> Abbrechen</SecondaryButton>
-        <PrimaryButton onClick={() => {}}> Erstellen</PrimaryButton>
+        <SecondaryButton onClick={() => {}}>Abbrechen</SecondaryButton>
+        <PrimaryButton onClick={() => {}}>Erstellen</PrimaryButton>
       </div>
     </form>
   );
