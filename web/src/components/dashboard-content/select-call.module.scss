@@ -1,0 +1,10 @@
+@import 'theme/spacings';
+
+.container {
+  max-width: $spacing-384;
+  text-align: center;
+
+  & > :first-child {
+    margin-bottom: $spacing-24;
+  }
+}

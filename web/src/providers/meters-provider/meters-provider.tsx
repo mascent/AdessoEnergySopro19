@@ -30,7 +30,7 @@ const initialContext: MetersState = {
 const MetersContext = React.createContext<MetersContext | undefined>(undefined);
 
 interface MetersProviderProps {
-  override?: MetersContext;
+  override?: Partial<MetersContext>;
 }
 
 export const MetersProvider: React.FC<MetersProviderProps> = ({
