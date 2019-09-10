@@ -1,13 +1,11 @@
-import React, {
-  useState,
-  useEffect,
-  useLayoutEffect,
-  useCallback
-} from 'react';
+import React, { useState, useCallback } from 'react';
+import { auth, config } from '../services/ad-api';
 
 interface AuthenticationContext {
-  token: string | null;
-  login: (username: string, password: string) => void;
+  isLoggedIn: boolean;
+  userId: string;
+  isAdmin: boolean;
+  login: (username: string, password: string) => Promise<boolean>;
   logout: () => void;
 }
 
@@ -15,44 +13,49 @@ const AuthenticationContext = React.createContext<
   AuthenticationContext | undefined
 >(undefined);
 
-function useToken() {
-  const [token, setToken] = useState<string | null | undefined>(undefined);
+export const AuthenticationProvider: React.FC = ({ children }) => {
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const [userId, setUserId] = useState<string>('');
+  const [isAdmin, setIsAdmin] = useState<boolean>(false);
 
-  useEffect(() => {
-    const token = localStorage.getItem('access_token');
+  const login = useCallback(async (username: string, password: string) => {
+    // Set the token with experimental things.
+    config.setToken(username, password);
+    try {
+      const { userId, isAdmin } = await auth.login();
 
-    // TODO: Make sure that the token is not expired
-    if (token !== null) setToken(token);
-  }, []);
-
-  return token;
-}
-
-const AuthenticationProvider: React.FC = ({ children }) => {
-  const token = useToken();
-
-  useLayoutEffect(() => {
-    if (typeof token !== 'undefined' && token !== null) {
-      // TODO: Set config token
+      setIsLoggedIn(true);
+      setUserId(userId);
+      setIsAdmin(isAdmin);
+      return true;
+    } catch (e) {
+      config.resetToken();
+      setIsLoggedIn(false);
+      return false;
     }
-  }, [token]);
-
-  const login = useCallback((username: string, password: string) => {
-    // TODO: Figure out what we have to do
   }, []);
 
-  const logout = useCallback(() => {}, []);
+  const logout = useCallback(() => {
+    config.resetToken();
+    setIsLoggedIn(false);
+    setUserId('');
+    setIsAdmin(false);
+  }, []);
 
-  return typeof token !== 'undefined' ? (
-    <AuthenticationContext.Provider value={{ token, login, logout }}>
+  return (
+    <AuthenticationContext.Provider
+      value={{ isLoggedIn, userId, isAdmin, login, logout }}
+    >
       {children}
     </AuthenticationContext.Provider>
-  ) : null;
+  );
 };
 
-function useAuth(): {
-  token: string | null;
-  login: (username: string, password: string) => void;
+export function useAuth(): {
+  isLoggedIn: boolean;
+  userId: string;
+  isAdmin: boolean;
+  login: (username: string, password: string) => Promise<boolean>;
   logout: () => void;
 } {
   const context = React.useContext(AuthenticationContext);
