@@ -17,6 +17,10 @@
   justify-content: space-between;
   align-items: baseline;
   margin-bottom: $spacing-16;
+
+  & > :first-child {
+    margin-right: $spacing-24;
+  }
 }
 
 .list {

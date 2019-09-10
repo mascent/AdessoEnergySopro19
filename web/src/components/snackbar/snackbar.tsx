@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import CloseIcon from 'mdi-react/CloseIcon';
 import cx from 'classnames';
 import styles from './snackbar.module.scss';
