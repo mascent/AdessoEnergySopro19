@@ -1,8 +1,8 @@
 import AdessoEnergyApiComponent from './abstract-api-component';
-import { Paging, UserDTO } from '../../typings/dtos';
+import { UserDTO } from '../../typings/dtos';
 
 class UsersComponent extends AdessoEnergyApiComponent {
-  public async getAllUsers(): Promise<Paging<UserDTO>> {
+  public async getAllUsers(): Promise<UserDTO[]> {
     const result = await this.get('/api/users');
 
     if (!result.ok) {
