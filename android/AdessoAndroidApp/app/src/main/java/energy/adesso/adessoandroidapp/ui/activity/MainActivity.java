@@ -187,6 +187,8 @@ public class MainActivity extends AppCompatActivity {
             Pair<Meter, String> p = MockController.azureAnalyze(b);
 
             // TODO: remind richard that azureAnalyze should return the meter number and not the mid
+            if (p.first == null)
+                throw new AdessoException();
 
             ((TextView)l.findViewById(R.id.number)).setText(p.first.getMeterNumber());
             ((TextView)l.findViewById(R.id.usage)).setText(p.second);
@@ -202,7 +204,7 @@ public class MainActivity extends AppCompatActivity {
                 .setView(l)
                 .show();
         } catch (AdessoException e) {
-            Toast.makeText(this, R.string.generic_error_message, Toast.LENGTH_SHORT);
+            Toast.makeText(this, R.string.generic_error_message, Toast.LENGTH_SHORT).show();
         }
     }
     final AdapterView.OnItemClickListener onAdapterElecElementClick = new AdapterView.OnItemClickListener() {
