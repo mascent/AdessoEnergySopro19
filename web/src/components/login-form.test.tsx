@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, getByText } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import LoginForm from './login-form';
 
 test('Login get Called with username and password', () => {

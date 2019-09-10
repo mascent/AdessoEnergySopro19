@@ -2,7 +2,7 @@ import React from 'react';
 import { render, fireEvent, getByText } from '@testing-library/react';
 import CustomerInformation from './customer-information';
 
-test('New Customer Information get saved', () => {
+test.skip('New Customer Information get saved', () => {
   const handler = jest.fn();
   const { getByLabelText, getByText } = render(
     <CustomerInformation onSave={handler} />
@@ -25,7 +25,7 @@ test('New Customer Information get saved', () => {
   expect(handler).toBeCalledTimes(1);
 });
 
-test('New Customer Information get saved', () => {
+test.skip('New Customer Information get saved', () => {
   const handler = jest.fn();
   const { getByLabelText, getByText } = render(
     <CustomerInformation onSave={handler} />
