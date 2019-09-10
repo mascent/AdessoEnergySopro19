@@ -11,7 +11,7 @@ const App: React.FC = () => {
   // Make sure that the user can only see areas of the app he is allowed to see
   return (
     <SnackBarProvider>
-      {isLoggedIn ? (
+      {!isLoggedIn ? (
         <UnAuthenticatedApp />
       ) : isAdmin ? (
         <AdminApp />

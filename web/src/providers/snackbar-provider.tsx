@@ -23,6 +23,14 @@ const SnackBarProvider: React.FC = ({ children }) => {
   const [snackBars, setSnackBars] = React.useState<SnackBar[]>([]);
 
   function addSnackBar(snackBar: SnackBar) {
+    // Don't show a snackbar with the same content already visible
+    if (
+      snackBars.find(
+        sb => sb.text === snackBar.text && sb.type === snackBar.type
+      )
+    )
+      return;
+
     Logger.logBreadcrumb(
       'info',
       'snackbar-provider',
@@ -57,7 +65,7 @@ function useSnackBar() {
   function createSnackBar(
     type: SnackBarType,
     text: string,
-    action: {
+    action?: {
       text: string;
       handler: () => void;
     }

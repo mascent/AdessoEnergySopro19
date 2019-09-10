@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './snackbars-manager.module.scss';
+import styles from './snackbar-manager.module.scss';
 
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
