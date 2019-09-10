@@ -150,6 +150,11 @@ public class DetailActivity extends AppCompatActivity {
     void updateTitleInfo() {
         ((TextView)findViewById(R.id.name)).setText(m.getName());
         ((TextView)findViewById(R.id.number)).setText(m.getMeterNumber());
-        ((TextView)findViewById(R.id.usage)).setText(m.getLastReading().getValue() +  " kWh");
+        if (m.getKind().equals(MeterKind.ELECTRIC))
+            ((TextView)findViewById(R.id.usage)).setText(m.getLastReading().getValue() +  " " + getString(R.string.elecUnit));
+        else if (m.getKind().equals(MeterKind.GAS))
+            ((TextView)findViewById(R.id.usage)).setText(m.getLastReading().getValue() +  " " + getString(R.string.gasUnit));
+        else if (m.getKind().equals(MeterKind.WATER))
+            ((TextView)findViewById(R.id.usage)).setText(m.getLastReading().getValue() +  " " + getString(R.string.waterUnit));
     }
 }
