@@ -108,10 +108,11 @@ const CustomerInformation: React.FC<CustomerInformationProps> = ({
           onBlur={email.validate}
           error={email.error}
         />
-      </form>
+
       <div className={styles.button}>
         <PrimaryButton onClick={() => {}}>Speichern</PrimaryButton>
       </div>
+    </form>
     </div>
   );
 };
