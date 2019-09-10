@@ -1,11 +1,9 @@
 package energy.adesso.adessoandroidapp;
 
-import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.test.espresso.intent.rule.IntentsTestRule;
-import androidx.test.platform.app.InstrumentationRegistry;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -52,7 +50,7 @@ public class ListElementClickTest {
           check(matches(withDrawable(R.drawable.icon_electricity)));
 
       // check for right unit string
-      onView(allOf(withId(R.id.unit), isDescendantOfA(withId(R.id.detail_list_title)))).
+      onView(allOf(withId(R.id.listElementRightText), isDescendantOfA(withId(R.id.DetailListTitle)))).
           check(matches(withText(R.string.elecUnit)));
     }
   }
@@ -74,7 +72,7 @@ public class ListElementClickTest {
           check(matches(withDrawable(R.drawable.icon_gas)));
 
       // check for right unit string
-      onView(allOf(withId(R.id.unit), isDescendantOfA(withId(R.id.detail_list_title)))).
+      onView(allOf(withId(R.id.listElementRightText), isDescendantOfA(withId(R.id.DetailListTitle)))).
           check(matches(withText(R.string.gasUnit)));
     }
   }
@@ -82,10 +80,13 @@ public class ListElementClickTest {
   @Test
   public void clickWater() {
     if (hasChildren(R.id.WaterList)) {
+      // click on first element of the WaterList
       onView(allOf(
           isDescendantOfA(withId(R.id.WaterList)),
-          withId(1))).perform(click());
+          withId(1))).
+              perform(click());
 
+      // check if a meter has been passed on
       intended(allOf(
               hasComponent(DetailActivity.class.getName()),
               hasExtraWithKey("meter")));
@@ -95,7 +96,9 @@ public class ListElementClickTest {
           check(matches(withDrawable(R.drawable.icon_water)));
 
       // check for right unit string
-      onView(allOf(withId(R.id.unit), isDescendantOfA(withId(R.id.detail_list_title)))).
+      onView(allOf(
+              withId(R.id.listElementRightText),
+              isDescendantOfA(withId(R.id.DetailListTitle)))).
           check(matches(withText(R.string.waterUnit)));
     }
   }
