@@ -2,17 +2,15 @@ package de.sopro.data;
 
 import java.time.LocalDateTime;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name="person")
+@Table(name = "person")
 public class User extends Person {
 
-	public User(String firstName, String lastName, String eMailAddress, String username, String password,
-			Role role) {
+	public User(String firstName, String lastName, String eMailAddress, String username, String password, Role role) {
 		super(username, password, role);
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -30,8 +28,6 @@ public class User extends Person {
 	@NotNull
 	private String lastName;
 
-	@NotNull
-	@Column(nullable = false, unique = true)
 	private String eMailAddress;
 
 	@NotNull

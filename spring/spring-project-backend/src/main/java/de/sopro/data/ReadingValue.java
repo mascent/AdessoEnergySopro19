@@ -13,22 +13,6 @@ import javax.validation.constraints.Positive;
 
 @Entity
 public class ReadingValue {
-
-	public ReadingValue(int value, Long changerId, String reason) {
-		this.value = value;
-		this.changerId = changerId;
-		this.reason = reason;
-		lastChange = LocalDateTime.now();
-	}
-
-// smart constructor for first initialization
-	public ReadingValue(int value, Long changerId) {
-		this.value = value;
-		this.changerId = changerId;
-		this.reason = "creation";
-		lastChange = LocalDateTime.now();
-	}
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long readingValueId;
@@ -38,7 +22,7 @@ public class ReadingValue {
 
 	@Positive
 	@NotNull
-	private int value;
+	private Long value;
 
 	@NotNull
 	@Past
@@ -48,6 +32,21 @@ public class ReadingValue {
 
 	private String reason;
 
+	public ReadingValue(Long value, Long changerId, String reason) {
+		this.value = value;
+		this.changerId = changerId;
+		this.reason = reason;
+		lastChange = LocalDateTime.now();
+	}
+
+// smart constructor for first initialization
+	public ReadingValue(Long value, Long changerId) {
+		this.value = value;
+		this.changerId = changerId;
+		this.reason = "creation";
+		lastChange = LocalDateTime.now();
+	}
+
 	public Long getReadingValueId() {
 		return readingValueId;
 	}
@@ -56,12 +55,8 @@ public class ReadingValue {
 		this.readingValueId = readingValueId;
 	}
 
-	public int getValue() {
+	public Long getValue() {
 		return value;
-	}
-
-	public void setValue(int value) {
-		this.value = value;
 	}
 
 	public LocalDateTime getCreatedAt() {
@@ -82,6 +77,10 @@ public class ReadingValue {
 
 	public String getReason() {
 		return reason;
+	}
+
+	public Reading getReading() {
+		return reading;
 	}
 
 	public void setReason(String reason) {
