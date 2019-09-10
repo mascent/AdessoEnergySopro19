@@ -29,13 +29,13 @@ const CustomerInformation: React.FC<CustomerInformationProps> = ({
 
   const surname = useInputValidation<string, string>(
     '',
-    'Kein valider Vorname',
+    'Vorname darf nicht leer sein',
     stringNotEmpty
   );
 
   const lastname = useInputValidation<string, string>(
     '',
-    'Kein valider Nachname',
+    'Nachname darf nicht leer sein',
     stringNotEmpty
   );
 
@@ -109,10 +109,10 @@ const CustomerInformation: React.FC<CustomerInformationProps> = ({
           error={email.error}
         />
 
-      <div className={styles.button}>
-        <PrimaryButton onClick={() => {}}>Speichern</PrimaryButton>
-      </div>
-    </form>
+        <div className={styles.button}>
+          <PrimaryButton onClick={() => {}}>Speichern</PrimaryButton>
+        </div>
+      </form>
     </div>
   );
 };
