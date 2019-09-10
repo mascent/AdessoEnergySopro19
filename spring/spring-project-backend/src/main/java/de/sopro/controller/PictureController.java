@@ -1,5 +1,6 @@
 package de.sopro.controller;
 
+import java.io.File;
 import java.io.IOException;
 
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,7 +16,9 @@ import de.sopro.response.detect.BoundingBox;
 import de.sopro.response.detect.Predictions;
 import de.sopro.response.parse.ParseResult;
 import de.sopro.util.Pair;
+import de.sopro.util.exception.UnreadableFotoException;
 import okhttp3.HttpUrl;
+import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -46,8 +49,10 @@ public class PictureController {
 	 * @throws IOException 
 	 */
 	@PostMapping(path = "/api/pictures", params = {"pic"})
-	public String analyze(@RequestParam String pic) throws IOException {
+	public String analyze(@RequestParam File file) throws IOException {
 	
+		String path;
+		
 		//Classification
 		HttpUrl.Builder classifyUrlBuilder = HttpUrl.parse(CLASSIFY).newBuilder();
 		String classifyUrl = classifyUrlBuilder.build().toString();
@@ -55,7 +60,8 @@ public class PictureController {
 		RequestBody classifyRequestBody = new MultipartBody.Builder()
 											  .setType(MultipartBody.FORM)
 											  .addFormDataPart("team",TEAM)
-											  .addFormDataPart("file",pic)
+											  .addFormDataPart("file",file.getName(), 
+													  RequestBody.create(file,MediaType.parse("image/png")))
 											  .build();
 				
 		Request classifyRequest = new Request.Builder()
@@ -68,14 +74,14 @@ public class PictureController {
 		Classifications classifications = new Gson().fromJson(classifyResponse.body().string(), Classifications.class);
 	
 		// Detection
-		
 		HttpUrl.Builder detectionUrlBuilder = HttpUrl.parse(DETECTAREAS).newBuilder();
 		String detectionUrl = classifyUrlBuilder.build().toString();
 		
 		RequestBody detectionRequestBody = new MultipartBody.Builder()
 											  //.setType(MultipartBody.FORM)
 											  .addFormDataPart("team",TEAM)
-											  .addFormDataPart("file",pic)
+											  .addFormDataPart("file",file.getName(), 
+													  RequestBody.create(file,MediaType.parse("image/png")))
 											  .build();
 				
 		Request detectionRequest = new Request.Builder()
@@ -88,13 +94,13 @@ public class PictureController {
 		Predictions predictions = new Gson().fromJson(detectionResponse.body().string(), Predictions.class);
 		
 		
-		// Parse
-		
+		// Parse	
 		HttpUrl.Builder parseUrlBuilder = HttpUrl.parse(DETECTAREAS).newBuilder();
 		String parseUrl = classifyUrlBuilder.build().toString();
 		
 		RequestBody parseRequestBody = new MultipartBody.Builder()
-											  .addFormDataPart("file",pic)
+											  .addFormDataPart("file",file.getName(), 
+													  RequestBody.create(file,MediaType.parse("image/png")))
 											  .build();
 				
 		Request parseRequest = new Request.Builder()
@@ -112,12 +118,15 @@ public class PictureController {
 		Pair<BoundingBox,BoundingBox> boxes = predictions.findMaxProbabilityAreas();
 		
 		BoundingBox meterNumberArea = boxes.getFirst();
-		BoundingBox meterValueArea =boxes.getSecond();
+		BoundingBox meterValueArea = boxes.getSecond();
+		
+		try {
+			String meterResult = parseResult.findMatchingBox(meterNumberArea);
+		} catch (UnreadableFotoException e) {
+			e.printStackTrace();
+		}
 		
 		
-		
-		
-	
 		return null;
 	}
 	

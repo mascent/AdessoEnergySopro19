@@ -2,6 +2,9 @@ package de.sopro.response.parse;
 
 import java.util.List;
 
+import de.sopro.response.detect.BoundingBox;
+import de.sopro.util.exception.UnreadableFotoException;
+
 public class Region {
 	private String boundingBox;
 	private List<Line> lines;

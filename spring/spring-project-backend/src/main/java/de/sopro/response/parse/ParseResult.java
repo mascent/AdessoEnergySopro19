@@ -2,6 +2,9 @@ package de.sopro.response.parse;
 
 import java.util.List;
 
+import de.sopro.response.detect.BoundingBox;
+import de.sopro.util.exception.UnreadableFotoException;
+
 public class ParseResult {
 	private String language;
 	private Float textAngle;
@@ -38,6 +41,14 @@ public class ParseResult {
 
 	public void setRegions(List<Region> regions) {
 		this.regions = regions;
+	}
+
+	public String findMatchingBox(BoundingBox meterNumberArea) throws UnreadableFotoException{
+		if(!orientation.equals("up")) {
+			throw new UnreadableFotoException("Wrong orientation");
+		}
+		
+		return null;
 	}
 
 }
