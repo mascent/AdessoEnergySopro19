@@ -8,6 +8,7 @@ import {
 
 import { SectionHeader } from './components/generics/text';
 import Logo from './components/generics/logo';
+import UserScreen from './screens/user-screen';
 
 const TempGreeting = () => (
   <main
@@ -39,8 +40,8 @@ const UserApp: React.FC = () => {
   return (
     <Router>
       <Switch>
-        <Route path="/dashboard" component={TempGreeting} />
-        <Redirect to="/dashboard" />
+        <Route path="/counters" component={UserScreen} />
+        <Redirect to="/counters" />
       </Switch>
     </Router>
   );

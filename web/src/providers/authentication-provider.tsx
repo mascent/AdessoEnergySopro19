@@ -63,5 +63,14 @@ export function useAuth(): {
   if (typeof context === 'undefined')
     throw new Error('useAuth must be used inside a AuthenticationProvider.');
 
-  return context;
+  // Use this if Basic Auth with no sessions is destroying you and you just want
+  // to be "logged in"
+  // return context;
+  return {
+    isLoggedIn: true,
+    userId: 'kaka',
+    isAdmin: false,
+    login: async (username: string, password: string) => true,
+    logout: () => {}
+  };
 }
