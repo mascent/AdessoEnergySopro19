@@ -1,6 +1,7 @@
 package energy.adesso.adessoandroidapp.ui.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -24,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import energy.adesso.adessoandroidapp.R;
+import energy.adesso.adessoandroidapp.logic.controller.PersistenceController;
 import energy.adesso.adessoandroidapp.logic.model.MeterKind;
 import energy.adesso.adessoandroidapp.logic.model.exception.AdessoException;
 import energy.adesso.adessoandroidapp.logic.model.exception.CredentialException;
@@ -38,8 +40,18 @@ public class DetailActivity extends AppCompatActivity {
     List<Reading> readings;
     Meter m;
 
+    String meterKey = "METER_KEY";
+
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (savedInstanceState != null) {
+          m = (Meter)savedInstanceState.getSerializable(meterKey);
+          try {
+            readings = m.getReadings();
+          } catch (AdessoException e) {
+            e.printStackTrace();
+          }
+        }
         setContentView(R.layout.activity_detail);
 
         // Set up toolbar
@@ -56,7 +68,8 @@ public class DetailActivity extends AppCompatActivity {
             }
         });
 
-        m = (Meter)getIntent().getSerializableExtra("meter");
+        if (getIntent().hasExtra("meter"))
+          m = (Meter)getIntent().getSerializableExtra("meter");
         updateTitleInfo();
 
         listReadings();
@@ -130,13 +143,23 @@ public class DetailActivity extends AppCompatActivity {
         builder.show();
     }
     public void onGraphClick(View view) {
-      int[] valuePackage = new int[readings.size()];
-      for (int i = 0; i < readings.size(); i++)
-        valuePackage[i] = Integer.parseInt(readings.get(i).getValue());
+      String unit = null;
+      if (m.getKind().equals(MeterKind.ELECTRIC))
+        unit = getString(R.string.elecUnit);
+      else if (m.getKind().equals(MeterKind.GAS))
+        unit = getString(R.string.gasUnit);
+      else if (m.getKind().equals(MeterKind.WATER))
+        unit = getString(R.string.waterUnit);
+
       startActivity(new Intent(this, GraphActivity.class).
-          putExtra("meter", m).
-          putExtra("readings", valuePackage));
+          putExtra("readings", readings.toArray()).
+          putExtra("unit", unit));
     }
+    @Override public void onSaveInstanceState(Bundle outState) {
+      outState.putSerializable(meterKey, m);
+      super.onSaveInstanceState(outState);
+    }
+    @Override public void onRestoreInstanceState(Bundle savedInstanceState) { }
     final AdapterView.OnItemClickListener onAdapterElementClick = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {

@@ -44,5 +44,5 @@
     <string name="detail_correct_dialog_desc">Bitte stelle sicher, dass du den richtigen Zählerstand korrekt abliest.</string>
     <string name="title_activity_graph">GraphActivity</string>
     <string name="graph_toolbar_title">Verbrauchsgrafik</string>
-    <string name="graph_title">Verbrauch</string>
+    <string name="graph_title">Verbrauch in </string>
 </resources>
