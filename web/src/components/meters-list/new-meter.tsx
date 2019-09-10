@@ -1,10 +1,10 @@
 import React from 'react';
-import { SubTitle } from './generics/text';
+import { SubTitle } from '../generics/text';
 import styles from './new-meter.module.scss';
 import { useInputValidation } from 'use-input-validation';
-import { isStringEmpty, isMeterTypeValid } from '../lib/validators';
-import Input from './generics/input';
-import { PrimaryButton, SecondaryButton } from './generics/button';
+import { isStringEmpty, isMeterTypeValid } from '../../lib/validators';
+import Input from '../generics/input';
+import { PrimaryButton, SecondaryButton } from '../generics/button';
 
 const stringNotEmpty = (val: string) => !isStringEmpty(val);
 

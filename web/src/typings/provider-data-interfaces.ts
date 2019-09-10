@@ -1,3 +1,5 @@
+export type MeterType = 'water' | 'electricity' | 'gas';
+
 export interface Status {
   saving: boolean;
   saveError: Error | null;
@@ -19,7 +21,7 @@ export interface User {
 
 export interface Meter {
   id: string;
-  type: 'water' | 'electricity' | 'gas';
+  type: MeterType;
   name: string;
   ownerId: string | null;
   lastReading: Reading;

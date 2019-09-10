@@ -1,0 +1,59 @@
+@import 'theme/colors';
+@import 'theme/spacings';
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-decoration: none;
+  width: fit-content;
+  border-radius: 4px;
+  outline-color: $color-yellow-500;
+  padding: $spacing-8;
+
+  & > * {
+    margin-right: $spacing-16;
+  }
+
+  & > :last-child {
+    margin-right: 0;
+  }
+
+  &:hover {
+    background: $color-grey-100;
+  }
+}
+
+.activeContainer {
+  background: $color-grey-100;
+}
+
+.infoContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.textContainer {
+  display: flex;
+  justify-content: space-between;
+
+  & > :first-child {
+    margin-right: $spacing-12;
+  }
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.arrow {
+  color: $color-grey-500;
+}
+
+.goodTrend {
+  color: $color-green-500;
+}
+
+.badTrend {
+  color: $color-red-500;
+}

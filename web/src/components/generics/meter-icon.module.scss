@@ -1,0 +1,13 @@
+@import 'theme/spacings';
+@import 'theme/colors';
+
+.container {
+  box-sizing: border-box;
+  display: inline-block;
+  padding: $spacing-8;
+  background: $color-yellow-200;
+  color: $color-yellow-600;
+  border-radius: 4px;
+  width: 40px;
+  height: 40px;
+}
