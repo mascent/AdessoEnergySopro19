@@ -1,0 +1,36 @@
+@import 'theme/spacings';
+@import 'theme/colors';
+
+.container {
+  display: flex;
+  justify-content: flex-end;
+  width: $spacing-768;
+  height: $spacing-512;
+  margin-left: $spacing-192;
+  z-index: 1;
+  position: relative;
+  top: -70px;
+}
+
+.illustrations {
+  padding-left: 80px;
+  padding-right: 80px;
+  width: 200px;
+}
+
+.leftContainer {
+  display: flex;
+  flex-direction: column;
+  width: 370px;
+  padding-right: 20px;
+}
+
+.searchBar {
+  padding-right: 20px;
+  width: 100%;
+}
+
+.bl {
+  padding: 8px;
+  border-left: 2px solid $color-blue-900;
+}
