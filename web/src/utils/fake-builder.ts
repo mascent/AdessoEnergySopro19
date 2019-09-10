@@ -133,11 +133,13 @@ export function buildList<T>(
   builder: (overrides?: Partial<T>) => T,
   min: number = 0,
   max: number = 10
-) {
+): T[] {
   const length = faker.random.number({ min, max });
   const arr = [];
 
   for (let i = 0; i < length; i++) {
     arr.push(builder());
   }
+
+  return arr;
 }
