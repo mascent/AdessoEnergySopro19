@@ -1,5 +1,11 @@
 import faker from 'faker';
-import { Meter, Reading, Status } from '../typings/provider-data-interfaces';
+import {
+  Meter,
+  Reading,
+  Status,
+  User,
+  Issue
+} from '../typings/provider-data-interfaces';
 
 function buildStatus(overrides?: Partial<Status>): Status {
   return {
@@ -44,6 +50,41 @@ export function buildReading(overrides?: Partial<Reading>): Reading {
     lastEditReason: faker.lorem.words(5),
     trend: faker.random.number({ min: -10, max: 10 }),
     value: faker.random.number({ min: 1000000 }).toString(),
+    status: buildStatus(),
+    createdAt: faker.date.recent(),
+    updatedAt: faker.date.recent(),
+    deletedAt: null,
+    ...overrides
+  };
+}
+
+/**
+ * Build a user object that can be used in tests or stories.
+ * @param overrides Override for random values
+ */
+export function buildUser(overrides?: Partial<User>): User {
+  return {
+    id: faker.random.uuid(),
+    customerId: faker.random.uuid(),
+    email: faker.internet.email(),
+    firstName: faker.name.firstName(),
+    lastName: faker.name.lastName(),
+    status: buildStatus(),
+    createdAt: faker.date.recent(),
+    updatedAt: faker.date.recent(),
+    deletedAt: null,
+    ...overrides
+  };
+}
+
+export function buildIssue(overrides?: Partial<Issue>): Issue {
+  return {
+    id: faker.random.uuid(),
+    email: faker.internet.email(),
+    name: faker.name.firstName() + ' ' + faker.name.lastName(),
+    message: faker.lorem.paragraph(),
+    state: faker.random.arrayElement(['UNRESOLVED', 'RESOLVED']),
+    subject: faker.lorem.words(5),
     status: buildStatus(),
     createdAt: faker.date.recent(),
     updatedAt: faker.date.recent(),
