@@ -12,6 +12,8 @@ import {
   updateUserRequest,
   updateUserFailure
 } from './users-actions';
+import { users } from '../../services/ad-api';
+import { mapUserDtoToUser } from '../../lib/mappers';
 
 interface UsersContext {
   users: User[];
@@ -44,9 +46,10 @@ export const UsersProvider: React.FC<UsersProviderProps> = ({
     try {
       Logger.logBreadcrumb('info', 'users-context', 'Fetching users');
       dispatch(fetchUsersRequest());
-      // Do fetch
+
+      const result = await users.getAllUsers();
       Logger.logBreadcrumb('info', 'users-context', 'Fetched users');
-      dispatch(fetchUsersSuccess([]));
+      dispatch(fetchUsersSuccess(result.map(user => mapUserDtoToUser(user))));
     } catch (e) {
       Logger.logBreadcrumb('error', 'users-context', 'Fetch users failed');
       Logger.captureException(e);
@@ -58,9 +61,10 @@ export const UsersProvider: React.FC<UsersProviderProps> = ({
     try {
       Logger.logBreadcrumb('info', 'users-context', 'Adding user');
       dispatch(addUserRequest());
-      // Do fetch
+
+      const result = await users.createNewUser(user);
       Logger.logBreadcrumb('info', 'users-context', 'Added user');
-      // dispatch(addUserSuccess());
+      dispatch(addUserSuccess(mapUserDtoToUser(result)));
     } catch (e) {
       Logger.logBreadcrumb('error', 'users-context', 'Add user failed');
       Logger.captureException(e);
