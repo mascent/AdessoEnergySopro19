@@ -114,7 +114,7 @@ export function useUsers(): UsersKit {
   const { fetchUsers, updateUser, ...rest } = context;
 
   React.useEffect(() => {
-    if (fetching || rest.isLoading || rest.users !== null) return;
+    if (fetching || rest.isLoading || rest.users.length !== 0) return;
 
     fetching = true;
     fetchUsers().finally(() => (fetching = false));
