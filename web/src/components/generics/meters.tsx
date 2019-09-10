@@ -42,7 +42,7 @@ const Meters: React.FC<metersProps> = ({
           </ContainerCard>
         </InvButton>
       );
-    case 'strom':
+    case 'water':
       return (
         <InvButton
           className={styles.button}
@@ -58,7 +58,7 @@ const Meters: React.FC<metersProps> = ({
           </ContainerCard>
         </InvButton>
       );
-    case 'water':
+    case 'strom':
       return (
         <InvButton
           className={styles.button}
