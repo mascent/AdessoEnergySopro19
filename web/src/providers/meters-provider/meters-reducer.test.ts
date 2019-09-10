@@ -8,6 +8,11 @@ const initialState: MetersState = {
   meters: []
 };
 
+test('returns state for unknown action', () => {
+  /// @ts-ignore
+  expect(metersReducer(initialState, { type: 'TEST' })).toEqual(initialState);
+});
+
 test('handles fetch actions', () => {
   // Request
   const requestState = metersReducer(initialState, action.fetchMetersRequest());

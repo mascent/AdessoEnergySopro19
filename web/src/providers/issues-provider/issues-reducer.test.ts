@@ -8,6 +8,11 @@ const initialState: IssuesState = {
   issues: []
 };
 
+test('returns state for unknown action', () => {
+  /// @ts-ignore
+  expect(issuesReducer(initialState, { type: 'TEST' })).toEqual(initialState);
+});
+
 test('handles fetch actions', () => {
   // Request
   const requestState = issuesReducer(initialState, action.fetchIssuesRequest());

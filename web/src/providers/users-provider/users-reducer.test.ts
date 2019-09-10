@@ -8,6 +8,11 @@ const initialState: UsersState = {
   users: []
 };
 
+test('returns state for unknown action', () => {
+  /// @ts-ignore
+  expect(usersReducer(initialState, { type: 'TEST' })).toEqual(initialState);
+});
+
 test('handles fetch actions', () => {
   // Request
   const requestState = usersReducer(initialState, action.fetchUsersRequest());
