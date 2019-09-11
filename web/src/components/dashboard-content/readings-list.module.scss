@@ -51,6 +51,7 @@
   color: $color-grey-400;
   transition: all 200ms ease-in-out;
   outline-color: $color-yellow-500;
+  cursor: pointer;
 
   &:hover,
   &:focus {

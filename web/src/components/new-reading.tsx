@@ -6,13 +6,18 @@ import { SecondaryButton, PrimaryButton } from './generics/button';
 import styles from './new-reading.module.scss';
 
 interface ReadingProps {
+  initialValue: string;
   onAdd: (reading: string) => void;
   onClose: () => void;
 }
 
-const NewReading: React.FC<ReadingProps> = ({ onAdd, onClose }) => {
+const NewReading: React.FC<ReadingProps> = ({
+  initialValue,
+  onAdd,
+  onClose
+}) => {
   const reading = useInputValidation<string, string>(
-    '',
+    initialValue,
     'Zählerstand muss eine positive Zahl sein',
     num => isNumber(num) && parseInt(num, 10) > 0
   );
@@ -39,8 +44,10 @@ const NewReading: React.FC<ReadingProps> = ({ onAdd, onClose }) => {
         error={reading.error}
       />
       <div className={styles.buttons}>
-        <SecondaryButton onClick={onClose}>Abbrechen</SecondaryButton>
-        <PrimaryButton onClick={() => {}}>Hinzufügen</PrimaryButton>
+        <SecondaryButton type="reset" onClick={onClose}>
+          Abbrechen
+        </SecondaryButton>
+        <PrimaryButton type="submit">Hinzufügen</PrimaryButton>
       </div>
     </form>
   );

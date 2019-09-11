@@ -17,7 +17,7 @@ const MeterInformation: React.FC<RouteComponentProps<{ id: string }>> = ({
 }) => {
   const { isAdmin } = useAuth();
   const meter = useMeter(id || '');
-  const { readings, isLoading, addReading } = useReadings(
+  const { readings, isLoading, addReading, updateReading } = useReadings(
     meter ? meter.meter.id : ''
   );
   const graphData = useMemo(() => readings.map(r => parseInt(r.value, 10)), [
@@ -29,6 +29,10 @@ const MeterInformation: React.FC<RouteComponentProps<{ id: string }>> = ({
   );
 
   const [showAddReading, toggleAddReading] = useState(false);
+  const [editReading, setEditReading] = useState<{
+    id: string;
+    init: string;
+  } | null>(null);
   const [dataView, setDataView] = useState<'table' | 'graph'>('table');
 
   if (!meter) return <Redirect to="/" noThrow />;
@@ -36,6 +40,13 @@ const MeterInformation: React.FC<RouteComponentProps<{ id: string }>> = ({
   function handleAddReading(value: string) {
     if (typeof id !== 'undefined' && id !== '')
       addReading(id, { value }).then(() => toggleAddReading(false));
+  }
+
+  function handleEditReading(id: string, value: string) {
+    if (typeof id !== 'undefined' && id !== '' && meter !== null)
+      updateReading(meter.meter.id, id, { value }).then(() =>
+        toggleAddReading(false)
+      );
   }
 
   return (
@@ -82,7 +93,10 @@ const MeterInformation: React.FC<RouteComponentProps<{ id: string }>> = ({
               </button>
             </div>
             <button
-              onClick={() => toggleAddReading(val => !val)}
+              onClick={() => {
+                setEditReading(null);
+                toggleAddReading(val => !val);
+              }}
               className={styles.addButton}
             >
               Neuen Eintrag erfassen
@@ -90,15 +104,29 @@ const MeterInformation: React.FC<RouteComponentProps<{ id: string }>> = ({
           </div>
           {showAddReading && (
             <NewReading
+              initialValue={
+                !editReading ? meter.meter.lastReading.value : editReading.init
+              }
               onClose={() => toggleAddReading(false)}
-              onAdd={handleAddReading}
+              onAdd={r =>
+                !editReading
+                  ? handleAddReading(r)
+                  : handleEditReading(editReading.id, r)
+              }
             />
           )}
           {dataView === 'graph' && (
             <Graph data={graphData} dates={graphLabel} title="Readings" />
           )}
           {dataView === 'table' && (
-            <ReadingList readings={readings} canEdit={isAdmin} />
+            <ReadingList
+              readings={readings}
+              canEdit={isAdmin && !showAddReading}
+              onEditClick={(id, init) => {
+                toggleAddReading(true);
+                setEditReading({ id, init });
+              }}
+            />
           )}
         </>
       )}
