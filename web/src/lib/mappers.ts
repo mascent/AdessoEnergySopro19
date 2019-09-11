@@ -10,7 +10,6 @@ import {
 function addInitialStatus(): Status {
   return {
     changed: false,
-    lastFetched: new Date(),
     saving: false,
     saveError: null
   };
@@ -70,4 +69,71 @@ export function mapIssueDtoToIssues(issue: IssueDTO): Issue {
     status: addInitialStatus(),
     ...mapDatesToObjects(issue.createdAt, issue.updatedAt, issue.deletedAt)
   };
+}
+
+export function mapInternalUserToUserDTO(
+  user: Partial<User>
+): Partial<UserDTO> {
+  const res = {
+    ...user,
+    createdAt: user.createdAt && user.createdAt.toISOString(),
+    updatedAt: user.updatedAt && user.updatedAt.toISOString(),
+    deletedAt: user.deletedAt && user.deletedAt.toISOString()
+  };
+  delete res.status;
+  return res;
+}
+
+export function mapInternalReadingToReadingDTO(
+  reading: Partial<Reading>
+): Partial<ReadingDTO> {
+  const res = {
+    ...reading,
+    createdAt: reading.createdAt && reading.createdAt.toISOString(),
+    updatedAt: reading.updatedAt && reading.updatedAt.toISOString(),
+    deletedAt: reading.deletedAt && reading.deletedAt.toISOString()
+  };
+  delete res.status;
+  return res;
+}
+
+function mapReadingIntoReadingDTO(r: Reading): ReadingDTO {
+  const res = {
+    ...r,
+    createdAt: r.createdAt.toISOString(),
+    updatedAt: r.updatedAt && r.updatedAt.toISOString(),
+    deletedAt: r.deletedAt && r.deletedAt.toISOString()
+  };
+  delete res.status;
+  return res;
+}
+
+export function mapInternalMeterToMeterDTO(
+  meter: Partial<Meter>
+): Partial<MeterDTO> {
+  const res = {
+    ...meter,
+    lastReading:
+      meter.lastReading && mapReadingIntoReadingDTO(meter.lastReading),
+    createdAt: meter.createdAt && meter.createdAt.toISOString(),
+    updatedAt: meter.updatedAt && meter.updatedAt.toISOString(),
+    deletedAt: meter.deletedAt && meter.deletedAt.toISOString()
+  };
+  delete res.lastReading;
+  delete res.status;
+  return res;
+}
+
+export function mapInternalIssueToIssueDTO(
+  issue: Partial<Issue>
+): Partial<IssueDTO> {
+  const res = {
+    ...issue,
+    status: issue.state,
+    createdAt: issue.createdAt && issue.createdAt.toISOString(),
+    updatedAt: issue.updatedAt && issue.updatedAt.toISOString(),
+    deletedAt: issue.deletedAt && issue.deletedAt.toISOString()
+  };
+  delete res.state;
+  return res;
 }

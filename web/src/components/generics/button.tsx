@@ -2,23 +2,15 @@ import React from 'react';
 import styles from './button.module.scss';
 import cx from 'classnames';
 
-interface ButtonProps {
-  onClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-  disabled?: boolean;
+type ButtonProps = {
   className?: string;
   children?: React.ReactNode;
-  title?: string;
-}
+} & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 const InvButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ onClick, children, className, title }, ref) => {
+  ({ children, className, ...props }, ref) => {
     return (
-      <button
-        ref={ref}
-        className={cx(styles.invButton, className)}
-        onClick={onClick}
-        title={title}
-      >
+      <button ref={ref} className={cx(styles.invButton, className)} {...props}>
         {children}
       </button>
     );
@@ -26,13 +18,12 @@ const InvButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
 );
 
 const PrimaryButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ onClick, children, disabled, className }, ref) => {
+  ({ children, className, ...props }, ref) => {
     return (
       <button
         ref={ref}
         className={cx(styles.primaryButton, className)}
-        onClick={onClick}
-        disabled={disabled}
+        {...props}
       >
         {children}
       </button>
@@ -41,13 +32,12 @@ const PrimaryButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
 );
 
 const SecondaryButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ onClick, children, disabled, className }, ref) => {
+  ({ children, className, ...props }, ref) => {
     return (
       <button
         ref={ref}
         className={cx(styles.secondaryButton, className)}
-        onClick={onClick}
-        disabled={disabled}
+        {...props}
       >
         {children}
       </button>

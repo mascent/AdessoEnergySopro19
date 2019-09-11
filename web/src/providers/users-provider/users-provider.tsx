@@ -10,10 +10,11 @@ import {
   addUserSuccess,
   addUserFailure,
   updateUserRequest,
-  updateUserFailure
+  updateUserFailure,
+  updateUserSuccess
 } from './users-actions';
 import { users } from '../../services/ad-api';
-import { mapUserDtoToUser } from '../../lib/mappers';
+import { mapUserDtoToUser, mapInternalUserToUserDTO } from '../../lib/mappers';
 
 interface UsersContext {
   users: User[];
@@ -62,9 +63,9 @@ export const UsersProvider: React.FC<UsersProviderProps> = ({
       Logger.logBreadcrumb('info', 'users-context', 'Adding user');
       dispatch(addUserRequest());
 
-      // const result = await users.createNewUser(user);
+      const result = await users.createNewUser(mapInternalUserToUserDTO(user));
       Logger.logBreadcrumb('info', 'users-context', 'Added user');
-      // dispatch(addUserSuccess(mapUserDtoToUser(result)));
+      dispatch(addUserSuccess(mapUserDtoToUser(result)));
     } catch (e) {
       Logger.logBreadcrumb('error', 'users-context', 'Add user failed');
       Logger.captureException(e);
@@ -76,9 +77,12 @@ export const UsersProvider: React.FC<UsersProviderProps> = ({
     try {
       Logger.logBreadcrumb('info', 'users-context', 'Updating user');
       dispatch(updateUserRequest(id));
-      // Do fetch
+
+      const result = await users.createNewUser(
+        mapInternalUserToUserDTO(update)
+      );
       Logger.logBreadcrumb('info', 'users-context', 'Updated user');
-      // dispatch(addUserSuccess());
+      dispatch(updateUserSuccess(mapUserDtoToUser(result)));
     } catch (e) {
       Logger.logBreadcrumb('error', 'users-context', 'Update user failed');
       Logger.captureException(e);
@@ -114,7 +118,7 @@ export function useUsers(): UsersKit {
   const { fetchUsers, updateUser, ...rest } = context;
 
   React.useEffect(() => {
-    if (fetching || rest.isLoading || rest.users !== null) return;
+    if (fetching || rest.isLoading || rest.users.length !== 0) return;
 
     fetching = true;
     fetchUsers().finally(() => (fetching = false));

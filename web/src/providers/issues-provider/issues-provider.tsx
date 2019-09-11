@@ -9,8 +9,15 @@ import {
   addIssueRequest,
   addIssueFailure,
   updateIssueRequest,
-  updateIssueFailure
+  updateIssueFailure,
+  addIssueSuccess,
+  updateIssueSuccess
 } from './issues-actions';
+import { issues } from '../../services/ad-api';
+import {
+  mapIssueDtoToIssues,
+  mapInternalIssueToIssueDTO
+} from '../../lib/mappers';
 
 interface IssuesContext {
   issues: Issue[];
@@ -43,9 +50,10 @@ export const IssuesProvider: React.FC<IssuesProviderProps> = ({
     try {
       Logger.logBreadcrumb('info', 'issues-context', 'Fetching issues');
       dispatch(fetchIssuesRequest());
-      // Do fetch
+
+      const res = await issues.getAllIssues();
       Logger.logBreadcrumb('info', 'issues-context', 'Fetched issues');
-      dispatch(fetchIssuesSuccess([]));
+      dispatch(fetchIssuesSuccess(res.map(r => mapIssueDtoToIssues(r))));
     } catch (e) {
       Logger.logBreadcrumb('error', 'issues-context', 'Fetch issues failed');
       Logger.captureException(e);
@@ -57,9 +65,12 @@ export const IssuesProvider: React.FC<IssuesProviderProps> = ({
     try {
       Logger.logBreadcrumb('info', 'issues-context', 'Adding issue');
       dispatch(addIssueRequest());
-      // Do fetch
+
+      const res = await issues.createNewIssue(
+        mapInternalIssueToIssueDTO(issue)
+      );
       Logger.logBreadcrumb('info', 'issues-context', 'Added issue');
-      // dispatch(addMeterSuccess());
+      dispatch(addIssueSuccess(mapIssueDtoToIssues(res)));
     } catch (e) {
       Logger.logBreadcrumb('error', 'issues-context', 'Add issue failed');
       Logger.captureException(e);
@@ -72,9 +83,13 @@ export const IssuesProvider: React.FC<IssuesProviderProps> = ({
       try {
         Logger.logBreadcrumb('info', 'issues-context', 'Updating issue');
         dispatch(updateIssueRequest(id));
-        // Do fetch
+
+        const res = await issues.updateIssue(
+          id,
+          mapInternalIssueToIssueDTO(update)
+        );
         Logger.logBreadcrumb('info', 'issues-context', 'Updated issue');
-        // dispatch(updateMeterSuccess());
+        dispatch(updateIssueSuccess(mapIssueDtoToIssues(res)));
       } catch (e) {
         Logger.logBreadcrumb('error', 'issues-context', 'Update issue failed');
         Logger.captureException(e);

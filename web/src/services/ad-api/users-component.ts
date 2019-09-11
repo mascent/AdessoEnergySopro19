@@ -1,38 +1,45 @@
 import AdessoEnergyApiComponent from './abstract-api-component';
 import { UserDTO } from '../../typings/dtos';
+import { buildList, buildUserDTO } from '../../utils/fake-builder';
 
 class UsersComponent extends AdessoEnergyApiComponent {
   public async getAllUsers(): Promise<UserDTO[]> {
-    const result = await this.get('/api/users');
+    return buildList(buildUserDTO, 5, 100);
 
-    if (!result.ok) {
-      throw new Error('A problem occurred with the request.');
-    }
+    // const result = await this.get('/api/users');
 
-    return await result.json();
+    // if (!result.ok) {
+    //   throw new Error('A problem occurred with the request.');
+    // }
+
+    // return await result.json();
   }
 
   public async createNewUser(user: Partial<UserDTO>): Promise<UserDTO> {
-    const result = await this.post('/api/users', user);
+    return buildUserDTO(user);
 
-    if (!result.ok) {
-      throw new Error('A problem occurred with the request.');
-    }
+    // const result = await this.post('/api/users', user);
 
-    return await result.json();
+    // if (!result.ok) {
+    //   throw new Error('A problem occurred with the request.');
+    // }
+
+    // return await result.json();
   }
 
   public async updateUser(
     id: string,
     update: Partial<UserDTO>
   ): Promise<UserDTO> {
-    const result = await this.put(`/api/users/${id}`, update);
+    return buildUserDTO(update);
 
-    if (!result.ok) {
-      throw new Error('A problem occurred with the request.');
-    }
+    // const result = await this.put(`/api/users/${id}`, update);
 
-    return await result.json();
+    // if (!result.ok) {
+    //   throw new Error('A problem occurred with the request.');
+    // }
+
+    // return await result.json();
   }
 }
 
