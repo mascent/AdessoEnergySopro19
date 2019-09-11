@@ -138,20 +138,32 @@ interface ReadingsKit {
   isLoading: boolean;
   error: Error | null;
   addReading: (meterId: string, reading: Partial<Reading>) => Promise<void>;
+  updateReading: (
+    meterId: string,
+    id: string,
+    update: Partial<Reading>
+  ) => Promise<void>;
 }
 
 let fetching = false;
+let lastFetched = '';
 export function useReadings(meterId: string): ReadingsKit {
   const context = useContext(ReadingsContext);
 
   if (typeof context === 'undefined')
     throw new Error('useReadings must be used within a ReadingsProvider');
 
-  const { fetchReadings, updateReading, ...rest } = context;
+  const { fetchReadings, ...rest } = context;
 
   React.useEffect(() => {
-    if (fetching || rest.isLoading || rest.readings.length !== 0) return;
+    if (
+      fetching ||
+      rest.isLoading ||
+      (rest.readings.length !== 0 && meterId === lastFetched)
+    )
+      return;
 
+    lastFetched = meterId;
     fetching = true;
     fetchReadings(meterId).finally(() => (fetching = false));
   }, [fetchReadings, rest, meterId]);

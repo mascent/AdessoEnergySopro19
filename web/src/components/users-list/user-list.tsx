@@ -22,6 +22,7 @@ const UserList: React.FC<UserListProps> = ({ users }) => {
       <nav className={styles.list}>
         {users.map(user => (
           <UserItem
+            key={user.id}
             id={user.id}
             firstName={user.firstName}
             lastName={user.lastName}

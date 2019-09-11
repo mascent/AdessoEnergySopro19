@@ -17,7 +17,12 @@ const IssueList: React.FC<IssueListProps> = ({ issues }) => {
 
       <nav className={styles.list}>
         {issues.map(issue => (
-          <IssueItem id={issue.id} name={issue.name} subject={issue.subject} />
+          <IssueItem
+            key={issue.id}
+            id={issue.id}
+            name={issue.name}
+            subject={issue.subject}
+          />
         ))}
       </nav>
     </div>

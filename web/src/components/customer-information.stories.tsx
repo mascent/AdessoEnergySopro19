@@ -2,9 +2,12 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import CustomerInformation from './customer-information';
 import { action } from '@storybook/addon-actions';
+import { buildUser } from '../utils/fake-builder';
+
+const user = buildUser();
 
 storiesOf('Form | Kunden Informationen', module)
-  .addParameters({ jest: ['button'] })
+  .addParameters({ jest: ['customer-information'] })
   .add('Default', () => (
-    <CustomerInformation onSave={action('Edit customer')} />
+    <CustomerInformation userInfo={user} onSave={action('Edit customer')} />
   ));
