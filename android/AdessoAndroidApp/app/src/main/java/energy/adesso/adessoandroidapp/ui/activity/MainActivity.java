@@ -73,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
                 getDrawable(R.drawable.icon_water) };
 
         try {
+            // TODO: Async
             meters = MockController.getOverview();
             showMeters(meters);
         } catch (Exception e) {
