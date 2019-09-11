@@ -62,7 +62,7 @@ const LoginForm: React.FC<LoginProps> = ({ onLogin }) => {
             onBlur={password.validate}
             error={password.error}
           />
-          <PrimaryButton className={styles.buttonForm} onClick={() => {}}>
+          <PrimaryButton className={styles.buttonForm} type="submit">
             Login
           </PrimaryButton>
         </form>

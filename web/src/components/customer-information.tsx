@@ -110,7 +110,7 @@ const CustomerInformation: React.FC<CustomerInformationProps> = ({
         />
 
         <div className={styles.button}>
-          <PrimaryButton onClick={() => {}}>Speichern</PrimaryButton>
+          <PrimaryButton type="submit">Speichern</PrimaryButton>
         </div>
       </form>
     </div>

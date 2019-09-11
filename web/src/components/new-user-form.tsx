@@ -133,8 +133,8 @@ const NewUserForm: React.FC<NewUserFormProps> = ({ onCreate, onCancel }) => {
         />
       </div>
       <div className={styles.button}>
-        <SecondaryButton onClick={() => {}}>Abbrechen</SecondaryButton>
-        <PrimaryButton onClick={() => {}}>Erstellen</PrimaryButton>
+        <SecondaryButton type="reset">Abbrechen</SecondaryButton>
+        <PrimaryButton type="submit">Erstellen</PrimaryButton>
       </div>
     </form>
   );

@@ -3,6 +3,7 @@ import { storiesOf } from '@storybook/react';
 import Modal, { ModalBody, ModalFooter } from './modal';
 import { Paragraph } from './text';
 import { SecondaryButton } from './button';
+import { action } from '@storybook/addon-actions';
 
 const View: React.FC = () => {
   const [isOpen, setOpen] = React.useState(true);
@@ -30,7 +31,9 @@ const View: React.FC = () => {
           <SecondaryButton ref={closeButton} onClick={() => setOpen(false)}>
             Close
           </SecondaryButton>
-          <SecondaryButton onClick={() => {}}>Confirm</SecondaryButton>
+          <SecondaryButton onClick={action('Confirming')}>
+            Confirm
+          </SecondaryButton>
         </ModalFooter>
       </Modal>
     </>

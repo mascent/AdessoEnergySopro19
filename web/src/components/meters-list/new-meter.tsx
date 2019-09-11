@@ -106,11 +106,10 @@ const NewMeter: React.FC<NewMeterProps> = ({ onCreate }) => {
         />
 
         <div className={styles.buttons}>
-          <SecondaryButton className={styles.cancelButton} onClick={() => {}}>
-            {' '}
-            Abbrechen{' '}
+          <SecondaryButton className={styles.cancelButton} type="reset">
+            Abbrechen
           </SecondaryButton>
-          <PrimaryButton onClick={() => {}}>Erstellen</PrimaryButton>
+          <PrimaryButton type="submit">Erstellen</PrimaryButton>
         </div>
       </form>
     </div>
