@@ -1,0 +1,13 @@
+@import 'theme/spacings';
+@import 'theme/colors';
+
+.router {
+  width: 100%;
+}
+
+.contentContainer {
+  display: flex;
+  // justify-content: center;
+  // align-items: center;
+  flex-grow: 2;
+}
