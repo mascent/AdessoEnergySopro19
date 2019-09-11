@@ -1,20 +1,18 @@
 package energy.adesso.adessoandroidapp.ui.activity;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.drm.DrmStore;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.arch.core.util.Function;
 
 import energy.adesso.adessoandroidapp.R;
 import energy.adesso.adessoandroidapp.logic.controller.MainController;
@@ -42,7 +40,7 @@ public class LoginActivity extends AppCompatActivity {
             loadingPopup.dismiss();
         super.onResume();
     }
-    public void onLoginClick(View view) {
+    @SuppressWarnings("ALL") public void onLoginClick(View view) {
         final TextView numView = findViewById(R.id.number);
         final TextView passView = findViewById(R.id.pass);
 
@@ -53,12 +51,11 @@ public class LoginActivity extends AppCompatActivity {
         passView.setText("");
 
         showLoadingPopup();
-        new AsyncTask<String, Void, Boolean>() {
+        AsyncTask<Pair<String, String>, Void, Boolean> execute = new AsyncTask<Pair<String, String>, Void, Boolean>() {
             @Override
-            protected Boolean doInBackground(String... s) {
-                for (int i = 0; i < s.length; i++) {
-                    String[] split = s[i].split("\n");
-                    if (login(split[0], split[1]))
+            protected Boolean doInBackground(Pair<String, String>... p) {
+                for (int i = 0; i < p.length; i++) {
+                    if (login(p[i].first, p[i].second))
                         return true;
                 }
                 return false;
@@ -74,16 +71,16 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 loadingPopup.dismiss();
             }
-        }.execute(num + "\n" + pass);
+        }.execute(new Pair<>(num, pass));
     }
     public void onForgotPasswordClick(final View view) {
         // TODO: Add pass_forgot
         Toast.makeText(this, R.string.not_implemented_message, Toast.LENGTH_SHORT).show();
     }
 
-    boolean login(String username, String password) {
+    boolean login(String usernumber, String password) {
         try {
-            MockController.login(username, password);
+            MockController.login(usernumber, password);
             return true;
         } catch (AdessoException e) {
             return false;

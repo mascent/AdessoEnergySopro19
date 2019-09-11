@@ -1,5 +1,6 @@
 package energy.adesso.adessoandroidapp.ui.activity;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -186,14 +187,13 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(Intent.createChooser(intent, "Select Picture"),
             GALLERY_REQUEST_IMAGE_BITMAP);
     }
-    void onImageReceived(Bitmap b) {
+    @SuppressLint("StaticFieldLeak") void onImageReceived(Bitmap b) {
         new AsyncTask<Bitmap, Void, Pair<Meter, String>>() {
             @Override
             protected Pair<Meter, String> doInBackground(Bitmap... bs) {
-                ;
-                for (int i = 0; i < bs.length; i++) {
+                for (Bitmap b : bs) {
                     try {
-                        return MockController.azureAnalyze(bs[i]);
+                        return MockController.azureAnalyze(b);
                     } catch (AdessoException e) {
                         e.printStackTrace();
                     }

@@ -27,7 +27,7 @@ public class MockController {
             throw new AdessoException();
 
         try {
-            Thread.sleep(1500);
+            Thread.sleep(800);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -65,6 +65,12 @@ public class MockController {
 
     }
     public static Pair<Meter, String> azureAnalyze(Bitmap b) throws AdessoException {
+        try {
+            Thread.sleep(2500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         return new Pair<>(new MockMeter("Name1", "12345", MeterKind.ELECTRIC, lastReading).toMeter(), "Mocked Man");
     }
     public static boolean isLoggedIn() {
