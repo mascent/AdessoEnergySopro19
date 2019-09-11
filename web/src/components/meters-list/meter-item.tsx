@@ -26,7 +26,7 @@ const MeterItem: React.FC<MeterItemProps> = ({
 }) => {
   return (
     <Link
-      to={`/${id}`}
+      to={`${id}`}
       getProps={({ isCurrent }) => {
         return {
           className: cx({
