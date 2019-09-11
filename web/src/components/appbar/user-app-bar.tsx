@@ -8,7 +8,6 @@ import TicketModal from '../ticket-modal';
 
 const UserAppBar: React.FC = () => {
   const [isOpen, setOpen] = React.useState(false);
-  const closeButton = React.useRef<HTMLButtonElement>(null);
 
   return (
     <>
@@ -28,7 +27,11 @@ const UserAppBar: React.FC = () => {
           </div>
         </nav>
       </div>
-      <TicketModal isOpen={isOpen} closeModal={() => {}} onSend={() => {}} />
+      <TicketModal
+        isOpen={isOpen}
+        closeModal={() => setOpen(false)}
+        onSend={() => {}}
+      />
     </>
   );
 };
