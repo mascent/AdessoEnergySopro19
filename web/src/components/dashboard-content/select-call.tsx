@@ -16,5 +16,13 @@ const SelectCallToAction: React.FC<SelectCallToActionProps> = ({ text }) => (
 );
 
 export const SelectMeter: React.FC<RouteComponentProps> = () => (
-  <SelectCallToAction text="Wähle einen Zähler aus um mehr Informationen anzuzeigen" />
+  <section className={styles.center}>
+    <SelectCallToAction text="Wähle einen Zähler aus um mehr Informationen anzuzeigen" />
+  </section>
+);
+
+export const SelectUser: React.FC<RouteComponentProps> = () => (
+  <section className={styles.center}>
+    <SelectCallToAction text="Wähle einen Kunden aus um mehr Informationen anzuzeigen" />
+  </section>
 );
