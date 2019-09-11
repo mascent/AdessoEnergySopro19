@@ -24,9 +24,7 @@ test('userUsers triggers a fetch if no data is available', async () => {
   const userList = buildList(buildUserDTO);
   const fetch = jest
     .spyOn(users, 'getAllUsers')
-    .mockImplementationOnce(async () => {
-      return userList;
-    });
+    .mockImplementationOnce(async () => userList);
 
   const { result, waitForNextUpdate } = renderHook(() => useUsers(), {
     wrapper: UsersProvider

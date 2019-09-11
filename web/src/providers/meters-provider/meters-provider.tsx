@@ -127,7 +127,7 @@ export function useMeters(userId: string): MetersKit {
   const { fetchMeters, updateMeter, ...rest } = context;
 
   React.useEffect(() => {
-    if (fetching || rest.isLoading || rest.meters !== null) return;
+    if (fetching || rest.isLoading || rest.meters.length !== 0) return;
 
     fetching = true;
     fetchMeters(userId).finally(() => (fetching = false));
