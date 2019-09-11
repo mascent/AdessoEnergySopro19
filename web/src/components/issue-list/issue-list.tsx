@@ -8,7 +8,7 @@ interface IssueListProps {
   issues: Issue[];
 }
 
-const UserList: React.FC<IssueListProps> = ({ issues }) => {
+const IssueList: React.FC<IssueListProps> = ({ issues }) => {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
@@ -24,4 +24,4 @@ const UserList: React.FC<IssueListProps> = ({ issues }) => {
   );
 };
 
-export default UserList;
+export default IssueList;

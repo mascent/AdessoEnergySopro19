@@ -5,9 +5,22 @@ import Logout from 'mdi-react/LogoutIcon';
 import { Title } from '../generics/text';
 import { InvButton } from '../generics/button';
 import TicketModal from '../ticket-modal';
+import { useCreateIssue } from '../../providers/issues-provider';
+import { useAuth } from '../../providers/authentication-provider';
 
 const UserAppBar: React.FC = () => {
   const [isOpen, setOpen] = React.useState(false);
+  const { logout } = useAuth();
+
+  const create = useCreateIssue();
+  function handleSend(
+    name: string,
+    email: string,
+    subject: string,
+    message: string
+  ) {
+    create({ name, email, subject, message });
+  }
 
   return (
     <>
@@ -21,7 +34,7 @@ const UserAppBar: React.FC = () => {
             >
               <EmailOutline />
             </InvButton>
-            <InvButton onClick={() => console.log('test')}>
+            <InvButton onClick={logout}>
               <Logout />
             </InvButton>
           </div>
@@ -30,7 +43,7 @@ const UserAppBar: React.FC = () => {
       <TicketModal
         isOpen={isOpen}
         closeModal={() => setOpen(false)}
-        onSend={() => {}}
+        onSend={handleSend}
       />
     </>
   );
