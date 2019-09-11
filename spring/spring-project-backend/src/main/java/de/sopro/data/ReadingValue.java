@@ -32,27 +32,16 @@ public class ReadingValue {
 
 	private String reason;
 
-	public ReadingValue(Long value, Long changerId, String reason) {
+	public ReadingValue(Reading reading, Long value, Long changerId, String reason) {
 		this.value = value;
 		this.changerId = changerId;
 		this.reason = reason;
-		lastChange = LocalDateTime.now();
-	}
-
-// smart constructor for first initialization
-	public ReadingValue(Long value, Long changerId) {
-		this.value = value;
-		this.changerId = changerId;
-		this.reason = "creation";
+		this.reading = reading;
 		lastChange = LocalDateTime.now();
 	}
 
 	public Long getReadingValueId() {
 		return readingValueId;
-	}
-
-	public void setReadingValueId(Long readingValueId) {
-		this.readingValueId = readingValueId;
 	}
 
 	public Long getValue() {
@@ -63,16 +52,8 @@ public class ReadingValue {
 		return lastChange;
 	}
 
-	public void setDate(LocalDateTime date) {
-		this.lastChange = date;
-	}
-
 	public Long getChangerId() {
 		return changerId;
-	}
-
-	public void setChangerId(Long changerId) {
-		this.changerId = changerId;
 	}
 
 	public String getReason() {
@@ -83,7 +64,4 @@ public class ReadingValue {
 		return reading;
 	}
 
-	public void setReason(String reason) {
-		this.reason = reason;
-	}
 }

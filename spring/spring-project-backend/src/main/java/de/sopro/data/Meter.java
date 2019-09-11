@@ -1,6 +1,7 @@
 package de.sopro.data;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -33,7 +34,7 @@ public class Meter {
 	private int lengthOfReading;
 
 	private int commaPosition;
-	
+
 	private MeterType meterType;
 
 	@ManyToOne
@@ -43,6 +44,8 @@ public class Meter {
 		createdAt = LocalDateTime.now();
 		this.meternumber = meternumber;
 		this.meterType = meterType;
+		this.readings = new ArrayList<>();
+		readings.add(new Reading(this, initialValue));
 
 		switch (meterType) {
 		case Gas:
@@ -98,6 +101,18 @@ public class Meter {
 		this.meterId = meterId;
 	}
 
+	public List<Reading> getReadings() {
+		return readings;
+	}
+
+	public int getCommaPosition() {
+		return commaPosition;
+	}
+
+	public Address getAddress() {
+		return address;
+	}
+
 	public LocalDateTime getCreatedAt() {
 		return createdAt;
 	}
@@ -107,7 +122,9 @@ public class Meter {
 	}
 
 	public void delet() {
-		this.deletedAt = LocalDateTime.now();
+		if (deletedAt == null) {
+			this.deletedAt = LocalDateTime.now();
+		}
 	}
 
 	public LocalDateTime getUpdatedAt() {
@@ -118,8 +135,8 @@ public class Meter {
 		this.updatedAt = updatedAt;
 	}
 
-	public boolean update(Reading reading) {
-		// todo updatelogic -- needed?
+	public boolean update(Long reading) {
+		readings.add(new Reading(this, reading));
 		return false;
 	}
 
@@ -135,16 +152,28 @@ public class Meter {
 
 	}
 
-	public Long getLastReading() {
+	public Long getLastReadingValue() {
+		return getLastReading().getValue();
+	}
+
+	public Long getLastReadingValue(LocalDateTime from) {
+		return getLastReading(from, LocalDateTime.now()).getValue();
+	}
+
+	public Long getLastReadingValue(LocalDateTime from, LocalDateTime to) {
+		return getLastReading(from, to).getValue();
+	}
+
+	public Reading getLastReading() {
 		return getLastReading(getCreatedAt(), LocalDateTime.now());
 
 	}
 
-	public Long getLastReading(LocalDateTime from) {
+	public Reading getLastReading(LocalDateTime from) {
 		return getLastReading(from, LocalDateTime.now());
 	}
 
-	public Long getLastReading(LocalDateTime from, LocalDateTime to) {
+	public Reading getLastReading(LocalDateTime from, LocalDateTime to) {
 		List<Reading> readingsInTimeFrame = StreamSupport.stream(readings.spliterator(), false)
 				.filter(r -> from.isAfter(r.getCreatedAt())).filter(r -> to.isBefore(r.getCreatedAt())).distinct()
 				.collect(Collectors.toList());
@@ -157,7 +186,7 @@ public class Meter {
 			}
 		}
 
-		return oldestReading.getValue();
+		return oldestReading;
 	}
 
 }

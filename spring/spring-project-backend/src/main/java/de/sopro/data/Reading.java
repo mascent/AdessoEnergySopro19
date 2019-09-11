@@ -27,10 +27,12 @@ public class Reading {
 	@ManyToOne
 	private Meter meter;
 
+	LocalDateTime deletedAt;
+
 	public Reading(Meter meter, Long initalReading) {
 		this.meter = meter;
 		readingValues = new ArrayList<ReadingValue>();
-		readingValues.add(new ReadingValue(initalReading, null, "Inital Reading"));
+		readingValues.add(new ReadingValue(this, initalReading, null, "Inital Reading"));
 	}
 
 	public Reading() {
@@ -40,24 +42,39 @@ public class Reading {
 		return meter;
 	}
 
-	public void setMeter(Meter meter) {
-		this.meter = meter;
-	}
-
 	public Long getReadingId() {
 		return readingId;
 	}
 
-	public void setReadingId(Long readingId) {
-		this.readingId = readingId;
+	public void delete() {
+		if (this.deletedAt == null) {
+			this.deletedAt = LocalDateTime.now();
+		}
 	}
 
 	public List<ReadingValue> getReadingValues() {
 		return readingValues;
 	}
 
-	public void setReadingValues(List<ReadingValue> readingValues) {
-		this.readingValues = readingValues;
+	public void addReading(Long readinValue, Long changerId, String reason) {
+		readingValues.add(new ReadingValue(this, readinValue, changerId, reason));
+	}
+
+	public ReadingValue getCurrentReadingValue() {
+		LocalDateTime newestTime = getCreatedAt();
+		ReadingValue newstValue = null;
+		for (ReadingValue rv : readingValues) {
+			if (!rv.getCreatedAt().isBefore(newestTime)) {
+				newestTime = rv.getCreatedAt();
+				newstValue = rv;
+			}
+		}
+
+		return newstValue;
+	}
+
+	public Long getValue() {
+		return getCurrentReadingValue().getValue();
 	}
 
 	public LocalDateTime getCreatedAt() {
@@ -70,16 +87,13 @@ public class Reading {
 		return oldestTime;
 	}
 
-	public Long getValue() {
-		LocalDateTime oldest = getCreatedAt();
-		ReadingValue oldestValue = null;
-		for (ReadingValue rv : readingValues) {
-			if (!rv.getCreatedAt().isBefore(oldest)) {
-				oldest = rv.getCreatedAt();
-				oldestValue = rv;
-			}
-		}
-
-		return oldestValue.getValue();
+	public LocalDateTime getUpdatedAt() {
+		return getCurrentReadingValue().getCreatedAt();
 	}
+
+	public LocalDateTime getDeletedAt() {
+		return deletedAt;
+
+	}
+
 }

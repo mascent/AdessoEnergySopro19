@@ -10,16 +10,39 @@ public class MeterDTO {
 	String name;
 	String ownerId;
 	ReadingDTO lastReading;
-	
+
 	public MeterDTO(Meter m) {
 		this.id = m.getMeterId();
 		this.meterNumber = m.getMeternumber();
 		this.type = m.getMeterType().toString();
 		this.name = "This is a can feature";
-		this.ownerId = null; //TODO get current owner somehow
-		this.lastReading = new ReadingDTO();
-		
-		
-		
+		this.ownerId = null; // TODO get current owner somehow
+
+		this.lastReading = new ReadingDTO(m.getLastReading());
+
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public String getMeterNumber() {
+		return meterNumber;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public String getOwnerId() {
+		return ownerId;
+	}
+
+	public ReadingDTO getLastReading() {
+		return lastReading;
 	}
 }
