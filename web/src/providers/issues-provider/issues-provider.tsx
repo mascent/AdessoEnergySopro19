@@ -158,3 +158,16 @@ export function useIssue(id: string): IssueKit | null {
 
   return { issue, updateIssue: updateIssue.bind(undefined, issue.id) };
 }
+
+export function useCreateIssue(
+  issue: Partial<Issue>
+): (issue: Partial<Issue>) => Promise<void> {
+  const context = useContext(IssuesContext);
+
+  if (typeof context === 'undefined')
+    throw new Error('useIssue must be used within a IssuesProvider');
+
+  const { addIssue } = context;
+
+  return addIssue;
+}
