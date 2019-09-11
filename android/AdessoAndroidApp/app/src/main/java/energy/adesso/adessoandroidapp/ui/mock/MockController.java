@@ -12,15 +12,16 @@ import energy.adesso.adessoandroidapp.logic.controller.MainController;
 import energy.adesso.adessoandroidapp.logic.model.MeterKind;
 import energy.adesso.adessoandroidapp.logic.model.Pair;
 import energy.adesso.adessoandroidapp.logic.model.exception.AdessoException;
+import energy.adesso.adessoandroidapp.logic.model.exception.NetworkException;
 import energy.adesso.adessoandroidapp.logic.model.identifiable.Issue;
 import energy.adesso.adessoandroidapp.logic.model.identifiable.Meter;
 import energy.adesso.adessoandroidapp.logic.model.identifiable.Reading;
 
-public class MockController {
+public class MockController extends MainController {
     static DateTime time = DateTime.now();
     static Reading lastReading = new Reading("1243", "98 762 244", "einowner", "12345,754");
 
-    public static void login(String username, String password) throws AdessoException {
+    public static void login(String username, String password) throws NetworkException {
         Log.println(Log.INFO, "", "Login with " + username + ", "  + password);
 
         try {
@@ -31,7 +32,7 @@ public class MockController {
         if (username.equals("1234") && password.equals("."))
             return;
         else
-            throw new AdessoException();
+            throw new NetworkException();
     }
     public static List<Meter> getOverview() {
         return Arrays.asList(new Meter[] {
@@ -61,9 +62,9 @@ public class MockController {
     public static void setServer(String toString) {
 
     }
-    public static Pair<Meter, String> azureAnalyze(Bitmap b) throws AdessoException {
-        return new Pair<>(new MockMeter("Name1", "12345", MeterKind.ELECTRIC, lastReading).toMeter(), "Mocked Man");
-    }
+   // public static Pair<Meter, String> azureAnalyze(Bitmap b) throws AdessoException {
+    //     return new Pair<>(new MockMeter("Name1", "12345", MeterKind.ELECTRIC, lastReading).toMeter(), "Mocked Man");
+   // }
     public static boolean isLoggedIn() {
         return false;
     }

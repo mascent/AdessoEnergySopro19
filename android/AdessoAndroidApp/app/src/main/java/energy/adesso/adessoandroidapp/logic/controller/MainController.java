@@ -29,7 +29,7 @@ public class MainController {
   private static String uid;
 
   // Private because of static class
-  private MainController() {
+  public MainController() {
 
   }
 
@@ -89,7 +89,7 @@ public class MainController {
 
   }
 
-  public static void logOut() throws NetworkException {
+  public static void logOut() throws NetworkException, AdessoException {
     NetworkController.setCredentials(null, null);
     uid = null;
     if (usePersistence) {
