@@ -7,15 +7,12 @@ import android.widget.ListView;
 
 // Taken from: https://stackoverflow.com/questions/18411494/android-listview-show-only-one-item
 public class NonScrollListView extends ListView {
-
     public NonScrollListView(Context context) {
         super(context);
     }
-
     public NonScrollListView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
-
     public NonScrollListView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }

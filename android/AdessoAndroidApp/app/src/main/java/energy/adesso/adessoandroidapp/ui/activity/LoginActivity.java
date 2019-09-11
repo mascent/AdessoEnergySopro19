@@ -1,10 +1,12 @@
 package energy.adesso.adessoandroidapp.ui.activity;
 
-import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,9 +18,9 @@ import energy.adesso.adessoandroidapp.logic.model.exception.AdessoException;
 import energy.adesso.adessoandroidapp.ui.mock.MockController;
 
 public class LoginActivity extends AppCompatActivity {
+    AlertDialog loadingPopup = null;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
@@ -29,10 +31,16 @@ public class LoginActivity extends AppCompatActivity {
                 addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK));
         }
     }
+    @Override protected void onResume() {
+        if (loadingPopup != null)
+            loadingPopup.dismiss();
+        super.onResume();
+    }
     public void onLoginClick(View view) {
         TextView num = findViewById(R.id.number);
         TextView pass = findViewById(R.id.pass);
 
+        showLoadingPopup();
         if (login(num.getText().toString(), pass.getText().toString())) {
             startActivity(new Intent(this, MainActivity.class).
                 addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK));
@@ -55,5 +63,12 @@ public class LoginActivity extends AppCompatActivity {
         } catch (AdessoException e) {
             return false;
         }
+    }
+    void showLoadingPopup() {
+        loadingPopup = new AlertDialog.Builder(this).
+            setView(getLayoutInflater().
+                inflate(R.layout.loading, null)).
+            setCancelable(false).
+            show();
     }
 }

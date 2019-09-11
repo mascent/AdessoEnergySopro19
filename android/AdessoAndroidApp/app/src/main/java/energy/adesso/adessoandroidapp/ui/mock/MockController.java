@@ -23,6 +23,11 @@ public class MockController {
     public static void login(String username, String password) throws AdessoException {
         Log.println(Log.INFO, "", "Login with " + username + ", "  + password);
 
+        try {
+            Thread.sleep(1500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         if (username.equals("1234") && password.equals("."))
             return;
         else
