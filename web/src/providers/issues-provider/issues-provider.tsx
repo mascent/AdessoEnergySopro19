@@ -37,7 +37,7 @@ const initialContext: IssuesState = {
 const IssuesContext = React.createContext<IssuesContext | undefined>(undefined);
 
 interface IssuesProviderProps {
-  override?: IssuesContext;
+  override?: Partial<IssuesContext>;
 }
 
 export const IssuesProvider: React.FC<IssuesProviderProps> = ({
