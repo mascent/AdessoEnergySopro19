@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import cx from 'classnames';
 import styles from './meter-information.module.scss';
 import MeterIcon from '../generics/meter-icon';
@@ -21,6 +21,8 @@ const MeterInformation: React.FC<RouteComponentProps<{ id: string }>> = ({
     () => readings.map(r => r.createdAt.toLocaleDateString()),
     [readings]
   );
+
+  const [showAddReading, toggleAddReading] = useState(false);
 
   if (!meter) return <Redirect to="/" noThrow />;
 
