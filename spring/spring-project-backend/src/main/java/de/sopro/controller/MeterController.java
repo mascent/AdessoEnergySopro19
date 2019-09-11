@@ -145,7 +145,7 @@ public class MeterController {
 	@GetMapping("/api/meters/{mid}/readings")
 	public Iterable<Reading> lookUpReadings(HttpServletRequest request, @PathVariable Long mid) {
 
-		Person p = personRepository.findByUsername(request.getUserPrincipal().getName()).orElse(null);
+		Person p = personRepository.findByUsername(request.getUserPrincipal().getName());
 		Meter m = meterRepository.findById(mid).orElse(null);
 
 		if (m == null || p == null) {

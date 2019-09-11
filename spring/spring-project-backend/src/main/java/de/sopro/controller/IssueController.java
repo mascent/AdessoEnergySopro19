@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -39,6 +40,7 @@ public class IssueController {
 
 	@Autowired
 	PersonRepository personRepository;
+	
 
 	/**
 	 * This method allows an user to create a ticket for an issue that occurs.
@@ -56,7 +58,7 @@ public class IssueController {
 	 * @return The created issue packed as an IssueDTO.
 	 */
 	@PostMapping(path = "/api/issues", params = { "name", "email", "subject", "description" })
-	public IssueDTO createIssue(@RequestParam HttpServletRequest request, @RequestParam String name,
+	public IssueDTO createIssue(HttpServletRequest request, @RequestParam String name,
 			@RequestParam String email, @RequestParam String subject, @RequestParam String description) {
 		String username = request.getUserPrincipal().getName();
 		User u = userRepository.findByUsername(username);
@@ -106,30 +108,19 @@ public class IssueController {
 	 * @param iid     The ID of the issue that should be closed.
 	 * @return A boolean that shows if the closing-operation was successful.
 	 */
-	@DeleteMapping(path = "/api/issues/{iid}", params = { "request", "iid" })
-	public Boolean closeIssue(@RequestParam HttpServletRequest request, @PathVariable Long iid) {
+	@PutMapping(path = "/api/issues/{iid}", params = { "iid" })
+	public Boolean closeIssue(HttpServletRequest request, @PathVariable Long iid) {
 		Issue i = issueRepository.findById(iid).orElse(null);
 		if (i == null) {
 			return false;
 		}
 		String username = request.getUserPrincipal().getName();
-		Person u = personRepository.findByUsername(username).orElse(null);
-		if (u != null) {
-			i.setCloserId(u.getPersonId());
+		Person p = personRepository.findByUsername(username);
+		if (p != null) {
+			i.setCloserId(p.getPersonId());
+			issueRepository.save(i);
 			return true;
 		}
-		return false;
-	}
-
-	/**
-	 * Method to check if the Person has the given role.
-	 * 
-	 * @param role
-	 * @param pid  Person id
-	 * @return
-	 */
-	private boolean checkPermission(Role role, Long pid) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 }

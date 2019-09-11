@@ -38,6 +38,10 @@ public class Issue {
 		this.issuerId = issuerId;
 	}
 
+	public Issue() {
+
+	}
+
 	public Long getIssueId() {
 		return issueId;
 	}
