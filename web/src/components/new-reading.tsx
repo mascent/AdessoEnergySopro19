@@ -30,13 +30,7 @@ const NewReading: React.FC<ReadingProps> = ({ onAdd }) => {
   }
 
   return (
-    <div className={styles.container}>
-      <div className={styles.header}>
-        <SubTitle> Einträge </SubTitle>
-        <Span>Neuen Einträg erfassen</Span>
-      </div>
-
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className = {styles.container}>
         <Input
           id="reading"
           type="text"
@@ -51,7 +45,6 @@ const NewReading: React.FC<ReadingProps> = ({ onAdd }) => {
           <PrimaryButton onClick={() => {}}>Hinzufügen</PrimaryButton>
         </div>
       </form>
-    </div>
   );
 };
 
