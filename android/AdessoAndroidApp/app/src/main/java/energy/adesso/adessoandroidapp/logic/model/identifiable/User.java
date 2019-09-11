@@ -2,7 +2,7 @@ package energy.adesso.adessoandroidapp.logic.model.identifiable;
 
 
 public class User extends IdentifiableObject {
-  private String customerNumber;
+  private String username;
   private String firstName;
   private String lastName;
   private String email;
@@ -13,15 +13,15 @@ public class User extends IdentifiableObject {
 
   public User(String id, String customerNumber) {
     super(id);
-    this.customerNumber = customerNumber;
+    this.username = customerNumber;
   }
 
   public static User deserialize(String source) {
     return gson.fromJson(source, User.class);
   }
 
-  public String getCustomerNumber() {
-    return customerNumber;
+  public String getUsername() {
+    return username;
   }
 
   public String getFirstName() {

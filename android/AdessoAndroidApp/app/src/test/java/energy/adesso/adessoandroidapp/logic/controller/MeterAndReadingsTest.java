@@ -3,14 +3,17 @@ package energy.adesso.adessoandroidapp.logic.controller;
 import android.content.SharedPreferences;
 
 import org.junit.Test;
-
 import org.mockito.Mockito;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.util.List;
+import java.util.Random;
 
 import energy.adesso.adessoandroidapp.logic.model.exception.CredentialException;
 import energy.adesso.adessoandroidapp.logic.model.exception.NetworkException;
+import energy.adesso.adessoandroidapp.logic.model.identifiable.Meter;
+import energy.adesso.adessoandroidapp.logic.model.identifiable.Reading;
 import energy.adesso.adessoandroidapp.logic.model.identifiable.User;
 import okhttp3.HttpUrl;
 import okhttp3.mockwebserver.MockResponse;
@@ -19,14 +22,12 @@ import okhttp3.mockwebserver.RecordedRequest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class LoginTest {
-
-  @Test
-  public void testMainControllerLoginMock() throws CredentialException, NetworkException {
+public class MeterAndReadingsTest {
+  // @Test
+  public void testMeterOperationsMock() throws CredentialException, NetworkException {
 
     String uid = "ichbineineuidichbincool";
     String username = "thelegend27";
@@ -94,6 +95,7 @@ public class LoginTest {
       e.printStackTrace();
     }
 
+
     try {
       server.shutdown();
     } catch (IOException e) {
@@ -102,44 +104,38 @@ public class LoginTest {
   }
 
   @Test
-  public void testMainControllerLogin() throws CredentialException, NetworkException {
-
+  public void testMeterOperations() throws CredentialException, NetworkException {
     String username = "jd172";
     String password = "password";
+    String newName = randomString(10);
+    String value = "14567,284";
+    String newValue = "39393,846";
 
     String baseUrl = "http://adesso.energy:8080/sopro";
 
-    // Exercise your application code, which should make those HTTP requests.
-    // Responses are returned in the same order that they are enqueued.
-    MainController.setUsePersistence(false);
-    SharedPreferences sp = Mockito.mock(SharedPreferences.class);
-    MainController.loadSharedPreferences(sp);
-    MainController.setServer(baseUrl);
-
     MainController.login(username, password);
+    List<Meter> meterList = MainController.getOverview();
+    Meter theMeter = meterList.get(0);
 
-    try {
-      // check if things behaved as they should
-      // Hack into the mainframe and disable their algorithms https://www.reddit.com/r/antimeme/comments/9s1zld/when_you_hack_into_the_mainframe_and_disable/
-      Field uidField = MainController.class.getDeclaredField("uid");
-      Field usernameField = NetworkController.class.getDeclaredField("username");
-      Field passwordField = NetworkController.class.getDeclaredField("password");
+    theMeter.setName(newName);
 
-      uidField.setAccessible(true);
-      usernameField.setAccessible(true);
-      passwordField.setAccessible(true);
-      String reflectedUid = (String) uidField.get(null);
-      String reflectedUsername = (String) usernameField.get(null);
-      String reflectedPassword = (String) passwordField.get(null);
+    theMeter.createReading(value);
+    List<Reading> readingList = theMeter.getReadings();
+    Reading theReading = readingList.get(0);
 
-      assertNotNull(reflectedUid);
-      assertEquals(username, reflectedUsername);
-      assertEquals(password, reflectedPassword);
-      assertTrue(MainController.isLoggedIn());
-    } catch (NoSuchFieldException | IllegalAccessException e) {
-      e.printStackTrace();
+    theReading.correct(newValue);
+  }
+
+  private static String randomString(int length) {
+    char[] chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRST".toCharArray();
+    StringBuilder sb = new StringBuilder();
+    Random random = new Random();
+    for (int i = 0; i < length; i++) {
+      char c = chars[random.nextInt(chars.length)];
+      sb.append(c);
     }
-
+    String randomStr = sb.toString();
+    return randomStr;
   }
 
 }
