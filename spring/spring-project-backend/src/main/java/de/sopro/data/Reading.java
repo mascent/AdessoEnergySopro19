@@ -24,17 +24,15 @@ public class Reading {
 	@NotNull
 	private List<ReadingValue> readingValues;
 
-	
 	@ManyToOne
 	private Meter meter;
 
-	
 	public Reading(Meter meter, Long initalReading) {
 		this.meter = meter;
 		readingValues = new ArrayList<ReadingValue>();
 		readingValues.add(new ReadingValue(initalReading, null, "Inital Reading"));
 	}
-	
+
 	public Reading() {
 	}
 
@@ -70,5 +68,18 @@ public class Reading {
 			}
 		}
 		return oldestTime;
+	}
+
+	public Long getValue() {
+		LocalDateTime oldest = getCreatedAt();
+		ReadingValue oldestValue = null;
+		for (ReadingValue rv : readingValues) {
+			if (!rv.getCreatedAt().isBefore(oldest)) {
+				oldest = rv.getCreatedAt();
+				oldestValue = rv;
+			}
+		}
+
+		return oldestValue.getValue();
 	}
 }

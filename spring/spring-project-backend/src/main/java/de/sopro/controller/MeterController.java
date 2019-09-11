@@ -60,9 +60,19 @@ public class MeterController {
 	 * @return A list of meters.
 	 */
 	@GetMapping("/api/meters")
-	public Iterable<MeterDTO> getMeters() {
-		return StreamSupport.stream(meterRepository.findAll().spliterator(), false).map(m -> new MeterDTO(m))
-				.collect(Collectors.toList());
+	public Iterable<MeterDTO> getMeters(HttpServletRequest request) {
+		if (personRepository.findByUsername(request.getUserPrincipal().getName()).orElse(null).getRole()
+				.equals(Role.Admin)) {
+			return StreamSupport.stream(meterRepository.findAll().spliterator(), false).map(m -> new MeterDTO(m))
+					.collect(Collectors.toList());
+		}
+
+		Iterable<UserMeterAssociation> umas = userMeterAssociationRepository
+				.findAllByUser(userRepository.findByUsername(request.getUserPrincipal().getName()));
+
+		return StreamSupport.stream(umas.spliterator(), false).map(uma -> new MeterDTO(uma.getMeter()))
+				.filter(m -> m != null).distinct().collect(Collectors.toList());
+
 	}
 
 	/**
@@ -90,13 +100,23 @@ public class MeterController {
 	 * This method allows an user to get one of his meters by its ID or an admin to
 	 * get any meter by its ad.
 	 * 
-	 * @param token The JWT of the user/admin to authenticate himself.
-	 * @param mid   The ID of the meter that should be returned.
+	 * @param mid The ID of the meter that should be returned.
 	 * @return The object of the meter belonging to the given ID or an error code if
 	 *         no meter with the given ID exists.
 	 */
 	@GetMapping("/api/meters/{mid}")
-	public String getMeter(@PathVariable Long mid) {
+	public String getMeter(HttpServletRequest request, @PathVariable Long mid) {
+
+		Meter m = meterRepository.findById(mid).orElse(null);
+		if (m == null) {
+			return null;
+		}
+
+		if (personRepository.findByUsername(request.getUserPrincipal().getName()).orElse(null).getRole()
+				.equals(Role.Admin)) {
+			
+		}
+
 		return null;
 	}
 
@@ -123,11 +143,11 @@ public class MeterController {
 	@DeleteMapping("/api/meters/{mid}")
 	public Boolean deleteMeter(@PathVariable Long mid) {
 		Meter m = meterRepository.findById(mid).orElse(null);
-		
+
 		if (m == null) {
 			return false;
 		}
-		
+
 		m.delet();
 		meterRepository.save(m);
 		return true;

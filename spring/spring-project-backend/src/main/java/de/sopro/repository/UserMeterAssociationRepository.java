@@ -12,6 +12,8 @@ public interface UserMeterAssociationRepository extends CrudRepository<UserMeter
 	
 	Iterable<UserMeterAssociation> findAllByUserAndMeter(User user, Meter meter);
 
+	Iterable<UserMeterAssociation> findAllByUser(User user);
+
 	// TODO create soft delte for associations
 	// void deleteByMeter(Meter meter);
 
