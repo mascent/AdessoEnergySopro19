@@ -39,29 +39,14 @@ class NetworkController {
     Pair<Request.Builder, RequestBody> details = buildRequest(path, null);
     Request request = details.first.get().build();
     try {
-      Response response;
-      ok.newCall(request).enqueue(new Callback() {
-
-        @Override
-        public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-
-        }
-
-        @Override
-        public void onFailure(@NotNull Call call, @NotNull IOException e) {
-
-        }
-      });
-      /*
+      Response response = ok.newCall(request).execute();
       if (!response.isSuccessful())
         handleError(response.body().string());
 
       return response.body().string();
-    */
-    } catch (NullPointerException e) {
+    } catch (IOException | NullPointerException e) {
       throw new NetworkException();
     }
-       return "";
   }
 
 

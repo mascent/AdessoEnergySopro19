@@ -74,7 +74,7 @@ public class MainController {
    * @param password
    * @throws NetworkException
    */
-  public static void login(String username, String password, Function<Boolean, Boolean> f) throws NetworkException, CredentialException {
+  public static void login(String username, String password) throws NetworkException, CredentialException {
     if(username==null||password==null)
       throw new CredentialException();
     // Send
