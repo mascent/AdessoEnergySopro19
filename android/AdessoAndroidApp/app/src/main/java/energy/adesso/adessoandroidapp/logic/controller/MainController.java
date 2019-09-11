@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.util.Base64;
 
+import androidx.arch.core.util.Function;
+
 import com.google.gson.Gson;
 
 import java.io.ByteArrayOutputStream;
@@ -29,7 +31,7 @@ public class MainController {
   private static String uid;
 
   // Private because of static class
-  private MainController() {
+  public MainController() {
 
   }
 
@@ -73,6 +75,8 @@ public class MainController {
    * @throws NetworkException
    */
   public static void login(String username, String password) throws NetworkException, CredentialException {
+    if(username==null||password==null)
+      throw new CredentialException();
     // Send
     NetworkController.setCredentials(username, password);
     String reString = NetworkController.get("/api/login");
@@ -89,7 +93,7 @@ public class MainController {
 
   }
 
-  public static void logOut() throws NetworkException {
+  public static void logOut() throws NetworkException, AdessoException {
     NetworkController.setCredentials(null, null);
     uid = null;
     if (usePersistence) {

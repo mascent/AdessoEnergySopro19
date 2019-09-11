@@ -9,6 +9,7 @@ import org.mockito.Mockito;
 import java.io.IOException;
 import java.lang.reflect.Field;
 
+import energy.adesso.adessoandroidapp.logic.model.exception.AdessoException;
 import energy.adesso.adessoandroidapp.logic.model.exception.CredentialException;
 import energy.adesso.adessoandroidapp.logic.model.exception.NetworkException;
 import energy.adesso.adessoandroidapp.logic.model.identifiable.User;
@@ -26,7 +27,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class LoginTest {
 
   @Test
-  public void testMainControllerLoginMock() throws CredentialException, NetworkException {
+  public void testMainControllerLoginMock() throws AdessoException {
 
     String uid = "ichbineineuidichbincool";
     String username = "thelegend27";

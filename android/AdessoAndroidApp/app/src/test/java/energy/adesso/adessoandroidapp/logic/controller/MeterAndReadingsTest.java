@@ -10,6 +10,7 @@ import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Random;
 
+import energy.adesso.adessoandroidapp.logic.model.exception.AdessoException;
 import energy.adesso.adessoandroidapp.logic.model.exception.CredentialException;
 import energy.adesso.adessoandroidapp.logic.model.exception.NetworkException;
 import energy.adesso.adessoandroidapp.logic.model.identifiable.Meter;
@@ -27,7 +28,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class MeterAndReadingsTest {
   // @Test
-  public void testMeterOperationsMock() throws CredentialException, NetworkException {
+  public void testMeterOperationsMock() throws AdessoException {
 
     String uid = "ichbineineuidichbincool";
     String username = "thelegend27";

@@ -12,29 +12,18 @@ import energy.adesso.adessoandroidapp.logic.controller.MainController;
 import energy.adesso.adessoandroidapp.logic.model.MeterKind;
 import energy.adesso.adessoandroidapp.logic.model.Pair;
 import energy.adesso.adessoandroidapp.logic.model.exception.AdessoException;
+import energy.adesso.adessoandroidapp.logic.model.exception.CredentialException;
+import energy.adesso.adessoandroidapp.logic.model.exception.NetworkException;
 import energy.adesso.adessoandroidapp.logic.model.identifiable.Issue;
 import energy.adesso.adessoandroidapp.logic.model.identifiable.Meter;
 import energy.adesso.adessoandroidapp.logic.model.identifiable.Reading;
 
-public class MockController {
+public class MockController extends MainController {
     static DateTime time = DateTime.now();
     static Reading lastReading = new Reading("1243", "98 762 244", "einowner", "12345,754");
 
-    public static void login(String username, String password) throws AdessoException {
-        Log.println(Log.INFO, "", "Login with " + username + ", "  + password);
-
-        if (username == null || password == null)
-            throw new AdessoException();
-
-        try {
-            Thread.sleep(800);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        if (username.equals("1234") && password.equals("."))
-            return;
-        else
-            throw new AdessoException();
+    public static void login(String username, String password) throws NetworkException, CredentialException {
+        MainController.login("jd172", "password");
     }
     public static List<Meter> getOverview() {
         return Arrays.asList(new Meter[] {
