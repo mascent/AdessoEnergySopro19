@@ -10,9 +10,10 @@ const stringNotEmpty = (val: string) => !isStringEmpty(val);
 
 interface ReadingProps {
   onAdd: (reading: string) => void;
+  onClose: () => void;
 }
 
-const NewReading: React.FC<ReadingProps> = ({ onAdd }) => {
+const NewReading: React.FC<ReadingProps> = ({ onAdd, onClose }) => {
   const reading = useInputValidation<string, string>(
     '',
     'Der Zählerstand darf nicht leer sein.',
@@ -30,28 +31,21 @@ const NewReading: React.FC<ReadingProps> = ({ onAdd }) => {
   }
 
   return (
-    <div className={styles.container}>
-      <div className={styles.header}>
-        <SubTitle> Einträge </SubTitle>
-        <Span>Neuen Einträg erfassen</Span>
+    <form onSubmit={handleSubmit} className={styles.container}>
+      <Input
+        id="reading"
+        type="text"
+        label="Stand"
+        value={reading.value}
+        onChange={value => reading.setValue(value)}
+        onBlur={reading.validate}
+        error={reading.error}
+      />
+      <div className={styles.buttons}>
+        <SecondaryButton onClick={onClose}>Abbrechen</SecondaryButton>
+        <PrimaryButton onClick={() => {}}>Hinzufügen</PrimaryButton>
       </div>
-
-      <form onSubmit={handleSubmit}>
-        <Input
-          id="reading"
-          type="text"
-          label="Stand"
-          value={reading.value}
-          onChange={value => reading.setValue(value)}
-          onBlur={reading.validate}
-          error={reading.error}
-        />
-        <div className={styles.buttons}>
-          <SecondaryButton onClick={() => {}}>Abbrechen</SecondaryButton>
-          <PrimaryButton onClick={() => {}}>Hinzufügen</PrimaryButton>
-        </div>
-      </form>
-    </div>
+    </form>
   );
 };
 
