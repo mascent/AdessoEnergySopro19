@@ -1,0 +1,14 @@
+@import 'theme/spacings';
+
+.container {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: $spacing-16;
+  border-bottom: solid 1px;
+  margin-bottom: $spacing-12;
+}
+
+.buttons {
+  display: flex;
+  justify-content: flex-end;
+}
