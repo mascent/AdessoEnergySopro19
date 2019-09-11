@@ -1,18 +1,18 @@
 import React from 'react';
-import { Route, Switch, withRouter } from 'react-router-dom';
 import ContainerCard from './generics/container-card';
 import styles from './user-dashboard.module.scss';
 import { SelectMeter } from './dashboard-content/select-call';
 import MeterList from './meters-list/meter-list';
 import { useMeters } from '../providers/meters-provider';
 import Spinner from './generics/spinner';
+import { useAuth } from '../providers/authentication-provider';
+import NewMeter from './meters-list/new-meter';
+import { MeterType } from '../typings/provider-data-interfaces';
+import { Router } from '@reach/router';
 
-interface UserDashboardProps {
-  match: { path: string; params: object; isExact: boolean; url: string };
-}
-
-const UserDashboard: React.FC<UserDashboardProps> = ({ match }) => {
-  const { meters, isLoading } = useMeters();
+const UserDashboard: React.FC = () => {
+  const { userId } = useAuth();
+  const { meters, isLoading, addMeter } = useMeters(userId);
 
   if (isLoading)
     return (
@@ -21,20 +21,30 @@ const UserDashboard: React.FC<UserDashboardProps> = ({ match }) => {
       </ContainerCard>
     );
 
+  function createMeter(
+    meterType: MeterType,
+    name: string,
+    meterNumber: string,
+    initialValue: string
+  ): void {
+    addMeter({
+      type: meterType,
+      name,
+      meterNumber
+    });
+  }
+
   return (
     <ContainerCard className={styles.container}>
-      <MeterList meters={meters} onAddMeterClick={() => {}} />
+      <MeterList meters={meters} />
       <div className={styles.contentContainer}>
-        <Switch>
-          <Route path={match.path} exact component={SelectMeter} />
-          <Route
-            path={`${match.path}/:id`}
-            render={() => <p>Show counter info</p>}
-          />
-        </Switch>
+        <Router>
+          <SelectMeter path="/" />
+          <NewMeter path="/new" onCreate={createMeter} />
+        </Router>
       </div>
     </ContainerCard>
   );
 };
 
-export default withRouter(UserDashboard);
+export default UserDashboard;

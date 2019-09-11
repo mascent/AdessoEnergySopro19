@@ -5,12 +5,14 @@ import { useInputValidation } from 'use-input-validation';
 import { isStringEmpty, isMeterTypeValid } from '../../lib/validators';
 import Input from '../generics/input';
 import { PrimaryButton, SecondaryButton } from '../generics/button';
+import { RouteComponentProps } from '@reach/router';
+import { MeterType } from '../../typings/provider-data-interfaces';
 
 const stringNotEmpty = (val: string) => !isStringEmpty(val);
 
-interface NewMeterProps {
+interface NewMeterProps extends RouteComponentProps {
   onCreate: (
-    meterType: string,
+    meterType: MeterType,
     name: string,
     meterNumber: string,
     initialValue: string
@@ -51,6 +53,14 @@ const NewMeter: React.FC<NewMeterProps> = ({ onCreate }) => {
     const initialValueValid = initialValue.validate();
 
     if (!(meterTypeValid && meterNumberValid && nameValid && initialValueValid))
+      return;
+
+    // For typescript. Make sure that the string really matches the MeterType
+    if (
+      meterType.value !== 'gas' &&
+      meterType.value !== 'electricity' &&
+      meterType.value !== 'water'
+    )
       return;
 
     onCreate(

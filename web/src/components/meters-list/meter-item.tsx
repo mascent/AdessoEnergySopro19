@@ -3,7 +3,7 @@ import cx from 'classnames';
 import styles from './meter-item.module.scss';
 import { Span } from '../generics/text';
 import Chevron from 'mdi-react/ChevronRightIcon';
-import { NavLink } from 'react-router-dom';
+import { Link } from '@reach/router';
 import { MeterType } from '../../typings/provider-data-interfaces';
 import MeterIcon from '../generics/meter-icon';
 
@@ -25,10 +25,16 @@ const MeterItem: React.FC<MeterItemProps> = ({
   trend
 }) => {
   return (
-    <NavLink
+    <Link
       to={`/${id}`}
-      className={styles.container}
-      activeClassName={styles.activeContainer}
+      getProps={({ isCurrent }) => {
+        return {
+          className: cx({
+            [styles.container]: true,
+            [styles.activeContainer]: isCurrent
+          })
+        };
+      }}
     >
       <MeterIcon type={type} />
       <div className={styles.infoContainer}>
@@ -47,7 +53,7 @@ const MeterItem: React.FC<MeterItemProps> = ({
         </div>
       </div>
       <Chevron className={styles.arrow} />
-    </NavLink>
+    </Link>
   );
 };
 

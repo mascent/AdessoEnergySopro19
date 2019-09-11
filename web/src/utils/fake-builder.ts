@@ -7,7 +7,6 @@ import faker from 'faker';
 import {
   Meter,
   Reading,
-  Status,
   User,
   Issue
 } from '../typings/provider-data-interfaces';
@@ -18,16 +17,6 @@ import {
   mapUserDtoToUser,
   mapIssueDtoToIssues
 } from '../lib/mappers';
-
-function buildStatus(overrides?: Partial<Status>): Status {
-  return {
-    saving: faker.random.boolean(),
-    changed: faker.random.boolean(),
-    lastFetched: faker.date.recent(),
-    saveError: null,
-    ...overrides
-  };
-}
 
 /**
  * Build a meterDto object that can be used in tests or stories.

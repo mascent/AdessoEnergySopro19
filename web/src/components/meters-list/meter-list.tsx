@@ -3,10 +3,10 @@ import styles from './meter-list.module.scss';
 import { Meter } from '../../typings/provider-data-interfaces';
 import { SubTitle } from '../generics/text';
 import MeterItem from './meter-item';
+import { Link } from '@reach/router';
 
 interface MeterListProps {
   meters: Meter[];
-  onAddMeterClick: () => void;
 }
 
 const MeterList: React.FC<MeterListProps> = ({ meters }) => {
@@ -14,7 +14,9 @@ const MeterList: React.FC<MeterListProps> = ({ meters }) => {
     <div className={styles.container}>
       <div className={styles.header}>
         <SubTitle>Zähler</SubTitle>
-        <button className={styles.addButton}>Neuen Zähler hinzufügen</button>
+        <Link className={styles.addLink} to="new">
+          Neuen Zähler hinzufügen
+        </Link>
       </div>
 
       <nav className={styles.list}>

@@ -20,9 +20,7 @@ test('useUser throws if not rendered in his provider', () => {
   );
 });
 
-// TODO: This tests has problems with time. I have not found a way yet to stop time
-// for the Date constructor
-test.skip('userUsers triggers a fetch if no data is available', async () => {
+test('userUsers triggers a fetch if no data is available', async () => {
   const userList = buildList(buildUserDTO);
   const fetch = jest
     .spyOn(users, 'getAllUsers')
