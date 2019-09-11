@@ -5,8 +5,9 @@ import styles from './new-user-form.module.scss';
 import { PrimaryButton, SecondaryButton } from '../generics/button';
 import { useInputValidation } from 'use-input-validation';
 import { isStringEmpty, isValidEmail } from '../../lib/validators';
+import { RouteComponentProps } from '@reach/router';
 
-interface NewUserFormProps {
+interface NewUserFormProps extends RouteComponentProps {
   onCreate: (
     customerId: string,
     name: string,
@@ -133,7 +134,9 @@ const NewUserForm: React.FC<NewUserFormProps> = ({ onCreate, onCancel }) => {
         />
       </div>
       <div className={styles.button}>
-        <SecondaryButton type="reset">Abbrechen</SecondaryButton>
+        <SecondaryButton onClick={onCancel} type="reset">
+          Abbrechen
+        </SecondaryButton>
         <PrimaryButton type="submit">Erstellen</PrimaryButton>
       </div>
     </form>

@@ -4,11 +4,29 @@ import styles from './user-dashboard.module.scss';
 import { useMeters } from '../providers/meters-provider';
 import Spinner from './generics/spinner';
 import { useAuth } from '../providers/authentication-provider';
-import MeterDisplay from './dashboard-content/meter-display';
+import MeterList from './meters-list/meter-list';
+import { Router, navigate } from '@reach/router';
+import { SelectMeter } from './dashboard-content/select-call';
+import NewMeter from './meters-list/new-meter';
+import MeterInformation from './dashboard-content/meter-information';
+import { MeterType } from '../typings/provider-data-interfaces';
 
 const UserDashboard: React.FC = () => {
   const { userId } = useAuth();
-  const { isLoading } = useMeters(userId);
+  const { meters, isLoading, addMeter } = useMeters(userId);
+
+  function createMeter(
+    meterType: MeterType,
+    name: string,
+    meterNumber: string,
+    initialValue: string
+  ): void {
+    addMeter({
+      type: meterType,
+      name,
+      meterNumber
+    });
+  }
 
   if (isLoading)
     return (
@@ -19,7 +37,18 @@ const UserDashboard: React.FC = () => {
 
   return (
     <ContainerCard className={styles.container}>
-      <MeterDisplay userId={userId} />
+      <MeterList meters={meters} />
+      <div className={styles.contentContainer}>
+        <Router className={styles.router} basepath="/">
+          <SelectMeter path="/" />
+          <NewMeter
+            path="/new"
+            onCreate={createMeter}
+            onCancel={() => navigate('../')}
+          />
+          <MeterInformation path=":id" />
+        </Router>
+      </div>
     </ContainerCard>
   );
 };

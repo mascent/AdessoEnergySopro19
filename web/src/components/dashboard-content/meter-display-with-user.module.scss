@@ -1,6 +1,11 @@
 @import 'theme/spacings';
 @import 'theme/colors';
 
+.container {
+  display: flex;
+  height: 100%;
+}
+
 .router {
   width: 100%;
 }
