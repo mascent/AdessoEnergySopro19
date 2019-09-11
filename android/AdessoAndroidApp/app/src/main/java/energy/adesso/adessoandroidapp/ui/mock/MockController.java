@@ -53,7 +53,7 @@ public class MockController extends MainController {
     public static void setServer(String toString) {
 
     }
-    public static Pair<Meter, String> azureAnalyze(Bitmap b) throws AdessoException {
+    public static Pair<Meter, String> azureAnalyze(Bitmap b) throws NetworkException {
         try {
             Thread.sleep(2500);
         } catch (InterruptedException e) {
