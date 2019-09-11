@@ -19,16 +19,6 @@ import {
   mapIssueDtoToIssues
 } from '../lib/mappers';
 
-function buildStatus(overrides?: Partial<Status>): Status {
-  return {
-    saving: faker.random.boolean(),
-    changed: faker.random.boolean(),
-    lastFetched: faker.date.recent(),
-    saveError: null,
-    ...overrides
-  };
-}
-
 /**
  * Build a meterDto object that can be used in tests or stories.
  * @param overrides Override for random values
