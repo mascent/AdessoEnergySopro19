@@ -7,8 +7,14 @@
   border-collapse: collapse;
 }
 
+.ofProtection {
+  max-height: 500px;
+  overflow-y: auto;
+}
+
 .headText {
-  @extend %font-section-header;
+  @extend %font-span;
+  font-weight: 600;
   padding: $spacing-4;
   text-align: left;
 }
