@@ -42,7 +42,7 @@ public class LoginActivity extends AppCompatActivity {
             loadingPopup.dismiss();
         super.onResume();
     }
-     public void onLoginClick(View view) {
+    public void onLoginClick(View view) {
         final TextView numView = findViewById(R.id.number);
         final TextView passView = findViewById(R.id.pass);
 
@@ -55,9 +55,9 @@ public class LoginActivity extends AppCompatActivity {
         showLoadingPopup();
         new AsyncTask<String, Void, Boolean>() {
             @Override
-            protected Boolean doInBackground(String... p) {
-                for (int i = 0; i < p.length; i++) {
-                    String[] split = p[i].split("\n");
+            protected Boolean doInBackground(String... s) {
+                for (int i = 0; i < s.length; i++) {
+                    String[] split = s[i].split("\n");
                     if (login(split[0], split[1]))
                         return true;
                 }

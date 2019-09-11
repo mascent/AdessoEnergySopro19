@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
@@ -44,15 +45,19 @@ import energy.adesso.adessoandroidapp.ui.mock.MockController;
 
 public class MainActivity extends AppCompatActivity {
     final Activity a = this;
+
     final int CAMERA_REQUEST_IMAGE_BITMAP = 1;
     final int CAMERA_REQUEST_IMAGE_URI = 2;
     final int GALLERY_REQUEST_IMAGE_BITMAP = 10;
+
     List<Meter> meters;
     List<Meter> electricMeters;
     List<Meter> gasMeters;
     List<Meter> waterMeters;
     MeterAdapter listAdapter;
     Drawable[] meterIcons;
+
+    AlertDialog loadingPopup = null;
 
     // Events
     @Override protected void onCreate(Bundle savedInstanceState) {
@@ -182,30 +187,45 @@ public class MainActivity extends AppCompatActivity {
             GALLERY_REQUEST_IMAGE_BITMAP);
     }
     void onImageReceived(Bitmap b) {
-        try {
-            LinearLayout l = (LinearLayout)getLayoutInflater().inflate(R.layout.dialog_reading_check,null);
-            Pair<Meter, String> p = MockController.azureAnalyze(b);
+        new AsyncTask<Bitmap, Void, Pair<Meter, String>>() {
+            @Override
+            protected Pair<Meter, String> doInBackground(Bitmap... bs) {
+                ;
+                for (int i = 0; i < bs.length; i++) {
+                    try {
+                        return MockController.azureAnalyze(bs[i]);
+                    } catch (AdessoException e) {
+                        e.printStackTrace();
+                    }
+                }
+                return null;
+            }
 
-            // TODO: remind richard that azureAnalyze should return the meter number and not the mid
-            if (p.first == null)
-                throw new AdessoException();
+            @Override
+            protected void onPostExecute(Pair<Meter, String> res) {
+                if (res.first == null || res.second == null) {
+                    Toast.makeText(a, R.string.generic_error_message, Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
-            ((TextView)l.findViewById(R.id.number)).setText(p.first.getMeterNumber());
-            ((TextView)l.findViewById(R.id.usage)).setText(p.second);
+                LinearLayout l = (LinearLayout)getLayoutInflater().inflate(R.layout.dialog_reading_check,null);
+                ((TextView)l.findViewById(R.id.number)).setText(res.first.getMeterNumber());
+                ((TextView)l.findViewById(R.id.usage)).setText(res.second);
 
-            new AlertDialog.Builder(this)
-                .setTitle(R.string.check_image)
-                .setCancelable(true)
-                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) { }
-                })
-                .setNegativeButton(R.string.cancel, null)
-                .setIcon(R.drawable.logo_drop)
-                .setView(l)
-                .show();
-        } catch (AdessoException e) {
-            Toast.makeText(this, R.string.generic_error_message, Toast.LENGTH_SHORT).show();
-        }
+                loadingPopup.dismiss();
+
+                new AlertDialog.Builder(a)
+                    .setTitle(R.string.check_image)
+                    .setCancelable(true)
+                    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) { } })
+                    .setNegativeButton(R.string.cancel, null)
+                    .setIcon(R.drawable.logo_drop)
+                    .setView(l)
+                    .show();
+            }
+        }.execute(b);
+        showLoadingPopup();
     }
     final AdapterView.OnItemClickListener onAdapterElecElementClick = new AdapterView.OnItemClickListener() {
         @Override
@@ -280,5 +300,12 @@ public class MainActivity extends AppCompatActivity {
         ListView waterList = findViewById(R.id.WaterList);
         waterList.setAdapter(listAdapter);
         waterList.setOnItemClickListener(onAdapterWaterElementClick);
+    }
+    void showLoadingPopup() {
+        loadingPopup = new AlertDialog.Builder(this).
+            setView(getLayoutInflater().
+                inflate(R.layout.loading, null)).
+            setCancelable(false).
+            show();
     }
 }
