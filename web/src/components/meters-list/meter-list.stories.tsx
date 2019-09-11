@@ -8,7 +8,11 @@ import { WithRouter } from '../../utils/with-router';
 const meters: Meter[] = buildList(buildMeter, 5, 100);
 
 storiesOf('Dashboard Content | MeterList', module)
-  .add('empty', () => <MeterList meters={[]} />)
+  .add('empty', () => (
+    <WithRouter>
+      <MeterList meters={[]} />
+    </WithRouter>
+  ))
   .add('filled', () => (
     <WithRouter>
       <div style={{ height: '70vh' }}>
