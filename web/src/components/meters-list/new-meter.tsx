@@ -11,6 +11,7 @@ import { MeterType } from '../../typings/provider-data-interfaces';
 const stringNotEmpty = (val: string) => !isStringEmpty(val);
 
 interface NewMeterProps extends RouteComponentProps {
+  onCancel: () => void;
   onCreate: (
     meterType: MeterType,
     name: string,
@@ -19,7 +20,7 @@ interface NewMeterProps extends RouteComponentProps {
   ) => void;
 }
 
-const NewMeter: React.FC<NewMeterProps> = ({ onCreate }) => {
+const NewMeter: React.FC<NewMeterProps> = ({ onCreate, onCancel }) => {
   const meterType = useInputValidation<string, string>(
     '',
     'Keine valider Zählertyp. Wähle aus zwischen: gas, water, electricity',
@@ -116,7 +117,11 @@ const NewMeter: React.FC<NewMeterProps> = ({ onCreate }) => {
         />
 
         <div className={styles.buttons}>
-          <SecondaryButton className={styles.cancelButton} type="reset">
+          <SecondaryButton
+            onClick={onCancel}
+            className={styles.cancelButton}
+            type="reset"
+          >
             Abbrechen
           </SecondaryButton>
           <PrimaryButton type="submit">Erstellen</PrimaryButton>

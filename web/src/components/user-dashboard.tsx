@@ -8,7 +8,7 @@ import Spinner from './generics/spinner';
 import { useAuth } from '../providers/authentication-provider';
 import NewMeter from './meters-list/new-meter';
 import { MeterType } from '../typings/provider-data-interfaces';
-import { Router } from '@reach/router';
+import { Router, navigate } from '@reach/router';
 import MeterInformation from './dashboard-content/meter-information';
 
 const UserDashboard: React.FC = () => {
@@ -41,7 +41,11 @@ const UserDashboard: React.FC = () => {
       <div className={styles.contentContainer}>
         <Router className={styles.router}>
           <SelectMeter path="/" />
-          <NewMeter path="/new" onCreate={createMeter} />
+          <NewMeter
+            path="/new"
+            onCreate={createMeter}
+            onCancel={() => navigate('../')}
+          />
           <MeterInformation path="/:id" />
         </Router>
       </div>

@@ -8,12 +8,18 @@ import { useMeter } from '../../providers/meters-provider';
 import Graph from '../graph/graph';
 import { useReadings } from '../../providers/readings-provider';
 import Spinner from '../generics/spinner';
+import NewReading from '../new-reading';
+import { useAuth } from '../../providers/authentication-provider';
+import ReadingList from './readings-list';
 
 const MeterInformation: React.FC<RouteComponentProps<{ id: string }>> = ({
   id
 }) => {
+  const { isAdmin } = useAuth();
   const meter = useMeter(id || '');
-  const { readings, isLoading } = useReadings(meter ? meter.meter.id : '');
+  const { readings, isLoading, addReading } = useReadings(
+    meter ? meter.meter.id : ''
+  );
   const graphData = useMemo(() => readings.map(r => parseInt(r.value, 10)), [
     readings
   ]);
@@ -23,8 +29,14 @@ const MeterInformation: React.FC<RouteComponentProps<{ id: string }>> = ({
   );
 
   const [showAddReading, toggleAddReading] = useState(false);
+  const [dataView, setDataView] = useState<'table' | 'graph'>('table');
 
   if (!meter) return <Redirect to="/" noThrow />;
+
+  function handleAddReading(value: string) {
+    if (typeof id !== 'undefined' && id !== '')
+      addReading(id, { value }).then(() => toggleAddReading(false));
+  }
 
   return (
     <section className={styles.mainContainer}>
@@ -50,14 +62,44 @@ const MeterInformation: React.FC<RouteComponentProps<{ id: string }>> = ({
           }%`}</Span>
         </div>
       </header>
-      {isLoading && <Spinner size="large" />}
+      {isLoading && (
+        <div className={styles.spinnerContainer}>
+          <Spinner size="large" />
+        </div>
+      )}
       {!isLoading && (
         <>
           <div className={styles.contentHeader}>
-            <SectionHeader>Readings</SectionHeader>
-            <button className={styles.addButton}>Neuen Eintrag erfassen</button>
+            <div className={styles.flex}>
+              <SectionHeader>Readings</SectionHeader>
+              <button
+                onClick={() =>
+                  setDataView(val => (val === 'graph' ? 'table' : 'graph'))
+                }
+                className={styles.addButton}
+              >
+                {dataView === 'graph' ? 'Tabelle' : 'Diagramm'}
+              </button>
+            </div>
+            <button
+              onClick={() => toggleAddReading(val => !val)}
+              className={styles.addButton}
+            >
+              Neuen Eintrag erfassen
+            </button>
           </div>
-          <Graph data={graphData} dates={graphLabel} title="Readings" />
+          {showAddReading && (
+            <NewReading
+              onClose={() => toggleAddReading(false)}
+              onAdd={handleAddReading}
+            />
+          )}
+          {dataView === 'graph' && (
+            <Graph data={graphData} dates={graphLabel} title="Readings" />
+          )}
+          {dataView === 'table' && (
+            <ReadingList readings={readings} canEdit={isAdmin} />
+          )}
         </>
       )}
     </section>
