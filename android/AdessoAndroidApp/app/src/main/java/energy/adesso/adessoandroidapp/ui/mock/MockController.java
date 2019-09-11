@@ -53,9 +53,15 @@ public class MockController extends MainController {
     public static void setServer(String toString) {
 
     }
-   // public static Pair<Meter, String> azureAnalyze(Bitmap b) throws AdessoException {
-    //     return new Pair<>(new MockMeter("Name1", "12345", MeterKind.ELECTRIC, lastReading).toMeter(), "Mocked Man");
-   // }
+    public static Pair<Meter, String> azureAnalyze(Bitmap b) throws AdessoException {
+        try {
+            Thread.sleep(2500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return new Pair<>(new MockMeter("Name1", "12345", MeterKind.ELECTRIC, lastReading).toMeter(), "Mocked Man");
+    }
     public static boolean isLoggedIn() {
         return false;
     }
