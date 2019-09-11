@@ -127,7 +127,12 @@ const TicketModal: React.FC<TicketModalProps> = ({
           />
         </ModalBody>
         <ModalFooter>
-          <SecondaryButton ref={ref} type="reset" className={styles.button}>
+          <SecondaryButton
+            onClick={closeModal}
+            ref={ref}
+            type="reset"
+            className={styles.button}
+          >
             Abbrechen
           </SecondaryButton>
 
