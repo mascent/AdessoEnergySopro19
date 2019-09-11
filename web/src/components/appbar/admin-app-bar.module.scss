@@ -21,6 +21,13 @@
   height: 42px !important;
 }
 
+.button {
+  &[data-active='true'] {
+    color: $color-grey-100;
+    background-color: $color-blue-500;
+  }
+}
+
 .topContainer {
   display: flex;
   flex-direction: column;

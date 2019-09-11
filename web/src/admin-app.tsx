@@ -4,10 +4,10 @@ import { MetersProvider } from './providers/meters-provider';
 import { ReadingsProvider } from './providers/readings-provider';
 import { UsersProvider } from './providers/users-provider';
 import { IssuesProvider } from './providers/issues-provider';
-import AdminScreen from './screens/admin-screen';
+import { AdminUsersScreen, AdminIssuesScreen } from './screens/admin-screen';
 
 const NotFound: React.FC<RouteComponentProps> = () => {
-  return <Redirect to="/dashboard/users" noThrow />;
+  return <Redirect to="/admin/users" noThrow />;
 };
 
 const AdminApp: React.FC = () => {
@@ -17,7 +17,8 @@ const AdminApp: React.FC = () => {
         <MetersProvider>
           <ReadingsProvider>
             <Router>
-              <AdminScreen path="/dashboard/users/*" />
+              <AdminUsersScreen path="/admin/users/*" />
+              <AdminIssuesScreen path="/admin/issues/*" />
               <NotFound default />
             </Router>
           </ReadingsProvider>

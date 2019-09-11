@@ -22,13 +22,16 @@ const AdminAppBar: React.FC<AdminAppBarProps> = ({ selected }) => {
         <InvButton
           title="Benutzer anzeigen"
           onClick={() => navigate('/admin/users')}
+          className={styles.button}
+          data-active={selected === 'users'}
         >
           <AccountMultiple />
         </InvButton>
         <InvButton
           title="Tickets anzeigen"
           onClick={() => navigate('/admin/issues')}
-          data-active={selected}
+          className={styles.button}
+          data-active={selected === 'tickets'}
         >
           <TicketConfirmation />
         </InvButton>
