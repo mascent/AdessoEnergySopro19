@@ -14,7 +14,7 @@ interface IssueItemProps {
 const IssueItem: React.FC<IssueItemProps> = ({ id, name, subject }) => {
   return (
     <Link
-      to={`/${id}`}
+      to={`${id}`}
       getProps={({ isCurrent }) => {
         return {
           className: cx({

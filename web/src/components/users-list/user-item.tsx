@@ -20,7 +20,7 @@ const UserItem: React.FC<UserItemProps> = ({
 }) => {
   return (
     <Link
-      to={`/${id}`}
+      to={`${id}`}
       getProps={({ isCurrent }) => {
         return {
           className: cx({
