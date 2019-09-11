@@ -1,5 +1,4 @@
 import React from 'react';
-import { SubTitle, Span } from './generics/text';
 import { useInputValidation } from 'use-input-validation';
 import { isStringEmpty } from '../lib/validators';
 import Input from './generics/input';
