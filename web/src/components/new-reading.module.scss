@@ -11,4 +11,8 @@
 .buttons {
   display: flex;
   justify-content: flex-end;
+
+  & > :first-child {
+    margin-right: $spacing-12;
+  }
 }

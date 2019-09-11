@@ -8,12 +8,15 @@ import { useMeter } from '../../providers/meters-provider';
 import Graph from '../graph/graph';
 import { useReadings } from '../../providers/readings-provider';
 import Spinner from '../generics/spinner';
+import NewReading from '../new-reading';
 
 const MeterInformation: React.FC<RouteComponentProps<{ id: string }>> = ({
   id
 }) => {
   const meter = useMeter(id || '');
-  const { readings, isLoading } = useReadings(meter ? meter.meter.id : '');
+  const { readings, isLoading, addReading } = useReadings(
+    meter ? meter.meter.id : ''
+  );
   const graphData = useMemo(() => readings.map(r => parseInt(r.value, 10)), [
     readings
   ]);
@@ -25,6 +28,11 @@ const MeterInformation: React.FC<RouteComponentProps<{ id: string }>> = ({
   const [showAddReading, toggleAddReading] = useState(false);
 
   if (!meter) return <Redirect to="/" noThrow />;
+
+  function handleAddReading(value: string) {
+    if (typeof id !== 'undefined' && id !== '')
+      addReading(id, { value }).then(() => toggleAddReading(false));
+  }
 
   return (
     <section className={styles.mainContainer}>
@@ -55,8 +63,19 @@ const MeterInformation: React.FC<RouteComponentProps<{ id: string }>> = ({
         <>
           <div className={styles.contentHeader}>
             <SectionHeader>Readings</SectionHeader>
-            <button className={styles.addButton}>Neuen Eintrag erfassen</button>
+            <button
+              onClick={() => toggleAddReading(val => !val)}
+              className={styles.addButton}
+            >
+              Neuen Eintrag erfassen
+            </button>
           </div>
+          {showAddReading && (
+            <NewReading
+              onClose={() => toggleAddReading(false)}
+              onAdd={handleAddReading}
+            />
+          )}
           <Graph data={graphData} dates={graphLabel} title="Readings" />
         </>
       )}

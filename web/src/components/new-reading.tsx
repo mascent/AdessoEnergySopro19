@@ -1,11 +1,9 @@
 import React from 'react';
 import { useInputValidation } from 'use-input-validation';
-import { isStringEmpty } from '../lib/validators';
+import { isStringEmpty, isNumber } from '../lib/validators';
 import Input from './generics/input';
 import { SecondaryButton, PrimaryButton } from './generics/button';
 import styles from './new-reading.module.scss';
-
-const stringNotEmpty = (val: string) => !isStringEmpty(val);
 
 interface ReadingProps {
   onAdd: (reading: string) => void;
@@ -15,8 +13,8 @@ interface ReadingProps {
 const NewReading: React.FC<ReadingProps> = ({ onAdd, onClose }) => {
   const reading = useInputValidation<string, string>(
     '',
-    'Der Zählerstand darf nicht leer sein.',
-    stringNotEmpty
+    'Zählerstand muss eine positive Zahl sein',
+    num => isNumber(num) && parseInt(num, 10) > 0
   );
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -33,7 +31,7 @@ const NewReading: React.FC<ReadingProps> = ({ onAdd, onClose }) => {
     <form onSubmit={handleSubmit} className={styles.container}>
       <Input
         id="reading"
-        type="text"
+        type="number"
         label="Stand"
         value={reading.value}
         onChange={value => reading.setValue(value)}

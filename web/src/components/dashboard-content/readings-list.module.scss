@@ -1,0 +1,53 @@
+@import 'theme/spacings';
+@import 'theme/colors';
+@import 'theme/fonts';
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.headText {
+  @extend %font-section-header;
+  padding: $spacing-4;
+  text-align: left;
+}
+
+.tableText {
+  @extend %font-span;
+  padding: $spacing-4;
+}
+
+.padding {
+  padding: $spacing-4;
+}
+
+.row {
+  border-radius: 4px;
+
+  &:nth-child(odd) {
+    background: $color-blue-050;
+  }
+}
+
+.goodTrend {
+  color: $color-green-500;
+}
+
+.badTrend {
+  color: $color-red-500;
+}
+
+.button {
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: $color-grey-400;
+  transition: all 200ms ease-in-out;
+  outline-color: $color-yellow-500;
+
+  &:hover,
+  &:focus {
+    color: $color-grey-800;
+  }
+}
