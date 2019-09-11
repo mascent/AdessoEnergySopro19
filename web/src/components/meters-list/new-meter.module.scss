@@ -5,6 +5,10 @@
   flex-direction: column;
 }
 
+.header {
+  margin-bottom: $spacing-24;
+}
+
 .buttons {
   display: flex;
   justify-content: flex-end;
