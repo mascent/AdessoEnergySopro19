@@ -22,7 +22,7 @@ interface NewMeterProps extends RouteComponentProps {
 const NewMeter: React.FC<NewMeterProps> = ({ onCreate }) => {
   const meterType = useInputValidation<string, string>(
     '',
-    'Keine valider Zählertyp',
+    'Keine valider Zählertyp. Wähle aus zwischen: gas, water, electricity',
     isMeterTypeValid
   );
 
@@ -73,7 +73,7 @@ const NewMeter: React.FC<NewMeterProps> = ({ onCreate }) => {
 
   return (
     <div className={styles.container}>
-      <SubTitle>Neuen Zähler erfassen</SubTitle>
+      <SubTitle className={styles.header}>Neuen Zähler erfassen</SubTitle>
       <form onSubmit={handleSubmit}>
         <Input
           id="metertype"
