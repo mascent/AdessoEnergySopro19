@@ -39,6 +39,7 @@ public class IssueActivity extends AppCompatActivity {
         i.setMessage(message);
 
         try {
+            // TODO: Async
             i.send();
 
             Toast.makeText(this, R.string.issue_send_successfully,

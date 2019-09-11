@@ -1,23 +1,27 @@
 package energy.adesso.adessoandroidapp.ui.activity;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.drm.DrmStore;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.arch.core.util.Function;
 
 import energy.adesso.adessoandroidapp.R;
 import energy.adesso.adessoandroidapp.logic.controller.MainController;
+import energy.adesso.adessoandroidapp.logic.model.Pair;
 import energy.adesso.adessoandroidapp.logic.model.exception.AdessoException;
 import energy.adesso.adessoandroidapp.ui.mock.MockController;
 
 public class LoginActivity extends AppCompatActivity {
+    Activity a = this;
     AlertDialog loadingPopup = null;
 
     @Override protected void onCreate(Bundle savedInstanceState) {
@@ -36,29 +40,47 @@ public class LoginActivity extends AppCompatActivity {
             loadingPopup.dismiss();
         super.onResume();
     }
-    public void onLoginClick(View view) {
-        TextView num = findViewById(R.id.number);
-        TextView pass = findViewById(R.id.pass);
+    @SuppressWarnings("ALL") public void onLoginClick(View view) {
+        final TextView numView = findViewById(R.id.number);
+        final TextView passView = findViewById(R.id.pass);
+
+        final String num = numView.getText().toString();
+        final String pass = passView.getText().toString();
+
+        numView.setText("");
+        passView.setText("");
 
         showLoadingPopup();
-        if (login(num.getText().toString(), pass.getText().toString())) {
-            startActivity(new Intent(this, MainActivity.class).
-                addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK));
-        } else {
-            Toast.makeText(this, R.string.wrong_login, Toast.LENGTH_SHORT).show();
-        }
+        AsyncTask<Pair<String, String>, Void, Boolean> execute = new AsyncTask<Pair<String, String>, Void, Boolean>() {
+            @Override
+            protected Boolean doInBackground(Pair<String, String>... p) {
+                for (int i = 0; i < p.length; i++) {
+                    if (login(p[i].first, p[i].second))
+                        return true;
+                }
+                return false;
+            }
 
-        num.setText("");
-        pass.setText("");
+            @Override
+            protected void onPostExecute(Boolean succ) {
+                if (succ) {
+                    startActivity(new Intent(a, MainActivity.class).
+                        addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                } else {
+                    Toast.makeText(a, R.string.wrong_login, Toast.LENGTH_SHORT).show();
+                }
+                loadingPopup.dismiss();
+            }
+        }.execute(new Pair<>(num, pass));
     }
     public void onForgotPasswordClick(final View view) {
         // TODO: Add pass_forgot
         Toast.makeText(this, R.string.not_implemented_message, Toast.LENGTH_SHORT).show();
     }
 
-    boolean login(String username, String password) {
+    boolean login(String usernumber, String password) {
         try {
-            MockController.login(username, password);
+            MockController.login(usernumber, password);
             return true;
         } catch (AdessoException e) {
             return false;

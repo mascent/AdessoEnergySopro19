@@ -42,6 +42,7 @@ public class DetailActivity extends AppCompatActivity {
         if (savedInstanceState != null) {
           m = (Meter)savedInstanceState.getSerializable(meterKey);
           try {
+            // TODO: Async
             readings = m.getReadings();
           } catch (AdessoException e) {
             e.printStackTrace();
@@ -85,6 +86,7 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String newReading = input.getText().toString();
+              // TODO: Async
                 try { m.createReading(newReading);
                 } catch (AdessoException e) {
                     Toast.makeText(a, R.string.generic_error_message, Toast.LENGTH_SHORT).show();
@@ -120,6 +122,7 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 try {
+                  // TODO: Async
                     m.setName(input.getText().toString());
                 } catch (AdessoException e) {
                     Toast.makeText(a, R.string.generic_error_message,
@@ -182,6 +185,7 @@ public class DetailActivity extends AppCompatActivity {
 
         try {
             // Init the adapter and the list
+          // TODO: Async
             readings = m.getReadings();
             listAdapter = new ReadingAdapter(this.getBaseContext(), readings, icon);
             ListView detailList = findViewById(R.id.detail_list);
@@ -210,6 +214,7 @@ public class DetailActivity extends AppCompatActivity {
         @Override
         public void onClick(DialogInterface dialog, int which) {
           try {
+            // TODO: Async
             readings.get(position).correct(input.getText().toString());
           } catch (AdessoException e) {
             Toast.makeText(a, R.string.generic_error_message,
