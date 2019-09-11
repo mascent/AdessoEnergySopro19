@@ -225,7 +225,7 @@ public class IssueControllerTest {
 
 		MvcResult result = mvc.perform(get("/api/issues/" + testIssueId.toString()).param("iid", testIssueId.toString())
 				.contentType("applications/json")).andExpect(status().isOk()).andReturn();
-		IssueDTO issue = new Gson().fromJson(result.getResponse().getContentAsString(), IssueDTO.class);
+		IssueDTO issue = new Gson().fromJson(result.getResponse().getContentAsString(), IssueDTO.class); //TODO verstehen warum es hier geht
 		assertEquals(issue.getName(), "mts");
 		assertEquals(issue.getEmail(), "mattists97@web.de");
 		assertEquals(issue.getSubject(), "Test");
