@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.util.Base64;
 
+import androidx.arch.core.util.Function;
+
 import com.google.gson.Gson;
 
 import java.io.ByteArrayOutputStream;
@@ -72,7 +74,9 @@ public class MainController {
    * @param password
    * @throws NetworkException
    */
-  public static void login(String username, String password) throws NetworkException, CredentialException {
+  public static void login(String username, String password, Function<Boolean, Boolean> f) throws NetworkException, CredentialException {
+    if(username==null||password==null)
+      throw new CredentialException();
     // Send
     NetworkController.setCredentials(username, password);
     String reString = NetworkController.get("/api/login");

@@ -1,10 +1,14 @@
 package energy.adesso.adessoandroidapp.logic.controller;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.IOException;
 
 import energy.adesso.adessoandroidapp.logic.model.Pair;
 import energy.adesso.adessoandroidapp.logic.model.exception.CredentialException;
 import energy.adesso.adessoandroidapp.logic.model.exception.NetworkException;
+import okhttp3.Call;
+import okhttp3.Callback;
 import okhttp3.Credentials;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -35,14 +39,29 @@ class NetworkController {
     Pair<Request.Builder, RequestBody> details = buildRequest(path, null);
     Request request = details.first.get().build();
     try {
-      Response response = ok.newCall(request).execute();
+      Response response;
+      ok.newCall(request).enqueue(new Callback() {
+
+        @Override
+        public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+
+        }
+
+        @Override
+        public void onFailure(@NotNull Call call, @NotNull IOException e) {
+
+        }
+      });
+      /*
       if (!response.isSuccessful())
         handleError(response.body().string());
 
       return response.body().string();
-    } catch (IOException | NullPointerException e) {
+    */
+    } catch (NullPointerException e) {
       throw new NetworkException();
     }
+       return "";
   }
 
 
