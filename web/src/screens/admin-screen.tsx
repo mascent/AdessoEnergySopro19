@@ -4,6 +4,7 @@ import useDocumentTitle from '../hooks/use-document-title';
 import AdminAppBar from '../components/appbar/admin-app-bar';
 import { RouteComponentProps } from '@reach/router';
 import AdminDashboard from '../components/admin-dashboard';
+import IssuesDashboard from '../components/issues-dashboard';
 
 const AdminUsersScreen: React.FC<RouteComponentProps> = () => {
   useDocumentTitle('Admin Users');
@@ -25,7 +26,7 @@ const AdminIssuesScreen: React.FC<RouteComponentProps> = () => {
     <main className={styles.main}>
       <AdminAppBar selected="tickets" />
       <div className={styles.container}>
-        <AdminDashboard />
+        <IssuesDashboard />
       </div>
     </main>
   );
