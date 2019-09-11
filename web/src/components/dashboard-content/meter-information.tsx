@@ -1,20 +1,33 @@
-import React from 'react';
+import React, { useMemo, useState } from 'react';
 import cx from 'classnames';
 import styles from './meter-information.module.scss';
 import MeterIcon from '../generics/meter-icon';
 import { Span, SectionHeader, SubTitle } from '../generics/text';
 import { RouteComponentProps, Redirect } from '@reach/router';
 import { useMeter } from '../../providers/meters-provider';
+import Graph from '../graph/graph';
+import { useReadings } from '../../providers/readings-provider';
+import Spinner from '../generics/spinner';
 
 const MeterInformation: React.FC<RouteComponentProps<{ id: string }>> = ({
   id
 }) => {
   const meter = useMeter(id || '');
+  const { readings, isLoading } = useReadings(meter ? meter.meter.id : '');
+  const graphData = useMemo(() => readings.map(r => parseInt(r.value, 10)), [
+    readings
+  ]);
+  const graphLabel = useMemo(
+    () => readings.map(r => r.createdAt.toLocaleDateString()),
+    [readings]
+  );
+
+  const [showAddReading, toggleAddReading] = useState(false);
 
   if (!meter) return <Redirect to="/" noThrow />;
 
   return (
-    <section>
+    <section className={styles.mainContainer}>
       <header className={styles.headerContainer}>
         <div className={styles.leftGroup}>
           <MeterIcon type={meter.meter.type} />
@@ -37,10 +50,16 @@ const MeterInformation: React.FC<RouteComponentProps<{ id: string }>> = ({
           }%`}</Span>
         </div>
       </header>
-      <div className={styles.contentHeader}>
-        <SectionHeader>Readings</SectionHeader>
-        <button className={styles.addButton}>Neuen Eintrag erfassen</button>
-      </div>
+      {isLoading && <Spinner size="large" />}
+      {!isLoading && (
+        <>
+          <div className={styles.contentHeader}>
+            <SectionHeader>Readings</SectionHeader>
+            <button className={styles.addButton}>Neuen Eintrag erfassen</button>
+          </div>
+          <Graph data={graphData} dates={graphLabel} title="Readings" />
+        </>
+      )}
     </section>
   );
 };

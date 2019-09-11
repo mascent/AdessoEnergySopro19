@@ -43,7 +43,7 @@ const ReadingsContext = React.createContext<ReadingsContext | undefined>(
 );
 
 interface ReadingsProviderProps {
-  override?: ReadingsContext;
+  override?: Partial<ReadingsContext>;
 }
 
 export const ReadingsProvider: React.FC<ReadingsProviderProps> = ({

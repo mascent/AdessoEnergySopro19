@@ -9,6 +9,7 @@ import { useAuth } from '../providers/authentication-provider';
 import NewMeter from './meters-list/new-meter';
 import { MeterType } from '../typings/provider-data-interfaces';
 import { Router } from '@reach/router';
+import MeterInformation from './dashboard-content/meter-information';
 
 const UserDashboard: React.FC = () => {
   const { userId } = useAuth();
@@ -38,9 +39,10 @@ const UserDashboard: React.FC = () => {
     <ContainerCard className={styles.container}>
       <MeterList meters={meters} />
       <div className={styles.contentContainer}>
-        <Router>
+        <Router className={styles.router}>
           <SelectMeter path="/" />
           <NewMeter path="/new" onCreate={createMeter} />
+          <MeterInformation path="/:id" />
         </Router>
       </div>
     </ContainerCard>

@@ -2,9 +2,14 @@
 @import 'theme/spacings';
 @import 'theme/fonts';
 
+.mainContainer {
+  width: 100%;
+}
+
 .headerContainer {
   display: flex;
   justify-content: space-between;
+  margin-bottom: $spacing-32;
 }
 
 .headerTextGroup {
