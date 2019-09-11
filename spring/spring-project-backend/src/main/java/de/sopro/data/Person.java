@@ -1,25 +1,23 @@
 package de.sopro.data;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
+@Table(name = "person")
 public class Person {
-
-	public Person(String username, String password, Role role) {
-		this.role = role;
-		this.username = username;
-		this.password = password;
-	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	Long personId;
 
 	@NotNull
+	@Column(nullable = false, unique = true)
 	private String username;
 
 	@NotNull
@@ -28,12 +26,18 @@ public class Person {
 
 	private Role role;
 
-	public Long getPersonId() {
-		return personId;
+	public Person(String username, String password, Role role) {
+		this.role = role;
+		this.username = username;
+		this.password = password;
 	}
 
-	public void setPersonId(Long personId) {
-		this.personId = personId;
+	public Person() {
+
+	}
+
+	public Long getPersonId() {
+		return personId;
 	}
 
 	public String getUsername() {

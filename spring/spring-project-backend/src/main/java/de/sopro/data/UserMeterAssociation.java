@@ -1,6 +1,6 @@
 package de.sopro.data;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,11 +12,9 @@ import javax.validation.constraints.NotNull;
 @Entity
 public class UserMeterAssociation {
 
-	public UserMeterAssociation(User user, Meter meter) {
-		this.user = user;
-		this.meter = meter;
-		// beginOfAssociation = now;
-	}
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long aId;
 
 	@ManyToOne
 	@NotNull
@@ -25,53 +23,39 @@ public class UserMeterAssociation {
 	@ManyToOne
 	@NotNull
 	private Meter meter;
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long aId;
 
-	private Date beginOfAssociation;
+	private LocalDateTime beginOfAssociation;
 
-	private Date endOfAssociation;
+	private LocalDateTime endOfAssociation;
+
+	public UserMeterAssociation(User user, Meter meter) {
+		this.user = user;
+		this.meter = meter;
+		beginOfAssociation = LocalDateTime.now();
+	}
+
+	public Long getId() {
+		return aId;
+	}
 
 	public User getUser() {
 		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
 	}
 
 	public Meter getMeter() {
 		return meter;
 	}
 
-	public void setMeter(Meter meter) {
-		this.meter = meter;
-	}
-
-	public Long getaId() {
-		return aId;
-	}
-
-	public void setaId(Long aId) {
-		this.aId = aId;
-	}
-
-	public Date getBeginOfAssociation() {
+	public LocalDateTime getBeginOfAssociation() {
 		return beginOfAssociation;
 	}
 
-	public void setBeginOfAssociation(Date beginOfAssociation) {
-		this.beginOfAssociation = beginOfAssociation;
-	}
-
-	public Date getEndOfAssociation() {
+	public LocalDateTime getEndOfAssociation() {
 		return endOfAssociation;
 	}
-
-	public void setEndOfAssociation(Date endOfAssociation) {
-		this.endOfAssociation = endOfAssociation;
+	
+	public void endAssociation() {
+		this.endOfAssociation = LocalDateTime.now();
 	}
 
 }

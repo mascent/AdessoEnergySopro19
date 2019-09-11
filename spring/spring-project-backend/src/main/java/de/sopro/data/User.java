@@ -3,32 +3,32 @@ package de.sopro.data;
 import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
+@Table(name = "person")
 public class User extends Person {
 
-	public User(String name, String surname, String eMailAddress, String userNumber, String username, String password,
-			Role role) {
+	public User(String firstName, String lastName, String eMailAddress, String username, String password, Role role) {
 		super(username, password, role);
-		this.name = name;
-		this.surname = surname;
+		this.firstName = firstName;
+		this.lastName = lastName;
 		this.eMailAddress = eMailAddress;
-		this.userNumber = userNumber;
 		createdAt = LocalDateTime.now();
 	}
 
-	@NotNull
-	private String name;
+	public User() {
+		super();
+	}
 
 	@NotNull
-	private String surname;
+	private String firstName;
 
 	@NotNull
+	private String lastName;
+
 	private String eMailAddress;
-
-	@NotNull
-	private String userNumber;
 
 	@NotNull
 	private LocalDateTime createdAt;
@@ -37,20 +37,20 @@ public class User extends Person {
 
 	private LocalDateTime updatedAt;
 
-	public String getName() {
-		return name;
+	public String getFirstName() {
+		return firstName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
 
-	public String getSurname() {
-		return surname;
+	public String getLastName() {
+		return lastName;
 	}
 
-	public void setSurname(String surname) {
-		this.surname = surname;
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 
 	public String getEMailAddress() {
@@ -59,14 +59,6 @@ public class User extends Person {
 
 	public void setEMailAddress(String eMailAddress) {
 		this.eMailAddress = eMailAddress;
-	}
-
-	public String getUserNumber() {
-		return userNumber;
-	}
-
-	public void setUserNumber(String userNumber) {
-		this.userNumber = userNumber;
 	}
 
 	public LocalDateTime getCreatedAt() {

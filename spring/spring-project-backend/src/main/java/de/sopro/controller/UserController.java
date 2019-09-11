@@ -1,8 +1,13 @@
 package de.sopro.controller;
 
-import java.util.List;
+import java.time.LocalDateTime;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,9 +16,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import de.sopro.data.Meter;
 import de.sopro.data.Role;
 import de.sopro.data.User;
+import de.sopro.dto.UserDTO;
 import de.sopro.repository.MeterRepository;
 import de.sopro.repository.PersonRepository;
 import de.sopro.repository.UserMeterAssociationRepository;
@@ -23,7 +28,6 @@ import de.sopro.repository.UserRepository;
  * The user controller contains operations manage all requests belonging to user
  * accounts.
  * 
- * @author Mattis
  *
  */
 @RestController
@@ -41,251 +45,149 @@ public class UserController {
 	@Autowired
 	MeterRepository meterRepository;
 
+	@Autowired
+	PasswordEncoder passwordEncoder;
+
+	/**
+	 * Create a list of basic-users and show to a admin-user. Can only be called
+	 * when sufficient authentication is called.
+	 * 
+	 * @return A itterable UserList;
+	 */
 	@GetMapping("/api/users")
-	public String getUsers() {
-		return "test";
+	public Iterable<UserDTO> getUsers() {
+		return StreamSupport.stream(userRepository.findAll().spliterator(), false).map(u -> new UserDTO(u))
+				.collect(Collectors.toList());
 	}
 
 	/**
-	 * This method allows an admin to create a new user in the system. The user
-	 * object is created in before, given as a parameter and stored in the database
-	 * when this method is executed.
-	 *
-	 * @param token The JWT of the admin to authenticate himself.
-	 * @param user  The object of the user to store in the database.
-	 * @return A boolean that shows if the creation was successful.
+	 * 
+	 * This method allows an admin-user to create a new basic-user in the system.
+	 * The password is not saved in plain text, but rather encoded using the
+	 * PasswordEncoderBean.
+	 * 
+	 * @param firstName      The first name of the new user.
+	 * @param lastName       The last name of the new user.
+	 * @param eMailAdress    The eMail-Address of the new user.
+	 * @param customerNumber The customerNumber given by Adesso. Also doubles as
+	 *                       username for basic-users.
+	 * @param password       The inital password for the new user.
+	 * @return A UserDTO to represent the saved user.
 	 */
-	@PostMapping("/api/users")
-	public User createUser(@RequestParam String name, @RequestParam String surname, @RequestParam String eMailAdress,
-			@RequestParam String userNumber, @RequestParam String username, @RequestParam String password) {
-		return userRepository.save(new User(name, surname, eMailAdress, userNumber, username, password, Role.User));
+	@PostMapping(path = "/api/users", params = { "firstName", "lastName", "eMailAddress", "customerNumber",
+			"password" })
+	public UserDTO createUser(@RequestParam String firstName, @RequestParam String lastName,
+			@RequestParam String eMailAddress, @RequestParam String customerNumber, @RequestParam String password) {
 
+		if (userRepository.findByUsername(customerNumber) != null
+				|| userRepository.findByEMailAddress(eMailAddress) != null) {
+			return null;
+		}
+		User u;
+		try {
+			u = userRepository.save(new User(firstName, lastName, eMailAddress, customerNumber,
+					passwordEncoder.encode(password), Role.User));
+		} catch (Exception e) {
+			return null;
+		}
+
+		return new UserDTO(u);
+
+	}
+
+	/**
+	 * Create user using a userDTO
+	 * 
+	 * @param userDTO  The userDTO with all information needed.
+	 * @param password the password for the new user.
+	 * @return A UserDTO to represent the saved user.
+	 */
+	@PostMapping(path = "/api/users", params = { "userDTO", "password" })
+	public UserDTO createUser(UserDTO userDTO, String password) {
+		return createUser(userDTO.getFirstName(), userDTO.getLastName(), userDTO.getEmail(),
+				userDTO.getCustomerNumber(), password);
 	}
 
 	/**
 	 * This method allows an admin to delete a user out of the system. The user
 	 * object is deleted out of the database.
 	 * 
-	 * @param token The JWT of the admin to authenticate himself.
-	 * @param uid   The ID of the user that should be deleted.
+	 * @param uid The user-ID of the user that should be deleted.
 	 * @return A boolean that shows if the deletion was successful.
 	 */
-	@DeleteMapping("api/users/{uid}")
-	public String deleteUser(@PathVariable Long uid) {
-		return null;
-	}
+	@DeleteMapping("api/users")
+	public boolean deleteUser(@RequestParam Long uid) {
 
-//	/**
-//	 * This method allows an admin to change the name of an existing user in the
-//	 * database.
-//	 * 
-//	 * @param token The JWT of the admin to authenticate himself.
-//	 * @param name  The new name that should occure in the database entry of that
-//	 *              user.
-//	 * @param uid   The ID of the user whose name should be changed.
-//	 * @return A boolean that shows if the change was successful.
-//	 */
-//	@PutMapping("api/users/{uid}")
-//	public String updateUserName(@RequestParam String name, @PathVariable Long uid) {
-//		return null;
-//	}
-	public String deleteUser(@PathVariable String uid) {
-//		String deleterId = token.getId(); // hier gucken, wie das geht..
-//		Person person = personRepository.findById(deleterId);
-//		User user = userRepository.findById(uid);
-//		if (person.getRole().equals(Role.Admin)) {
-//			Date date = new Date();
-//			user.setDeletedAt(date);
-//		}
-		return null;
+		if (userRepository.existsById(uid)) {
+			userRepository.deleteById(uid);
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
 	 * This method allows an admin to change the surname of an existing user in the
 	 * database.
 	 * 
-	 * @param token The JWT of the admin to authenticate himself.
-	 * @param name  The new surname that should occure in the database entry of that
-	 *              user.
-	 * @param uid   The ID of the user whose surname should be changed.
+	 * @param name The new surname that should be stored in the database entry of
+	 *             the specified user.
+	 * @param uid  The ID of the user whose surname should be changed.
 	 * @return A boolean that shows if the change was successful.
 	 */
 	@PutMapping("api/users/{uid}/surname")
-	public String updateUserSurname(@RequestParam String object, @RequestParam String name, @PathVariable Long uid) {
-//		String updaterId = token.getId(); // hier gucken, wie das geht..
-//		Person person = personRepository.findById(updaterId);
-//		User user = userRepository.findById(uid);
-//		if (person.getRole().equals(Role.Admin) && !surname.isEmpty()) {
-//			Date date = new Date();
-//			user.setUpdatedAt(date);
-//			user.setSurname(surname);
-//		}
-		return null;
+	public UserDTO updateUserSurname(@RequestParam String object, @RequestParam String surname,
+			@PathVariable Long uid) {
+		User u = userRepository.findById(uid).orElse(null);
+		if (u == null) {
+			return null;
+		}
+		u.setLastName(surname);
+		u.setUpdatedAt(LocalDateTime.now());
+		userRepository.save(u);
+		return new UserDTO(u);
 	}
 
 	/**
-	 * This method allows an admin to change the email adress of an existing user in
-	 * the database.
+	 * This method allows an admin to change the email address of an existing user
+	 * in the database.
 	 * 
-	 * @param token The JWT of the admin to authenticate himself.
-	 * @param name  The new email adress that should occure in the database entry of
-	 *              that user.
-	 * @param uid   The ID of the user whose email adress should be changed.
-	 * @return A boolean that shows if the change was successful.
+	 * @param name The new email address that should be saved in the database entry
+	 *             of the specified user.
+	 * @param uid  The ID of the user whose email address should be changed.
+	 * @return A UserDTO representing the updated user or {@code null} when the
+	 *         email-Address is already in the database or no such user exists.
 	 */
 	@PutMapping("api/users/{uid}/email")
-	public String updateUserEmail(@RequestParam String email, @PathVariable Long uid) {
-//		String updaterId = token.getId(); // hier gucken, wie das geht..
-//		Person person = personRepository.findById(updaterId);
-//		User user = userRepository.findById(uid);
-//		if (person.getRole().equals(Role.Admin) && !email.isEmpty()) {
-//			Date date = new Date();
-//			user.setUpdatedAt(date);
-//			user.setEMailAddress(email);
-//		}
-		return null;
+	public UserDTO updateUserEmail(@RequestParam String email, @PathVariable Long uid) {
+		User u = userRepository.findById(uid).orElse(null);
+		if (u == null || userRepository.findByEMailAddress(email) != null) {
+			return null;
+		}
+		u.setEMailAddress(email);
+		u.setUpdatedAt(LocalDateTime.now());
+		userRepository.save(u);
+		return new UserDTO(u);
 	}
-//
-//	/**
-//	 * This method allows an admin to change the email adress of an existing user in
-//	 * the database.
-//	 * 
-//	 * @param token The JWT of the admin to authenticate himself.
-//	 * @param name  The new email adress that should occure in the database entry of
-//	 *              that user.
-//	 * @param uid   The ID of the user whose email adress should be changed.
-//	 * @return A boolean that shows if the change was successful.
-//	 */
-//	@PutMapping("api/users/{uid}")
-//	public String updateUserEmail(@RequestParam String email, @PathVariable Long uid) {
-//		return null;
-//	}
 
-//	/**
-//	 * This method allows an admin to change the address of an existing user in the
-//	 * database.
-//	 * 
-//	 * @param token The JWT of the admin to authenticate himself.
-//	 * @param name  The new address that should occure in the database entry of that
-//	 *              user.
-//	 * @param uid   The ID of the user whose address should be changed.
-//	 * @return A boolean that shows if the operation was successful.
-//	 */
-//	@PutMapping("api/users/{uid}")
-//	public String updateUserAddress(@RequestParam Address address, @PathVariable Long uid) {
-//		return null;
-//	}
+	@GetMapping("/api/users/me")
+	public UserDTO getOwnData(HttpServletRequest request) {
+		return new UserDTO(userRepository.findByUsername(request.getUserPrincipal().getName()));
+		// return null;
+	}
 
-//	/**
-//	 * This method allows an admin to change the user number of an existing user in
-//	 * the database.
-//	 * 
-//	 * @param token The JWT of the admin to authenticate himself.
-//	 * @param name  The new user number that should occure in the database entry of
-//	 *              that user.
-//	 * @param uid   The ID of the user whose user number should be changed.
-//	 * @return A boolean that shows if the operation was successful.
-//	 */
-//	@PutMapping("api/users/{uid}")
-//	public String updateUserNumber(@RequestParam String number, @PathVariable Long uid) {
-//		return null;
-//	}
-
-//	/**
-//	 * This method allows an admin to add new meters to the account of an user. The
-//	 * meters are stored as a list in the database entry of the user its belonging
-//	 * to.
-//	 * 
-//	 * @param token    The JWT of the admin to authenticate himself.
-//	 * @param meterIDs The list of meters which should be added to the users
-//	 *                 account. The list needs to contain at least one meter.
-//	 * @param uid      The ID of the user who should become new meters associated
-//	 *                 with himself.
-//	 * @return A boolean that shows if the operation was successful.
-//	 */
-//	@PutMapping("api/users/{uid}")
-//	public String addMetersToUser(@RequestParam List<Meter> meterIDs, @PathVariable Long uid) {
-//		return null;
-//	}
-
-//	/**
-//	 * This method allows an admin to delete meters from an user account. So to
-//	 * remove meters from the list of meters associated with this users account
-//	 * 
-//	 * @param token    The JWT of the admin to authenticate himself.
-//	 * @param meterIDs The list of meters which should be deleted from the users
-//	 *                 account. The list needs to contain at least one meter.
-//	 * @param uid      The ID of the user who should have less meters associated
-//	 *                 with his account.
-//	 * @return A boolean that shows if the operation was successful.
-//	 */
-//	@DeleteMapping("api/users/{uid}")
-//	public String removeMetersFromUser(@RequestParam List<Meter> meterIDs, @PathVariable Long uid) {
-//		return null;
-//	}
+	/**
+	 * Lets a user change his own email-address.
+	 * 
+	 * @param request The Http-Request, it's used to identify the user.
+	 * @param email   The new eMail-Address.
+	 * @return A UserDTO representing the updated user or {@code null} when the
+	 *         email-Address is already in the database.
+	 */
 	@PutMapping("/api/users/me/email")
-	public String updateOwnEmail(@RequestParam String email) {
-//		String updaterId = token.getId(); // hier gucken, wie das geht..
-//		Person person = personRepository.findById(updaterId);
-//		if (person.getRole().equals(Role.User) && !email.isEmpty()) {
-//			Date date = new Date();
-//			User user = (User) person;
-//			user.setUpdatedAt(date);
-//			user.setEMailAddress(email);
-//		}
-		return null;
+	public UserDTO updateOwnEmail(HttpServletRequest request, @RequestParam String email) {
+		User u = userRepository.findByUsername(request.getUserPrincipal().getName());
+		return updateUserEmail(email, u.getPersonId());
 	}
 
-	/**
-	 * This method allows an admin to add new meters to the account of an user. The
-	 * meters are stored as a list in the database entry of the user its belonging
-	 * to.
-	 * 
-	 * @param token    The JWT of the admin to authenticate himself.
-	 * @param meterIDs The list of meters which should be added to the users
-	 *                 account. The list needs to contain at least one meter.
-	 * @param uid      The ID of the user who should become new meters associated
-	 *                 with himself.
-	 * @return A boolean that shows if the operation was successful.
-	 */
-	@PutMapping("api/users/{uid}/meters")
-	public boolean addMetersToUser(@RequestParam List<String> meterIDs, @PathVariable String uid) {
-//		String personId = token.getId(); // hier gucken, wie das geht..
-//		Person person = personRepository.findById(personId);
-//		if (person.getRole().equals(Role.Admin) {
-//			User user = userRepository.findById(uid);
-//			for(String m : meterIDs) {
-//				Meter meter = meterRepository.findById(m);
-//				UserMeterAssociation newUserMeterA = new UserMeterAssociation(user, meter);
-//				return true;
-//			}
-//		}
-		return false;
-	}
-
-	/**
-	 * This method allows an admin to delete meters from an user account. So to
-	 * remove meters from the list of meters associated with this users account
-	 * 
-	 * @param token    The JWT of the admin to authenticate himself.
-	 * @param meterIDs The list of meters which should be deleted from the users
-	 *                 account. The list needs to contain at least one meter.
-	 * @param uid      The ID of the user who should have less meters associated
-	 *                 with his account.
-	 * @return A boolean that shows if the operation was successful.
-	 */
-	@DeleteMapping("api/users/{uid}/meters")
-	public boolean removeMetersFromUser(@RequestParam List<Meter> meterIDs, @PathVariable String uid) {
-//		String personId = token.getId(); // hier gucken, wie das geht..
-//		Person person = personRepository.findById(personId);
-//		if (person.getRole().equals(Role.Admin) {
-//			User user = userRepository.findById(uid);
-//			for(String m : meterIDs) {
-//				Meter meter = meterRepository.findById(m);
-//				//hier UserMeterAssociationn getten und löschen
-//				return true;
-//			}
-//		}	
-		return false;
-	}
 }

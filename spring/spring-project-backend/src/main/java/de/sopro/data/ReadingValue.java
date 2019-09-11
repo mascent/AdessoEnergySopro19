@@ -13,78 +13,77 @@ import javax.validation.constraints.Positive;
 
 @Entity
 public class ReadingValue {
-	
-public ReadingValue(int value,  Long changerId, String reason){
-	this.value=value;
-	this.changerId = changerId;
-	this.reason = reason;
-	lastChange = LocalDateTime.now();
-}
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long readingValueId;
+
+	@ManyToOne
+	private Reading reading;
+
+	@Positive
+	@NotNull
+	private Long value;
+
+	@NotNull
+	@Past
+	private LocalDateTime lastChange;
+
+	private Long changerId;
+
+	private String reason;
+
+	public ReadingValue(Long value, Long changerId, String reason) {
+		this.value = value;
+		this.changerId = changerId;
+		this.reason = reason;
+		lastChange = LocalDateTime.now();
+	}
 
 // smart constructor for first initialization
-public ReadingValue(int value, Long changerId) {
-	this.value=value;
-	this.changerId = changerId;
-	this.reason = "creation";
-	lastChange = LocalDateTime.now();
-}
+	public ReadingValue(Long value, Long changerId) {
+		this.value = value;
+		this.changerId = changerId;
+		this.reason = "creation";
+		lastChange = LocalDateTime.now();
+	}
 
-@Id @GeneratedValue(strategy = GenerationType.AUTO)
-private Long readingValueId;
+	public Long getReadingValueId() {
+		return readingValueId;
+	}
 
+	public void setReadingValueId(Long readingValueId) {
+		this.readingValueId = readingValueId;
+	}
 
-@ManyToOne
-private Reading reading;
+	public Long getValue() {
+		return value;
+	}
 
-@Positive
-@NotNull
-private int value;
+	public LocalDateTime getCreatedAt() {
+		return lastChange;
+	}
 
-@NotNull
-@Past
-private LocalDateTime lastChange;
+	public void setDate(LocalDateTime date) {
+		this.lastChange = date;
+	}
 
-private Long changerId;
+	public Long getChangerId() {
+		return changerId;
+	}
 
-private String reason;
+	public void setChangerId(Long changerId) {
+		this.changerId = changerId;
+	}
 
-public Long getReadingValueId() {
-	return readingValueId;
-}
+	public String getReason() {
+		return reason;
+	}
 
-public void setReadingValueId(Long readingValueId) {
-	this.readingValueId = readingValueId;
-}
+	public Reading getReading() {
+		return reading;
+	}
 
-public int getValue() {
-	return value;
-}
-
-public void setValue(int value) {
-	this.value = value;
-}
-
-public LocalDateTime getCreatedAt() {
-	return lastChange;
-}
-
-public void setDate(LocalDateTime date) {
-	this.lastChange = date;
-}
-
-public Long getChangerId() {
-	return changerId;
-}
-
-public void setChangerId(Long changerId) {
-	this.changerId = changerId;
-}
-
-public String getReason() {
-	return reason;
-}
-
-public void setReason(String reason) {
-	this.reason = reason;
-}
+	public void setReason(String reason) {
+		this.reason = reason;
+	}
 }

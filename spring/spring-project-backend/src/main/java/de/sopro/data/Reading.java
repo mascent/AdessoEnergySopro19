@@ -1,5 +1,6 @@
 package de.sopro.data;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,43 +15,60 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 public class Reading {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long readingId;
+
+	@OneToMany(mappedBy = "reading", cascade = CascadeType.ALL)
+	@NotNull
+	private List<ReadingValue> readingValues;
+
 	
-public Reading() {
-	 readingValues = new ArrayList<ReadingValue>();
-}
+	@ManyToOne
+	private Meter meter;
 
-@ManyToOne
-private Meter meter;
 	
-public Meter getMeter() {
-	return meter;
-}
+	public Reading(Meter meter, Long initalReading) {
+		this.meter = meter;
+		readingValues = new ArrayList<ReadingValue>();
+		readingValues.add(new ReadingValue(initalReading, null, "Inital Reading"));
+	}
+	
+	public Reading() {
+	}
 
-public void setMeter(Meter meter) {
-	this.meter = meter;
-}
+	public Meter getMeter() {
+		return meter;
+	}
 
-@OneToMany(mappedBy = "reading",cascade = CascadeType.ALL)
-@NotNull
-private List <ReadingValue> readingValues;
+	public void setMeter(Meter meter) {
+		this.meter = meter;
+	}
 
+	public Long getReadingId() {
+		return readingId;
+	}
 
-@Id @GeneratedValue(strategy = GenerationType.AUTO)
-private Long readingId;
+	public void setReadingId(Long readingId) {
+		this.readingId = readingId;
+	}
 
-public Long getReadingId() {
-	return readingId;
-}
+	public List<ReadingValue> getReadingValues() {
+		return readingValues;
+	}
 
-public void setReadingId(Long readingId) {
-	this.readingId = readingId;
-}
+	public void setReadingValues(List<ReadingValue> readingValues) {
+		this.readingValues = readingValues;
+	}
 
-public List<ReadingValue> getReadingValues() {
-	return readingValues;
-}
-
-public void setReadingValues(List<ReadingValue> readingValues) {
-	this.readingValues = readingValues;
-}
+	public LocalDateTime getCreatedAt() {
+		LocalDateTime oldestTime = LocalDateTime.now();
+		for (ReadingValue rv : readingValues) {
+			if (rv.getCreatedAt().isBefore(oldestTime)) {
+				oldestTime = rv.getCreatedAt();
+			}
+		}
+		return oldestTime;
+	}
 }
