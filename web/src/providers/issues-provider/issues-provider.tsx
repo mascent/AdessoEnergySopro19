@@ -127,7 +127,7 @@ export function useIssues(): IssuesKit {
   const { fetchIssues, updateIssue, ...rest } = context;
 
   React.useEffect(() => {
-    if (fetching || rest.isLoading || rest.issues !== null) return;
+    if (fetching || rest.isLoading || rest.issues.length !== 0) return;
 
     fetching = true;
     fetchIssues().finally(() => (fetching = false));

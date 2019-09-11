@@ -118,6 +118,7 @@ interface MetersKit {
 }
 
 let fetching = false;
+let lastFetched = '';
 export function useMeters(userId: string): MetersKit {
   const context = useContext(MetersContext);
 
@@ -127,9 +128,15 @@ export function useMeters(userId: string): MetersKit {
   const { fetchMeters, updateMeter, ...rest } = context;
 
   React.useEffect(() => {
-    if (fetching || rest.isLoading || rest.meters.length !== 0) return;
+    if (
+      fetching ||
+      rest.isLoading ||
+      (rest.meters.length !== 0 && userId === lastFetched)
+    )
+      return;
 
     fetching = true;
+    lastFetched = userId;
     fetchMeters(userId).finally(() => (fetching = false));
   }, [fetchMeters, rest, userId]);
 
