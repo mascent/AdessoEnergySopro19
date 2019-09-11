@@ -39,7 +39,7 @@ const UserDashboard: React.FC = () => {
     <ContainerCard className={styles.container}>
       <MeterList meters={meters} />
       <div className={styles.contentContainer}>
-        <Router className={styles.router} basepath="/">
+        <Router className={styles.router}>
           <SelectMeter path="/" />
           <NewMeter
             path="/new"

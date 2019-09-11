@@ -45,22 +45,25 @@ const MeterDisplayWithUser: React.FC<
     <div className={styles.container}>
       <MeterList meters={meters} />
       <div className={styles.contentContainer}>
-        <Router className={styles.router} basepath="/admin/users/:userId/">
+        <Router className={styles.router}>
           <CustomerInformation
             path="/"
             onSave={updateUser}
             userInfo={userKit.user}
           />
           <NewMeter
-            path="/new"
+            path="new"
             onCreate={createMeter}
             onCancel={() => navigate('../')}
           />
-          <MeterInformation path="/:id" />
+          <MeterInformation path=":id" />
+          <NF default />
         </Router>
       </div>
     </div>
   );
 };
+
+const NF: React.FC<RouteComponentProps> = () => <p>Not Found</p>;
 
 export default MeterDisplayWithUser;

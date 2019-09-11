@@ -16,7 +16,7 @@ ReactDOM.render(
       override={{
         isLoggedIn: true,
         userId: 'kaka',
-        isAdmin: true
+        isAdmin: false
       }}
     >
       <App />

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useInputValidation } from 'use-input-validation';
-import { isStringEmpty, isNumber } from '../lib/validators';
+import { isNumber } from '../lib/validators';
 import Input from './generics/input';
 import { SecondaryButton, PrimaryButton } from './generics/button';
 import styles from './new-reading.module.scss';
