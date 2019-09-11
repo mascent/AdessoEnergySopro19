@@ -14,12 +14,9 @@ class IssueComponent extends AdessoEnergyApiComponent {
     // return await result.json();
   }
 
-  public async createNewIssue(
-    issue: Partial<IssueDTO>,
-    id: string
-  ): Promise<IssueDTO> {
+  public async createNewIssue(issue: Partial<IssueDTO>): Promise<IssueDTO> {
     return buildIssueDTO(issue);
-    // const result = await this.post(`/api/issues/${id}`, issue);
+    // const result = await this.post(`/api/issues`, issue);
 
     // if (!result.ok) {
     //   throw new Error('A problem occurred with the request.');

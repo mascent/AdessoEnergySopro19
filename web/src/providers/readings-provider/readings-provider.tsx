@@ -9,16 +9,27 @@ import {
   addReadingRequest,
   addReadingFailure,
   updateReadingRequest,
-  updateReadingFailure
+  updateReadingFailure,
+  addReadingSuccess,
+  updateReadingSuccess
 } from './readings-actions';
+import { readings } from '../../services/ad-api';
+import {
+  mapReadingDTOtoReading,
+  mapInternalReadingToReadingDTO
+} from '../../lib/mappers';
 
 interface ReadingsContext {
   readings: Reading[];
   isLoading: boolean;
   error: Error | null;
-  fetchReadings: () => Promise<void>;
-  addReading: (reading: Partial<Reading>) => Promise<void>;
-  updateReading: (id: string, update: Partial<Reading>) => Promise<void>;
+  fetchReadings: (meterId: string) => Promise<void>;
+  addReading: (meterId: string, reading: Partial<Reading>) => Promise<void>;
+  updateReading: (
+    meterId: string,
+    id: string,
+    update: Partial<Reading>
+  ) => Promise<void>;
 }
 
 const initialContext: ReadingsState = {
@@ -41,13 +52,16 @@ export const ReadingsProvider: React.FC<ReadingsProviderProps> = ({
 }) => {
   const [state, dispatch] = useReducer(readingsReducer, initialContext);
 
-  const fetchReadings = useCallback(async () => {
+  const fetchReadings = useCallback(async (meterId: string) => {
     try {
       Logger.logBreadcrumb('info', 'readings-context', 'Fetching readings');
       dispatch(fetchReadingsRequest());
-      // Do fetch
+
+      const result = await readings.getAllReadingsByAMeter(meterId);
       Logger.logBreadcrumb('info', 'readings-context', 'Fetched readings');
-      dispatch(fetchReadingsSuccess([]));
+      dispatch(
+        fetchReadingsSuccess(result.map(res => mapReadingDTOtoReading(res)))
+      );
     } catch (e) {
       Logger.logBreadcrumb(
         'error',
@@ -59,28 +73,40 @@ export const ReadingsProvider: React.FC<ReadingsProviderProps> = ({
     }
   }, []);
 
-  const addReading = useCallback(async (reading: Partial<Reading>) => {
-    try {
-      Logger.logBreadcrumb('info', 'readings-context', 'Adding reading');
-      dispatch(addReadingRequest());
-      // Do fetch
-      Logger.logBreadcrumb('info', 'readings-context', 'Added reading');
-      // dispatch(addMeterSuccess());
-    } catch (e) {
-      Logger.logBreadcrumb('error', 'readings-context', 'Add reading failed');
-      Logger.captureException(e);
-      dispatch(addReadingFailure(e));
-    }
-  }, []);
+  const addReading = useCallback(
+    async (meterId: string, reading: Partial<Reading>) => {
+      try {
+        Logger.logBreadcrumb('info', 'readings-context', 'Adding reading');
+        dispatch(addReadingRequest());
+
+        const res = await readings.addReadingToAMeter(
+          meterId,
+          mapInternalReadingToReadingDTO(reading)
+        );
+        Logger.logBreadcrumb('info', 'readings-context', 'Added reading');
+        dispatch(addReadingSuccess(mapReadingDTOtoReading(res)));
+      } catch (e) {
+        Logger.logBreadcrumb('error', 'readings-context', 'Add reading failed');
+        Logger.captureException(e);
+        dispatch(addReadingFailure(e));
+      }
+    },
+    []
+  );
 
   const updateReading = useCallback(
-    async (id: string, update: Partial<Reading>) => {
+    async (meterId: string, id: string, update: Partial<Reading>) => {
       try {
         Logger.logBreadcrumb('info', 'readings-context', 'Updating reading');
         dispatch(updateReadingRequest(id));
-        // Do fetch
+
+        const res = await readings.updateReadingForAMeter(
+          meterId,
+          id,
+          mapInternalReadingToReadingDTO(update)
+        );
         Logger.logBreadcrumb('info', 'readings-context', 'Updated reading');
-        // dispatch(updateMeterSuccess());
+        dispatch(updateReadingSuccess(mapReadingDTOtoReading(res)));
       } catch (e) {
         Logger.logBreadcrumb(
           'error',
@@ -111,11 +137,11 @@ interface ReadingsKit {
   readings: Reading[];
   isLoading: boolean;
   error: Error | null;
-  addReading: (reading: Partial<Reading>) => Promise<void>;
+  addReading: (meterId: string, reading: Partial<Reading>) => Promise<void>;
 }
 
 let fetching = false;
-export function useReadings(): ReadingsKit {
+export function useReadings(meterId: string): ReadingsKit {
   const context = useContext(ReadingsContext);
 
   if (typeof context === 'undefined')
@@ -124,11 +150,11 @@ export function useReadings(): ReadingsKit {
   const { fetchReadings, updateReading, ...rest } = context;
 
   React.useEffect(() => {
-    if (fetching || rest.isLoading || rest.readings !== null) return;
+    if (fetching || rest.isLoading || rest.readings.length !== 0) return;
 
     fetching = true;
-    fetchReadings().finally(() => (fetching = false));
-  }, [fetchReadings, rest]);
+    fetchReadings(meterId).finally(() => (fetching = false));
+  }, [fetchReadings, rest, meterId]);
 
   return rest;
 }
@@ -153,5 +179,8 @@ export function useReading(id: string): ReadingKit | null {
 
   if (typeof reading === 'undefined') return null;
 
-  return { reading, updateReading: updateReading.bind(undefined, reading.id) };
+  return {
+    reading,
+    updateReading: updateReading.bind(undefined, reading.meterId, reading.id)
+  };
 }

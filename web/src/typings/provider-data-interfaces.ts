@@ -4,7 +4,6 @@ export interface Status {
   saving: boolean;
   saveError: Error | null;
   changed: boolean;
-  lastFetched: Date;
 }
 
 export interface User {

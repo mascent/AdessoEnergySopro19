@@ -9,14 +9,21 @@ import {
   addMeterRequest,
   addMeterFailure,
   updateMeterRequest,
-  updateMeterFailure
+  updateMeterFailure,
+  addMeterSuccess,
+  updateMeterSuccess
 } from './meters-actions';
+import { meters } from '../../services/ad-api';
+import {
+  mapMeterDtoToMeter,
+  mapInternalMeterToMeterDTO
+} from '../../lib/mappers';
 
 interface MetersContext {
   meters: Meter[];
   isLoading: boolean;
   error: Error | null;
-  fetchMeters: () => Promise<void>;
+  fetchMeters: (userId: string) => Promise<void>;
   addMeter: (meter: Partial<Meter>) => Promise<void>;
   updateMeter: (id: string, update: Partial<Meter>) => Promise<void>;
 }
@@ -39,13 +46,14 @@ export const MetersProvider: React.FC<MetersProviderProps> = ({
 }) => {
   const [state, dispatch] = useReducer(metersReducer, initialContext);
 
-  const fetchMeters = useCallback(async () => {
+  const fetchMeters = useCallback(async (userId: string) => {
     try {
       Logger.logBreadcrumb('info', 'meters-context', 'Fetching meters');
       dispatch(fetchMetersRequest());
-      // Do fetch
+
+      const res = await meters.getMetersForUser(userId);
       Logger.logBreadcrumb('info', 'meters-context', 'Fetched meters');
-      dispatch(fetchMetersSuccess([]));
+      dispatch(fetchMetersSuccess(res.map(r => mapMeterDtoToMeter(r))));
     } catch (e) {
       Logger.logBreadcrumb('error', 'meters-context', 'Fetch meters failed');
       Logger.captureException(e);
@@ -57,9 +65,12 @@ export const MetersProvider: React.FC<MetersProviderProps> = ({
     try {
       Logger.logBreadcrumb('info', 'meters-context', 'Adding meter');
       dispatch(addMeterRequest());
-      // Do fetch
+
+      const res = await meters.createNewMeter(
+        mapInternalMeterToMeterDTO(meter)
+      );
       Logger.logBreadcrumb('info', 'meters-context', 'Added meter');
-      // dispatch(addMeterSuccess());
+      dispatch(addMeterSuccess(mapMeterDtoToMeter(res)));
     } catch (e) {
       Logger.logBreadcrumb('error', 'meters-context', 'Add meter failed');
       Logger.captureException(e);
@@ -72,9 +83,13 @@ export const MetersProvider: React.FC<MetersProviderProps> = ({
       try {
         Logger.logBreadcrumb('info', 'meters-context', 'Updating meter');
         dispatch(updateMeterRequest(id));
-        // Do fetch
+
+        const res = await meters.updateMeter(
+          id,
+          mapInternalMeterToMeterDTO(update)
+        );
         Logger.logBreadcrumb('info', 'meters-context', 'Updated meter');
-        // dispatch(updateMeterSuccess());
+        dispatch(updateMeterSuccess(mapMeterDtoToMeter(res)));
       } catch (e) {
         Logger.logBreadcrumb('error', 'meters-context', 'Update meter failed');
         Logger.captureException(e);
@@ -103,7 +118,7 @@ interface MetersKit {
 }
 
 let fetching = false;
-export function useMeters(): MetersKit {
+export function useMeters(userId: string): MetersKit {
   const context = useContext(MetersContext);
 
   if (typeof context === 'undefined')
@@ -115,8 +130,8 @@ export function useMeters(): MetersKit {
     if (fetching || rest.isLoading || rest.meters !== null) return;
 
     fetching = true;
-    fetchMeters().finally(() => (fetching = false));
-  }, [fetchMeters, rest]);
+    fetchMeters(userId).finally(() => (fetching = false));
+  }, [fetchMeters, rest, userId]);
 
   return rest;
 }
