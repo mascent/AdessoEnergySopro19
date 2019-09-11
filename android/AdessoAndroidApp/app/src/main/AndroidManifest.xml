@@ -19,6 +19,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity
+            android:name=".ui.activity.GraphActivity"
+            android:label="@string/title_activity_graph"
+            android:parentActivityName=".ui.activity.DetailActivity"
+            android:theme="@style/AppTheme.NoActionBar.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="energy.adesso.adessoandroidapp.ui.activity.DetailActivity" />
+        </activity>
         <activity android:name=".ui.activity.IssueActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

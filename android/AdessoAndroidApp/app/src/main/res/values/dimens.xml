@@ -9,4 +9,5 @@
     <dimen name="list_title_margin_side">16dp</dimen>
     <dimen name="main_list_bottom_space">75dp</dimen>
     <dimen name="fading_edge">45dp</dimen>
+    <dimen name="detail_toolbar_button_size">40dp</dimen>
 </resources>

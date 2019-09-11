@@ -40,4 +40,10 @@
     <string name="detail_list_dates_title">Datum</string>
     <string name="issue_send_successfully">Die Nachricht wurde erfolgreich übermittelt.</string>
     <string name="waterUnit">m³</string>
+    <string name="detail_correct_dialog_title">Zählerstand korrigieren</string>
+    <string name="detail_correct_dialog_desc">Bitte stelle sicher, dass du den richtigen Zählerstand korrekt abliest.</string>
+    <string name="title_activity_graph">GraphActivity</string>
+    <string name="graph_toolbar_title">Verbrauchsentwicklung</string>
+    <string name="graph_title">Verbrauch in </string>
+    <string name="loading_text">Lade Daten...</string>
 </resources>

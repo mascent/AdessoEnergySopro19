@@ -11,6 +11,7 @@ import android.widget.Toast;
 import energy.adesso.adessoandroidapp.R;
 import energy.adesso.adessoandroidapp.logic.model.exception.AdessoException;
 import energy.adesso.adessoandroidapp.logic.model.identifiable.Issue;
+import energy.adesso.adessoandroidapp.ui.mock.MockIssue;
 
 public class IssueActivity extends AppCompatActivity {
 
@@ -25,7 +26,7 @@ public class IssueActivity extends AppCompatActivity {
     }
 
     public void onSendClick(View view) {
-        Issue i = new Issue(null);
+        MockIssue i = new MockIssue(null);
 
         String name = ((TextView)findViewById(R.id.name)).getText().toString();
         String email = ((TextView)findViewById(R.id.email)).getText().toString();
