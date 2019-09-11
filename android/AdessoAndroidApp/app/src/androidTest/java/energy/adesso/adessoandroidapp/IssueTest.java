@@ -46,7 +46,5 @@ public class IssueTest {
     closeSoftKeyboard();
 
     onView(withId(R.id.send)).perform(click());
-
-
   }
 }

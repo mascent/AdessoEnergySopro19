@@ -23,7 +23,7 @@
         app:titleTextColor="@color/colorPrimary" />
 
     <com.jjoe64.graphview.helper.GraphViewXML
-        android:id="@+id/graphViewXML"
+        android:id="@+id/graphView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_margin="16dp"

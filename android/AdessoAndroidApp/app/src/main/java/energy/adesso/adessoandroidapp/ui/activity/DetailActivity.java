@@ -1,7 +1,6 @@
 package energy.adesso.adessoandroidapp.ui.activity;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -21,15 +20,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import energy.adesso.adessoandroidapp.R;
-import energy.adesso.adessoandroidapp.logic.controller.PersistenceController;
 import energy.adesso.adessoandroidapp.logic.model.MeterKind;
 import energy.adesso.adessoandroidapp.logic.model.exception.AdessoException;
-import energy.adesso.adessoandroidapp.logic.model.exception.CredentialException;
-import energy.adesso.adessoandroidapp.logic.model.exception.NetworkException;
 import energy.adesso.adessoandroidapp.logic.model.identifiable.Meter;
 import energy.adesso.adessoandroidapp.logic.model.identifiable.Reading;
 import energy.adesso.adessoandroidapp.ui.adapter.ReadingAdapter;
@@ -171,7 +166,7 @@ public class DetailActivity extends AppCompatActivity {
 
         // Get the icon and set the unit TextView
         Drawable icon = null;
-        TextView unit = ((TextView)findViewById(R.id.unit));
+        TextView unit = ((TextView)findViewById(R.id.listElementRightText));
         if (m.getKind().equals(MeterKind.ELECTRIC)) {
             icon = getDrawable(R.drawable.icon_electricity);
             unit.setText(R.string.elecUnit);
@@ -207,7 +202,7 @@ public class DetailActivity extends AppCompatActivity {
           inflate(R.layout.dialog_edit, null);
       final EditText input = (EditText)l.findViewById(R.id.name);
       input.setText(readings.get(position).getValue());
-      ((TextView)l.findViewById(R.id.bottomText)).setText("");
+      ((TextView)l.findViewById(R.id.listElementBottomText)).setText("");
       builder.setView(l);
 
       // Set up events
