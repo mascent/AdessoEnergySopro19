@@ -71,7 +71,10 @@ public class MockMeter extends Meter {
 
     @Override
     public void setName(String newName) throws NetworkException {
-
+        try {
+            super.setName(newName);
+        } catch (CredentialException e) {
+        }
     }
 
     public Meter toMeter() {

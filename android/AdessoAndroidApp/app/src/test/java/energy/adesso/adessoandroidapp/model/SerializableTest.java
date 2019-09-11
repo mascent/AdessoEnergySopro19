@@ -36,7 +36,7 @@ public class SerializableTest {
 
     // Test the getters (including those with logic)
     assertEquals(u.getId(), "gjasgk");
-    assertEquals(u.getCustomerNumber(), "337189857");
+    assertEquals(u.getUsername(), "337189857");
     assertEquals(u.getFirstName(), "Hanß");
     assertEquals(u.getLastName(), "Heinrich");
     assertEquals(u.getEmail(), "hanssheinrichist@cool.yeah");

@@ -111,7 +111,7 @@ public class CreateIssueTest {
     String subject = "object";
     String message = "according to all known laws of aviation, there's no way a bee can fly";
 
-    String baseUrl = "http://adesso.energy:8080/sopro-spring-project-0.0.1-SNAPSHOT";
+    String baseUrl = "http://adesso.energy:8080/sopro";
 
     MainController.setUsePersistence(false);
     SharedPreferences sp = Mockito.mock(SharedPreferences.class);

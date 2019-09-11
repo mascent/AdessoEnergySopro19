@@ -13,7 +13,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 class NetworkController {
-  private final static String defaultURL = "124.245.1.240:3001";
+  private final static String defaultURL = "http://adesso.energy:8080/sopro";
   private static String baseURL = defaultURL;
 
   private static String username;
