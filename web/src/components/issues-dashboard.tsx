@@ -36,9 +36,9 @@ const IssuesDashboard: React.FC = () => {
     <ContainerCard className={styles.container}>
       <IssueList issues={issues2} />
       <div className={styles.contentContainer}>
-        <Router className={styles.router}>
+        <Router className={styles.router} basepath="/admin/issues">
           <SelectMeter path="/" />
-          <IssueInformation path="/:id" />
+          <IssueInformation path="/:id*" />
         </Router>
       </div>
     </ContainerCard>
