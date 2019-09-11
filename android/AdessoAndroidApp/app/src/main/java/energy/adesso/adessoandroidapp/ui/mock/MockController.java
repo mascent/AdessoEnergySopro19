@@ -23,6 +23,9 @@ public class MockController {
     public static void login(String username, String password) throws AdessoException {
         Log.println(Log.INFO, "", "Login with " + username + ", "  + password);
 
+        if (username == null || password == null)
+            throw new AdessoException();
+
         try {
             Thread.sleep(1500);
         } catch (InterruptedException e) {
