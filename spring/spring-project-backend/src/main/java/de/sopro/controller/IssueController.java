@@ -120,4 +120,16 @@ public class IssueController {
 		}
 		return false;
 	}
+
+	/**
+	 * Method to check if the Person has the given role.
+	 * 
+	 * @param role
+	 * @param pid  Person id
+	 * @return
+	 */
+	private boolean checkPermission(Role role, Long pid) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }
