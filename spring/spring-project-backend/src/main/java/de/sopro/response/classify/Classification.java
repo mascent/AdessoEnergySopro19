@@ -3,27 +3,27 @@ package de.sopro.response.classify;
 import de.sopro.data.MeterType;
 
 public class Classification {
-	private Float probability;
-	private String tag;
+	private Float Probability;
+	private String Tag;
 
 	public String getTag() {
-		return tag;
+		return Tag;
 	}
 
-	public void setTag(String tag) {
-		this.tag = tag;
+	public void setTag(String Tag) {
+		this.Tag = Tag;
 	}
 
 	public Float getProbability() {
-		return probability;
+		return Probability;
 	}
 
-	public void setProbability(Float probability) {
-		this.probability = probability;
+	public void setProbability(Float Probability) {
+		this.Probability = Probability;
 	}
 
 	public MeterType getTagMeterType() {
-		switch (tag) {
+		switch (Tag) {
 		case "gas":
 			return MeterType.Gas;
 		case "strom":

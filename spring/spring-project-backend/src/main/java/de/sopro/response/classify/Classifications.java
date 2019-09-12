@@ -8,14 +8,14 @@ public class Classifications {
 	
 	public static final Float MINPROB = 0.75f;
 	
-	private List<Classification> classifications;
+	private List<Classification> Predictions;
 
 	public List<Classification> getClassifications() {
-		return classifications;
+		return Predictions;
 	}
 
 	public void setClassifications(List<Classification> classifications) {
-		this.classifications = classifications;
+		this.Predictions = classifications;
 	}
 
 	/**
@@ -28,7 +28,7 @@ public class Classifications {
 	public MeterType lookupMeterType() {
 		Float maxProb = MINPROB;
 		MeterType maxTag = null;
-		for (Classification classification : classifications) {
+		for (Classification classification : Predictions) {
 			Float currProb = classification.getProbability();
 			if(currProb > maxProb) {
 				maxProb = currProb;

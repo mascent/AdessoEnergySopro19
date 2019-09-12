@@ -2,34 +2,34 @@ package de.sopro.response.detect;
 
 public class BoundingBox {
 	
-	private Float left;
-	private Float right;
-	private Float width;
-	private Float height;
+	private Float Left;
+	private Float Top;
+	private Float Width;
+	private Float Height;
 	
 	public Float getLeft() {
-		return left;
+		return Left;
 	}
-	public void setLeft(Float left) {
-		this.left = left;
+	public void setLeft(Float Left) {
+		this.Left = Left;
 	}
-	public Float getRight() {
-		return right;
+	public Float getTop() {
+		return Top;
 	}
-	public void setRight(Float right) {
-		this.right = right;
+	public void setRight(Float Top) {
+		this.Top = Top;
 	}
 	public Float getWidth() {
-		return width;
+		return Width;
 	}
-	public void setWidth(Float width) {
-		this.width = width;
+	public void setWidth(Float Width) {
+		this.Width = Width;
 	}
 	public Float getHeight() {
-		return height;
+		return Height;
 	}
-	public void setHeight(Float height) {
-		this.height = height;
+	public void setHeight(Float Height) {
+		this.Height = Height;
 	}
 
 }

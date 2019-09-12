@@ -2,15 +2,15 @@ package de.sopro.response.detect;
 
 public class Prediction {
 
-	private String tag;
+	private String Tag;
 	private Float probability;
 	private BoundingBox boundingBox;
 	
 	public String getTag() {
-		return tag;
+		return Tag;
 	}
-	public void setTag(String tag) {
-		this.tag = tag;
+	public void setTag(String Tag) {
+		this.Tag = Tag;
 	}
 	public Float getProbability() {
 		return probability;
