@@ -5,7 +5,7 @@ import LoginForm from './login-form';
 test('Login get Called with username and password', () => {
   const handler = jest.fn();
   const { getByLabelText, getByText } = render(<LoginForm onLogin={handler} />);
-  const username = getByLabelText('Benutzername');
+  const username = getByLabelText('Kundennummer');
   const password = getByLabelText('Passwort');
   const button = getByText('Login');
 
@@ -35,7 +35,7 @@ test('Login dont get called, when username is missing', () => {
 test('Login dont get called, when password is missing', () => {
   const handler = jest.fn();
   const { getByLabelText, getByText } = render(<LoginForm onLogin={handler} />);
-  const username = getByLabelText('Benutzername');
+  const username = getByLabelText('Kundennummer');
   const button = getByText('Login');
 
   fireEvent.change(username, { target: { value: 'password' } });
