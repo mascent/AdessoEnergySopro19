@@ -59,7 +59,7 @@ public class MainController {
    * @throws CredentialException when not logged in
    */
   public static List<Reading> getReadings(Long meterId) throws NetworkException, CredentialException {
-    String request = "/api/users/me/readings/" + meterId;
+    String request = "/api/meters/" + meterId + "/readings";
     String response = NetworkController.get(request);
     Type type = new TypeToken<List<Meter>>() {
     }.getType();
