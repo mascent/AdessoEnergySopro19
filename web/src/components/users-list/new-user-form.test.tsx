@@ -28,8 +28,8 @@ test('New User informations are delivered', () => {
   expect(handler).toBeCalledWith(
     '12345678',
     'Name',
-    'password',
-    'name.name@name.de'
+    'name.name@name.de',
+    'password'
   );
 });
 

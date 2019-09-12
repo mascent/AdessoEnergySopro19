@@ -11,10 +11,12 @@ import Spinner from '../generics/spinner';
 import NewReading from '../new-reading';
 import { useAuth } from '../../providers/authentication-provider';
 import ReadingList from './readings-list';
+import { useSnackBar } from '../../providers/snackbar-provider';
 
 const MeterInformation: React.FC<RouteComponentProps<{ id: string }>> = ({
   id
 }) => {
+  const showSnackbar = useSnackBar();
   const { isAdmin } = useAuth();
   const meter = useMeter(id || '');
   const { readings, isLoading, addReading, updateReading } = useReadings(
@@ -39,14 +41,24 @@ const MeterInformation: React.FC<RouteComponentProps<{ id: string }>> = ({
 
   function handleAddReading(value: string) {
     if (typeof id !== 'undefined' && id !== '')
-      addReading(id, { value }).then(() => toggleAddReading(false));
+      addReading(id, { value }).then(success => {
+        if (success) {
+          showSnackbar('success', 'Zählerstand hinzugefügt');
+          toggleAddReading(false);
+        } else
+          showSnackbar('error', 'Zählerstand konnte nicht hinzugefügt werden');
+      });
   }
 
   function handleEditReading(id: string, value: string) {
     if (typeof id !== 'undefined' && id !== '' && meter !== null)
-      updateReading(meter.meter.id, id, { value }).then(() =>
-        toggleAddReading(false)
-      );
+      updateReading(meter.meter.id, id, { value }).then(success => {
+        if (success) {
+          showSnackbar('success', 'Änderung gespeichert');
+          toggleAddReading(false);
+        } else
+          showSnackbar('error', 'Änderung konnte nicht gespeichert werden');
+      });
   }
 
   return (

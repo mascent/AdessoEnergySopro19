@@ -4,11 +4,13 @@ import { useIssue } from '../../providers/issues-provider';
 import { SubTitle, Span, Paragraph } from '../generics/text';
 import { SecondaryButton, PrimaryButton } from '../generics/button';
 import styles from './issue-information.module.scss';
+import { useSnackBar } from '../../providers/snackbar-provider';
 
 const IssueInformation: React.FC<RouteComponentProps<{ id: string }>> = ({
   id
 }) => {
   const issue = useIssue(id || '');
+  const showSnackbar = useSnackBar();
 
   if (!issue) {
     return <Redirect to="/" noThrow />;
@@ -17,6 +19,14 @@ const IssueInformation: React.FC<RouteComponentProps<{ id: string }>> = ({
   function handleRequest() {
     if (!issue) return;
     navigate(`mailto:${issue.issue.email}`);
+  }
+
+  function resolve() {
+    if (!issue) return;
+    issue.updateIssue({ state: 'RESOLVED' }).then(success => {
+      if (success) showSnackbar('success', 'Ticker wurde geschlossen');
+      else showSnackbar('error', 'Ticket konnte nicht geschlossen werden');
+    });
   }
 
   return (
@@ -32,7 +42,7 @@ const IssueInformation: React.FC<RouteComponentProps<{ id: string }>> = ({
           </SecondaryButton>
           <PrimaryButton
             disabled={issue.issue.state === 'RESOLVED'}
-            onClick={() => issue.updateIssue({ state: 'RESOLVED' })}
+            onClick={resolve}
           >
             {issue.issue.state === 'RESOLVED' ? 'Erledigt' : 'Schließen'}
           </PrimaryButton>

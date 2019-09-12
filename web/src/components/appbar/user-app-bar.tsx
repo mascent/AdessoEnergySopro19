@@ -7,10 +7,12 @@ import { InvButton } from '../generics/button';
 import TicketModal from '../ticket-modal';
 import { useCreateIssue } from '../../providers/issues-provider';
 import { useAuth } from '../../providers/authentication-provider';
+import { useSnackBar } from '../../providers/snackbar-provider';
 
 const UserAppBar: React.FC = () => {
   const [isOpen, setOpen] = React.useState(false);
   const { logout } = useAuth();
+  const showSnackbar = useSnackBar();
 
   const create = useCreateIssue();
   function handleSend(
@@ -19,7 +21,12 @@ const UserAppBar: React.FC = () => {
     subject: string,
     message: string
   ) {
-    create({ name, email, subject, message });
+    create({ name, email, subject, message }).then(success => {
+      if (success) {
+        showSnackbar('success', 'Ticket wurde erstellt');
+        setOpen(false);
+      } else showSnackbar('error', 'Ticket konnte nicht erstellt werden');
+    });
   }
 
   return (

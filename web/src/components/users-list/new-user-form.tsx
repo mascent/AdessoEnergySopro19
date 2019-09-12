@@ -10,7 +10,8 @@ import { RouteComponentProps } from '@reach/router';
 interface NewUserFormProps extends RouteComponentProps {
   onCreate: (
     customerId: string,
-    name: string,
+    firstName: string,
+    lastName: string,
     email: string,
     password: string
   ) => void;
@@ -43,9 +44,15 @@ const NewUserForm: React.FC<NewUserFormProps> = ({ onCreate, onCancel }) => {
     confirmedPasswordValidator(password.value)
   );
 
-  const name = useInputValidation<string, string>(
+  const firstname = useInputValidation<string, string>(
     '',
-    'Name darf nicht leer sein',
+    'Vorname darf nicht leer sein',
+    stringNotEmpty
+  );
+
+  const lastName = useInputValidation<string, string>(
+    '',
+    'Nachname darf nicht leer sein',
     stringNotEmpty
   );
 
@@ -60,7 +67,8 @@ const NewUserForm: React.FC<NewUserFormProps> = ({ onCreate, onCancel }) => {
 
     const customerIdValid = customerId.validate();
     const passwordValid = password.validate();
-    const nameValid = name.validate();
+    const firstNameValid = firstname.validate();
+    const lastNameValid = lastName.validate();
     const emailValid = email.validate();
     const passwordValidatorValid = passwordValidator.validate();
 
@@ -68,14 +76,21 @@ const NewUserForm: React.FC<NewUserFormProps> = ({ onCreate, onCancel }) => {
       !(
         customerIdValid &&
         passwordValid &&
-        nameValid &&
+        firstNameValid &&
+        lastNameValid &&
         emailValid &&
         passwordValidatorValid
       )
     )
       return;
 
-    onCreate(customerId.value, name.value, password.value, email.value);
+    onCreate(
+      customerId.value,
+      firstname.value,
+      lastName.value,
+      email.value,
+      password.value
+    );
   }
 
   return (
@@ -92,13 +107,24 @@ const NewUserForm: React.FC<NewUserFormProps> = ({ onCreate, onCancel }) => {
       />
       <div className={styles.nameEmail}>
         <Input
-          id="name"
+          id="firstname"
           type="text"
-          label="Name"
-          value={name.value}
-          onChange={value => name.setValue(value)}
-          onBlur={name.validate}
-          error={name.error}
+          label="Vorname"
+          value={firstname.value}
+          onChange={value => firstname.setValue(value)}
+          onBlur={firstname.validate}
+          error={firstname.error}
+          className={styles.input}
+        />
+
+        <Input
+          id="lastname"
+          type="text"
+          label="NAchname"
+          value={lastName.value}
+          onChange={value => lastName.setValue(value)}
+          onBlur={lastName.validate}
+          error={lastName.error}
           className={styles.input}
         />
 

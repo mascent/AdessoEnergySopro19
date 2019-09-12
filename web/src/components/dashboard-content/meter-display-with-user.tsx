@@ -8,12 +8,14 @@ import NewMeter from '../meters-list/new-meter';
 import MeterInformation from './meter-information';
 import CustomerInformation from '../customer-information';
 import { useUser } from '../../providers/users-provider';
+import { useSnackBar } from '../../providers/snackbar-provider';
 
 const MeterDisplayWithUser: React.FC<
   RouteComponentProps<{ userId: string }>
 > = ({ userId }) => {
   const { meters, addMeter } = useMeters(userId || '');
   const userKit = useUser(userId || '');
+  const showSnackbar = useSnackBar();
 
   function createMeter(
     meterType: MeterType,
@@ -36,7 +38,12 @@ const MeterDisplayWithUser: React.FC<
   ) {
     if (!userKit) return;
 
-    userKit.updateUser({ customerId, firstName, lastName, email });
+    userKit
+      .updateUser({ customerId, firstName, lastName, email })
+      .then(success => {
+        if (success) showSnackbar('success', 'Kunde bearbeitet');
+        else showSnackbar('error', 'Kunde konnte nicht bearbeitet werden');
+      });
   }
 
   if (!userKit) return null;

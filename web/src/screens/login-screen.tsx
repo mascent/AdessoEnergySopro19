@@ -13,7 +13,7 @@ const LoginScreen: React.FC<RouteComponentProps> = () => {
 
   function handleLogin(username: string, password: string) {
     login(username, password).then(success => {
-      if (!success) showSnackbar('warning', 'Username or password wrong');
+      if (!success) showSnackbar('error', 'Kundennummer oder Passwort falsch');
     });
   }
 

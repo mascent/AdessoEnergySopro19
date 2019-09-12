@@ -7,9 +7,25 @@ import { Router, navigate } from '@reach/router';
 import MeterDisplayWithUser from './dashboard-content/meter-display-with-user';
 import NewUserForm from './users-list/new-user-form';
 import { SelectUser } from './dashboard-content/select-call';
+import { useSnackBar } from '../providers/snackbar-provider';
 
 const AdminDashboard: React.FC = () => {
-  const { users } = useUsers();
+  const { users, addUser } = useUsers();
+  const showSnackbar = useSnackBar();
+
+  function handleAddUser(
+    customerId: string,
+    firstName: string,
+    lastName: string,
+    password: string,
+    email: string
+  ) {
+    // how do we get the pw in there?
+    addUser({ customerId, firstName, lastName, email }).then(success => {
+      if (success) showSnackbar('success', 'Kunde erstellt');
+      else showSnackbar('error', 'Kunde konnte nicht erstellt werden');
+    });
+  }
 
   return (
     <ContainerCard className={styles.container}>

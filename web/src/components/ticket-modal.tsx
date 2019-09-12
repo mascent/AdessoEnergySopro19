@@ -135,7 +135,7 @@ const TicketModal: React.FC<TicketModalProps> = ({
             Abbrechen
           </SecondaryButton>
 
-          <PrimaryButton type="reset">Senden</PrimaryButton>
+          <PrimaryButton type="submit">Senden</PrimaryButton>
         </ModalFooter>
       </form>
     </Modal>

@@ -10,10 +10,12 @@ import { SelectMeter } from './dashboard-content/select-call';
 import NewMeter from './meters-list/new-meter';
 import MeterInformation from './dashboard-content/meter-information';
 import { MeterType } from '../typings/provider-data-interfaces';
+import { useSnackBar } from '../providers/snackbar-provider';
 
 const UserDashboard: React.FC = () => {
   const { userId } = useAuth();
   const { meters, isLoading, addMeter } = useMeters(userId);
+  const showSnackbar = useSnackBar();
 
   function createMeter(
     meterType: MeterType,
@@ -25,6 +27,9 @@ const UserDashboard: React.FC = () => {
       type: meterType,
       name,
       meterNumber
+    }).then(success => {
+      if (success) showSnackbar('success', 'Zähler hinzugefügt');
+      else showSnackbar('error', 'Zähler konnte nicht erstellt werden');
     });
   }
 
