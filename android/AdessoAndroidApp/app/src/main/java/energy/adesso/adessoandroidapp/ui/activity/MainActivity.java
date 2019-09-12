@@ -300,8 +300,8 @@ public class MainActivity extends AdessoActivity {
             MainController.login(getString(R.string.mock_username), getString(R.string.mock_password));
             // Please pretend like this doesn't exist
           }
-
-          return MainController.getOverview();
+          List<Meter> m = MainController.getOverview();
+          return m;
         } catch (AdessoException e) {
           e.printStackTrace();
           return null;
