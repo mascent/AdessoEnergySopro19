@@ -21,7 +21,7 @@ public class AdessoUserDetailsService implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		Person person = personRepository.findByUsername(username).orElse(null);
+		Person person = personRepository.findByUsername(username);
 
 		if (person == null) {
 			System.out.println("nonexistens " + username);
