@@ -57,7 +57,9 @@ export const ReadingsProvider: React.FC<ReadingsProviderProps> = ({
       Logger.logBreadcrumb('info', 'readings-context', 'Fetching readings');
       dispatch(fetchReadingsRequest());
 
-      const result = await readings.getAllReadingsByAMeter(meterId);
+      const res = await readings.getAllReadingsByAMeter(meterId);
+      // Reverse data since api sends not the way we want
+      const result = res.reverse();
       Logger.logBreadcrumb('info', 'readings-context', 'Fetched readings');
       dispatch(
         fetchReadingsSuccess(result.map(res => mapReadingDTOtoReading(res)))
