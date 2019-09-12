@@ -5,6 +5,10 @@
   flex-direction: column;
   max-width: $spacing-384;
   width: 100%;
+
+  & > :first-child {
+    margin-bottom: $spacing-24;
+  }
 }
 
 .buttonForm {
@@ -17,6 +21,6 @@
 }
 
 .illustrationsForm {
-  margin-right: $spacing-48;
+  margin-right: $spacing-64;
   max-width: $spacing-384;
 }

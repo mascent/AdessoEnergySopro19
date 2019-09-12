@@ -1,6 +1,7 @@
 export interface LoginDTO {
-  userId: string;
-  isAdmin: boolean;
+  id: number;
+  role: 'User' | 'Admin';
+  user: string;
 }
 
 export interface Paging<T> {

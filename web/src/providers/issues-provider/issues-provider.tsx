@@ -23,9 +23,9 @@ interface IssuesContext {
   issues: Issue[];
   isLoading: boolean;
   error: Error | null;
-  fetchIssues: () => Promise<void>;
-  addIssue: (issue: Partial<Issue>) => Promise<void>;
-  updateIssue: (id: string, update: Partial<Issue>) => Promise<void>;
+  fetchIssues: () => Promise<boolean>;
+  addIssue: (issue: Partial<Issue>) => Promise<boolean>;
+  updateIssue: (id: string, update: Partial<Issue>) => Promise<boolean>;
 }
 
 const initialContext: IssuesState = {
@@ -54,10 +54,12 @@ export const IssuesProvider: React.FC<IssuesProviderProps> = ({
       const res = await issues.getAllIssues();
       Logger.logBreadcrumb('info', 'issues-context', 'Fetched issues');
       dispatch(fetchIssuesSuccess(res.map(r => mapIssueDtoToIssues(r))));
+      return true;
     } catch (e) {
       Logger.logBreadcrumb('error', 'issues-context', 'Fetch issues failed');
       Logger.captureException(e);
       dispatch(fetchIssuesFailure(e));
+      return false;
     }
   }, []);
 
@@ -71,10 +73,12 @@ export const IssuesProvider: React.FC<IssuesProviderProps> = ({
       );
       Logger.logBreadcrumb('info', 'issues-context', 'Added issue');
       dispatch(addIssueSuccess(mapIssueDtoToIssues(res)));
+      return true;
     } catch (e) {
       Logger.logBreadcrumb('error', 'issues-context', 'Add issue failed');
       Logger.captureException(e);
       dispatch(addIssueFailure(e));
+      return false;
     }
   }, []);
 
@@ -90,10 +94,12 @@ export const IssuesProvider: React.FC<IssuesProviderProps> = ({
         );
         Logger.logBreadcrumb('info', 'issues-context', 'Updated issue');
         dispatch(updateIssueSuccess(mapIssueDtoToIssues(res)));
+        return true;
       } catch (e) {
         Logger.logBreadcrumb('error', 'issues-context', 'Update issue failed');
         Logger.captureException(e);
         dispatch(updateIssueFailure(id, e));
+        return false;
       }
     },
     []
@@ -114,7 +120,7 @@ interface IssuesKit {
   issues: Issue[];
   isLoading: boolean;
   error: Error | null;
-  addIssue: (meter: Partial<Issue>) => Promise<void>;
+  addIssue: (meter: Partial<Issue>) => Promise<boolean>;
 }
 
 let fetching = false;
@@ -138,7 +144,7 @@ export function useIssues(): IssuesKit {
 
 interface IssueKit {
   issue: Issue;
-  updateIssue: (update: Partial<Issue>) => Promise<void>;
+  updateIssue: (update: Partial<Issue>) => Promise<boolean>;
 }
 
 export function useIssue(id: string): IssueKit | null {
@@ -159,7 +165,7 @@ export function useIssue(id: string): IssueKit | null {
   return { issue, updateIssue: updateIssue.bind(undefined, issue.id) };
 }
 
-export function useCreateIssue(): (issue: Partial<Issue>) => Promise<void> {
+export function useCreateIssue(): (issue: Partial<Issue>) => Promise<boolean> {
   const context = useContext(IssuesContext);
 
   if (typeof context === 'undefined')

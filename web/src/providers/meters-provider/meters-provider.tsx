@@ -23,9 +23,9 @@ interface MetersContext {
   meters: Meter[];
   isLoading: boolean;
   error: Error | null;
-  fetchMeters: (userId: string) => Promise<void>;
-  addMeter: (meter: Partial<Meter>) => Promise<void>;
-  updateMeter: (id: string, update: Partial<Meter>) => Promise<void>;
+  fetchMeters: (userId: string) => Promise<boolean>;
+  addMeter: (meter: Partial<Meter>) => Promise<boolean>;
+  updateMeter: (id: string, update: Partial<Meter>) => Promise<boolean>;
 }
 
 const initialContext: MetersState = {
@@ -54,10 +54,12 @@ export const MetersProvider: React.FC<MetersProviderProps> = ({
       const res = await meters.getMetersForUser(userId);
       Logger.logBreadcrumb('info', 'meters-context', 'Fetched meters');
       dispatch(fetchMetersSuccess(res.map(r => mapMeterDtoToMeter(r))));
+      return true;
     } catch (e) {
       Logger.logBreadcrumb('error', 'meters-context', 'Fetch meters failed');
       Logger.captureException(e);
       dispatch(fetchMetersFailure(e));
+      return false;
     }
   }, []);
 
@@ -71,10 +73,12 @@ export const MetersProvider: React.FC<MetersProviderProps> = ({
       );
       Logger.logBreadcrumb('info', 'meters-context', 'Added meter');
       dispatch(addMeterSuccess(mapMeterDtoToMeter(res)));
+      return true;
     } catch (e) {
       Logger.logBreadcrumb('error', 'meters-context', 'Add meter failed');
       Logger.captureException(e);
       dispatch(addMeterFailure(e));
+      return false;
     }
   }, []);
 
@@ -90,10 +94,12 @@ export const MetersProvider: React.FC<MetersProviderProps> = ({
         );
         Logger.logBreadcrumb('info', 'meters-context', 'Updated meter');
         dispatch(updateMeterSuccess(mapMeterDtoToMeter(res)));
+        return true;
       } catch (e) {
         Logger.logBreadcrumb('error', 'meters-context', 'Update meter failed');
         Logger.captureException(e);
         dispatch(updateMeterFailure(id, e));
+        return false;
       }
     },
     []
@@ -114,7 +120,7 @@ interface MetersKit {
   meters: Meter[];
   isLoading: boolean;
   error: Error | null;
-  addMeter: (meter: Partial<Meter>) => Promise<void>;
+  addMeter: (meter: Partial<Meter>) => Promise<boolean>;
 }
 
 let fetching = false;
@@ -145,7 +151,7 @@ export function useMeters(userId: string): MetersKit {
 
 interface MeterKit {
   meter: Meter;
-  updateMeter: (update: Partial<Meter>) => Promise<void>;
+  updateMeter: (update: Partial<Meter>) => Promise<boolean>;
 }
 
 export function useMeter(id: string): MeterKit | null {
