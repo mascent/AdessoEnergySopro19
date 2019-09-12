@@ -16,6 +16,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import energy.adesso.adessoandroidapp.R;
@@ -172,10 +173,13 @@ public class DetailActivity extends AdessoActivity {
       @Override
       protected List<Reading> doInBackground(Void... voids) {
         try {
-          return m.getReadings();
+          List<Reading> rs = m.getReadings();
+          if (rs == null)
+            return new ArrayList<Reading>();
+          return rs;
         } catch (AdessoException e) {
           e.printStackTrace();
-          return null;
+          return new ArrayList<Reading>();
         }
       }
 

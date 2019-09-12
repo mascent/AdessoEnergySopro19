@@ -39,7 +39,7 @@ public class Meter extends IdentifiableObject implements Serializable {
 
   public MeterKind getKind() {
     MeterKind re;
-    switch (type) {
+    switch (type.toLowerCase()) {
       case "water":
         re = MeterKind.WATER;
         break;
