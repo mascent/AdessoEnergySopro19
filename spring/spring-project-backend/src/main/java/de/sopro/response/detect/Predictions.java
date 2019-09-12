@@ -8,7 +8,7 @@ import de.sopro.util.Pair;
 
 public class Predictions {
 
-	public static final Float MINPROB = 0.5f;
+	public static final Float MINPROB = 0.0f; //0.5 should be minimum
 	
 	List <Prediction> Predictions;
 

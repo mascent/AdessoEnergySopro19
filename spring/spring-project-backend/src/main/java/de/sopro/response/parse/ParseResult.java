@@ -1,13 +1,11 @@
 package de.sopro.response.parse;
 
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.List;
-
-import org.hibernate.validator.constraints.Length;
 
 import de.sopro.response.detect.BoundingBox;
 import de.sopro.util.exception.UnreadableFotoException;
-import net.bytebuddy.asm.Advice.OffsetMapping.ForAllArguments;
 
 public class ParseResult {
 	private String language;
@@ -47,45 +45,68 @@ public class ParseResult {
 		this.regions = regions;
 	}
 
-	public Region findMatchingBox(BoundingBox meterNumberArea, BufferedImage bimb) throws UnreadableFotoException{
-		if(!orientation.equals("up")) {
+	/**
+	 * Serves no functionality since Detected Area and Parsed Areas don't intersect.
+	 * @param area
+	 * @param bimb
+	 * @return
+	 * @throws UnreadableFotoException
+	 */
+	public List<Word> findMatchingBox(BoundingBox area, BufferedImage bimb) throws UnreadableFotoException{
+		if(!orientation.equals("Up") ) {
 			throw new UnreadableFotoException("Wrong orientation");
 		}
 		int iwidth = bimb.getWidth();
 		int iheight = bimb.getHeight();
 		
-		Float left = meterNumberArea.getLeft();
-		Float top = meterNumberArea.getTop();
-		Float width = meterNumberArea.getWidth();
-		Float height = meterNumberArea.getHeight();
+		Float left = area.getLeft();
+		Float top = area.getTop();
+		Float width = area.getWidth();
+		Float height = area.getHeight();
 		
 		Float newBoxLeft = left * iwidth;
 		Float newBoxTop = top * iheight;
 		Float newBoxWidth = width * iwidth;
 		Float newBoxHeight = height * iheight;
 		
-		for (Region region : regions) {
-			String[] regionBox = region.getBoundingBox().split(",");
-			Integer rLeft = Integer.parseInt(regionBox[0]);
-			Integer rTop  = Integer.parseInt(regionBox[1]);
-			Integer rWidth = Integer.parseInt(regionBox[2]);
-			Integer rHeight = Integer.parseInt(regionBox[3]);
-			
-			if(isAlike(newBoxLeft,rLeft)
-					&& isAlike(newBoxTop,rTop) 
-					&& isAlike(newBoxWidth,rWidth) 
-					&& isAlike(newBoxHeight,rHeight)){
-				return region;
-			}
-		}
+		List<Word> allWords = new ArrayList<>();
 		
-		throw new UnreadableFotoException("No matching Box");
+		// simply ignore all lines'n shit
+		for (Region region : regions) {
+			 List<Line> lines = region.getLines();
+			for (Line line : lines) {
+				List<Word> words = line.getWords();
+				allWords.addAll(words);
+			}
+		}		
+		List<Word> found = new ArrayList<>();
+		
+		// search for box
+		for (Word word : allWords) {
+			String[] regionBox = word.getBoundingBox().split(",");
+			
+			
+			if(allPointsInArea(newBoxLeft,newBoxTop,newBoxHeight,newBoxWidth,regionBox))
+			//if(newBoxLeft <= rLeft && newBoxTop <= rTop && newBoxHeight >= rHeight && newBoxWidth >= rWidth) {
+				found.add(word);
+			}
+		
+		return found;
 	}
 
-	private boolean isAlike(Float newBoxValue, Integer rValue) {
-		return (newBoxValue > rValue - 4) && (newBoxValue < rValue + 4);
+	private boolean allPointsInArea(Float newBoxLeft, Float newBoxTop, Float newBoxHeight, Float newBoxWidth,
+			String[] regionBox) {
+		Integer rLeft = Integer.parseInt(regionBox[0]);
+		Integer rTop  = Integer.parseInt(regionBox[1]);
+		Integer rWidth = Integer.parseInt(regionBox[2]);
+		Integer rHeight = Integer.parseInt(regionBox[3]);
+		
+		return (newBoxLeft <= rLeft 
+				&& newBoxTop <= rTop 
+				&& newBoxHeight >= rHeight 
+				&& newBoxWidth >= rWidth
+				&& newBoxTop + newBoxHeight >= rTop
+				&& newBoxLeft+ newBoxWidth >= rLeft);
 	}
-	
-	
 
 }

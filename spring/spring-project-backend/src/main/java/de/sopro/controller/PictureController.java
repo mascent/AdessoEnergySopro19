@@ -3,6 +3,7 @@ package de.sopro.controller;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
@@ -16,13 +17,13 @@ import org.springframework.web.multipart.MultipartFile;
 import com.google.gson.Gson;
 
 import de.sopro.data.MeterType;
+import de.sopro.dto.PictureResponseDTO;
 import de.sopro.response.classify.Classifications;
 import de.sopro.response.detect.BoundingBox;
 import de.sopro.response.detect.Predictions;
 import de.sopro.response.parse.ParseResult;
-import de.sopro.response.parse.Region;
+import de.sopro.response.parse.Word;
 import de.sopro.util.Pair;
-import de.sopro.util.exception.UnreadableFotoException;
 import okhttp3.HttpUrl;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -57,7 +58,7 @@ public class PictureController {
 	 * @throws IOException
 	 */
 	@PostMapping(path = "/api/picture")
-	public String analyze(@RequestParam("file") MultipartFile file) throws IOException {
+	public PictureResponseDTO analyze(@RequestParam("file") MultipartFile file) throws IOException {
 
 		File curr = null;
 
@@ -77,8 +78,7 @@ public class PictureController {
 			BufferedImage bimb = ImageIO.read(curr);
 			
 			// check if all requirements are met
-			if ((file.getSize() < 4000000) && bimb.getWidth() >= 50 && bimb.getWidth() <= 4200
-					&& bimb.getHeight() >= 50 && bimb.getHeight() <= 4200 && bimb.getHeight() * bimb.getWidth() <= 10000000) {
+			if ((file.getSize() < 4000000) && azureRequirements(bimb)) {
 
 				// Classification
 				HttpUrl.Builder classifyUrlBuilder = HttpUrl.parse(CLASSIFY).newBuilder();
@@ -93,37 +93,39 @@ public class PictureController {
 
 				Response classifyResponse = client.newCall(classifyRequest).execute();
 
-				String s = classifyResponse.body().string();
+				String classificationString = classifyResponse.body().string();
 
-				Classifications classifications = new Gson().fromJson(s, Classifications.class);
+				Classifications classifications = new Gson().fromJson(classificationString, Classifications.class);
 
 				// Detection
 				HttpUrl.Builder detectionUrlBuilder = HttpUrl.parse(DETECTAREAS).newBuilder();
-				String detectionUrl = classifyUrlBuilder.build().toString();
+				String detectionUrl = detectionUrlBuilder.build().toString();
 
 				RequestBody detectionRequestBody = new MultipartBody.Builder()
 						.setType(MultipartBody.FORM).addFormDataPart("team", TEAM).addFormDataPart("file",
-								file.getOriginalFilename(), RequestBody.create(curr, MediaType.parse("image/png")))
+								file.getOriginalFilename(), RequestBody.create(curr, MediaType.parse("image/jpeg")))
 						.build();
 
 				Request detectionRequest = new Request.Builder().post(detectionRequestBody).url(detectionUrl).build();
 
-				Response detectionResponse = client.newCall(classifyRequest).execute();
+				Response detectionResponse = client.newCall(detectionRequest).execute();
 
-				Predictions predictions = new Gson().fromJson(detectionResponse.body().string(), Predictions.class);
+				String predictionString = detectionResponse.body().string();
+				Predictions predictions = new Gson().fromJson(predictionString, Predictions.class);
 
 				// Parse
-				HttpUrl.Builder parseUrlBuilder = HttpUrl.parse(DETECTAREAS).newBuilder();
-				String parseUrl = classifyUrlBuilder.build().toString();
+				HttpUrl.Builder parseUrlBuilder = HttpUrl.parse(PARSETEXT).newBuilder();
+				String parseUrl = parseUrlBuilder.build().toString();
 
 				RequestBody parseRequestBody = new MultipartBody.Builder().addFormDataPart("file",
-						file.getOriginalFilename(), RequestBody.create(curr, MediaType.parse("image/png"))).build();
+						file.getOriginalFilename(), RequestBody.create(curr, MediaType.parse("image/jpeg"))).build();
 
 				Request parseRequest = new Request.Builder().post(parseRequestBody).url(parseUrl).build();
 
-				Response parseResponse = client.newCall(classifyRequest).execute();
+				Response parseResponse = client.newCall(parseRequest).execute();
 
-				ParseResult parseResult = new Gson().fromJson(parseResponse.body().string(), ParseResult.class);
+				String parseString = parseResponse.body().string();
+				ParseResult parseResult = new Gson().fromJson(parseString, ParseResult.class);
 
 				// Logic
 				MeterType type = classifications.lookupMeterType();
@@ -133,17 +135,46 @@ public class PictureController {
 				BoundingBox meterNumberArea = boxes.getFirst();
 				BoundingBox meterValueArea = boxes.getSecond();
 
+				// Since the API doesn't recognize either not the areas or not the parse result
+				// we decided to use a dummy foto and only process the parse result.
 				try {
-					Region meterNumberRegion = parseResult.findMatchingBox(meterNumberArea,bimb);
-					Region meterValueRegion = parseResult.findMatchingBox(meterValueArea,bimb);
-				} catch (UnreadableFotoException e) {
+					List<Word> meterValueWords = parseResult.findMatchingBox(meterValueArea,bimb);
+					List<Word> meterNumberWords = parseResult.findMatchingBox(meterNumberArea,bimb);
+					
+					
+					StringBuffer meterValueString = new StringBuffer();
+					for (Word meterValueWord : meterValueWords) {
+						meterValueString.append(meterValueWord.getText());
+						
+					}
+					
+					StringBuffer meterNumberString = new StringBuffer();
+					for (Word meterNumberWord : meterNumberWords) {
+						meterNumberString.append(meterNumberWord.getText());
+					}
+					Long metervalue = Long.parseLong(meterValueString.toString());
+					
+					return new PictureResponseDTO(type,metervalue,meterNumberString.toString());					
+				} catch (Exception e) {
 					e.printStackTrace();
+					throw new IllegalArgumentException("Azure failed to retrieve Data");
 				}
-				// TODO proces Regions 
+				
+				
 			}
 
 		}
-		return null;
+		throw new IllegalArgumentException("Something went wrong");
+	
 
+	}
+
+
+	private boolean azureRequirements(BufferedImage bimb) {
+		return  bimb.getWidth() >= 50 
+				&& bimb.getWidth() <= 4200
+				&& bimb.getHeight() >= 50 
+				&& bimb.getHeight() <= 4200 
+				&& bimb.getHeight() * bimb.getWidth() <= 10000000;
 	}
 }
