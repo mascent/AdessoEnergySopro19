@@ -36,6 +36,8 @@ function mapDatesToObjects(
 export function mapUserDtoToUser(user: UserDTO): User {
   return {
     ...user,
+    id: user.id.toString(),
+    customerId: user.customerNumber,
     status: addInitialStatus(),
     ...mapDatesToObjects(user.createdAt, user.updatedAt, user.deletedAt)
   };
@@ -76,6 +78,8 @@ export function mapInternalUserToUserDTO(
 ): Partial<UserDTO> {
   const res = {
     ...user,
+    customerNumber: user.customerId,
+    id: user.id ? parseInt(user.id, 10) : undefined,
     createdAt: user.createdAt && user.createdAt.toISOString(),
     updatedAt: user.updatedAt && user.updatedAt.toISOString(),
     deletedAt: user.deletedAt && user.deletedAt.toISOString()

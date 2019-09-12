@@ -78,8 +78,8 @@ export function buildReading(overrides?: Partial<Reading>): Reading {
  */
 export function buildUserDTO(overrides?: Partial<UserDTO>): UserDTO {
   return {
-    id: faker.random.uuid(),
-    customerId: faker.random.uuid(),
+    id: faker.random.number(),
+    customerNumber: faker.random.uuid(),
     email: faker.internet.email(),
     firstName: faker.name.firstName(),
     lastName: faker.name.lastName(),

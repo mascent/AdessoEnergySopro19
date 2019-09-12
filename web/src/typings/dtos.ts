@@ -15,8 +15,8 @@ export interface Paging<T> {
 }
 
 export interface UserDTO {
-  id: string;
-  customerId: string;
+  id: number;
+  customerNumber: string;
   firstName: string;
   lastName: string;
   email: string;
