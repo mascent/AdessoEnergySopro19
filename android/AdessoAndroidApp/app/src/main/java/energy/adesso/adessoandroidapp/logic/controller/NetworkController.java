@@ -91,7 +91,7 @@ class NetworkController {
    * @return whether the user is logged in
    */
   static boolean isLoggedIn() {
-    return username == null;
+    return username != null;
   }
 
   /**

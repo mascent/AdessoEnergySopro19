@@ -28,10 +28,6 @@ public class MockController extends MainController {
     return time;
   }
 
-  public static void logOut() throws AdessoException {
-
-  }
-
   public static void setServer(String toString) {
 
   }
