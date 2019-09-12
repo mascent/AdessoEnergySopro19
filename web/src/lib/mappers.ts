@@ -6,7 +6,6 @@ import {
   Reading,
   Issue
 } from '../typings/provider-data-interfaces';
-import { userInfo } from 'os';
 
 function addInitialStatus(): Status {
   return {
