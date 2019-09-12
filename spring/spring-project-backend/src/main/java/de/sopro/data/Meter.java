@@ -7,8 +7,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "meter")
 public class Meter {
 
 	@Id
@@ -27,12 +29,15 @@ public class Meter {
 
 	private int commaPosition;
 
-	@ManyToOne
-	private Address address;
+	private MeterType meterType;
 
-	public Meter(String meternumber, Long initialValue, MeterType meterType) {
+//	@ManyToOne
+//	private Address address;
+
+	public Meter(String meternumber, MeterType meterType) {
 		createdAt = LocalDateTime.now();
 		this.meternumber = meternumber;
+		this.meterType = meterType;
 
 		switch (meterType) {
 		case Gas:
@@ -56,13 +61,19 @@ public class Meter {
 
 	}
 
-	public Address getAdress() {
-		return address;
+	public Meter() {
+
 	}
 
-	public void setAdress(Address address) {
-		this.address = address;
+	public MeterType getMeterType() {
+		return meterType;
 	}
+
+
+//
+//	public void setAdress(Address address) {
+//		this.address = address;
+//	}
 
 	public boolean delete() {
 		return false;
@@ -84,6 +95,14 @@ public class Meter {
 		this.meterId = meterId;
 	}
 
+	public int getCommaPosition() {
+		return commaPosition;
+	}
+
+//	public Address getAddress() {
+//		return address;
+//	}
+
 	public LocalDateTime getCreatedAt() {
 		return createdAt;
 	}
@@ -93,21 +112,16 @@ public class Meter {
 	}
 
 	public void delet() {
-		this.deletedAt = LocalDateTime.now();
+		if (deletedAt == null) {
+			this.deletedAt = LocalDateTime.now();
+		}
 	}
 
 	public LocalDateTime getUpdatedAt() {
 		return updatedAt;
 	}
 
-	public void setUpdatedAt(LocalDateTime updatedAt) {
-		this.updatedAt = updatedAt;
-	}
-
-	public boolean update(Reading reading) {
-		// todo updatelogic -- needed?
-		return false;
-	}
+	
 
 	public int getLengthOfReading() {
 		return this.lengthOfReading;
@@ -116,9 +130,15 @@ public class Meter {
 	public int getCommaPossition() {
 		return this.commaPosition;
 	}
-	
+
 	public void addReading(Long value) {
+
+	}
+
+	public void update() {
+		this.updatedAt = LocalDateTime.now();
 		
 	}
+
 
 }

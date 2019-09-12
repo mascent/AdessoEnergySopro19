@@ -57,6 +57,7 @@ public class PictureController {
 	 *         not found return error code.
 	 * @throws IOException
 	 */
+
 	@PostMapping(path = "/api/picture")
 	public PictureResponseDTO analyze(@RequestParam("file") MultipartFile file) throws IOException {
 
@@ -159,8 +160,7 @@ public class PictureController {
 					e.printStackTrace();
 					throw new IllegalArgumentException("Azure failed to retrieve Data");
 				}
-				
-				
+	
 			}
 
 		}

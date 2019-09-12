@@ -19,7 +19,7 @@ public class IssueDTO {
 		this.subject = i.getSubject();
 		this.description = i.getDescription();
 		this.issuerId = i.getIssuerId();
-		this.isClosed = i.getCloserId() == null;
+		this.isClosed = i.getCloserId() != null;
 	}
 
 	public Long getId() {
