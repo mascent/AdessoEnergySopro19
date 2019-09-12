@@ -8,16 +8,16 @@ import de.sopro.util.Pair;
 
 public class Predictions {
 
-	public static final Float MINPROB = 0.5f;
+	public static final Float MINPROB = 0.0f; //0.5 should be minimum
 	
-	List <Prediction> predictions;
+	List <Prediction> Predictions;
 
 	public List<Prediction> getPredictions() {
-		return predictions;
+		return Predictions;
 	}
 
 	public void setPredictions(List<Prediction> predictions) {
-		this.predictions = predictions;
+		this.Predictions = predictions;
 	}
 	
 	/**
@@ -31,7 +31,7 @@ public class Predictions {
 		Float maxProbValueArea = MINPROB;
 		BoundingBox valueArea = null;
 		
-		for (Prediction prediction : predictions) {
+		for (Prediction prediction : Predictions) {
 			String currTag = prediction.getTag();
 			Float currProb = prediction.getProbability();
 			BoundingBox currBox = prediction.getBoundingBox();
