@@ -205,7 +205,7 @@ public class DetailActivity extends AdessoActivity {
 
   void setNameAsync(String s) {
     showLoadingPopup();
-    @SuppressLint("StaticFieldLeak") AsyncTask<String, Void, AdessoException> execute = new AsyncTask<String, Void, AdessoException>() {
+    @SuppressLint("StaticFieldLeak") final AsyncTask<String, Void, AdessoException> execute = new AsyncTask<String, Void, AdessoException>() {
       @Override
       protected AdessoException doInBackground(String... strs) {
         for (String s : strs) {
@@ -224,8 +224,8 @@ public class DetailActivity extends AdessoActivity {
           e.printStackTrace();
           Toast.makeText(a, R.string.generic_error_message, Toast.LENGTH_SHORT).show();
           updateTitleInfo();
-          hideLoadingPopup();
         }
+        hideLoadingPopup();
       }
     }.execute(s);
   }
