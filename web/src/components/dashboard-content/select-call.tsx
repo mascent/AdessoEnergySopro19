@@ -26,3 +26,9 @@ export const SelectUser: React.FC<RouteComponentProps> = () => (
     <SelectCallToAction text="Wähle einen Kunden aus um mehr Informationen anzuzeigen" />
   </section>
 );
+
+export const SelectIssue: React.FC<RouteComponentProps> = () => (
+  <section className={styles.center}>
+    <SelectCallToAction text="Wähle ein Ticket aus um mehr Informationen anzuzeigen" />
+  </section>
+);

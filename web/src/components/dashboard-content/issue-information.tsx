@@ -1,7 +1,7 @@
 import React from 'react';
 import { RouteComponentProps, Redirect, navigate } from '@reach/router';
 import { useIssue } from '../../providers/issues-provider';
-import { SubTitle, Span } from '../generics/text';
+import { SubTitle, Span, Paragraph } from '../generics/text';
 import { SecondaryButton, PrimaryButton } from '../generics/button';
 import styles from './issue-information.module.scss';
 
@@ -30,7 +30,12 @@ const IssueInformation: React.FC<RouteComponentProps<{ id: string }>> = ({
           >
             Rückfrage stellen
           </SecondaryButton>
-          <PrimaryButton>Schließen</PrimaryButton>
+          <PrimaryButton
+            disabled={issue.issue.state === 'RESOLVED'}
+            onClick={() => issue.updateIssue({ state: 'RESOLVED' })}
+          >
+            {issue.issue.state === 'RESOLVED' ? 'Erledigt' : 'Schließen'}
+          </PrimaryButton>
         </div>
       </div>
       <div className={styles.nameText}>
@@ -43,7 +48,7 @@ const IssueInformation: React.FC<RouteComponentProps<{ id: string }>> = ({
       </div>
       <div className={styles.message}>
         <Span className={styles.bold}>Nachricht</Span>
-        {issue.issue.message}
+        <Paragraph> {issue.issue.message} </Paragraph>
       </div>
     </div>
   );

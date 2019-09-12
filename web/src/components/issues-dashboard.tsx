@@ -3,11 +3,9 @@ import styles from './issues-dashboard.module.scss';
 import ContainerCard from './generics/container-card';
 import IssueList from './issue-list/issue-list';
 import { useIssues } from '../providers/issues-provider';
-import { Issue } from '../typings/provider-data-interfaces';
-import { Router, navigate } from '@reach/router';
+import { Router } from '@reach/router';
 import IssueInformation from './dashboard-content/issue-information';
-import { SelectMeter } from './dashboard-content/select-call';
-import NewMeter from './meters-list/new-meter';
+import { SelectIssue } from './dashboard-content/select-call';
 
 const IssuesDashboard: React.FC = () => {
   const { issues } = useIssues();
@@ -17,7 +15,7 @@ const IssuesDashboard: React.FC = () => {
       <IssueList issues={issues} />
       <div className={styles.contentContainer}>
         <Router className={styles.router} basepath="/admin/issues">
-          <SelectMeter path="/" />
+          <SelectIssue path="/" />
           <IssueInformation path="/:id" />
         </Router>
       </div>
