@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="energy.adesso.adessoandroidapp">
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/logo_drop_circle"
+        android:label="@string/app_name"
+        android:roundIcon="@drawable/logo_drop_circle"
+        android:supportsRtl="true"
+        android:usesCleartextTraffic="true"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:theme="@style/AppTheme.NoActionBar"
+        tools:ignore="GoogleAppIndexingWarning">
+        <activity
+            android:name=".ui.activity.GraphActivity"
+            android:label="@string/title_activity_graph"
+            android:parentActivityName=".ui.activity.DetailActivity"
+            android:theme="@style/AppTheme.NoActionBar.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="energy.adesso.adessoandroidapp.ui.activity.DetailActivity" />
+        </activity>
+        <activity android:name=".ui.activity.IssueActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="energy.adesso.adessoandroidapp.ui.activity.MainActivity" />
+        </activity>
+        <activity
+            android:name=".ui.activity.DetailActivity"
+            android:label="@string/title_activity_detail">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="energy.adesso.adessoandroidapp.ui.activity.MainActivity" />
+        </activity>
+        <activity
+            android:name=".ui.activity.MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.activity.LoginActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

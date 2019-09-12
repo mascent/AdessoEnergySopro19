@@ -12,8 +12,6 @@ application.properties
 .settings
 .settings/
 bin
-.classpath
-.project
 
 # Runtime files
 *.log
