@@ -13,5 +13,5 @@ export function isNumber(num: string) {
 }
 
 export function isMeterTypeValid(type: string) {
-  return type === 'gas' || type === 'water' || type === 'electricity';
+  return type === 'Gas' || type === 'Water' || type === 'Electricity';
 }

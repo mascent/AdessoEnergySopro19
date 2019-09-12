@@ -29,7 +29,7 @@ export function buildMeterDTO(overrides?: Partial<MeterDTO>): MeterDTO {
     ownerId: faker.random.number(),
     name: faker.company.companyName(),
     lastReading: buildReadingDTO(),
-    type: faker.random.arrayElement(['gas', 'water', 'electricity']),
+    type: faker.random.arrayElement(['Gas', 'Water', 'Electricity']),
     createdAt: faker.date.recent().toISOString(),
     updatedAt: faker.date.recent().toISOString(),
     deletedAt: null,

@@ -7,19 +7,19 @@ import { MeterType } from '../../typings/provider-data-interfaces';
 
 const MeterIcon: React.FC<{ type: MeterType }> = ({ type }) => {
   switch (type) {
-    case 'gas':
+    case 'Gas':
       return (
         <div className={styles.container}>
           <Fire />
         </div>
       );
-    case 'water':
+    case 'Water':
       return (
         <div className={styles.container}>
           <Water />
         </div>
       );
-    case 'electricity':
+    case 'Electricity':
       return (
         <div className={styles.container}>
           <Flash />

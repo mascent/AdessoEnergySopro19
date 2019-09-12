@@ -1,3 +1,5 @@
+import { MeterType } from './provider-data-interfaces';
+
 export interface LoginDTO {
   id: number;
   role: 'User' | 'Admin';
@@ -27,7 +29,7 @@ export interface UserDTO {
 
 export interface MeterDTO {
   id: number;
-  type: 'water' | 'electricity' | 'gas';
+  type: 'Water' | 'Electricity' | 'Gas';
   name: string;
   ownerId: number | null;
   lastReading: ReadingDTO;
@@ -74,5 +76,5 @@ export interface NewMeter {
   ownerId: string;
   meterNumber: string;
   name: string;
-  type: 'water' | 'electricity' | 'gas';
+  type: MeterType;
 }

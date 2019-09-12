@@ -62,6 +62,7 @@ const CustomerInformation: React.FC<CustomerInformationProps> = ({
     if (!(firstnameValid && lastnameValid && emailValid)) return;
 
     onSave(firstName.value, lastname.value, email.value);
+    setEdit(false);
   }
 
   return (

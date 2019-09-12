@@ -1,4 +1,4 @@
-export type MeterType = 'water' | 'electricity' | 'gas';
+export type MeterType = 'Water' | 'Electricity' | 'Gas';
 
 export interface Status {
   saving: boolean;

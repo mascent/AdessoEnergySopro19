@@ -3,7 +3,6 @@ import { storiesOf } from '@storybook/react';
 import {
   withKnobs,
   text,
-  number,
   OptionsKnobOptions,
   optionsKnob
 } from '@storybook/addon-knobs';
@@ -14,11 +13,11 @@ import { WithRouter } from '../../utils/with-router';
 const types: {
   [key: string]: MeterType;
 } = {
-  Gas: 'gas',
-  Water: 'water',
-  Electricity: 'electricity'
+  Gas: 'Gas',
+  Water: 'Water',
+  Electricity: 'Electricity'
 };
-const defaultType: MeterType = 'gas';
+const defaultType: MeterType = 'Gas';
 const optionsObj: OptionsKnobOptions = {
   display: 'inline-radio'
 };
