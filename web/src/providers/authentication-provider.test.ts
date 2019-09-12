@@ -23,8 +23,9 @@ test('calling useAuth without a Provider throws', () => {
 test('calling login gets the user logged in', async () => {
   const confMock = jest.spyOn(config, 'setToken');
   const logMock = jest.spyOn(auth, 'login').mockImplementation(async () => ({
-    userId: '12345',
-    isAdmin: true
+    id: 12345,
+    role: 'Admin',
+    user: 'Peter'
   }));
 
   const { result } = renderHook(() => useAuth(), {
@@ -76,8 +77,9 @@ test('login returns false if username or password is wrong', async () => {
 test('logout resets the authentication provider and api config', async () => {
   const confMock = jest.spyOn(config, 'resetToken');
   const logMock = jest.spyOn(auth, 'login').mockImplementation(async () => ({
-    userId: '12345',
-    isAdmin: true
+    id: 12345,
+    role: 'Admin',
+    user: 'Peter'
   }));
 
   const { result } = renderHook(() => useAuth(), {

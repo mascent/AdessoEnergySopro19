@@ -82,7 +82,7 @@ const CustomerInformation: React.FC<CustomerInformationProps> = ({
     <div>
       <div className={styles.header}>
         <SubTitle> Kunden Informationen</SubTitle>
-        <InvButton onClick={toggleEdit}>
+        <InvButton title="Informationen bearbeiten" onClick={toggleEdit}>
           <Pencil />
         </InvButton>
       </div>

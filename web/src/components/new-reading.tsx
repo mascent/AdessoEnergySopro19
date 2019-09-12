@@ -27,7 +27,7 @@ const NewReading: React.FC<ReadingProps> = ({
 
     const readingValid = reading.validate();
 
-    if (!readingValid) return;
+    if (!readingValid || reading.value === initialValue) return;
 
     onAdd(reading.value);
   }

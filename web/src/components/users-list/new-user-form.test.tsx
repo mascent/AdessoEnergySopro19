@@ -10,13 +10,15 @@ test('New User informations are delivered', () => {
   );
 
   const kundennummer = getByLabelText('Kundennummer');
-  const name = getByLabelText('Name');
+  const firstName = getByLabelText('Vorname');
+  const lastName = getByLabelText('Nachname');
   const email = getByLabelText('Email');
   const password = getByLabelText('Passwort');
   const passwordValidate = getByLabelText('Passwort bestätigen');
   const button = getByText('Erstellen');
 
-  fireEvent.change(name, { target: { value: 'Name' } });
+  fireEvent.change(firstName, { target: { value: 'Name' } });
+  fireEvent.change(lastName, { target: { value: 'Nachname' } });
   fireEvent.change(email, { target: { value: 'name.name@name.de' } });
   fireEvent.change(kundennummer, { target: { value: '12345678' } });
   fireEvent.change(password, { target: { value: 'password' } });
@@ -28,6 +30,7 @@ test('New User informations are delivered', () => {
   expect(handler).toBeCalledWith(
     '12345678',
     'Name',
+    'Nachname',
     'name.name@name.de',
     'password'
   );
@@ -40,13 +43,13 @@ test('Informations arent send when customerID is missing', () => {
     <NewUserForm onCreate={handler} onCancel={handler} />
   );
 
-  const name = getByLabelText('Name');
+  const firstName = getByLabelText('Vorname');
   const email = getByLabelText('Email');
   const password = getByLabelText('Passwort');
   const passwordValidate = getByLabelText('Passwort bestätigen');
   const button = getByText('Erstellen');
 
-  fireEvent.change(name, { target: { value: 'Name' } });
+  fireEvent.change(firstName, { target: { value: 'Name' } });
   fireEvent.change(email, { target: { value: 'name.name@name.de' } });
   fireEvent.change(password, { target: { value: 'password' } });
   fireEvent.change(passwordValidate, { target: { value: 'password' } });
@@ -88,12 +91,12 @@ test('Informations arent send when Email is missing', () => {
   );
 
   const kundennummer = getByLabelText('Kundennummer');
-  const name = getByLabelText('Name');
+  const firstName = getByLabelText('Vorname');
   const password = getByLabelText('Passwort');
   const passwordValidate = getByLabelText('Passwort bestätigen');
   const button = getByText('Erstellen');
 
-  fireEvent.change(name, { target: { value: 'Name' } });
+  fireEvent.change(firstName, { target: { value: 'Name' } });
   fireEvent.change(kundennummer, { target: { value: '1234567890' } });
   fireEvent.change(password, { target: { value: 'password' } });
   fireEvent.change(passwordValidate, { target: { value: 'password' } });
@@ -111,12 +114,12 @@ test('Informations arent send when Password is missing', () => {
   );
 
   const kundennummer = getByLabelText('Kundennummer');
-  const name = getByLabelText('Name');
+  const firstName = getByLabelText('Vorname');
   const email = getByLabelText('Email');
   const passwordValidate = getByLabelText('Passwort bestätigen');
   const button = getByText('Erstellen');
 
-  fireEvent.change(name, { target: { value: 'Name' } });
+  fireEvent.change(firstName, { target: { value: 'Name' } });
   fireEvent.change(kundennummer, { target: { value: '1234567890' } });
   fireEvent.change(email, { target: { value: 'asd.asd@asd.asd' } });
   fireEvent.change(passwordValidate, { target: { value: 'password' } });
@@ -134,13 +137,13 @@ test('Information arent send when Password and Password validation are different
   );
 
   const kundennummer = getByLabelText('Kundennummer');
-  const name = getByLabelText('Name');
+  const firstName = getByLabelText('Vorname');
   const email = getByLabelText('Email');
   const password = getByLabelText('Passwort');
   const passwordValidate = getByLabelText('Passwort bestätigen');
   const button = getByText('Erstellen');
 
-  fireEvent.change(name, { target: { value: 'Name' } });
+  fireEvent.change(firstName, { target: { value: 'Name' } });
   fireEvent.change(kundennummer, { target: { value: '1234567890' } });
   fireEvent.change(email, { target: { value: 'asd.asd@asd.asd' } });
   fireEvent.change(password, { target: { value: 'nicht gleich password' } });

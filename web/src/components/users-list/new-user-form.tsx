@@ -127,7 +127,7 @@ const NewUserForm: React.FC<NewUserFormProps> = ({ onCreate, onCancel }) => {
         <Input
           id="lastname"
           type="text"
-          label="NAchname"
+          label="Nachname"
           value={lastName.value}
           onChange={value => lastName.setValue(value)}
           onBlur={lastName.validate}
