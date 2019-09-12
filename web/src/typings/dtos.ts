@@ -26,10 +26,10 @@ export interface UserDTO {
 }
 
 export interface MeterDTO {
-  id: string;
+  id: number;
   type: 'water' | 'electricity' | 'gas';
   name: string;
-  ownerId: string | null;
+  ownerId: number | null;
   lastReading: ReadingDTO;
   meterNumber: string;
   createdAt: string;
@@ -38,9 +38,9 @@ export interface MeterDTO {
 }
 
 export interface ReadingDTO {
-  id: string;
-  meterId: string;
-  ownerId: string;
+  id: number;
+  meterId: number;
+  ownerId: number;
   value: string;
   lastEditorName: string;
   lastEditReason: string;
@@ -50,12 +50,12 @@ export interface ReadingDTO {
 }
 
 export interface IssueDTO {
-  id: string;
+  id: number;
   email: string;
   name: string;
   subject: string;
   message: string;
-  status: 'UNRESOLVED' | 'RESOLVED';
+  isClosed: boolean;
   createdAt: string;
   updatedAt: string | null;
   deletedAt: string | null;

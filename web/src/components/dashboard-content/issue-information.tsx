@@ -23,7 +23,7 @@ const IssueInformation: React.FC<RouteComponentProps<{ id: string }>> = ({
 
   function resolve() {
     if (!issue) return;
-    issue.updateIssue({ state: 'RESOLVED' }).then(success => {
+    issue.updateIssue({ isClosed: true }).then(success => {
       if (success) showSnackbar('success', 'Ticker wurde geschlossen');
       else showSnackbar('error', 'Ticket konnte nicht geschlossen werden');
     });
@@ -40,11 +40,8 @@ const IssueInformation: React.FC<RouteComponentProps<{ id: string }>> = ({
           >
             Rückfrage stellen
           </SecondaryButton>
-          <PrimaryButton
-            disabled={issue.issue.state === 'RESOLVED'}
-            onClick={resolve}
-          >
-            {issue.issue.state === 'RESOLVED' ? 'Erledigt' : 'Schließen'}
+          <PrimaryButton disabled={issue.issue.isClosed} onClick={resolve}>
+            {issue.issue.isClosed ? 'Erledigt' : 'Schließen'}
           </PrimaryButton>
         </div>
       </div>

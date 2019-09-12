@@ -6,6 +6,7 @@ import {
   Reading,
   Issue
 } from '../typings/provider-data-interfaces';
+import { userInfo } from 'os';
 
 function addInitialStatus(): Status {
   return {
@@ -46,6 +47,9 @@ export function mapUserDtoToUser(user: UserDTO): User {
 export function mapReadingDTOtoReading(reading: ReadingDTO): Reading {
   return {
     ...reading,
+    id: reading.id.toString(),
+    meterId: reading.meterId.toString(),
+    ownerId: reading.ownerId.toString(),
     status: addInitialStatus(),
     ...mapDatesToObjects(
       reading.createdAt,
@@ -58,6 +62,8 @@ export function mapReadingDTOtoReading(reading: ReadingDTO): Reading {
 export function mapMeterDtoToMeter(meter: MeterDTO): Meter {
   return {
     ...meter,
+    id: meter.id.toString(),
+    ownerId: meter.id.toString(),
     lastReading: mapReadingDTOtoReading(meter.lastReading),
     status: addInitialStatus(),
     ...mapDatesToObjects(meter.createdAt, meter.updatedAt, meter.deletedAt)
@@ -67,7 +73,7 @@ export function mapMeterDtoToMeter(meter: MeterDTO): Meter {
 export function mapIssueDtoToIssues(issue: IssueDTO): Issue {
   return {
     ...issue,
-    state: issue.status,
+    id: issue.id.toString(),
     status: addInitialStatus(),
     ...mapDatesToObjects(issue.createdAt, issue.updatedAt, issue.deletedAt)
   };
@@ -93,6 +99,9 @@ export function mapInternalReadingToReadingDTO(
 ): Partial<ReadingDTO> {
   const res = {
     ...reading,
+    id: reading.id ? parseInt(reading.id, 10) : undefined,
+    ownerId: reading.ownerId ? parseInt(reading.ownerId, 10) : undefined,
+    meterId: reading.meterId ? parseInt(reading.meterId, 10) : undefined,
     createdAt: reading.createdAt && reading.createdAt.toISOString(),
     updatedAt: reading.updatedAt && reading.updatedAt.toISOString(),
     deletedAt: reading.deletedAt && reading.deletedAt.toISOString()
@@ -104,6 +113,9 @@ export function mapInternalReadingToReadingDTO(
 function mapReadingIntoReadingDTO(r: Reading): ReadingDTO {
   const res = {
     ...r,
+    id: parseInt(r.id, 10),
+    ownerId: parseInt(r.ownerId, 10),
+    meterId: parseInt(r.meterId, 10),
     createdAt: r.createdAt.toISOString(),
     updatedAt: r.updatedAt && r.updatedAt.toISOString(),
     deletedAt: r.deletedAt && r.deletedAt.toISOString()
@@ -117,6 +129,8 @@ export function mapInternalMeterToMeterDTO(
 ): Partial<MeterDTO> {
   const res = {
     ...meter,
+    id: meter.id ? parseInt(meter.id, 10) : undefined,
+    ownerId: meter.ownerId ? parseInt(meter.ownerId, 10) : undefined,
     lastReading:
       meter.lastReading && mapReadingIntoReadingDTO(meter.lastReading),
     createdAt: meter.createdAt && meter.createdAt.toISOString(),
@@ -133,11 +147,10 @@ export function mapInternalIssueToIssueDTO(
 ): Partial<IssueDTO> {
   const res = {
     ...issue,
-    status: issue.state,
+    id: issue.id ? parseInt(issue.id, 10) : undefined,
     createdAt: issue.createdAt && issue.createdAt.toISOString(),
     updatedAt: issue.updatedAt && issue.updatedAt.toISOString(),
     deletedAt: issue.deletedAt && issue.deletedAt.toISOString()
   };
-  delete res.state;
   return res;
 }

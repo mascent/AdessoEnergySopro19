@@ -50,7 +50,7 @@ export interface Issue {
   name: string;
   subject: string;
   message: string;
-  state: 'UNRESOLVED' | 'RESOLVED';
+  isClosed: boolean;
   status: Status;
   createdAt: Date;
   updatedAt: Date | null;
