@@ -1,6 +1,5 @@
 package energy.adesso.adessoandroidapp.ui.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.annotation.SuppressLint;
@@ -13,10 +12,7 @@ import android.widget.Toast;
 
 import energy.adesso.adessoandroidapp.R;
 import energy.adesso.adessoandroidapp.logic.model.exception.AdessoException;
-import energy.adesso.adessoandroidapp.logic.model.exception.CredentialException;
-import energy.adesso.adessoandroidapp.logic.model.exception.NetworkException;
 import energy.adesso.adessoandroidapp.logic.model.identifiable.Issue;
-import energy.adesso.adessoandroidapp.ui.mock.MockIssue;
 
 public class IssueActivity extends AdessoActivity {
   Activity a = this;

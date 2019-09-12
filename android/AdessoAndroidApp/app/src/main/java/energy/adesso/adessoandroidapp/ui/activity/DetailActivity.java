@@ -10,16 +10,12 @@ import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 
-import android.text.InputType;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.IllegalFormatException;
 import java.util.List;
 
 import energy.adesso.adessoandroidapp.R;
@@ -29,7 +25,6 @@ import energy.adesso.adessoandroidapp.logic.model.exception.AdessoException;
 import energy.adesso.adessoandroidapp.logic.model.identifiable.Meter;
 import energy.adesso.adessoandroidapp.logic.model.identifiable.Reading;
 import energy.adesso.adessoandroidapp.ui.adapter.ReadingAdapter;
-import energy.adesso.adessoandroidapp.ui.mock.MockController;
 
 public class DetailActivity extends AdessoActivity {
   DetailActivity a = this;

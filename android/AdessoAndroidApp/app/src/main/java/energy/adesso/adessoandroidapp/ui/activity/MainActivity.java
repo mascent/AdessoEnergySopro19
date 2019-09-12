@@ -21,7 +21,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -40,7 +39,6 @@ import energy.adesso.adessoandroidapp.logic.model.exception.AdessoException;
 import energy.adesso.adessoandroidapp.logic.model.identifiable.Meter;
 import energy.adesso.adessoandroidapp.logic.model.Pair;
 import energy.adesso.adessoandroidapp.ui.adapter.MeterAdapter;
-import energy.adesso.adessoandroidapp.ui.mock.MockController;
 
 public class MainActivity extends AdessoActivity {
   final MainActivity a = this;
@@ -175,7 +173,7 @@ public class MainActivity extends AdessoActivity {
       protected Pair<Meter, String> doInBackground(Bitmap... bs) {
         for (Bitmap b : bs) {
           try {
-            return MockController.azureAnalyze(b);
+            return MainController.azureAnalyze(b);
           } catch (AdessoException e) {
             e.printStackTrace();
           }
@@ -241,7 +239,7 @@ public class MainActivity extends AdessoActivity {
         .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
           public void onClick(DialogInterface dialog, int which) {
             try {
-              MockController.logOut();
+              MainController.logOut();
             } catch (AdessoException e) {
             }
             finish();
@@ -302,7 +300,7 @@ public class MainActivity extends AdessoActivity {
             // Please pretend like this doesn't exist
           }
 
-          return MockController.getOverview();
+          return MainController.getOverview();
         } catch (AdessoException e) {
           e.printStackTrace();
           return null;

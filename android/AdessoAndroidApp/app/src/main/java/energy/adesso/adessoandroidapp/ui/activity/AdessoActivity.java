@@ -1,8 +1,6 @@
 package energy.adesso.adessoandroidapp.ui.activity;
 
 import android.content.DialogInterface;
-import android.text.InputType;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -12,11 +10,9 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.IllegalFormatException;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import energy.adesso.adessoandroidapp.R;
-import energy.adesso.adessoandroidapp.logic.model.Pair;
-import energy.adesso.adessoandroidapp.ui.mock.MockController;
+import energy.adesso.adessoandroidapp.logic.controller.MainController;
 
 public abstract class AdessoActivity extends AppCompatActivity {
   protected AdessoActivity a = this;
@@ -72,7 +68,7 @@ public abstract class AdessoActivity extends AppCompatActivity {
       @Override
       public void onClick(DialogInterface dialog, int which) {
         try {
-          MockController.setServer(getEditTextDialogTextbox(dialog).getText().toString());
+          MainController.setServer(getEditTextDialogTextbox(dialog).getText().toString());
         } catch (IllegalFormatException e) {
           Toast.makeText(a, R.string.generic_error_message, Toast.LENGTH_SHORT).show();
         }

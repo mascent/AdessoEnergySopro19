@@ -15,7 +15,6 @@ import energy.adesso.adessoandroidapp.R;
 import energy.adesso.adessoandroidapp.logic.controller.MainController;
 import energy.adesso.adessoandroidapp.logic.model.Pair;
 import energy.adesso.adessoandroidapp.logic.model.exception.AdessoException;
-import energy.adesso.adessoandroidapp.ui.mock.MockController;
 
 public class LoginActivity extends AdessoActivity {
   Activity a = this;
