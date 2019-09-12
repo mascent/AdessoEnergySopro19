@@ -31,7 +31,6 @@ public class ReadingValue {
 	private Long value;
 
 	@NotNull
-	@Past
 	private LocalDateTime lastChange;
 
 	private Long changerId;
