@@ -23,13 +23,13 @@ interface ReadingsContext {
   readings: Reading[];
   isLoading: boolean;
   error: Error | null;
-  fetchReadings: (meterId: string) => Promise<void>;
-  addReading: (meterId: string, reading: Partial<Reading>) => Promise<void>;
+  fetchReadings: (meterId: string) => Promise<boolean>;
+  addReading: (meterId: string, reading: Partial<Reading>) => Promise<boolean>;
   updateReading: (
     meterId: string,
     id: string,
     update: Partial<Reading>
-  ) => Promise<void>;
+  ) => Promise<boolean>;
 }
 
 const initialContext: ReadingsState = {
@@ -62,6 +62,7 @@ export const ReadingsProvider: React.FC<ReadingsProviderProps> = ({
       dispatch(
         fetchReadingsSuccess(result.map(res => mapReadingDTOtoReading(res)))
       );
+      return true;
     } catch (e) {
       Logger.logBreadcrumb(
         'error',
@@ -70,6 +71,7 @@ export const ReadingsProvider: React.FC<ReadingsProviderProps> = ({
       );
       Logger.captureException(e);
       dispatch(fetchReadingsFailure(e));
+      return false;
     }
   }, []);
 
@@ -85,10 +87,12 @@ export const ReadingsProvider: React.FC<ReadingsProviderProps> = ({
         );
         Logger.logBreadcrumb('info', 'readings-context', 'Added reading');
         dispatch(addReadingSuccess(mapReadingDTOtoReading(res)));
+        return true;
       } catch (e) {
         Logger.logBreadcrumb('error', 'readings-context', 'Add reading failed');
         Logger.captureException(e);
         dispatch(addReadingFailure(e));
+        return false;
       }
     },
     []
@@ -107,6 +111,7 @@ export const ReadingsProvider: React.FC<ReadingsProviderProps> = ({
         );
         Logger.logBreadcrumb('info', 'readings-context', 'Updated reading');
         dispatch(updateReadingSuccess(mapReadingDTOtoReading(res)));
+        return true;
       } catch (e) {
         Logger.logBreadcrumb(
           'error',
@@ -115,6 +120,7 @@ export const ReadingsProvider: React.FC<ReadingsProviderProps> = ({
         );
         Logger.captureException(e);
         dispatch(updateReadingFailure(id, e));
+        return false;
       }
     },
     []
@@ -137,12 +143,12 @@ interface ReadingsKit {
   readings: Reading[];
   isLoading: boolean;
   error: Error | null;
-  addReading: (meterId: string, reading: Partial<Reading>) => Promise<void>;
+  addReading: (meterId: string, reading: Partial<Reading>) => Promise<boolean>;
   updateReading: (
     meterId: string,
     id: string,
     update: Partial<Reading>
-  ) => Promise<void>;
+  ) => Promise<boolean>;
 }
 
 let fetching = false;
@@ -173,7 +179,7 @@ export function useReadings(meterId: string): ReadingsKit {
 
 interface ReadingKit {
   reading: Reading;
-  updateReading: (update: Partial<Reading>) => Promise<void>;
+  updateReading: (update: Partial<Reading>) => Promise<boolean>;
 }
 
 export function useReading(id: string): ReadingKit | null {

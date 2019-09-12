@@ -20,9 +20,9 @@ interface UsersContext {
   users: User[];
   isLoading: boolean;
   error: Error | null;
-  fetchUsers: () => Promise<void>;
-  addUser: (user: Partial<User>) => Promise<void>;
-  updateUser: (id: string, update: Partial<User>) => Promise<void>;
+  fetchUsers: () => Promise<boolean>;
+  addUser: (user: Partial<User>) => Promise<boolean>;
+  updateUser: (id: string, update: Partial<User>) => Promise<boolean>;
 }
 
 const initialContext: UsersState = {
@@ -51,10 +51,12 @@ export const UsersProvider: React.FC<UsersProviderProps> = ({
       const result = await users.getAllUsers();
       Logger.logBreadcrumb('info', 'users-context', 'Fetched users');
       dispatch(fetchUsersSuccess(result.map(user => mapUserDtoToUser(user))));
+      return true;
     } catch (e) {
       Logger.logBreadcrumb('error', 'users-context', 'Fetch users failed');
       Logger.captureException(e);
       dispatch(fetchUsersFailure(e));
+      return false;
     }
   }, []);
 
@@ -66,10 +68,12 @@ export const UsersProvider: React.FC<UsersProviderProps> = ({
       const result = await users.createNewUser(mapInternalUserToUserDTO(user));
       Logger.logBreadcrumb('info', 'users-context', 'Added user');
       dispatch(addUserSuccess(mapUserDtoToUser(result)));
+      return true;
     } catch (e) {
       Logger.logBreadcrumb('error', 'users-context', 'Add user failed');
       Logger.captureException(e);
       dispatch(addUserFailure(e));
+      return false;
     }
   }, []);
 
@@ -83,10 +87,12 @@ export const UsersProvider: React.FC<UsersProviderProps> = ({
       );
       Logger.logBreadcrumb('info', 'users-context', 'Updated user');
       dispatch(updateUserSuccess(mapUserDtoToUser(result)));
+      return true;
     } catch (e) {
       Logger.logBreadcrumb('error', 'users-context', 'Update user failed');
       Logger.captureException(e);
       dispatch(updateUserFailure(id, e));
+      return false;
     }
   }, []);
 
@@ -105,7 +111,7 @@ interface UsersKit {
   users: User[];
   isLoading: boolean;
   error: Error | null;
-  addUser: (user: Partial<User>) => Promise<void>;
+  addUser: (user: Partial<User>) => Promise<boolean>;
 }
 
 let fetching = false;
@@ -129,7 +135,7 @@ export function useUsers(): UsersKit {
 
 interface UserKit {
   user: User;
-  updateUser: (update: Partial<User>) => Promise<void>;
+  updateUser: (update: Partial<User>) => Promise<boolean>;
 }
 
 export function useUser(id: string): UserKit | null {
