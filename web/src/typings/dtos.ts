@@ -42,7 +42,6 @@ export interface MeterDTO {
 export interface ReadingDTO {
   id: number;
   meterId: number;
-  ownerId: number;
   value: string;
   lastEditorName: string;
   lastEditReason: string;

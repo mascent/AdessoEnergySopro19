@@ -48,7 +48,6 @@ export function mapReadingDTOtoReading(reading: ReadingDTO): Reading {
     ...reading,
     id: reading.id.toString(),
     meterId: reading.meterId.toString(),
-    ownerId: reading.ownerId.toString(),
     status: addInitialStatus(),
     ...mapDatesToObjects(
       reading.createdAt,
@@ -99,7 +98,6 @@ export function mapInternalReadingToReadingDTO(
   const res = {
     ...reading,
     id: reading.id ? parseInt(reading.id, 10) : undefined,
-    ownerId: reading.ownerId ? parseInt(reading.ownerId, 10) : undefined,
     meterId: reading.meterId ? parseInt(reading.meterId, 10) : undefined,
     createdAt: reading.createdAt && reading.createdAt.toISOString(),
     updatedAt: reading.updatedAt && reading.updatedAt.toISOString(),
@@ -113,7 +111,6 @@ function mapReadingIntoReadingDTO(r: Reading): ReadingDTO {
   const res = {
     ...r,
     id: parseInt(r.id, 10),
-    ownerId: parseInt(r.ownerId, 10),
     meterId: parseInt(r.meterId, 10),
     createdAt: r.createdAt.toISOString(),
     updatedAt: r.updatedAt && r.updatedAt.toISOString(),
