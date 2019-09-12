@@ -1,5 +1,7 @@
 package energy.adesso.adessoandroidapp.logic.controller;
 
+import android.util.Log;
+
 import java.io.IOException;
 
 import energy.adesso.adessoandroidapp.logic.model.Pair;
@@ -89,6 +91,7 @@ class NetworkController {
     Request request = details.first.post(body).build();
     try {
       Response response = ok.newCall(request).execute();
+      Log.println(Log.INFO, "", response.body().string());
       if (!response.isSuccessful())
         handleError(response.body().string());
 
