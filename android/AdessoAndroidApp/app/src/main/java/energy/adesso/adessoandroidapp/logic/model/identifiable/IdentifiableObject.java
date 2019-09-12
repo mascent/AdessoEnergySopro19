@@ -62,10 +62,7 @@ public abstract class IdentifiableObject extends SerializableObject implements S
   private DateTime parse(String s) {
     if (s == null || s.equals(""))
       return null;
-    else
-      s = s.substring(0, s.length()-4) + "+00:00";
-      return DateTime.parse(s, dateTimeStrategy);
+    s = s.substring(0, s.length()-4) + "+00:00";
+    return DateTime.parse(s, dateTimeStrategy);
   }
-
-
 }
