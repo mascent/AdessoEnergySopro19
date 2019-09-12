@@ -114,8 +114,9 @@ public class IssueController {
 	 * @param iid     The ID of the issue that should be closed.
 	 * @return A boolean that shows if the closing-operation was successful.
 	 */
-	@PutMapping(path = "/api/issues/{iid}", params = { "iid" })
+	@DeleteMapping(path = "/api/issues/{iid}", params = { "iid" })
 	@CrossOrigin
+
 	public Boolean closeIssue(HttpServletRequest request, @PathVariable Long iid) {
 		Issue i = issueRepository.findById(iid).orElse(null);
 		if (i == null) {

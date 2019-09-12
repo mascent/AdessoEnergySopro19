@@ -194,10 +194,10 @@ public class IssueControllerTest {
 		MvcResult result = mvc.perform(
 				get("/api/issues").header(HttpHeaders.AUTHORIZATION, adminCredentials).contentType("applications/json"))
 				.andExpect(status().isOk()).andReturn();
-		Type listType = new TypeToken<List<IssueDTO>>() {}.getType();
+//		Type listType = new TypeToken<List<IssueDTO>>() {}.getType();
 		String s = result.getResponse().getContentAsString();
-		List<IssueDTO> issues = new Gson().fromJson(s, listType);
-		assertTrue(issues.contains(new IssueDTO(i))); // TODO fix
+		List<IssueDTO> issues = new Gson().fromJson(s, new TypeToken<List<IssueDTO>>() {}.getType());
+		assertEquals(issues.get(0).getId(), new IssueDTO(i).getId());
 	}
 
 	@Test
@@ -206,7 +206,7 @@ public class IssueControllerTest {
 
 		// Check if user who are not logged in can't close an issue
 
-		mvc.perform(put("/api/issues" + testIssueId)).andExpect(status().is4xxClientError());
+		mvc.perform(delete("/api/issues" + testIssueId)).andExpect(status().is4xxClientError());
 	}
 
 	@Test
@@ -215,7 +215,7 @@ public class IssueControllerTest {
 
 		// Check if users without administration rights can't close an issue
 
-		mvc.perform(put("/api/issues" + testIssueId).header(HttpHeaders.AUTHORIZATION, userCredentials))
+		mvc.perform(delete("/api/issues" + testIssueId).header(HttpHeaders.AUTHORIZATION, userCredentials))
 				.andExpect(status().is4xxClientError());
 	}
 
@@ -226,7 +226,7 @@ public class IssueControllerTest {
 		// CHeck if users with administration rights can close an issue
 
 		MvcResult result = mvc
-				.perform(put("/api/issues/" + testIssueId).header(HttpHeaders.AUTHORIZATION, adminCredentials)
+				.perform(delete("/api/issues/" + testIssueId).header(HttpHeaders.AUTHORIZATION, adminCredentials)
 						.param("iid", testIssueId.toString()).contentType("applications/json"))
 				.andExpect(status().isOk()).andReturn();
 		Boolean succes = new Gson().fromJson(result.getResponse().getContentAsString(), Boolean.class);
