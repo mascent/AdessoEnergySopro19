@@ -16,17 +16,17 @@ import energy.adesso.adessoandroidapp.logic.model.identifiable.Reading;
 
 public class MockMeter extends Meter {
 
-  public MockMeter(String id) {
+  public MockMeter(long id) {
     super(id);
   }
 
   public MockMeter(String name, String meterNumber, MeterKind kind, Reading lastReading) {
-    super("123", MockController.time, MockController.time, MockController.time, name,
-        meterNumber, kind, "12345", lastReading);
+    super(123, MockController.time, MockController.time, MockController.time, name,
+        meterNumber, kind, 12345, lastReading);
   }
 
-  public MockMeter(String id, DateTime createdAt, DateTime updatedAt, DateTime deletedAt,
-                   String name, String meterNumber, MeterKind kind, String ownerId, Reading lastReading) {
+  public MockMeter(long id, DateTime createdAt, DateTime updatedAt, DateTime deletedAt,
+                   String name, String meterNumber, MeterKind kind, long ownerId, Reading lastReading) {
     super(id, createdAt, updatedAt, deletedAt, name, meterNumber, kind, ownerId, lastReading);
   }
 
@@ -39,34 +39,34 @@ public class MockMeter extends Meter {
   public List<Reading> getReadings() throws CredentialException, NetworkException {
     int i = 12345;
     return Arrays.asList(new Reading[]{
-        new Reading("12345", getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
-        new Reading("12345", getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
-        new Reading("12345", getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
-        new Reading("12345", getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
-        new Reading("12345", getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
-        new Reading("12345", getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
-        new Reading("12345", getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
-        new Reading("12345", getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
-        new Reading("12345", getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
-        new Reading("12345", getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
-        new Reading("12345", getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
-        new Reading("12345", getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
-        new Reading("12345", getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
-        new Reading("12345", getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
-        new Reading("12345", getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
-        new Reading("12345", getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
-        new Reading("12345", getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
-        new Reading("12345", getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
-        new Reading("12345", getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
-        new Reading("12345", getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
-        new Reading("12345", getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
-        new Reading("12345", getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
-        new Reading("12345", getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
-        new Reading("12345", getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
-        new Reading("12345", getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
-        new Reading("12345", getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
-        new Reading("12345", getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
-        new Reading("12345", getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
+        new Reading(12345, getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
+        new Reading(12345, getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
+        new Reading(12345, getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
+        new Reading(12345, getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
+        new Reading(12345, getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
+        new Reading(12345, getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
+        new Reading(12345, getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
+        new Reading(12345, getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
+        new Reading(12345, getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
+        new Reading(12345, getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
+        new Reading(12345, getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
+        new Reading(12345, getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
+        new Reading(12345, getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
+        new Reading(12345, getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
+        new Reading(12345, getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
+        new Reading(12345, getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
+        new Reading(12345, getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
+        new Reading(12345, getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
+        new Reading(12345, getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
+        new Reading(12345, getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
+        new Reading(12345, getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
+        new Reading(12345, getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
+        new Reading(12345, getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
+        new Reading(12345, getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
+        new Reading(12345, getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
+        new Reading(12345, getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
+        new Reading(12345, getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
+        new Reading(12345, getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
     });
   }
 

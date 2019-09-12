@@ -14,7 +14,7 @@ public class Issue extends IdentifiableObject {
   private String message;
   private String status;
 
-  public Issue(String id) {
+  public Issue(long id) {
     super(id);
   }
 

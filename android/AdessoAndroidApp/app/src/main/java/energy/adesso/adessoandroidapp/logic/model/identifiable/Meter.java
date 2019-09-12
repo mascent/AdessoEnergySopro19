@@ -18,30 +18,20 @@ public class Meter extends IdentifiableObject implements Serializable {
   private String type;
   private String name;
   @Nullable
-  private String ownerId;
+  private long ownerId;
   private Reading lastReading; // nullable
 
-  public Meter(String id) {
+  public Meter(long id) {
     super(id);
   }
 
-  public Meter(String id, DateTime createdAt, DateTime updatedAt, DateTime deletedAt, String name, String meterNumber, MeterKind kind, String ownerId, Reading lastReading) {
+  public Meter(long id, DateTime createdAt, DateTime updatedAt, DateTime deletedAt, String name, String meterNumber, MeterKind kind, long ownerId, Reading lastReading) {
     super(id, createdAt, updatedAt, deletedAt);
     this.name = name;
     this.ownerId = ownerId;
     this.lastReading = lastReading;
     this.meterNumber = meterNumber;
     this.type = kind.name().toLowerCase();
-  }
-
-  public Meter(String id, DateTime createdAt, DateTime updatedAt, DateTime deletedAt, String name, String meterNumber, MeterKind kind, String ownerId, String lastReading) {
-    super(id, createdAt, updatedAt, deletedAt);
-    this.name = name;
-    this.ownerId = ownerId;
-    //TODO: remove this constructor when no longer needed
-    this.lastReading = new Reading("eineIDlol", "eineID2lol", "einownerLol", lastReading);
-    this.meterNumber = meterNumber;
-    this.type = kind.name();
   }
 
   public static Meter deserialize(String source) {
@@ -76,7 +66,7 @@ public class Meter extends IdentifiableObject implements Serializable {
   }
 
   @Nullable
-  public String getOwnerId() {
+  public long getOwnerId() {
     return ownerId;
   }
 

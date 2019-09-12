@@ -9,7 +9,6 @@ import com.google.gson.reflect.TypeToken;
 
 import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,7 +25,7 @@ public class MainController {
   private static PersistenceController persistence;
 
   private static boolean usePersistence = true;
-  private static String uid;
+  private static long uId;
 
   // Private because of static class
   public MainController() {
@@ -58,7 +57,7 @@ public class MainController {
    * @throws NetworkException
    * @throws CredentialException when not logged in
    */
-  public static List<Reading> getReadings(String meterId) throws NetworkException, CredentialException {
+  public static List<Reading> getReadings(long meterId) throws NetworkException, CredentialException {
     String request = "/api/users/me/readings/" + meterId;
     String response = NetworkController.get(request);
     Type type = new TypeToken<List<Meter>>() {
@@ -66,7 +65,7 @@ public class MainController {
     return new Gson().fromJson(response, type);
   }
 
-  public static List<Reading> getReadingsPaging(String meterId) throws NetworkException, CredentialException {
+  public static List<Reading> getReadingsPaging(long meterId) throws NetworkException, CredentialException {
     String request = "/api/users/me/readings/" + meterId;
     List<Reading> readingList = new PagingHelper<Reading>().getAll(request);
     return readingList;
@@ -88,24 +87,24 @@ public class MainController {
     String reString = NetworkController.get("/api/login");
 
     User user = User.deserialize(reString);
-    uid = user.getId();
+    uId = user.getId();
 
     // Save persistently
     if (usePersistence) {
       persistence.save("username", username);
       persistence.save("password", password);
-      persistence.save("uid", uid);
+      persistence.save("uId", Long.toString(uId));
     }
 
   }
 
   public static void logOut() throws NetworkException, AdessoException {
     NetworkController.setCredentials(null, null);
-    uid = null;
+    uId = 0;
     if (usePersistence) {
       persistence.delete("username");
       persistence.delete("password");
-      persistence.delete("uid");
+      persistence.delete("uId");
     }
   }
 
@@ -157,9 +156,9 @@ public class MainController {
     NetworkController.setAddress(newAddress);
   }
 
-  public static void createReading(String mid, String value) throws NetworkException, CredentialException {
+  public static void createReading(long mId, String value) throws NetworkException, CredentialException {
     String url = "/api/meters";
-    Reading reading = new Reading(null, mid, uid, value);
+    Reading reading = new Reading(-1, mId, uId, value);
     String readingString = reading.serialize();
     NetworkController.post(url, readingString);
   }
