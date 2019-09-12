@@ -95,7 +95,7 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/forgotPass"
+                    android:id="@+id/chooseServer"
                     android:layout_width="wrap_content"
                     android:layout_height="45dp"
                     android:layout_marginLeft="16dp"
@@ -103,8 +103,8 @@
                     android:layout_weight="1"
                     android:background="@drawable/trans"
                     android:elevation="0dp"
-                    android:onClick="onForgotPasswordClick"
-                    android:text="@string/pass_forgot_text"
+                    android:onClick="onChooseServerClick"
+                    android:text="@string/server_choose_text"
                     android:textColor="@color/colorPassForgot" />
 
                 <Button
