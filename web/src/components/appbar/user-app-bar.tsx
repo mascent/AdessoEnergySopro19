@@ -8,6 +8,7 @@ import TicketModal from '../ticket-modal';
 import { useCreateIssue } from '../../providers/issues-provider';
 import { useAuth } from '../../providers/authentication-provider';
 import { useSnackBar } from '../../providers/snackbar-provider';
+import Logo from '../generics/logo';
 
 const UserAppBar: React.FC = () => {
   const [isOpen, setOpen] = React.useState(false);
@@ -33,7 +34,10 @@ const UserAppBar: React.FC = () => {
     <>
       <div className={styles.userAppBar}>
         <nav className={styles.navigation}>
-          <Title className={styles.title}>adesso energy</Title>
+          <div className={styles.logoText}>
+            <Logo type="with-bg" className={styles.logo} />
+            <Title className={styles.title}>adesso energy</Title>
+          </div>
           <div>
             <InvButton
               className={styles.emailButton}
