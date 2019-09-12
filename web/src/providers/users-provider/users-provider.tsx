@@ -15,18 +15,19 @@ import {
 } from './users-actions';
 import { users } from '../../services/ad-api';
 import { mapUserDtoToUser, mapInternalUserToUserDTO } from '../../lib/mappers';
+import { NewUser } from '../../typings/dtos';
 
 interface UsersContext {
-  users: User[];
+  users: User[] | null;
   isLoading: boolean;
   error: Error | null;
-  fetchUsers: () => Promise<void>;
-  addUser: (user: Partial<User>) => Promise<void>;
-  updateUser: (id: string, update: Partial<User>) => Promise<void>;
+  fetchUsers: () => Promise<boolean>;
+  addUser: (user: NewUser) => Promise<boolean>;
+  updateUser: (id: string, update: Partial<User>) => Promise<boolean>;
 }
 
 const initialContext: UsersState = {
-  users: [],
+  users: null,
   isLoading: false,
   error: null
 };
@@ -51,25 +52,29 @@ export const UsersProvider: React.FC<UsersProviderProps> = ({
       const result = await users.getAllUsers();
       Logger.logBreadcrumb('info', 'users-context', 'Fetched users');
       dispatch(fetchUsersSuccess(result.map(user => mapUserDtoToUser(user))));
+      return true;
     } catch (e) {
       Logger.logBreadcrumb('error', 'users-context', 'Fetch users failed');
       Logger.captureException(e);
       dispatch(fetchUsersFailure(e));
+      return false;
     }
   }, []);
 
-  const addUser = useCallback(async (user: Partial<User>) => {
+  const addUser = useCallback(async (user: NewUser) => {
     try {
       Logger.logBreadcrumb('info', 'users-context', 'Adding user');
       dispatch(addUserRequest());
 
-      const result = await users.createNewUser(mapInternalUserToUserDTO(user));
+      const result = await users.createNewUser(user);
       Logger.logBreadcrumb('info', 'users-context', 'Added user');
       dispatch(addUserSuccess(mapUserDtoToUser(result)));
+      return true;
     } catch (e) {
       Logger.logBreadcrumb('error', 'users-context', 'Add user failed');
       Logger.captureException(e);
       dispatch(addUserFailure(e));
+      return false;
     }
   }, []);
 
@@ -78,15 +83,18 @@ export const UsersProvider: React.FC<UsersProviderProps> = ({
       Logger.logBreadcrumb('info', 'users-context', 'Updating user');
       dispatch(updateUserRequest(id));
 
-      const result = await users.createNewUser(
+      const result = await users.updateUser(
+        id,
         mapInternalUserToUserDTO(update)
       );
       Logger.logBreadcrumb('info', 'users-context', 'Updated user');
       dispatch(updateUserSuccess(mapUserDtoToUser(result)));
+      return true;
     } catch (e) {
       Logger.logBreadcrumb('error', 'users-context', 'Update user failed');
       Logger.captureException(e);
       dispatch(updateUserFailure(id, e));
+      return false;
     }
   }, []);
 
@@ -102,10 +110,10 @@ export const UsersProvider: React.FC<UsersProviderProps> = ({
 };
 
 interface UsersKit {
-  users: User[];
+  users: User[] | null;
   isLoading: boolean;
   error: Error | null;
-  addUser: (user: Partial<User>) => Promise<void>;
+  addUser: (user: NewUser) => Promise<boolean>;
 }
 
 let fetching = false;
@@ -118,7 +126,7 @@ export function useUsers(): UsersKit {
   const { fetchUsers, updateUser, ...rest } = context;
 
   React.useEffect(() => {
-    if (fetching || rest.isLoading || rest.users.length !== 0) return;
+    if (fetching || rest.isLoading || rest.error || rest.users !== null) return;
 
     fetching = true;
     fetchUsers().finally(() => (fetching = false));
@@ -129,7 +137,7 @@ export function useUsers(): UsersKit {
 
 interface UserKit {
   user: User;
-  updateUser: (update: Partial<User>) => Promise<void>;
+  updateUser: (update: Partial<User>) => Promise<boolean>;
 }
 
 export function useUser(id: string): UserKit | null {
@@ -140,7 +148,10 @@ export function useUser(id: string): UserKit | null {
 
   const { users, updateUser } = context;
 
-  const user = useMemo(() => users.find(user => user.id === id), [id, users]);
+  const user = useMemo(
+    () => (!users ? undefined : users.find(user => user.id === id)),
+    [id, users]
+  );
 
   if (typeof user === 'undefined') return null;
 

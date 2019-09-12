@@ -34,7 +34,7 @@ abstract class AdessoEnergyApiComponent {
 
   protected async post(endpoint: string, body: object): Promise<Response> {
     return await fetch(this.config.baseUrl + endpoint, {
-      method: 'PUT',
+      method: 'POST',
       mode: 'cors',
       redirect: 'error',
       headers: {

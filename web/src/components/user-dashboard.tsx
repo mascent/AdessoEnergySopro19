@@ -1,18 +1,17 @@
 import React from 'react';
-import { Route, Switch, withRouter } from 'react-router-dom';
 import ContainerCard from './generics/container-card';
 import styles from './user-dashboard.module.scss';
-import { SelectMeter } from './dashboard-content/select-call';
-import MeterList from './meters-list/meter-list';
 import { useMeters } from '../providers/meters-provider';
 import Spinner from './generics/spinner';
+import { useAuth } from '../providers/authentication-provider';
+import MeterList from './meters-list/meter-list';
+import { Router } from '@reach/router';
+import { SelectMeter } from './dashboard-content/select-call';
+import MeterInformation from './dashboard-content/meter-information';
 
-interface UserDashboardProps {
-  match: { path: string; params: object; isExact: boolean; url: string };
-}
-
-const UserDashboard: React.FC<UserDashboardProps> = ({ match }) => {
-  const { meters, isLoading } = useMeters();
+const UserDashboard: React.FC = () => {
+  const { userId } = useAuth();
+  const { meters, isLoading } = useMeters(userId);
 
   if (isLoading)
     return (
@@ -23,18 +22,15 @@ const UserDashboard: React.FC<UserDashboardProps> = ({ match }) => {
 
   return (
     <ContainerCard className={styles.container}>
-      <MeterList meters={meters} onAddMeterClick={() => {}} />
+      <MeterList meters={meters} hideAdd={true} />
       <div className={styles.contentContainer}>
-        <Switch>
-          <Route path={match.path} exact component={SelectMeter} />
-          <Route
-            path={`${match.path}/:id`}
-            render={() => <p>Show counter info</p>}
-          />
-        </Switch>
+        <Router className={styles.router}>
+          <SelectMeter path="/" />
+          <MeterInformation path=":id" />
+        </Router>
       </div>
     </ContainerCard>
   );
 };
 
-export default withRouter(UserDashboard);
+export default UserDashboard;

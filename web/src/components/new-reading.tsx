@@ -1,22 +1,25 @@
 import React from 'react';
 import { useInputValidation } from 'use-input-validation';
-import { isStringEmpty } from '../lib/validators';
+import { isNumber } from '../lib/validators';
 import Input from './generics/input';
 import { SecondaryButton, PrimaryButton } from './generics/button';
 import styles from './new-reading.module.scss';
 
-const stringNotEmpty = (val: string) => !isStringEmpty(val);
-
 interface ReadingProps {
+  initialValue: string;
   onAdd: (reading: string) => void;
   onClose: () => void;
 }
 
-const NewReading: React.FC<ReadingProps> = ({ onAdd, onClose }) => {
+const NewReading: React.FC<ReadingProps> = ({
+  initialValue,
+  onAdd,
+  onClose
+}) => {
   const reading = useInputValidation<string, string>(
-    '',
-    'Der Zählerstand darf nicht leer sein.',
-    stringNotEmpty
+    initialValue,
+    'Zählerstand muss eine positive Zahl sein',
+    num => isNumber(num) && parseInt(num, 10) > 0
   );
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -24,7 +27,7 @@ const NewReading: React.FC<ReadingProps> = ({ onAdd, onClose }) => {
 
     const readingValid = reading.validate();
 
-    if (!readingValid) return;
+    if (!readingValid || reading.value === initialValue) return;
 
     onAdd(reading.value);
   }
@@ -33,7 +36,7 @@ const NewReading: React.FC<ReadingProps> = ({ onAdd, onClose }) => {
     <form onSubmit={handleSubmit} className={styles.container}>
       <Input
         id="reading"
-        type="text"
+        type="number"
         label="Stand"
         value={reading.value}
         onChange={value => reading.setValue(value)}
@@ -41,8 +44,10 @@ const NewReading: React.FC<ReadingProps> = ({ onAdd, onClose }) => {
         error={reading.error}
       />
       <div className={styles.buttons}>
-        <SecondaryButton onClick={onClose}>Abbrechen</SecondaryButton>
-        <PrimaryButton onClick={() => {}}>Hinzufügen</PrimaryButton>
+        <SecondaryButton type="reset" onClick={onClose}>
+          Abbrechen
+        </SecondaryButton>
+        <PrimaryButton type="submit">Hinzufügen</PrimaryButton>
       </div>
     </form>
   );

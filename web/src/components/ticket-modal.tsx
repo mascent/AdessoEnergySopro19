@@ -1,5 +1,4 @@
 import React from 'react';
-import { Title } from './generics/text';
 import { PrimaryButton, SecondaryButton } from './generics/button';
 import Input from './generics/input';
 import Modal, { ModalBody, ModalFooter } from './generics/modal';
@@ -127,11 +126,16 @@ const TicketModal: React.FC<TicketModalProps> = ({
           />
         </ModalBody>
         <ModalFooter>
-          <SecondaryButton ref={ref} type="reset" className={styles.button}>
+          <SecondaryButton
+            onClick={closeModal}
+            ref={ref}
+            type="reset"
+            className={styles.button}
+          >
             Abbrechen
           </SecondaryButton>
 
-          <PrimaryButton type="reset">Senden</PrimaryButton>
+          <PrimaryButton type="submit">Senden</PrimaryButton>
         </ModalFooter>
       </form>
     </Modal>

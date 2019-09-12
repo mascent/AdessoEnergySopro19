@@ -1,15 +1,17 @@
 import React from 'react';
-import { SubTitle } from '../components/generics/text';
-import Input from './generics/input';
+import { SubTitle } from '../generics/text';
+import Input from '../generics/input';
 import styles from './new-user-form.module.scss';
-import { PrimaryButton, SecondaryButton } from './generics/button';
+import { PrimaryButton, SecondaryButton } from '../generics/button';
 import { useInputValidation } from 'use-input-validation';
-import { isStringEmpty, isValidEmail } from '../lib/validators';
+import { isStringEmpty, isValidEmail, isNumber } from '../../lib/validators';
+import { RouteComponentProps } from '@reach/router';
 
-interface NewUserFormProps {
+interface NewUserFormProps extends RouteComponentProps {
   onCreate: (
     customerId: string,
-    name: string,
+    firstName: string,
+    lastName: string,
     email: string,
     password: string
   ) => void;
@@ -27,7 +29,7 @@ const NewUserForm: React.FC<NewUserFormProps> = ({ onCreate, onCancel }) => {
   const customerId = useInputValidation<string, string>(
     '',
     'Keine valide Kundennummer',
-    stringNotEmpty
+    isNumber
   );
 
   const password = useInputValidation<string, string>(
@@ -42,9 +44,15 @@ const NewUserForm: React.FC<NewUserFormProps> = ({ onCreate, onCancel }) => {
     confirmedPasswordValidator(password.value)
   );
 
-  const name = useInputValidation<string, string>(
+  const firstname = useInputValidation<string, string>(
     '',
-    'Name darf nicht leer sein',
+    'Vorname darf nicht leer sein',
+    stringNotEmpty
+  );
+
+  const lastName = useInputValidation<string, string>(
+    '',
+    'Nachname darf nicht leer sein',
     stringNotEmpty
   );
 
@@ -59,7 +67,8 @@ const NewUserForm: React.FC<NewUserFormProps> = ({ onCreate, onCancel }) => {
 
     const customerIdValid = customerId.validate();
     const passwordValid = password.validate();
-    const nameValid = name.validate();
+    const firstNameValid = firstname.validate();
+    const lastNameValid = lastName.validate();
     const emailValid = email.validate();
     const passwordValidatorValid = passwordValidator.validate();
 
@@ -67,14 +76,21 @@ const NewUserForm: React.FC<NewUserFormProps> = ({ onCreate, onCancel }) => {
       !(
         customerIdValid &&
         passwordValid &&
-        nameValid &&
+        firstNameValid &&
+        lastNameValid &&
         emailValid &&
         passwordValidatorValid
       )
     )
       return;
 
-    onCreate(customerId.value, name.value, password.value, email.value);
+    onCreate(
+      customerId.value,
+      firstname.value,
+      lastName.value,
+      email.value,
+      password.value
+    );
   }
 
   return (
@@ -82,32 +98,40 @@ const NewUserForm: React.FC<NewUserFormProps> = ({ onCreate, onCancel }) => {
       <SubTitle> Neuen Kunden erfassen</SubTitle>
       <Input
         id="kundennummer"
-        type="text"
+        type="number"
         label="Kundennummer"
         value={customerId.value}
         onChange={value => customerId.setValue(value)}
         onBlur={customerId.validate}
         error={customerId.error}
       />
+      <Input
+        id="email"
+        type="text"
+        label="Email"
+        onChange={value => email.setValue(value)}
+        onBlur={email.validate}
+        error={email.error}
+      />
       <div className={styles.nameEmail}>
         <Input
-          id="name"
+          id="firstname"
           type="text"
-          label="Name"
-          value={name.value}
-          onChange={value => name.setValue(value)}
-          onBlur={name.validate}
-          error={name.error}
+          label="Vorname"
+          value={firstname.value}
+          onChange={value => firstname.setValue(value)}
+          onBlur={firstname.validate}
+          error={firstname.error}
           className={styles.input}
         />
-
         <Input
-          id="email"
+          id="lastname"
           type="text"
-          label="Email"
-          onChange={value => email.setValue(value)}
-          onBlur={email.validate}
-          error={email.error}
+          label="Nachname"
+          value={lastName.value}
+          onChange={value => lastName.setValue(value)}
+          onBlur={lastName.validate}
+          error={lastName.error}
           className={styles.input}
         />
       </div>
@@ -133,7 +157,9 @@ const NewUserForm: React.FC<NewUserFormProps> = ({ onCreate, onCancel }) => {
         />
       </div>
       <div className={styles.button}>
-        <SecondaryButton type="reset">Abbrechen</SecondaryButton>
+        <SecondaryButton onClick={onCancel} type="reset">
+          Abbrechen
+        </SecondaryButton>
         <PrimaryButton type="submit">Erstellen</PrimaryButton>
       </div>
     </form>

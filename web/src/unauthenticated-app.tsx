@@ -1,19 +1,17 @@
 import React from 'react';
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  Redirect
-} from 'react-router-dom';
+import { Router, Redirect, RouteComponentProps } from '@reach/router';
 import LoginScreen from './screens/login-screen';
+
+const NotFound: React.FC<RouteComponentProps> = () => {
+  return <Redirect to="/login" noThrow />;
+};
 
 const UnAuthenticatedApp: React.FC = () => {
   return (
     <Router>
-      <Switch>
-        <Route path="/login" component={LoginScreen} />
-        <Redirect to="/login" />
-      </Switch>
+      <LoginScreen path="/login" />
+
+      <NotFound default />
     </Router>
   );
 };

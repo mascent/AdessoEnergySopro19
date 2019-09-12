@@ -20,20 +20,20 @@ import {
 } from '../../lib/mappers';
 
 interface ReadingsContext {
-  readings: Reading[];
+  readings: Reading[] | null;
   isLoading: boolean;
   error: Error | null;
-  fetchReadings: (meterId: string) => Promise<void>;
-  addReading: (meterId: string, reading: Partial<Reading>) => Promise<void>;
+  fetchReadings: (meterId: string) => Promise<boolean>;
+  addReading: (meterId: string, reading: Partial<Reading>) => Promise<boolean>;
   updateReading: (
     meterId: string,
     id: string,
     update: Partial<Reading>
-  ) => Promise<void>;
+  ) => Promise<boolean>;
 }
 
 const initialContext: ReadingsState = {
-  readings: [],
+  readings: null,
   isLoading: false,
   error: null
 };
@@ -43,7 +43,7 @@ const ReadingsContext = React.createContext<ReadingsContext | undefined>(
 );
 
 interface ReadingsProviderProps {
-  override?: ReadingsContext;
+  override?: Partial<ReadingsContext>;
 }
 
 export const ReadingsProvider: React.FC<ReadingsProviderProps> = ({
@@ -62,6 +62,7 @@ export const ReadingsProvider: React.FC<ReadingsProviderProps> = ({
       dispatch(
         fetchReadingsSuccess(result.map(res => mapReadingDTOtoReading(res)))
       );
+      return true;
     } catch (e) {
       Logger.logBreadcrumb(
         'error',
@@ -70,6 +71,7 @@ export const ReadingsProvider: React.FC<ReadingsProviderProps> = ({
       );
       Logger.captureException(e);
       dispatch(fetchReadingsFailure(e));
+      return false;
     }
   }, []);
 
@@ -85,10 +87,12 @@ export const ReadingsProvider: React.FC<ReadingsProviderProps> = ({
         );
         Logger.logBreadcrumb('info', 'readings-context', 'Added reading');
         dispatch(addReadingSuccess(mapReadingDTOtoReading(res)));
+        return true;
       } catch (e) {
         Logger.logBreadcrumb('error', 'readings-context', 'Add reading failed');
         Logger.captureException(e);
         dispatch(addReadingFailure(e));
+        return false;
       }
     },
     []
@@ -107,6 +111,7 @@ export const ReadingsProvider: React.FC<ReadingsProviderProps> = ({
         );
         Logger.logBreadcrumb('info', 'readings-context', 'Updated reading');
         dispatch(updateReadingSuccess(mapReadingDTOtoReading(res)));
+        return true;
       } catch (e) {
         Logger.logBreadcrumb(
           'error',
@@ -115,6 +120,7 @@ export const ReadingsProvider: React.FC<ReadingsProviderProps> = ({
         );
         Logger.captureException(e);
         dispatch(updateReadingFailure(id, e));
+        return false;
       }
     },
     []
@@ -134,24 +140,37 @@ export const ReadingsProvider: React.FC<ReadingsProviderProps> = ({
 };
 
 interface ReadingsKit {
-  readings: Reading[];
+  readings: Reading[] | null;
   isLoading: boolean;
   error: Error | null;
-  addReading: (meterId: string, reading: Partial<Reading>) => Promise<void>;
+  addReading: (meterId: string, reading: Partial<Reading>) => Promise<boolean>;
+  updateReading: (
+    meterId: string,
+    id: string,
+    update: Partial<Reading>
+  ) => Promise<boolean>;
 }
 
 let fetching = false;
+let lastFetched = '';
 export function useReadings(meterId: string): ReadingsKit {
   const context = useContext(ReadingsContext);
 
   if (typeof context === 'undefined')
     throw new Error('useReadings must be used within a ReadingsProvider');
 
-  const { fetchReadings, updateReading, ...rest } = context;
+  const { fetchReadings, ...rest } = context;
 
   React.useEffect(() => {
-    if (fetching || rest.isLoading || rest.readings.length !== 0) return;
+    if (
+      fetching ||
+      rest.isLoading ||
+      rest.error ||
+      (rest.readings !== null && meterId === lastFetched)
+    )
+      return;
 
+    lastFetched = meterId;
     fetching = true;
     fetchReadings(meterId).finally(() => (fetching = false));
   }, [fetchReadings, rest, meterId]);
@@ -161,7 +180,7 @@ export function useReadings(meterId: string): ReadingsKit {
 
 interface ReadingKit {
   reading: Reading;
-  updateReading: (update: Partial<Reading>) => Promise<void>;
+  updateReading: (update: Partial<Reading>) => Promise<boolean>;
 }
 
 export function useReading(id: string): ReadingKit | null {
@@ -172,10 +191,10 @@ export function useReading(id: string): ReadingKit | null {
 
   const { readings, updateReading } = context;
 
-  const reading = useMemo(() => readings.find(reading => reading.id === id), [
-    id,
-    readings
-  ]);
+  const reading = useMemo(
+    () => (!readings ? undefined : readings.find(reading => reading.id === id)),
+    [id, readings]
+  );
 
   if (typeof reading === 'undefined') return null;
 

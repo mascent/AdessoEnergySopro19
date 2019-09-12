@@ -7,7 +7,6 @@ import faker from 'faker';
 import {
   Meter,
   Reading,
-  Status,
   User,
   Issue
 } from '../typings/provider-data-interfaces';
@@ -25,9 +24,9 @@ import {
  */
 export function buildMeterDTO(overrides?: Partial<MeterDTO>): MeterDTO {
   return {
-    id: faker.random.uuid(),
+    id: faker.random.number(),
     meterNumber: faker.random.number({ min: 1000000000000000 }).toString(),
-    ownerId: faker.random.uuid(),
+    ownerId: faker.random.number(),
     name: faker.company.companyName(),
     lastReading: buildReadingDTO(),
     type: faker.random.arrayElement(['gas', 'water', 'electricity']),
@@ -52,12 +51,11 @@ export function buildMeter(overrides?: Partial<Meter>): Meter {
  */
 export function buildReadingDTO(overrides?: Partial<ReadingDTO>): ReadingDTO {
   return {
-    id: faker.random.uuid(),
-    meterId: faker.random.uuid(),
-    ownerId: faker.random.uuid(),
+    id: faker.random.number(),
+    meterId: faker.random.number(),
+    ownerId: faker.random.number(),
     lastEditorName: faker.name.firstName() + ' ' + faker.name.lastName(),
     lastEditReason: faker.lorem.words(5),
-    trend: faker.random.number({ min: -10, max: 10 }),
     value: faker.random.number({ min: 1000000 }).toString(),
     createdAt: faker.date.recent().toISOString(),
     updatedAt: faker.date.recent().toISOString(),
@@ -80,8 +78,8 @@ export function buildReading(overrides?: Partial<Reading>): Reading {
  */
 export function buildUserDTO(overrides?: Partial<UserDTO>): UserDTO {
   return {
-    id: faker.random.uuid(),
-    customerId: faker.random.uuid(),
+    id: faker.random.number(),
+    customerNumber: faker.random.uuid(),
     email: faker.internet.email(),
     firstName: faker.name.firstName(),
     lastName: faker.name.lastName(),
@@ -102,11 +100,11 @@ export function buildUser(overrides?: Partial<User>): User {
 
 export function buildIssueDTO(overrides?: Partial<IssueDTO>): IssueDTO {
   return {
-    id: faker.random.uuid(),
+    id: faker.random.number(),
     email: faker.internet.email(),
     name: faker.name.firstName() + ' ' + faker.name.lastName(),
     message: faker.lorem.paragraph(),
-    status: faker.random.arrayElement(['UNRESOLVED', 'RESOLVED']),
+    isClosed: faker.random.boolean(),
     subject: faker.lorem.words(5),
     createdAt: faker.date.recent().toISOString(),
     updatedAt: faker.date.recent().toISOString(),

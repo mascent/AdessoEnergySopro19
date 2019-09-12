@@ -2,7 +2,7 @@ import { Reading } from '../../typings/provider-data-interfaces';
 import { Action } from './readings-actions';
 
 export interface ReadingsState {
-  readings: Reading[];
+  readings: Reading[] | null;
   isLoading: boolean;
   error: Error | null;
 }
@@ -13,7 +13,7 @@ export function readingsReducer(
 ): ReadingsState {
   switch (action.type) {
     case 'FETCH_READINGS_REQUEST':
-      return { ...state, isLoading: true, error: null };
+      return { ...state, isLoading: true, error: null, readings: null };
     case 'FETCH_READINGS_SUCCESS':
       return { ...state, isLoading: false, readings: action.readings };
     case 'FETCH_READINGS_FAILURE':
@@ -24,11 +24,14 @@ export function readingsReducer(
       return {
         ...state,
         isLoading: false,
-        readings: [...state.readings, action.reading]
+        readings: state.readings
+          ? [...state.readings, action.reading]
+          : [action.reading]
       };
     case 'ADD_READING_FAILURE':
       return { ...state, isLoading: false, error: action.error };
-    case 'UPDATE_READING_REQUEST':
+    case 'UPDATE_READING_REQUEST': {
+      if (!state.readings) return state;
       return {
         ...state,
         readings: state.readings.map(reading =>
@@ -40,7 +43,9 @@ export function readingsReducer(
             : reading
         )
       };
-    case 'UPDATE_READING_SUCCESS':
+    }
+    case 'UPDATE_READING_SUCCESS': {
+      if (!state.readings) return state;
       return {
         ...state,
         readings: state.readings.map(reading =>
@@ -51,7 +56,9 @@ export function readingsReducer(
             : reading
         )
       };
-    case 'UPDATE_READING_FAILURE':
+    }
+    case 'UPDATE_READING_FAILURE': {
+      if (!state.readings) return state;
       return {
         ...state,
         readings: state.readings.map(reading =>
@@ -67,6 +74,7 @@ export function readingsReducer(
             : reading
         )
       };
+    }
     default:
       return state;
   }

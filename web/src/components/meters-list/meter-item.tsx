@@ -3,7 +3,7 @@ import cx from 'classnames';
 import styles from './meter-item.module.scss';
 import { Span } from '../generics/text';
 import Chevron from 'mdi-react/ChevronRightIcon';
-import { NavLink } from 'react-router-dom';
+import { Link } from '@reach/router';
 import { MeterType } from '../../typings/provider-data-interfaces';
 import MeterIcon from '../generics/meter-icon';
 
@@ -13,7 +13,6 @@ interface MeterItemProps {
   name: string;
   meterNumber: string;
   date: string;
-  trend: number;
 }
 
 const MeterItem: React.FC<MeterItemProps> = ({
@@ -21,14 +20,19 @@ const MeterItem: React.FC<MeterItemProps> = ({
   type,
   name,
   meterNumber,
-  date,
-  trend
+  date
 }) => {
   return (
-    <NavLink
-      to={`/${id}`}
-      className={styles.container}
-      activeClassName={styles.activeContainer}
+    <Link
+      to={`${id}`}
+      getProps={({ isCurrent }) => {
+        return {
+          className: cx({
+            [styles.container]: true,
+            [styles.activeContainer]: isCurrent
+          })
+        };
+      }}
     >
       <MeterIcon type={type} />
       <div className={styles.infoContainer}>
@@ -38,16 +42,11 @@ const MeterItem: React.FC<MeterItemProps> = ({
         </div>
         <div className={styles.textContainer}>
           <Span>{meterNumber}</Span>
-          <Span
-            className={cx({
-              [styles.goodTrend]: trend < 0,
-              [styles.badTrend]: trend > 0
-            })}
-          >{`${trend > 0 ? `+${trend}` : trend}%`}</Span>
+          <Span>&nbsp;</Span>
         </div>
       </div>
       <Chevron className={styles.arrow} />
-    </NavLink>
+    </Link>
   );
 };
 

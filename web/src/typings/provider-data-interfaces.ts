@@ -36,7 +36,6 @@ export interface Reading {
   meterId: string;
   ownerId: string;
   value: string;
-  trend: number;
   lastEditorName: string;
   lastEditReason: string;
   status: Status;
@@ -51,7 +50,7 @@ export interface Issue {
   name: string;
   subject: string;
   message: string;
-  state: 'UNRESOLVED' | 'RESOLVED';
+  isClosed: boolean;
   status: Status;
   createdAt: Date;
   updatedAt: Date | null;

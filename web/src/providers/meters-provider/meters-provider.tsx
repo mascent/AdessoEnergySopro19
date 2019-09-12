@@ -18,18 +18,19 @@ import {
   mapMeterDtoToMeter,
   mapInternalMeterToMeterDTO
 } from '../../lib/mappers';
+import { NewMeter } from '../../typings/dtos';
 
 interface MetersContext {
-  meters: Meter[];
+  meters: Meter[] | null;
   isLoading: boolean;
   error: Error | null;
-  fetchMeters: (userId: string) => Promise<void>;
-  addMeter: (meter: Partial<Meter>) => Promise<void>;
-  updateMeter: (id: string, update: Partial<Meter>) => Promise<void>;
+  fetchMeters: (userId: string) => Promise<boolean>;
+  addMeter: (meter: NewMeter) => Promise<boolean>;
+  updateMeter: (id: string, update: Partial<Meter>) => Promise<boolean>;
 }
 
 const initialContext: MetersState = {
-  meters: [],
+  meters: null,
   isLoading: false,
   error: null
 };
@@ -54,27 +55,29 @@ export const MetersProvider: React.FC<MetersProviderProps> = ({
       const res = await meters.getMetersForUser(userId);
       Logger.logBreadcrumb('info', 'meters-context', 'Fetched meters');
       dispatch(fetchMetersSuccess(res.map(r => mapMeterDtoToMeter(r))));
+      return true;
     } catch (e) {
       Logger.logBreadcrumb('error', 'meters-context', 'Fetch meters failed');
       Logger.captureException(e);
       dispatch(fetchMetersFailure(e));
+      return false;
     }
   }, []);
 
-  const addMeter = useCallback(async (meter: Partial<Meter>) => {
+  const addMeter = useCallback(async (meter: NewMeter) => {
     try {
       Logger.logBreadcrumb('info', 'meters-context', 'Adding meter');
       dispatch(addMeterRequest());
 
-      const res = await meters.createNewMeter(
-        mapInternalMeterToMeterDTO(meter)
-      );
+      const res = await meters.createNewMeter(meter);
       Logger.logBreadcrumb('info', 'meters-context', 'Added meter');
       dispatch(addMeterSuccess(mapMeterDtoToMeter(res)));
+      return true;
     } catch (e) {
       Logger.logBreadcrumb('error', 'meters-context', 'Add meter failed');
       Logger.captureException(e);
       dispatch(addMeterFailure(e));
+      return false;
     }
   }, []);
 
@@ -90,10 +93,12 @@ export const MetersProvider: React.FC<MetersProviderProps> = ({
         );
         Logger.logBreadcrumb('info', 'meters-context', 'Updated meter');
         dispatch(updateMeterSuccess(mapMeterDtoToMeter(res)));
+        return true;
       } catch (e) {
         Logger.logBreadcrumb('error', 'meters-context', 'Update meter failed');
         Logger.captureException(e);
         dispatch(updateMeterFailure(id, e));
+        return false;
       }
     },
     []
@@ -111,13 +116,14 @@ export const MetersProvider: React.FC<MetersProviderProps> = ({
 };
 
 interface MetersKit {
-  meters: Meter[];
+  meters: Meter[] | null;
   isLoading: boolean;
   error: Error | null;
-  addMeter: (meter: Partial<Meter>) => Promise<void>;
+  addMeter: (meter: NewMeter) => Promise<boolean>;
 }
 
 let fetching = false;
+let lastFetched = '';
 export function useMeters(userId: string): MetersKit {
   const context = useContext(MetersContext);
 
@@ -127,9 +133,16 @@ export function useMeters(userId: string): MetersKit {
   const { fetchMeters, updateMeter, ...rest } = context;
 
   React.useEffect(() => {
-    if (fetching || rest.isLoading || rest.meters !== null) return;
+    if (
+      fetching ||
+      rest.isLoading ||
+      rest.error ||
+      (rest.meters !== null && userId === lastFetched)
+    )
+      return;
 
     fetching = true;
+    lastFetched = userId;
     fetchMeters(userId).finally(() => (fetching = false));
   }, [fetchMeters, rest, userId]);
 
@@ -138,7 +151,7 @@ export function useMeters(userId: string): MetersKit {
 
 interface MeterKit {
   meter: Meter;
-  updateMeter: (update: Partial<Meter>) => Promise<void>;
+  updateMeter: (update: Partial<Meter>) => Promise<boolean>;
 }
 
 export function useMeter(id: string): MeterKit | null {
@@ -149,10 +162,10 @@ export function useMeter(id: string): MeterKit | null {
 
   const { meters, updateMeter } = context;
 
-  const meter = useMemo(() => meters.find(user => user.id === id), [
-    id,
-    meters
-  ]);
+  const meter = useMemo(
+    () => (!meters ? undefined : meters.find(user => user.id === id)),
+    [id, meters]
+  );
 
   if (typeof meter === 'undefined') return null;
 

@@ -1,6 +1,7 @@
 export interface LoginDTO {
-  userId: string;
-  isAdmin: boolean;
+  id: number;
+  role: 'User' | 'Admin';
+  user: string;
 }
 
 export interface Paging<T> {
@@ -14,8 +15,8 @@ export interface Paging<T> {
 }
 
 export interface UserDTO {
-  id: string;
-  customerId: string;
+  id: number;
+  customerNumber: string;
   firstName: string;
   lastName: string;
   email: string;
@@ -25,10 +26,10 @@ export interface UserDTO {
 }
 
 export interface MeterDTO {
-  id: string;
+  id: number;
   type: 'water' | 'electricity' | 'gas';
   name: string;
-  ownerId: string | null;
+  ownerId: number | null;
   lastReading: ReadingDTO;
   meterNumber: string;
   createdAt: string;
@@ -37,11 +38,10 @@ export interface MeterDTO {
 }
 
 export interface ReadingDTO {
-  id: string;
-  meterId: string;
-  ownerId: string;
+  id: number;
+  meterId: number;
+  ownerId: number;
   value: string;
-  trend: number;
   lastEditorName: string;
   lastEditReason: string;
   createdAt: string;
@@ -50,13 +50,29 @@ export interface ReadingDTO {
 }
 
 export interface IssueDTO {
-  id: string;
+  id: number;
   email: string;
   name: string;
   subject: string;
   message: string;
-  status: 'UNRESOLVED' | 'RESOLVED';
+  isClosed: boolean;
   createdAt: string;
   updatedAt: string | null;
   deletedAt: string | null;
+}
+
+export interface NewUser {
+  customerNumber: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+}
+
+export interface NewMeter {
+  initialValue: string;
+  ownerId: string;
+  meterNumber: string;
+  name: string;
+  type: 'water' | 'electricity' | 'gas';
 }

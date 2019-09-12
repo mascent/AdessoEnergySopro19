@@ -1,31 +1,22 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import MeterList from './meter-list';
-import { action } from '@storybook/addon-actions';
 import { Meter } from '../../typings/provider-data-interfaces';
-import { buildMeter } from '../../utils/fake-builder';
-import StoryRouter from 'storybook-react-router';
+import { buildMeter, buildList } from '../../utils/fake-builder';
+import { WithRouter } from '../../utils/with-router';
 
-const meters: Meter[] = [
-  buildMeter(),
-  buildMeter(),
-  buildMeter(),
-  buildMeter(),
-  buildMeter(),
-  buildMeter(),
-  buildMeter(),
-  buildMeter(),
-  buildMeter(),
-  buildMeter()
-];
+const meters: Meter[] = buildList(buildMeter, 5, 100);
 
 storiesOf('Dashboard Content | MeterList', module)
-  .addDecorator(StoryRouter())
   .add('empty', () => (
-    <MeterList onAddMeterClick={action('Adding meter')} meters={[]} />
+    <WithRouter>
+      <MeterList meters={[]} />
+    </WithRouter>
   ))
   .add('filled', () => (
-    <div style={{ height: '70vh' }}>
-      <MeterList onAddMeterClick={action('Adding meter')} meters={meters} />
-    </div>
+    <WithRouter>
+      <div style={{ height: '70vh' }}>
+        <MeterList meters={meters} />
+      </div>
+    </WithRouter>
   ));

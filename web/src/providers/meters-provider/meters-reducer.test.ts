@@ -5,7 +5,7 @@ import { buildList, buildMeter } from '../../utils/fake-builder';
 const initialState: MetersState = {
   isLoading: false,
   error: null,
-  meters: []
+  meters: null
 };
 
 test('returns state for unknown action', () => {

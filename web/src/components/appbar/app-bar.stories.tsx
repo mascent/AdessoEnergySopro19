@@ -5,4 +5,4 @@ import AdminAppBar from './admin-app-bar';
 
 storiesOf('Form | Appbar', module)
   .add('User', () => <UserAppBar />)
-  .add('Admin', () => <AdminAppBar />);
+  .add('Admin', () => <AdminAppBar selected="users" />);

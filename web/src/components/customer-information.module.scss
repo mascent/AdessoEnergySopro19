@@ -1,3 +1,5 @@
+@import 'theme/spacings';
+
 .inputs {
   display: flex;
   flex-direction: column;
@@ -6,9 +8,23 @@
 .header {
   display: flex;
   justify-content: space-between;
+  margin-bottom: $spacing-24;
 }
 
 .button {
   display: flex;
   justify-content: flex-end;
+}
+
+.bold {
+  font-weight: 600;
+}
+
+.mRight {
+  margin-right: $spacing-12;
+}
+
+.textInfo {
+  display: flex;
+  justify-content: space-between;
 }

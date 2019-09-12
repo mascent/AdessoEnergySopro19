@@ -5,22 +5,25 @@ import { useInputValidation } from 'use-input-validation';
 import { isStringEmpty, isMeterTypeValid } from '../../lib/validators';
 import Input from '../generics/input';
 import { PrimaryButton, SecondaryButton } from '../generics/button';
+import { RouteComponentProps } from '@reach/router';
+import { MeterType } from '../../typings/provider-data-interfaces';
 
 const stringNotEmpty = (val: string) => !isStringEmpty(val);
 
-interface NewMeterProps {
+interface NewMeterProps extends RouteComponentProps {
+  onCancel: () => void;
   onCreate: (
-    meterType: string,
+    meterType: MeterType,
     name: string,
     meterNumber: string,
     initialValue: string
   ) => void;
 }
 
-const NewMeter: React.FC<NewMeterProps> = ({ onCreate }) => {
+const NewMeter: React.FC<NewMeterProps> = ({ onCreate, onCancel }) => {
   const meterType = useInputValidation<string, string>(
     '',
-    'Keine valider Zählertyp',
+    'Keine valider Zählertyp. Wähle aus zwischen: gas, water, electricity',
     isMeterTypeValid
   );
 
@@ -53,6 +56,14 @@ const NewMeter: React.FC<NewMeterProps> = ({ onCreate }) => {
     if (!(meterTypeValid && meterNumberValid && nameValid && initialValueValid))
       return;
 
+    // For typescript. Make sure that the string really matches the MeterType
+    if (
+      meterType.value !== 'gas' &&
+      meterType.value !== 'electricity' &&
+      meterType.value !== 'water'
+    )
+      return;
+
     onCreate(
       meterType.value,
       name.value,
@@ -63,7 +74,7 @@ const NewMeter: React.FC<NewMeterProps> = ({ onCreate }) => {
 
   return (
     <div className={styles.container}>
-      <SubTitle>Neuen Zähler erfassen</SubTitle>
+      <SubTitle className={styles.header}>Neuen Zähler erfassen</SubTitle>
       <form onSubmit={handleSubmit}>
         <Input
           id="metertype"
@@ -106,7 +117,11 @@ const NewMeter: React.FC<NewMeterProps> = ({ onCreate }) => {
         />
 
         <div className={styles.buttons}>
-          <SecondaryButton className={styles.cancelButton} type="reset">
+          <SecondaryButton
+            onClick={onCancel}
+            className={styles.cancelButton}
+            type="reset"
+          >
             Abbrechen
           </SecondaryButton>
           <PrimaryButton type="submit">Erstellen</PrimaryButton>

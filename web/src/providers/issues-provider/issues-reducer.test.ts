@@ -5,7 +5,7 @@ import { buildList, buildIssue } from '../../utils/fake-builder';
 const initialState: IssuesState = {
   isLoading: false,
   error: null,
-  issues: []
+  issues: null
 };
 
 test('returns state for unknown action', () => {

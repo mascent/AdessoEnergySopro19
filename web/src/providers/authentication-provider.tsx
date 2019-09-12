@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import { auth, config } from '../services/ad-api';
 
 interface AuthenticationContext {
@@ -13,7 +13,14 @@ const AuthenticationContext = React.createContext<
   AuthenticationContext | undefined
 >(undefined);
 
-export const AuthenticationProvider: React.FC = ({ children }) => {
+interface AuthProps {
+  override?: Partial<AuthenticationContext>;
+}
+
+export const AuthenticationProvider: React.FC<AuthProps> = ({
+  children,
+  override
+}) => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [userId, setUserId] = useState<string>('');
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
@@ -22,11 +29,11 @@ export const AuthenticationProvider: React.FC = ({ children }) => {
     // Set the token with experimental things.
     config.setToken(username, password);
     try {
-      const { userId, isAdmin } = await auth.login();
+      const { id, role } = await auth.login();
 
       setIsLoggedIn(true);
-      setUserId(userId);
-      setIsAdmin(isAdmin);
+      setUserId(id.toString());
+      setIsAdmin(role === 'Admin');
       return true;
     } catch (e) {
       config.resetToken();
@@ -42,10 +49,14 @@ export const AuthenticationProvider: React.FC = ({ children }) => {
     setIsAdmin(false);
   }, []);
 
+  // Override the internal state with a possible override for test purposes
+  const context = useMemo(
+    () => ({ isLoggedIn, isAdmin, userId, login, logout, ...override }),
+    [isLoggedIn, isAdmin, userId, login, logout, override]
+  );
+
   return (
-    <AuthenticationContext.Provider
-      value={{ isLoggedIn, userId, isAdmin, login, logout }}
-    >
+    <AuthenticationContext.Provider value={context}>
       {children}
     </AuthenticationContext.Provider>
   );
@@ -63,14 +74,5 @@ export function useAuth(): {
   if (typeof context === 'undefined')
     throw new Error('useAuth must be used inside a AuthenticationProvider.');
 
-  // Use this if Basic Auth with no sessions is destroying you and you just want
-  // to be "logged in"
-  // return context;
-  return {
-    isLoggedIn: true,
-    userId: 'kaka',
-    isAdmin: false,
-    login: async (username: string, password: string) => true,
-    logout: () => {}
-  };
+  return context;
 }

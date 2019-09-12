@@ -14,11 +14,19 @@
   padding: $spacing-24 0;
   box-shadow: $shadow-300;
   z-index: 1;
+  flex-shrink: 0;
 }
 
 .logo {
   width: 42px !important;
   height: 42px !important;
+}
+
+.button {
+  &[data-active='true'] {
+    color: $color-grey-100;
+    background-color: $color-blue-500;
+  }
 }
 
 .topContainer {
