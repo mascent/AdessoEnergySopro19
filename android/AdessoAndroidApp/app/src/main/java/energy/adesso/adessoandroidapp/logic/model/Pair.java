@@ -9,7 +9,7 @@ public class Pair<A, B> {
     this.second = second;
   }
 
-  public Pair(){
+  public Pair() {
 
   }
 }

@@ -9,15 +9,15 @@ public class PersistenceController {
     this.prefs = prefs;
   }
 
-  public synchronized void save(String key, String value){
-    prefs.edit().putString(key,value).apply();
+  public synchronized void save(String key, String value) {
+    prefs.edit().putString(key, value).apply();
   }
 
-  public synchronized String load(String key){
-    return prefs.getString(key,null);
+  public synchronized String load(String key) {
+    return prefs.getString(key, null);
   }
 
-  public synchronized void delete(String key){
+  public synchronized void delete(String key) {
     prefs.edit().remove(key).apply();
   }
 }

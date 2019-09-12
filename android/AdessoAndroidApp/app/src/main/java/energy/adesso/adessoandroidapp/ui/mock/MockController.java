@@ -19,53 +19,64 @@ import energy.adesso.adessoandroidapp.logic.model.identifiable.Meter;
 import energy.adesso.adessoandroidapp.logic.model.identifiable.Reading;
 
 public class MockController extends MainController {
-    static DateTime time = DateTime.now();
-    static Reading lastReading = new Reading("1243", "98 762 244", "einowner", "12345,754");
+  static DateTime time = DateTime.now();
+  static Reading lastReading = new Reading("1243", "98 762 244", "einowner", "12345,754");
 
-    public static void login(String username, String password) throws NetworkException, CredentialException {
-        MainController.login("jd172", "password");
-    }
-    public static List<Meter> getOverview() {
-        return Arrays.asList(new Meter[] {
-                new MockMeter("id",time, time, time,
-                        "Hauptsitz", "98 762 244", MeterKind.ELECTRIC, "einowner", lastReading),
-                new MockMeter("id",time, time, time,
-                        "Hauptsitz", "98 762 245", MeterKind.GAS, "einowner", lastReading),
-                new MockMeter("id",time, time, time,
-                        "Hauptsitz", "98 762 246", MeterKind.WATER, "einowner", lastReading),
-                new MockMeter("id",time, time, time,
-                        "Hauptsitz2", "98 762 247", MeterKind.ELECTRIC, "einowner", lastReading),
-                new MockMeter("id",time, time, time,
-                        "Hauptsitz2", "98 762 248", MeterKind.GAS, "einowner", lastReading),
-                new MockMeter("id",time, time, time,
-                        "Hauptsitz2", "98 762 249", MeterKind.WATER, "einowner", lastReading),
-        });
+  public static void login(String username, String password) throws NetworkException, CredentialException {
+    MainController.login("jd172", "password");
+  }
+
+  public static List<Meter> getOverview() throws NetworkException {
+    try {
+      Thread.sleep(1500);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
     }
 
-    public static DateTime getTime() {
-        time = time.plusDays(7);
-        return time;
+    return Arrays.asList(new Meter[]{
+        new MockMeter("id", time, time, time,
+            "Hauptsitz", "98 762 244", MeterKind.ELECTRIC, "einowner", lastReading),
+        new MockMeter("id", time, time, time,
+            "Hauptsitz", "98 762 245", MeterKind.GAS, "einowner", lastReading),
+        new MockMeter("id", time, time, time,
+            "Hauptsitz", "98 762 246", MeterKind.WATER, "einowner", lastReading),
+        new MockMeter("id", time, time, time,
+            "Hauptsitz2", "98 762 247", MeterKind.ELECTRIC, "einowner", lastReading),
+        new MockMeter("id", time, time, time,
+            "Hauptsitz2", "98 762 248", MeterKind.GAS, "einowner", lastReading),
+        new MockMeter("id", time, time, time,
+            "Hauptsitz2", "98 762 249", MeterKind.WATER, "einowner", lastReading),
+    });
+  }
+
+  public static DateTime getTime() {
+    time = time.plusDays(7);
+    return time;
+  }
+
+  public static void logOut() throws AdessoException {
+
+  }
+
+  public static void setServer(String toString) {
+
+  }
+
+  public static Pair<Meter, String> azureAnalyze(Bitmap b) throws NetworkException {
+    try {
+      Thread.sleep(2500);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
     }
 
-    public static void logOut() throws AdessoException {
+    return new Pair<>(new MockMeter("Name1", "12345", MeterKind.ELECTRIC, lastReading).toMeter(), "Mocked Man");
+  }
 
-    }
-    public static void setServer(String toString) {
+  public static boolean isLoggedIn() {
+    return false;
+  }
 
-    }
-    public static Pair<Meter, String> azureAnalyze(Bitmap b) throws NetworkException {
-        try {
-            Thread.sleep(2500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+  public static void sendIssue(Issue issue) {
 
-        return new Pair<>(new MockMeter("Name1", "12345", MeterKind.ELECTRIC, lastReading).toMeter(), "Mocked Man");
-    }
-    public static boolean isLoggedIn() {
-        return false;
-    }
-    public static void sendIssue(Issue issue) {
-
-    }
+  }
 }

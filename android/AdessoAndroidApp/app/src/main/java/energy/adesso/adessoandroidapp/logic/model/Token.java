@@ -1,10 +1,11 @@
 package energy.adesso.adessoandroidapp.logic.model;
 
-public class Token extends SerializableObject{
+public class Token extends SerializableObject {
   String access_token;
   String expires_in;
   String token_type;
   String scope;
+
   public boolean hasExpired() {
     // TODO: implement
     return false;

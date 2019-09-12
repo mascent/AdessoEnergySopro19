@@ -12,5 +12,6 @@ public class MockIssue extends Issue {
   }
 
   @Override
-  public void send() throws NetworkException { }
+  public void send() throws NetworkException {
+  }
 }
