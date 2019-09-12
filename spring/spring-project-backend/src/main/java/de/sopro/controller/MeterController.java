@@ -137,9 +137,7 @@ public class MeterController {
 	public MeterDTO getMeter(HttpServletRequest request, @PathVariable Long mid) throws ResourceNotFoundException {
 
 		Meter m = meterRepository.findById(mid).orElseThrow(() -> new ResourceNotFoundException());
-		if (m == null) {
-			return null;
-		}
+
 
 		if (personRepository.findByUsername(request.getUserPrincipal().getName()).orElse(null).getRole()
 				.equals(Role.Admin)) {
