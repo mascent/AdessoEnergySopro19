@@ -73,10 +73,20 @@
   text-align: right;
 }
 
-.goodTrend {
-  color: $color-green-500;
+.meterNameContainer {
+  display: flex;
+  align-items: center;
 }
 
-.badTrend {
-  color: $color-red-500;
+.meterEdit {
+  @extend %font-sub-title;
+  border: none;
+  background: transparent;
+  padding: 0;
+  outline: none;
+  width: fit-content;
+}
+
+.editButton {
+  margin-left: $spacing-12;
 }

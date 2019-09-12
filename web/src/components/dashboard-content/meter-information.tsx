@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import cx from 'classnames';
 import styles from './meter-information.module.scss';
 import MeterIcon from '../generics/meter-icon';
@@ -12,6 +12,9 @@ import NewReading from '../new-reading';
 import { useAuth } from '../../providers/authentication-provider';
 import ReadingList from './readings-list';
 import { useSnackBar } from '../../providers/snackbar-provider';
+import EditIcon from 'mdi-react/EditIcon';
+import { SnackbarType } from '../snackbar/snackbar';
+import { InvButton } from '../generics/button';
 
 const MeterInformation: React.FC<RouteComponentProps<{ id: string }>> = ({
   id
@@ -63,13 +66,26 @@ const MeterInformation: React.FC<RouteComponentProps<{ id: string }>> = ({
       });
   }
 
+  function handleEditMeter(name: string) {
+    if (!meter) return;
+    meter.updateMeter({ name }).then(success => {
+      if (success) {
+        showSnackbar('success', 'Name gespeichert');
+      } else showSnackbar('error', 'Name konnte nicht gespeichert werden');
+    });
+  }
+
   return (
     <section className={styles.mainContainer}>
       <header className={styles.headerContainer}>
         <div className={styles.leftGroup}>
           <MeterIcon type={meter.meter.type} />
           <div className={styles.headerTextGroup}>
-            <SubTitle>{meter.meter.name}</SubTitle>
+            <MeterName
+              name={meter.meter.name}
+              showSnackbar={showSnackbar}
+              update={handleEditMeter}
+            />
             <Span>{meter.meter.meterNumber}</Span>
           </div>
         </div>
@@ -139,6 +155,51 @@ const MeterInformation: React.FC<RouteComponentProps<{ id: string }>> = ({
         </>
       )}
     </section>
+  );
+};
+
+interface MeterName {
+  name: string;
+  update: (name: string) => void;
+  showSnackbar: (type: SnackbarType, text: string) => void;
+}
+
+const MeterName: React.FC<MeterName> = ({ name, update, showSnackbar }) => {
+  const [editMeterName, toggleEditMeterName] = useState(false);
+  const [value, setValue] = useState(name);
+
+  useEffect(() => {
+    setValue(name);
+  }, [name]);
+
+  function handleBlur() {
+    if (value === '')
+      showSnackbar('warning', 'Zähler Name darf nicht leer sein');
+
+    toggleEditMeterName(false);
+    update(value);
+  }
+
+  return (
+    <div className={styles.meterNameContainer}>
+      {editMeterName ? (
+        <input
+          autoFocus
+          className={styles.meterEdit}
+          value={value}
+          onChange={e => setValue(e.target.value)}
+          onBlur={handleBlur}
+        />
+      ) : (
+        <SubTitle>{name}</SubTitle>
+      )}
+      <InvButton
+        className={styles.editButton}
+        onClick={() => toggleEditMeterName(e => !e)}
+      >
+        <EditIcon />
+      </InvButton>
+    </div>
   );
 };
 
