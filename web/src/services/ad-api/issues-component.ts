@@ -1,5 +1,5 @@
 import AdessoEnergyApiComponent from './abstract-api-component';
-import { Paging, IssueDTO } from '../../typings/dtos';
+import { IssueDTO } from '../../typings/dtos';
 import { buildList, buildIssueDTO } from '../../utils/fake-builder';
 
 class IssueComponent extends AdessoEnergyApiComponent {

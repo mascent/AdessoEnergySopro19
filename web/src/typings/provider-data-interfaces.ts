@@ -36,7 +36,6 @@ export interface Reading {
   meterId: string;
   ownerId: string;
   value: string;
-  trend: number;
   lastEditorName: string;
   lastEditReason: string;
   status: Status;

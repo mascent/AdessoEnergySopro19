@@ -42,7 +42,6 @@ export interface ReadingDTO {
   meterId: string;
   ownerId: string;
   value: string;
-  trend: number;
   lastEditorName: string;
   lastEditReason: string;
   createdAt: string;

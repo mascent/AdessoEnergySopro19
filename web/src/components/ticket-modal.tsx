@@ -1,5 +1,4 @@
 import React from 'react';
-import { Title } from './generics/text';
 import { PrimaryButton, SecondaryButton } from './generics/button';
 import Input from './generics/input';
 import Modal, { ModalBody, ModalFooter } from './generics/modal';

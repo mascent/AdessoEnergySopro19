@@ -60,17 +60,11 @@ const MeterInformation: React.FC<RouteComponentProps<{ id: string }>> = ({
           </div>
         </div>
         <div className={cx(styles.headerTextGroup, styles.textRight)}>
-          <Span className={styles.bold}>{meter.meter.lastReading.value}</Span>
-          <Span
-            className={cx({
-              [styles.goodTrend]: meter.meter.lastReading.trend < 0,
-              [styles.badTrend]: meter.meter.lastReading.trend > 0
-            })}
-          >{`${
-            meter.meter.lastReading.trend > 0
-              ? `+${meter.meter.lastReading.trend}`
-              : meter.meter.lastReading.trend
-          }%`}</Span>
+          <div title="Letzer Stand">
+            <SectionHeader className={styles.bold}>
+              {meter.meter.lastReading.value}
+            </SectionHeader>
+          </div>
         </div>
       </header>
       {isLoading && (

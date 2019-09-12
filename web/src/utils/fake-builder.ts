@@ -56,7 +56,6 @@ export function buildReadingDTO(overrides?: Partial<ReadingDTO>): ReadingDTO {
     ownerId: faker.random.uuid(),
     lastEditorName: faker.name.firstName() + ' ' + faker.name.lastName(),
     lastEditReason: faker.lorem.words(5),
-    trend: faker.random.number({ min: -10, max: 10 }),
     value: faker.random.number({ min: 1000000 }).toString(),
     createdAt: faker.date.recent().toISOString(),
     updatedAt: faker.date.recent().toISOString(),
