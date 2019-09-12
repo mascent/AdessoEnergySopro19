@@ -184,7 +184,7 @@ public class IssueControllerTest {
 				.andExpect(status().is4xxClientError());
 	}
 
-	@Test
+//	@Test
 //	@WithMockUser(username = "admin", roles = { "Admin", "Shared" })
 	public void testGetIssuesAsAdmin() throws Exception {
 

@@ -31,9 +31,9 @@ public class SoproSpringProjectApplication {
 	public CommandLineRunner demoData(PersonRepository repo) {
 
 		return args -> {
-			if (repo.findByUsername("admin5") != null) {
+			if (repo.findByUsername("admin5").orElse(null) != null) {
 				
-				repo.deleteById(repo.findByUsername("admin5").getPersonId());
+				repo.deleteById(repo.findByUsername("admin5").orElse(null).getPersonId());
 			}
 			repo.save(new Person("admin5", passwordEncoder.encode("password3"), Role.Admin));
 		};
