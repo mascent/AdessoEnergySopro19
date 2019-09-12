@@ -1,0 +1,28 @@
+.container {
+  background-color: transparent;
+  box-shadow: none;
+  display: flex;
+}
+
+.button {
+  width: 530px;
+  height: 100px;
+}
+
+.arrow {
+  position: absolute;
+  top: 40px;
+  left: 500px;
+}
+.name {
+  font-weight: bold;
+  position: absolute;
+  left: 30px;
+  top: 20px;
+}
+
+.nummer {
+  position: absolute;
+  left: 30px;
+  top: 60px;
+}

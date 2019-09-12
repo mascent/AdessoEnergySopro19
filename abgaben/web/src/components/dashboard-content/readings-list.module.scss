@@ -1,0 +1,52 @@
+@import 'theme/spacings';
+@import 'theme/colors';
+@import 'theme/fonts';
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.ofProtection {
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.headText {
+  @extend %font-span;
+  font-weight: 600;
+  padding: $spacing-4;
+  text-align: left;
+}
+
+.tableText {
+  @extend %font-span;
+  padding: $spacing-4;
+}
+
+.padding {
+  padding: $spacing-4;
+}
+
+.row {
+  border-radius: 4px;
+
+  &:nth-child(odd) {
+    background: $color-blue-050;
+  }
+}
+
+.button {
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: $color-grey-400;
+  transition: all 200ms ease-in-out;
+  outline-color: $color-yellow-500;
+  cursor: pointer;
+
+  &:hover,
+  &:focus {
+    color: $color-grey-800;
+  }
+}
