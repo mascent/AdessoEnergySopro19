@@ -73,7 +73,7 @@ public class MainController {
    * @throws NetworkException
    */
   public static void login(String username, String password) throws NetworkException, CredentialException {
-    if(username==null||password==null)
+    if (username == null || password == null)
       throw new CredentialException();
     // Send
     NetworkController.setCredentials(username, password);

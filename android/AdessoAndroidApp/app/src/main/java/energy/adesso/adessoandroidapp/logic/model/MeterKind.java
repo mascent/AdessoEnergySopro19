@@ -6,7 +6,7 @@ public enum MeterKind implements Serializable {
 
   WATER("water", 8, 3),
   ELECTRIC("electric", 7, 1),
-  GAS("gas", 8,3);
+  GAS("gas", 8, 3);
 
   String kind;
   int commaPosition;
@@ -18,4 +18,4 @@ public enum MeterKind implements Serializable {
     this.commaPosition = commaPosition;
     this.lengthOfReading = lengthOfReading;
   }
-  }
+}

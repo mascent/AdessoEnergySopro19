@@ -16,7 +16,7 @@ import java.util.Objects;
 import energy.adesso.adessoandroidapp.R;
 import energy.adesso.adessoandroidapp.logic.model.identifiable.Reading;
 
-public class GraphActivity extends AppCompatActivity {
+public class GraphActivity extends AdessoActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -25,7 +25,9 @@ public class GraphActivity extends AppCompatActivity {
     // Set up toolbar
     Toolbar toolbar = findViewById(R.id.graphToolbar);
     setSupportActionBar(toolbar);
-    Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+    // The detailActivity throws away all
+    // its data on the arrow click for some reason, but not onBackClick so the arrow has to be hidden for now
+    //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
     // Get the data
     Reading[] values = (Reading[]) getIntent().getSerializableExtra("readings");
@@ -37,7 +39,7 @@ public class GraphActivity extends AppCompatActivity {
     DataPoint[] points = new DataPoint[values.length];
     for (int i = 0; i < points.length; i++)
       points[i] = new DataPoint(values[i].getCreatedAt().getMillis(),
-              Integer.parseInt(values[i].getValue()));
+          Integer.parseInt(values[i].getValue()));
 
     // Put points into Graph
     LineGraphSeries<DataPoint> series = new LineGraphSeries<>();
@@ -48,7 +50,7 @@ public class GraphActivity extends AppCompatActivity {
     series.setDataPointsRadius(8);
     graph.getGridLabelRenderer().
         setLabelFormatter(new DateAsXAxisLabelFormatter(this,
-                DateFormat.getDateInstance()));
+            DateFormat.getDateInstance()));
     series.setTitle(getString(R.string.graph_title) + " " + unit);
   }
 }

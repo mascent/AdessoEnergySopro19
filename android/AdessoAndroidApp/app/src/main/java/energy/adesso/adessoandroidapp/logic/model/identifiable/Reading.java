@@ -35,7 +35,7 @@ public class Reading extends IdentifiableObject implements Serializable {
     this.createdAt = createdAt.toString(dateTimeStrategy);
   }
 
-  public static Reading deserialize(String source){
+  public static Reading deserialize(String source) {
     return gson.fromJson(source, Reading.class);
   }
 

@@ -28,7 +28,7 @@ class NetworkController {
   private static NetworkController instance;
 
   public static final MediaType JSON
-          = MediaType.get("application/json; charset=utf-8");
+      = MediaType.get("application/json; charset=utf-8");
 
 
   private NetworkController() {
@@ -116,8 +116,8 @@ class NetworkController {
 
 
     pair.first = new Request.Builder()
-            .addHeader("Authorization", Credentials.basic(username, password))
-            .url(baseURL + path);
+        .addHeader("Authorization", Credentials.basic(username, password))
+        .url(baseURL + path);
 
     RequestBody body;
     if (json == null || json.equals(""))

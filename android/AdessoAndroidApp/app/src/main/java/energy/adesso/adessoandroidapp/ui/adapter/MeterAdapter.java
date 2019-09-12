@@ -20,49 +20,49 @@ import energy.adesso.adessoandroidapp.logic.model.MeterKind;
 import energy.adesso.adessoandroidapp.logic.model.identifiable.Meter;
 
 public class MeterAdapter extends ArrayAdapter<Meter> {
-    private final Context context;
-    private final List<Meter> values;
-    private final Drawable[] icons;
+  private final Context context;
+  private final List<Meter> values;
+  private final Drawable[] icons;
 
-    public MeterAdapter(Context context, List<Meter> values, Drawable[] icons) {
-        super(context, R.layout.list_element, values);
-        this.context = context;
-        this.values = values;
-        this.icons = icons;
+  public MeterAdapter(Context context, List<Meter> values, Drawable[] icons) {
+    super(context, R.layout.list_element, values);
+    this.context = context;
+    this.values = values;
+    this.icons = icons;
 
-        if (icons.length != 3)
-            throw new IllegalArgumentException();
-    }
+    if (icons.length != 3)
+      throw new IllegalArgumentException();
+  }
 
-    @SuppressLint("ViewHolder")
-    @NotNull
-    @Override
-    public View getView(int position, View convertView, @NotNull ViewGroup parent) {
-        // Inflate list element
-        LayoutInflater inflater = (LayoutInflater) context
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        assert inflater != null;
-        LinearLayout listElement = (LinearLayout)inflater.inflate(R.layout.list_element, parent, false);
+  @SuppressLint("ViewHolder")
+  @NotNull
+  @Override
+  public View getView(int position, View convertView, @NotNull ViewGroup parent) {
+    // Inflate list element
+    LayoutInflater inflater = (LayoutInflater) context
+        .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    assert inflater != null;
+    LinearLayout listElement = (LinearLayout) inflater.inflate(R.layout.list_element, parent, false);
 
-        // Get data
-        Meter m = values.get(position);
-        Drawable icon = null;
-        if (m.getKind().equals(MeterKind.ELECTRIC))
-            icon = icons[0];
-        else if (m.getKind().equals(MeterKind.GAS))
-            icon = icons[1];
-        else if (m.getKind().equals(MeterKind.WATER))
-            icon = icons[2];
+    // Get data
+    Meter m = values.get(position);
+    Drawable icon = null;
+    if (m.getKind().equals(MeterKind.ELECTRIC))
+      icon = icons[0];
+    else if (m.getKind().equals(MeterKind.GAS))
+      icon = icons[1];
+    else if (m.getKind().equals(MeterKind.WATER))
+      icon = icons[2];
 
-        // Set data
-        ((ImageView)listElement.findViewById(R.id.listElementImage)).setImageDrawable(icon);
-        ((TextView)listElement.findViewById(R.id.listElementTopText)).setText(m.getName());
-        ((TextView)listElement.findViewById(R.id.listElementBottomText)).setText(m.getMeterNumber());
-        ((TextView)listElement.findViewById(R.id.listElementRightText)).setText(m.getLastReading().getValue());
+    // Set data
+    ((ImageView) listElement.findViewById(R.id.listElementImage)).setImageDrawable(icon);
+    ((TextView) listElement.findViewById(R.id.listElementTopText)).setText(m.getName());
+    ((TextView) listElement.findViewById(R.id.listElementBottomText)).setText(m.getMeterNumber());
+    ((TextView) listElement.findViewById(R.id.listElementRightText)).setText(m.getLastReading().getValue());
 
-        // Set id for easier testing
-        listElement.setId(position + 1);
+    // Set id for easier testing
+    listElement.setId(position + 1);
 
-        return listElement;
-    }
+    return listElement;
+  }
 }
