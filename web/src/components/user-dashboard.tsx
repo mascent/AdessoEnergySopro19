@@ -16,7 +16,7 @@ const UserDashboard: React.FC = () => {
   if (isLoading)
     return (
       <ContainerCard className={styles.container}>
-        <Spinner />
+        <Spinner size="large" />
       </ContainerCard>
     );
 
