@@ -60,9 +60,8 @@ public class LoginActivity extends AdessoActivity {
     doLoginAsync(new Pair<>(num, pass));
   }
 
-  public void onForgotPasswordClick(final View view) {
-    // TODO: Add pass_forgot
-    Toast.makeText(this, R.string.not_implemented_message, Toast.LENGTH_SHORT).show();
+  public void onChooseServerClick(final View view) {
+    showChooseServerDialog();
   }
 
 

@@ -121,21 +121,7 @@ public class MainActivity extends AdessoActivity {
         showLogoutMenu();
         return true;
       case R.id.choose_server:
-        showEditTextDialog(new DialogInterface.OnClickListener() {
-          @Override
-          public void onClick(DialogInterface dialog, int which) {
-            try {
-              MockController.setServer(getEditTextDialogTextbox(dialog).getText().toString());
-            } catch (IllegalFormatException e) {
-              Toast.makeText(a, R.string.generic_error_message, Toast.LENGTH_SHORT).show();
-            }
-          }
-        }, new DialogInterface.OnClickListener() {
-          @Override
-          public void onClick(DialogInterface dialog, int which) {
-            dialog.cancel();
-          }
-        }, "", "", "");
+        showChooseServerDialog();
         return true;
       default:
         return super.onOptionsItemSelected(item);
@@ -319,7 +305,11 @@ public class MainActivity extends AdessoActivity {
       @Override
       protected void onPostExecute(List<Meter> ms) {
         if (ms == null)
-          Toast.makeText(a, "Couldn't get meters!", Toast.LENGTH_LONG).show();
+        {
+          Toast.makeText(a, R.string.generic_error_message, Toast.LENGTH_LONG).show();
+          hideLoadingPopup();
+          a.finish();
+        }
         else {
           a.meters = ms;
           showMeters(meters);
