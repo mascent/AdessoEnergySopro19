@@ -9,6 +9,9 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 @Entity
 public class UserMeterAssociation {
 
@@ -18,21 +21,40 @@ public class UserMeterAssociation {
 
 	@ManyToOne
 	@NotNull
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private User user;
 
 	@ManyToOne
 	@NotNull
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Meter meter;
+
+	private String meterName;
+
+	public UserMeterAssociation(User user, Meter meter) {
+		this.user = user;
+		this.meter = meter;
+		this.meterName = meter.getMeternumber();
+		beginOfAssociation = LocalDateTime.now();
+	}
+	
+	public UserMeterAssociation() {
+		
+	}
+	
+	public String getMeterName() {
+		return meterName;
+	}
+
+	public void setMeterName(String meterName) {
+		this.meterName = meterName;
+	}
 
 	private LocalDateTime beginOfAssociation;
 
 	private LocalDateTime endOfAssociation;
 
-	public UserMeterAssociation(User user, Meter meter) {
-		this.user = user;
-		this.meter = meter;
-		beginOfAssociation = LocalDateTime.now();
-	}
+
 
 	public Long getId() {
 		return aId;
@@ -53,7 +75,7 @@ public class UserMeterAssociation {
 	public LocalDateTime getEndOfAssociation() {
 		return endOfAssociation;
 	}
-	
+
 	public void endAssociation() {
 		this.endOfAssociation = LocalDateTime.now();
 	}

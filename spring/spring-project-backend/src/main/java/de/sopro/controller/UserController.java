@@ -172,7 +172,7 @@ public class UserController {
 
 	@GetMapping("/api/users/me")
 	public UserDTO getOwnData(HttpServletRequest request) {
-		return new UserDTO(userRepository.findByUsername(request.getUserPrincipal().getName()));
+		return new UserDTO(userRepository.findByUsername(request.getUserPrincipal().getName()).orElse(null));
 		// return null;
 	}
 
@@ -186,7 +186,7 @@ public class UserController {
 	 */
 	@PutMapping("/api/users/me/email")
 	public UserDTO updateOwnEmail(HttpServletRequest request, @RequestParam String email) {
-		User u = userRepository.findByUsername(request.getUserPrincipal().getName());
+		User u = userRepository.findByUsername(request.getUserPrincipal().getName()).orElse(null);
 		return updateUserEmail(email, u.getPersonId());
 	}
 

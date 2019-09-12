@@ -90,16 +90,16 @@ public class ReadingController {
 			return false;
 		}
 
-		Iterable<Reading> readings = m.getReadings();
-		for (Reading reading : readings) {
-			if (r.getReadingId().equals(reading.getReadingId())) {
-				r.addReading(value, changerId, reason);
-				readingRepository.save(r);
-				return true;
-			}
-		}
-
-		// r.addReading(value);
+//		Iterable<Reading> readings = m.getReadings();
+//		for (Reading reading : readings) {
+//			if (r.getReadingId().equals(reading.getReadingId())) {
+//				r.addReading(value, changerId, reason);
+//				readingRepository.save(r);
+//				return true;
+//			}
+//		}
+//
+//		// r.addReading(value);
 
 		return false;
 	}
@@ -120,23 +120,23 @@ public class ReadingController {
 	 */
 	@DeleteMapping("api/meters/{mid}/readings/{rid}")
 	public Boolean deleteReading(@PathVariable Long mid, @PathVariable Long rid, @RequestParam String reason) {
-		Meter m = meterRepository.findById(mid).orElse(null);
-		if (m == null) {
-			return false;
-		}
-		Reading r = readingRepository.findById(rid).orElse(null);
-		if (r == null) {
-			return false;
-		}
-
-		Iterable<Reading> readings = m.getReadings();
-		for (Reading reading : readings) {
-			if (r.getReadingId().equals(reading.getReadingId())) {
-				r.delete();
-				readingRepository.save(r);
-				return true;
-			}
-		}
+//		Meter m = meterRepository.findById(mid).orElse(null);
+//		if (m == null) {
+//			return false;
+//		}
+//		Reading r = readingRepository.findById(rid).orElse(null);
+//		if (r == null) {
+//			return false;
+//		}
+//
+//		Iterable<Reading> readings = m.getReadings();
+//		for (Reading reading : readings) {
+//			if (r.getReadingId().equals(reading.getReadingId())) {
+//				r.delete();
+//				readingRepository.save(r);
+//				return true;
+//			}
+//		}
 		return false;
 
 	}

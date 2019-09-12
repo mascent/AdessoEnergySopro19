@@ -21,6 +21,7 @@ import de.sopro.dto.IssueDTO;
 import de.sopro.repository.IssueRepository;
 import de.sopro.repository.PersonRepository;
 import de.sopro.repository.UserRepository;
+import de.sopro.util.exception.ResourceNotFoundException;
 
 /**
  * The issue controller contains operations to manage all requests belonging to
@@ -56,12 +57,13 @@ public class IssueController {
 	 *                    issues.
 	 * @param description A textual description of the problem.
 	 * @return The created issue packed as an IssueDTO.
+	 * @throws ResourceNotFoundException 
 	 */
 	@PostMapping(path = "/api/issues", params = { "name", "email", "subject", "description" })
 	public IssueDTO createIssue(HttpServletRequest request, @RequestParam String name,
-			@RequestParam String email, @RequestParam String subject, @RequestParam String description) {
+			@RequestParam String email, @RequestParam String subject, @RequestParam String description) throws ResourceNotFoundException {
 		String username = request.getUserPrincipal().getName();
-		User u = userRepository.findByUsername(username);
+		User u = userRepository.findByUsername(username).orElseThrow(() -> new ResourceNotFoundException());
 		Issue i;
 		try {
 			i = issueRepository.save(new Issue(name, email, subject, description, u.getPersonId()));
@@ -115,7 +117,7 @@ public class IssueController {
 			return false;
 		}
 		String username = request.getUserPrincipal().getName();
-		Person p = personRepository.findByUsername(username);
+		Person p = personRepository.findByUsername(username).orElse(null);
 		if (p != null) {
 			i.setCloserId(p.getPersonId());
 			issueRepository.save(i);

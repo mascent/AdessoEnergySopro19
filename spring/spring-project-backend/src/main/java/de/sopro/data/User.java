@@ -10,17 +10,6 @@ import javax.validation.constraints.NotNull;
 @Table(name = "person")
 public class User extends Person {
 
-	public User(String firstName, String lastName, String eMailAddress, String username, String password, Role role) {
-		super(username, password, role);
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.eMailAddress = eMailAddress;
-		createdAt = LocalDateTime.now();
-	}
-
-	public User() {
-		super();
-	}
 
 	@NotNull
 	private String firstName;
@@ -37,6 +26,22 @@ public class User extends Person {
 
 	private LocalDateTime updatedAt;
 
+	
+	
+
+	public User(String firstName, String lastName, String eMailAddress, String username, String password, Role role) {
+		super(username, password, role);
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.eMailAddress = eMailAddress;
+		createdAt = LocalDateTime.now();
+	}
+
+	public User() {
+		super();
+	}
+	
+	
 	public String getFirstName() {
 		return firstName;
 	}

@@ -55,7 +55,7 @@ public class UserControllerTest {
 //	@WithMockUser(username = "admin", roles = { "Admin" })
 	public void testCreateUserAsAdmin() throws Exception {
 
-		User frank = userRepository.findByUsername("fw37");
+		User frank = userRepository.findByUsername("fw37").orElse(null);
 		if (frank != null) {
 
 			userRepository.delete(frank);
@@ -66,7 +66,7 @@ public class UserControllerTest {
 				.param("password", "password").contentType("applications/json")).andExpect(status().isOk());
 
 		// delte user so we can reuse it the next time
-		frank = userRepository.findByUsername("fw37");
+		frank = userRepository.findByUsername("fw37").orElse(null);
 		userRepository.delete(frank);
 
 	}
@@ -75,7 +75,7 @@ public class UserControllerTest {
 	@WithMockUser(username = "admin", roles = { "Admin" })
 	public void testCreateUserWithToFewArguments() throws Exception {
 
-		User frank = userRepository.findByUsername("fw37");
+		User frank = userRepository.findByUsername("fw37").orElse(null);
 		if (frank != null) {
 
 			userRepository.delete(frank);
@@ -85,7 +85,7 @@ public class UserControllerTest {
 				.andExpect(status().is4xxClientError());
 
 		// delte user so we can reuse it the next time
-		frank = userRepository.findByUsername("fw37");
+		frank = userRepository.findByUsername("fw37").orElse(null);
 
 		assertEquals(frank, null);
 	}

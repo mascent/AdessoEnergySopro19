@@ -25,11 +25,11 @@ public class ReadingDTO {
 		this.deletedAt = reading.getDeletedAt();
 		this.ownerId = null; // TODO get ownerID
 
-		ReadingValue rv = reading.getCurrentReadingValue();
-		this.value = rv.getValue();
-		this.lastEditorName = rv.getChangerId(); // TODO get Name
-		this.lastEditReason = rv.getReason();
-		this.updatedAt = rv.getCreatedAt();
+//		ReadingValue rv = reading.getCurrentReadingValue();
+//		this.value = rv.getValue();
+//		this.lastEditorName = rv.getChangerId(); // TODO get Name
+//		this.lastEditReason = rv.getReason();
+//		this.updatedAt = rv.getCreatedAt();
 	}
 
 	public Long getId() {

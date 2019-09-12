@@ -1,33 +1,19 @@
 package de.sopro.data;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.Size;
 
 @Entity
 public class Address {
 
 	public Address() {
-		meters = new ArrayList<Meter>();
-	}
-
-	@NotNull
-	@OneToMany(mappedBy = "address", cascade = CascadeType.ALL)
-	private List<Meter> meters;
-
-	public List<Meter> getMeters() {
-		return meters;
-	}
-
-	public void setMeters(List<Meter> meters) {
-		this.meters = meters;
 	}
 
 	@Id
