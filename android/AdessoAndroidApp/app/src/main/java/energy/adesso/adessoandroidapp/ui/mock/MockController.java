@@ -22,10 +22,6 @@ public class MockController extends MainController {
   static DateTime time = DateTime.now();
   static Reading lastReading = new Reading("1243", "98 762 244", "einowner", "12345,754");
 
-  public static void login(String username, String password) throws NetworkException, CredentialException {
-    MainController.login("jd172", "password");
-  }
-
   public static List<Meter> getOverview() throws NetworkException {
     try {
       Thread.sleep(1500);
@@ -70,10 +66,6 @@ public class MockController extends MainController {
     }
 
     return new Pair<>(new MockMeter("Name1", "12345", MeterKind.ELECTRIC, lastReading).toMeter(), "Mocked Man");
-  }
-
-  public static boolean isLoggedIn() {
-    return false;
   }
 
   public static void sendIssue(Issue issue) {

@@ -210,7 +210,9 @@ public class MainController {
 
   public static boolean isLoggedIn() {
     // check if persistent state and local copy are identical
-    if (usePersistence && (persistence.load("username") == null) != NetworkController.isLoggedIn())
+    boolean meLoggedIn = persistence.load("username") == null;
+    boolean netLoggedIn = NetworkController.isLoggedIn();
+    if (usePersistence && (meLoggedIn!=netLoggedIn))
       // Logged in information must be synced between parts of the controller
       throw new IllegalStateException();
     return NetworkController.isLoggedIn();

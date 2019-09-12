@@ -16,8 +16,8 @@ class NetworkController {
   private final static String defaultURL = "http://adesso.energy:8080/sopro";
   private static String baseURL = defaultURL;
 
-  private static String username;
-  private static String password;
+  private static String username = null;
+  private static String password = null;
 
   private static OkHttpClient ok = new OkHttpClient();
 
@@ -91,7 +91,7 @@ class NetworkController {
    * @return whether the user is logged in
    */
   static boolean isLoggedIn() {
-    return username != null;
+    return username == null;
   }
 
   /**
