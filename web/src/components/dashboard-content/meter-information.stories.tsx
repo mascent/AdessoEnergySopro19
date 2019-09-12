@@ -20,18 +20,18 @@ storiesOf('Dashboard Content | MeterInformation', module)
           override={{
             isLoading: boolean('Loading meters', false),
             meters: meters,
-            addMeter: async () => {},
-            fetchMeters: async () => {},
-            updateMeter: async () => {}
+            addMeter: async () => true,
+            fetchMeters: async () => true,
+            updateMeter: async () => true
           }}
         >
           <ReadingsProvider
             override={{
               isLoading: boolean('Loading readings', false),
               readings: readings,
-              addReading: async () => {},
-              fetchReadings: async () => {},
-              updateReading: async () => {}
+              addReading: async () => true,
+              fetchReadings: async () => true,
+              updateReading: async () => true
             }}
           >
             <MeterInformation id={meters.length > 0 ? meters[0].id : ''} />

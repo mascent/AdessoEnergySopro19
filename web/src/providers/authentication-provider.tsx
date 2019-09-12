@@ -29,11 +29,11 @@ export const AuthenticationProvider: React.FC<AuthProps> = ({
     // Set the token with experimental things.
     config.setToken(username, password);
     try {
-      const { userId, isAdmin } = await auth.login();
+      const { id, role } = await auth.login();
 
       setIsLoggedIn(true);
-      setUserId(userId);
-      setIsAdmin(isAdmin);
+      setUserId(id.toString());
+      setIsAdmin(role === 'Admin');
       return true;
     } catch (e) {
       config.resetToken();

@@ -14,9 +14,9 @@ storiesOf('Dashboard Content | Issue Information', module).add(
       override={{
         isLoading: boolean('Loading', false),
         issues: issues,
-        addIssue: async () => {},
-        fetchIssues: async () => {},
-        updateIssue: async () => {}
+        addIssue: async () => true,
+        fetchIssues: async () => true,
+        updateIssue: async () => true
       }}
     >
       <IssueInformation id={issues.length > 0 ? issues[0].id : ''} />

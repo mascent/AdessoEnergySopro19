@@ -13,11 +13,11 @@ config.init({
 ReactDOM.render(
   <StrictMode>
     <AuthenticationProvider
-      override={{
-        isLoggedIn: true,
-        userId: 'kaka',
-        isAdmin: true
-      }}
+    // override={{
+    //   isLoggedIn: true,
+    //   userId: 'kaka',
+    //   isAdmin: true
+    // }}
     >
       <App />
     </AuthenticationProvider>
