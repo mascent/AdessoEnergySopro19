@@ -3,6 +3,7 @@ package de.sopro.controller;
 import java.io.File;
 import java.io.IOException;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -49,6 +50,7 @@ public class PictureController {
 	 * @throws IOException 
 	 */
 	@PostMapping(path = "/api/pictures", params = {"pic"})
+	@CrossOrigin
 	public String analyze(@RequestParam File file) throws IOException {
 	
 		String path;

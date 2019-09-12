@@ -6,10 +6,12 @@ import java.util.stream.StreamSupport;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,6 +22,7 @@ import de.sopro.dto.IssueDTO;
 import de.sopro.repository.IssueRepository;
 import de.sopro.repository.PersonRepository;
 import de.sopro.repository.UserRepository;
+import de.sopro.util.exception.ResourceNotFoundException;
 
 /**
  * The issue controller contains operations to manage all requests belonging to
@@ -39,6 +42,7 @@ public class IssueController {
 
 	@Autowired
 	PersonRepository personRepository;
+	
 
 	/**
 	 * This method allows an user to create a ticket for an issue that occurs.
@@ -54,12 +58,14 @@ public class IssueController {
 	 *                    issues.
 	 * @param description A textual description of the problem.
 	 * @return The created issue packed as an IssueDTO.
+	 * @throws ResourceNotFoundException 
 	 */
 	@PostMapping(path = "/api/issues", params = { "name", "email", "subject", "description" })
-	public IssueDTO createIssue(@RequestParam HttpServletRequest request, @RequestParam String name,
-			@RequestParam String email, @RequestParam String subject, @RequestParam String description) {
+	@CrossOrigin
+	public IssueDTO createIssue(HttpServletRequest request, @RequestParam String name,
+			@RequestParam String email, @RequestParam String subject, @RequestParam String description) throws ResourceNotFoundException {
 		String username = request.getUserPrincipal().getName();
-		User u = userRepository.findByUsername(username);
+		User u = userRepository.findByUsername(username).orElseThrow(() -> new ResourceNotFoundException());
 		Issue i;
 		try {
 			i = issueRepository.save(new Issue(name, email, subject, description, u.getPersonId()));
@@ -77,6 +83,7 @@ public class IssueController {
 	 * @return An Iterable of the IssueDTOs of all existing issues.
 	 */
 	@GetMapping("/api/issues")
+	@CrossOrigin
 	public Iterable<IssueDTO> getIssues() {
 		return StreamSupport.stream(issueRepository.findAll().spliterator(), false).map(i -> new IssueDTO(i))
 				.collect(Collectors.toList());
@@ -90,6 +97,7 @@ public class IssueController {
 	 * @return The issue belonging to the given ID packed as an IssueDTO.
 	 */
 	@GetMapping(path = "/api/issues/{iid}", params = { "iid" })
+	@CrossOrigin
 	public IssueDTO getIssue(@PathVariable Long iid) {
 		Issue i = issueRepository.findById(iid).orElse(null);
 		if (i == null) {
@@ -106,30 +114,21 @@ public class IssueController {
 	 * @param iid     The ID of the issue that should be closed.
 	 * @return A boolean that shows if the closing-operation was successful.
 	 */
-	@DeleteMapping(path = "/api/issues/{iid}", params = { "request", "iid" })
-	public Boolean closeIssue(@RequestParam HttpServletRequest request, @PathVariable Long iid) {
+	@DeleteMapping(path = "/api/issues/{iid}", params = { "iid" })
+	@CrossOrigin
+
+	public Boolean closeIssue(HttpServletRequest request, @PathVariable Long iid) {
 		Issue i = issueRepository.findById(iid).orElse(null);
 		if (i == null) {
 			return false;
 		}
 		String username = request.getUserPrincipal().getName();
-		Person u = personRepository.findByUsername(username).orElse(null);
-		if (u != null) {
-			i.setCloserId(u.getPersonId());
+		Person p = personRepository.findByUsername(username).orElse(null);
+		if (p != null) {
+			i.setCloserId(p.getPersonId());
+			issueRepository.save(i);
 			return true;
 		}
-		return false;
-	}
-
-	/**
-	 * Method to check if the Person has the given role.
-	 * 
-	 * @param role
-	 * @param pid  Person id
-	 * @return
-	 */
-	private boolean checkPermission(Role role, Long pid) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 }

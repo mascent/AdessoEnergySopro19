@@ -7,17 +7,23 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Positive;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 @Entity
+@Table(name = "readingValue")
 public class ReadingValue {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long readingValueId;
 
 	@ManyToOne
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Reading reading;
 
 	@Positive
@@ -32,27 +38,20 @@ public class ReadingValue {
 
 	private String reason;
 
-	public ReadingValue(Long value, Long changerId, String reason) {
+	public ReadingValue(Reading reading, Long value, Long changerId, String reason) {
 		this.value = value;
 		this.changerId = changerId;
 		this.reason = reason;
+		this.reading = reading;
 		lastChange = LocalDateTime.now();
 	}
 
-// smart constructor for first initialization
-	public ReadingValue(Long value, Long changerId) {
-		this.value = value;
-		this.changerId = changerId;
-		this.reason = "creation";
-		lastChange = LocalDateTime.now();
+	public ReadingValue() {
+		
 	}
-
+	
 	public Long getReadingValueId() {
 		return readingValueId;
-	}
-
-	public void setReadingValueId(Long readingValueId) {
-		this.readingValueId = readingValueId;
 	}
 
 	public Long getValue() {
@@ -63,16 +62,8 @@ public class ReadingValue {
 		return lastChange;
 	}
 
-	public void setDate(LocalDateTime date) {
-		this.lastChange = date;
-	}
-
 	public Long getChangerId() {
 		return changerId;
-	}
-
-	public void setChangerId(Long changerId) {
-		this.changerId = changerId;
 	}
 
 	public String getReason() {
@@ -83,7 +74,4 @@ public class ReadingValue {
 		return reading;
 	}
 
-	public void setReason(String reason) {
-		this.reason = reason;
-	}
 }

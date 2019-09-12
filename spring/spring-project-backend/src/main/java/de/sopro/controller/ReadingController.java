@@ -1,6 +1,12 @@
 package de.sopro.controller;
 
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -8,6 +14,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import de.sopro.data.Meter;
+import de.sopro.data.Reading;
+import de.sopro.data.ReadingValue;
+import de.sopro.dto.ReadingDTO;
+import de.sopro.dto.ReadingValueDTO;
 import de.sopro.repository.MeterRepository;
 import de.sopro.repository.PersonRepository;
 import de.sopro.repository.ReadingRepository;
@@ -17,7 +28,6 @@ import de.sopro.repository.ReadingValueRepository;
  * The reading controller contains operations to manage all requests belonging
  * to readings which are belonging to a meter.
  * 
- * @author Mattis
  *
  */
 @RestController
@@ -36,6 +46,26 @@ public class ReadingController {
 	ReadingValueRepository readingValueRepository;
 
 	/**
+	 * This method allows an admin to get the history of all changes made to a
+	 * reading including the reasons why these changes were made.
+	 * 
+	 * @param token The JWT of the admin to authenticate himself.
+	 * @param mid   The ID of the meter to which the reading that should be returned
+	 *              belongs.
+	 * @param rid   The ID of the reading that should be returned.
+	 * @return A list of reading values, the dates they were changed and the reason
+	 *         for the changes.
+	 */
+	@GetMapping("api/meters/{mid}/readings/{rid}")
+	@CrossOrigin
+	public Iterable<ReadingValueDTO> getReadingHistory(@PathVariable Long mid, @PathVariable Long rid) {
+		return StreamSupport.stream(
+				readingValueRepository.findAllByReading(readingRepository.findById(rid).orElse(null)).spliterator(),
+				false).map(rv -> new ReadingValueDTO(rv)).collect(Collectors.toList());
+
+	}
+
+	/**
 	 * This method allows an admin to update a reading. This means to change the
 	 * reading value to another value because the old value was incorrect for some
 	 * reason.
@@ -49,43 +79,40 @@ public class ReadingController {
 	 *               history of a reading is trackable.
 	 * @return A boolean that shows if the change was successful.
 	 */
-	@PutMapping("api/meters/{mid}/readings/{rid}")
-	public String updateReading(@PathVariable Long mid, @RequestParam int value, @PathVariable Long rid,
-			@RequestParam String reason) {
-//		String changerId = token.getId();
-//		Person person = personRepository.findById(changerId);
-//		if (person.getRole().equals(Role.Admin)) {
-//			Reading reading = readingRepository.findById(rid);
-//			List<ReadingValue> readingValues = reading.getReadingValues();
-//			Date date = new Date();
-//			ReadingValue newValue = new ReadingValue(value, date, changerId);
-//			readingValues.add(newValue);
-//		}
-		return null;
+	@PutMapping(path = "api/meters/{mid}/readings/{rid}", params = {"value", "rid", "reason"})
+	@CrossOrigin
+	public Boolean updateReading(HttpServletRequest request, @PathVariable Long mid, @RequestParam Long value,
+			@PathVariable Long rid, @RequestParam String reason) {
+		Long changerId = personRepository.findByUsername(request.getUserPrincipal().getName()).orElse(null)
+				.getPersonId();
+
+		Meter m = meterRepository.findById(mid).orElse(null);
+		if (m == null) {
+			return false;
+		}
+		Reading r = readingRepository.findById(rid).orElse(null);
+		if (r == null) {
+			return false;
+		}
+
+		if (r.getMeter().getMeterId().equals(m.getMeterId())) {
+			m.update();
+			r.update();
+			meterRepository.save(m);
+			readingRepository.save(r);
+			ReadingValue rv = new ReadingValue(r, value, changerId, "Changed");
+			readingValueRepository.save(rv);
+
+		}
+
+		return false;
 	}
 
-	/**
-	 * This method allows an admin to get the history of all changes made to a
-	 * reading including the reasons why these changes were made.
-	 * 
-	 * @param token The JWT of the admin to authenticate himself.
-	 * @param mid   The ID of the meter to which the reading that should be returned
-	 *              belongs.
-	 * @param rid   The ID of the reading that should be returned.
-	 * @return A list of reading values, the dates they were changed and the reason
-	 *         for the changes.
-	 */
-	@GetMapping("api/meters/{mid}/readings/{rid}")
-	public String getReadingHistory(@PathVariable Long mid, @PathVariable Long rid) {
-//		String getterId = token.getId();
-//		Person person = personRepository.findById(getterId);
-//		if (person.getRole().equals(Role.Admin)) {
-//			Reading reading = readingRepository.findById(rid);
-//			List<ReadingValue> readingValues = reading.getReadingValues();
-//			return readingValues;
-//		}
-//		
-		return null;
+	@PutMapping(path = "api/meters/{mid}/readings/{rid}", params = {"readingDTO"})
+	@CrossOrigin
+	public Boolean updateReading(HttpServletRequest request, @PathVariable Long mid,
+			@RequestParam ReadingDTO readingDTO) {
+		return updateReading(request, mid, readingDTO.getValue(), readingDTO.getId(), "TODO CHANGE");
 	}
 
 	/**
@@ -103,8 +130,24 @@ public class ReadingController {
 	 * @return A boolean that shows if the deletion was successful.
 	 */
 	@DeleteMapping("api/meters/{mid}/readings/{rid}")
-	public String deleteReading(@PathVariable Long mid, @PathVariable Long rid, @RequestParam String reason) {
-		return null;
+	@CrossOrigin
+	public Boolean deleteReading(@PathVariable Long mid, @PathVariable Long rid, @RequestParam String reason) {
+		Meter m = meterRepository.findById(mid).orElse(null);
+		if (m == null) {
+			return false;
+		}
+		Reading r = readingRepository.findById(rid).orElse(null);
+		if (r == null) {
+			return false;
+		}
+
+		if (r.getMeter().getMeterId().equals(m.getMeterId())) {
+			r.delete();
+			readingRepository.save(r);
+		}
+
+		return false;
+
 	}
 
 }

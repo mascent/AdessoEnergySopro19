@@ -1,5 +1,7 @@
 package de.sopro.controller;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -7,6 +9,7 @@ import java.util.stream.StreamSupport;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,15 +22,20 @@ import de.sopro.data.Meter;
 import de.sopro.data.MeterType;
 import de.sopro.data.Person;
 import de.sopro.data.Reading;
+import de.sopro.data.ReadingValue;
 import de.sopro.data.Role;
 import de.sopro.data.User;
 import de.sopro.data.UserMeterAssociation;
 import de.sopro.dto.MeterDTO;
+import de.sopro.dto.ReadingDTO;
+import de.sopro.dto.builder.DTOBuilder;
 import de.sopro.repository.MeterRepository;
 import de.sopro.repository.PersonRepository;
 import de.sopro.repository.ReadingRepository;
+import de.sopro.repository.ReadingValueRepository;
 import de.sopro.repository.UserMeterAssociationRepository;
 import de.sopro.repository.UserRepository;
+import de.sopro.util.exception.ResourceNotFoundException;
 
 /**
  * The meter controller contains operations to manage all requests belonging to
@@ -50,7 +58,13 @@ public class MeterController {
 	UserRepository userRepository;
 
 	@Autowired
+	ReadingValueRepository rvRepo;
+
+	@Autowired
 	UserMeterAssociationRepository userMeterAssociationRepository;
+
+	@Autowired
+	DTOBuilder dtoBuilder;
 
 	/**
 	 * This method allows an admin to get a list of all meters existing in the
@@ -60,9 +74,35 @@ public class MeterController {
 	 * @return A list of meters.
 	 */
 	@GetMapping("/api/meters")
-	public Iterable<MeterDTO> getMeters() {
-		return StreamSupport.stream(meterRepository.findAll().spliterator(), false).map(m -> new MeterDTO(m))
-				.collect(Collectors.toList());
+	@CrossOrigin
+	public Iterable<MeterDTO> getMeters(HttpServletRequest request) {
+
+		Person p = personRepository.findByUsername(request.getUserPrincipal().getName()).orElse(null);
+		// Admins can get everyones data
+		if (p.getRole().equals(Role.Admin)) {
+			return StreamSupport.stream(meterRepository.findAll().spliterator(), false).map(m -> {
+				try {
+					return dtoBuilder.meterDTO(m);
+				} catch (ResourceNotFoundException e) {
+					// TODO Auto-generated catch block
+					return null;
+				}
+			}).filter(x -> x != null).collect(Collectors.toList());
+		}
+
+		// Normal Users only their stuff
+		User u = userRepository.findById(p.getPersonId()).orElse(null);
+		Iterable<UserMeterAssociation> umas = userMeterAssociationRepository.findAllByUser(u);
+
+		return StreamSupport.stream(umas.spliterator(), false).map(uma -> {
+			try {
+				return dtoBuilder.meterDTO(uma.getMeter(), u);
+			} catch (ResourceNotFoundException e) {
+				// TODO Auto-generated catch block
+				return null;
+			}
+		}).filter(m -> m != null).distinct().collect(Collectors.toList());
+
 	}
 
 	/**
@@ -76,41 +116,96 @@ public class MeterController {
 	 *                       time because for example the meter could change the
 	 *                       provider.
 	 * @return The ID of the created meter.
+	 * @throws ResourceNotFoundException
 	 */
-	@PostMapping("/api/meters")
-	public MeterDTO createMeter(@RequestParam String meterNumber, @RequestParam Long initialReading,
-			MeterType meterType) {
-
-		Meter m = new Meter(meterNumber, initialReading, meterType);
+	@PostMapping(path = "/api/meters", params = { "meterNumber", "initialReading", "meterType" })
+	@CrossOrigin
+	public MeterDTO createMeter(HttpServletRequest request, @RequestParam String meterNumber,
+			@RequestParam Long initialReading, MeterType meterType) throws ResourceNotFoundException {
+		Person admin = personRepository.findByUsername(request.getUserPrincipal().getName()).orElse(null);
+		Meter m = new Meter(meterNumber, meterType);
 		meterRepository.save(m);
-		return new MeterDTO(m);
+		Reading nr = readingRepository.save(new Reading(m));
+		rvRepo.save(new ReadingValue(nr, initialReading, admin.getPersonId(), "newly created"));
+		return dtoBuilder.meterDTO(m);
+	}
+
+	@PostMapping(path = "/api/meters", params = { "meterDTO" })
+	@CrossOrigin
+	public MeterDTO createMeter(HttpServletRequest request, @RequestParam MeterDTO meterDTO)
+			throws ResourceNotFoundException {
+		switch (meterDTO.getType()) {
+		case "Gas":
+			return createMeter(request, meterDTO.getMeterNumber(), meterDTO.getLastReading().getValue(), MeterType.Gas);
+		case "Water":
+			return createMeter(request, meterDTO.getMeterNumber(), meterDTO.getLastReading().getValue(),
+					MeterType.Water);
+		case "Electricity":
+			return createMeter(request, meterDTO.getMeterNumber(), meterDTO.getLastReading().getValue(),
+					MeterType.Electricity);
+		default:
+			return null;
+
+		}
+
 	}
 
 	/**
 	 * This method allows an user to get one of his meters by its ID or an admin to
 	 * get any meter by its ad.
 	 * 
-	 * @param token The JWT of the user/admin to authenticate himself.
-	 * @param mid   The ID of the meter that should be returned.
+	 * @param mid The ID of the meter that should be returned.
 	 * @return The object of the meter belonging to the given ID or an error code if
 	 *         no meter with the given ID exists.
+	 * @throws ResourceNotFoundException
 	 */
 	@GetMapping("/api/meters/{mid}")
-	public String getMeter(@PathVariable Long mid) {
-		return null;
+	@CrossOrigin
+	public MeterDTO getMeter(HttpServletRequest request, @PathVariable Long mid) throws ResourceNotFoundException {
+
+		Meter m = meterRepository.findById(mid).orElseThrow(() -> new ResourceNotFoundException());
+
+		if (personRepository.findByUsername(request.getUserPrincipal().getName()).orElse(null).getRole()
+				.equals(Role.Admin)) {
+			return dtoBuilder.meterDTO(m);
+
+		} else {
+			return dtoBuilder.meterDTO(m,
+					userRepository.findByUsername(request.getUserPrincipal().getName()).orElse(null));
+		}
+
 	}
 
 	// Hier unklar welches Attribut, definitiv adden oder Methode löschen.
 	/**
-	 * This method allows an user to update a meter to a current reading.
+	 * This method allows a user to update the reader name.
 	 * 
 	 * @param token The JWT of the admin to authenticate himself.
 	 * @param mid   The ID of the meter which should be updated.
 	 * @return A boolean that shows if the update was successful.
+	 * @throws ResourceNotFoundException
 	 */
-	@PutMapping("/api/meters/{mid}")
-	public String updateMeter(@PathVariable Long mid) {
+	@PutMapping(path = "/api/meters/{mid}", params = { "meterName" })
+	@CrossOrigin
+	public ReadingDTO updateMeter(HttpServletRequest request, @PathVariable Long mid, String meterName)
+			throws ResourceNotFoundException {
+		User u = userRepository.findByUsername(request.getUserPrincipal().getName()).orElse(null);
+		assert u != null;
+
+		Meter m = meterRepository.findById(mid).orElseThrow(() -> new ResourceNotFoundException());
+		Iterable<UserMeterAssociation> umas = userMeterAssociationRepository.findAllByUserAndMeter(u, m);
+		for (UserMeterAssociation uma : umas) {
+			uma.setMeterName(meterName);
+		}
+
 		return null;
+	}
+
+	@PutMapping(path = "/api/meters/{mid}", params = { "meterDTO" })
+	@CrossOrigin
+	public ReadingDTO updateMeter(HttpServletRequest request, @PathVariable Long mid, MeterDTO meterDTO)
+			throws ResourceNotFoundException {
+		return updateMeter(request, mid, meterDTO.getName());
 	}
 
 	/**
@@ -119,15 +214,12 @@ public class MeterController {
 	 * @param token The JWT of the admin to authenticate himself.
 	 * @param mid   The ID of the meter which should be deleted.
 	 * @return A boolean that shows if the update was successful.
+	 * @throws ResourceNotFoundException
 	 */
 	@DeleteMapping("/api/meters/{mid}")
-	public Boolean deleteMeter(@PathVariable Long mid) {
-		Meter m = meterRepository.findById(mid).orElse(null);
-		
-		if (m == null) {
-			return false;
-		}
-		
+	@CrossOrigin
+	public Boolean deleteMeter(@PathVariable Long mid) throws ResourceNotFoundException {
+		Meter m = meterRepository.findById(mid).orElseThrow(() -> new ResourceNotFoundException());
 		m.delet();
 		meterRepository.save(m);
 		return true;
@@ -143,7 +235,8 @@ public class MeterController {
 	 */
 
 	@GetMapping("/api/meters/{mid}/readings")
-	public Iterable<Reading> lookUpReadings(HttpServletRequest request, @PathVariable Long mid) {
+	@CrossOrigin
+	public Iterable<ReadingDTO> lookUpReadings(HttpServletRequest request, @PathVariable Long mid) {
 
 		Person p = personRepository.findByUsername(request.getUserPrincipal().getName()).orElse(null);
 		Meter m = meterRepository.findById(mid).orElse(null);
@@ -156,23 +249,22 @@ public class MeterController {
 			User u = userRepository.findById(p.getPersonId()).orElse(null);
 			assert u != null;
 			Iterable<UserMeterAssociation> umas = userMeterAssociationRepository.findAllByUserAndMeter(u, m);
-			List<Reading> readings = StreamSupport.stream(readingRepository.findAllByMeter(m).spliterator(), false)
-					.map(r -> r).collect(Collectors.toList());
+			List<Reading> readings = new ArrayList<>();
+			StreamSupport.stream(readingRepository.findAllByMeter(m).spliterator(), false).map(r -> r)
+					.collect(Collectors.toList());
 			for (UserMeterAssociation uma : umas) {
-				for (Reading reading : readings) {
-					if (uma.getEndOfAssociation() != null) {
-						if (reading.getCreatedAt().isAfter(uma.getEndOfAssociation())) {
-							readings.remove(reading);
-						}
-					}
-					if (reading.getCreatedAt().isBefore(uma.getBeginOfAssociation())) {
-						readings.remove(reading);
-					}
-				}
+				LocalDateTime to = uma.getEndOfAssociation();
+				readings.addAll(StreamSupport.stream(
+						readingRepository.findByMeterAndCreatedAtBetweenOrderByCreatedAtDesc(m,
+								uma.getBeginOfAssociation(), to == null ? LocalDateTime.now() : to).spliterator(),
+						false).collect(Collectors.toList()));
 			}
-			return readings;
+			return StreamSupport.stream(readings.spliterator(), false).map(r -> dtoBuilder.readingDTO(r))
+					.collect(Collectors.toList());
 		}
-		return readingRepository.findAllByMeter(m);
+
+		return StreamSupport.stream(readingRepository.findAllByMeter(m).spliterator(), false)
+				.map(r -> dtoBuilder.readingDTO(r)).collect(Collectors.toList());
 
 	}
 
@@ -185,26 +277,40 @@ public class MeterController {
 	 * @param mid   The ID of the meter the new reading belongs to.
 	 * @param value The value of the reading that should be added.
 	 * @return A boolean that shows if the adding was successful.
+	 * @throws ResourceNotFoundException
 	 */
-	@PostMapping("/api/meters/{mid}/readings")
-	public String addReading(HttpServletRequest request, @PathVariable Long mid, Long value) {
-		Meter meter = meterRepository.findById(mid).orElse(null);
-		User user = userRepository.findByUsername(request.getUserPrincipal().getName());
+	@PostMapping(path = "/api/meters/{mid}/readings", params = { "value" })
+	@CrossOrigin
+	public Boolean addReading(HttpServletRequest request, @PathVariable Long mid, @RequestParam Long value)
+			throws ResourceNotFoundException {
+		Meter meter = meterRepository.findById(mid).orElseThrow(() -> new ResourceNotFoundException());
+		Person p = personRepository.findByUsername(request.getUserPrincipal().getName()).orElse(null);
+		if (p.getRole().equals(Role.User)) {
+			User user = userRepository.findByUsername(request.getUserPrincipal().getName()).orElse(null);
+			Iterable<UserMeterAssociation> umas = userMeterAssociationRepository.findAllByUserAndMeter(user, meter);
 
-		if (meter == null || user == null) {
-			return null;
-		}
+			for (UserMeterAssociation uma : umas) {
+				if (uma.getEndOfAssociation() == null) {
+					Reading nr = readingRepository.save(new Reading(meter));
+					rvRepo.save(new ReadingValue(nr, value, user.getPersonId(), "Number from user"));
+					return true;
 
-		Iterable<UserMeterAssociation> umas = userMeterAssociationRepository.findAllByUserAndMeter(user, meter);
-
-		for (UserMeterAssociation uma : umas) {
-			if (uma.getEndOfAssociation() == null) {
-				readingRepository.save(new Reading(meter, value));
+				}
 			}
 		}
 
-		return null;
+		Reading r = readingRepository.save(new Reading(meter));
+		rvRepo.save(new ReadingValue(r, value, p.getPersonId(), "New reading from admin."));
 
+		return true;
+
+	}
+
+	@PostMapping("/api/meters/{mid}/readings")
+	@CrossOrigin
+	public Boolean addReading(HttpServletRequest request, @PathVariable Long mid, @RequestParam ReadingDTO readingDTO)
+			throws ResourceNotFoundException {
+		return addReading(request, mid, readingDTO.getValue());
 	}
 
 }
