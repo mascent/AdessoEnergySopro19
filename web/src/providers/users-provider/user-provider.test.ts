@@ -35,4 +35,33 @@ test('userUsers triggers a fetch if no data is available', async () => {
   expect(fetch).toHaveBeenCalledTimes(1);
 
   expect(result.current.users).toEqual(userList.map(u => mapUserDtoToUser(u)));
+
+  fetch.mockRestore();
+});
+
+test('an empty result does not trigger a refetch', async () => {
+  const fetch = jest
+    .spyOn(users, 'getAllUsers')
+    .mockImplementationOnce(async () => []);
+
+  const { result, waitForNextUpdate, rerender } = renderHook(() => useUsers(), {
+    wrapper: UsersProvider
+  });
+
+  await waitForNextUpdate();
+  rerender();
+
+  expect(fetch).toHaveBeenCalledTimes(1);
+
+  expect(result.current.users).toEqual([]);
+
+  fetch.mockRestore();
+});
+
+test('useUser returns null if requested user is not available', async () => {
+  const { result } = renderHook(() => useUser('testId'), {
+    wrapper: UsersProvider
+  });
+
+  expect(result.current).toBeNull();
 });
