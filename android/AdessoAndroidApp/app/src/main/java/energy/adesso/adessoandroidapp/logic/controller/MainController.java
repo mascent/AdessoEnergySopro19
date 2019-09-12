@@ -9,6 +9,7 @@ import com.google.gson.reflect.TypeToken;
 
 import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -63,7 +64,15 @@ public class MainController {
     String response = NetworkController.get(request);
     Type type = new TypeToken<List<Reading>>() {
     }.getType();
-    return new Gson().fromJson(response, type);
+    List<Reading> l = new Gson().fromJson(response, type);
+    for (int i = l.size() - 1; i >= 0; i--) {
+      try{
+        int j = Integer.parseInt(l.get(i).getValue());
+      }catch (NumberFormatException | NullPointerException nfe){
+        l.remove(i);
+      }
+    }
+    return l;
   }
 
   public static List<Reading> getReadingsPaging(Long meterId) throws NetworkException, CredentialException {
@@ -124,7 +133,7 @@ public class MainController {
 
     // casting answerString to pair of mid, value
     String answerString = NetworkController.postImage(url, sendString);
-    Type castType = new AzureResponse(1L,"").getClass();
+    Type castType = new AzureResponse(1L, "").getClass();
     AzureResponse response = new Gson().fromJson(answerString, castType);
 
     Meter m = getMeter(response.mid);
@@ -213,7 +222,7 @@ public class MainController {
     // check if persistent state and local copy are identical
     boolean meLoggedIn = persistence.load("username") != null;
     boolean netLoggedIn = NetworkController.isLoggedIn();
-    if (usePersistence && (meLoggedIn!=netLoggedIn))
+    if (usePersistence && (meLoggedIn != netLoggedIn))
       // Logged in information must be synced between parts of the controller
       throw new IllegalStateException();
     return NetworkController.isLoggedIn();

@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 
@@ -23,8 +24,8 @@ public abstract class IdentifiableObject extends SerializableObject implements S
   @Nullable
   protected String deletedAt;
 
-  //TODO: FLOCKING TIME ZONES
-  final static transient DateTimeFormatter dateTimeStrategy = ISODateTimeFormat.dateTime().withZone(DateTimeZone.forID("Europe/Berlin"));
+  // TODO: FLOCKING TIME ZONES
+  final static transient DateTimeFormatter dateTimeStrategy =  DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
 
   public IdentifiableObject(Long id) {
     this.id = id;
@@ -68,13 +69,7 @@ public abstract class IdentifiableObject extends SerializableObject implements S
   private DateTime parse(String s) {
     if (s == null || s.equals(""))
       return null;
-    s = s.substring(0, s.length()-4) + "+00:00";
-    try {
+    else
       return DateTime.parse(s, dateTimeStrategy);
-    } catch (Exception e) {
-      e.printStackTrace();
-      Log.println(Log.INFO, "", s);
-      return DateTime.parse(s.substring(0, s.indexOf('.'))); // TODO: Make this like better n stuff
-    }
   }
 }
