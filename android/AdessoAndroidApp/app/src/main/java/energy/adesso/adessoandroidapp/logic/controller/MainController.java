@@ -120,9 +120,7 @@ public class MainController {
   public static Pair<Meter, String> azureAnalyze(Bitmap image) throws NetworkException, CredentialException {
     String url = "/api/picture";
 
-    Map<String, String> map = new HashMap();
-    map.put("image", toBase64(image));
-    String sendString = new Gson().toJson(map);
+    String sendString = toBase64(image);
 
     // casting answerString to pair of mid, value
     String answerString = NetworkController.postImage(url, sendString);
