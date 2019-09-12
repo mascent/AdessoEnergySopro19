@@ -1,0 +1,10 @@
+@import 'theme/colors';
+@import 'theme/shadows';
+
+.container {
+  width: fit-content;
+  background-color: $color-white;
+  padding: 24px;
+  border-radius: 4px;
+  box-shadow: $shadow-200;
+}

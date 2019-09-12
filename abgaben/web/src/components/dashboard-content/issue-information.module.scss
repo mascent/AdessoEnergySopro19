@@ -1,0 +1,35 @@
+@import 'theme/colors';
+@import 'theme/spacings';
+@import 'theme/fonts';
+
+.bold {
+  font-weight: bold;
+}
+
+.nameText {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: $spacing-8;
+}
+
+.emailText {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: $spacing-12;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: $spacing-12;
+}
+
+.message {
+  display: flex;
+  flex-direction: column;
+}
+
+.secondButton {
+  margin-right: $spacing-12;
+  margin-bottom: $spacing-12;
+}

@@ -3,6 +3,7 @@
 @import 'theme/fonts';
 
 .container {
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   width: 100%;

@@ -1,0 +1,28 @@
+@import 'theme/spacings';
+
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.input {
+  width: 49%;
+}
+
+.button {
+  display: flex;
+  justify-content: flex-end;
+  & > :first-child {
+    margin-right: $spacing-12;
+  }
+}
+
+.nameEmail {
+  display: flex;
+  justify-content: space-between;
+}
+
+.password {
+  display: flex;
+  justify-content: space-between;
+}
