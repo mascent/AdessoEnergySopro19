@@ -20,65 +20,7 @@ public class MockMeter extends Meter {
     super(id);
   }
 
-  public MockMeter(String name, String meterNumber, MeterKind kind, Reading lastReading) {
-    super(123L, MockController.time, MockController.time, MockController.time, name,
-        meterNumber, kind, 12345L, lastReading);
-  }
-
-  public MockMeter(Long id, DateTime createdAt, DateTime updatedAt, DateTime deletedAt,
-                   String name, String meterNumber, MeterKind kind, Long ownerId, Reading lastReading) {
+  public MockMeter(Long id, DateTime createdAt, DateTime updatedAt, DateTime deletedAt, String name, String meterNumber, MeterKind kind, Long ownerId, Reading lastReading) {
     super(id, createdAt, updatedAt, deletedAt, name, meterNumber, kind, ownerId, lastReading);
-  }
-
-  @Override
-  public Reading getLastReading() {
-    return MockController.lastReading;
-  }
-
-  @Override
-  public List<Reading> getReadings() throws CredentialException, NetworkException {
-    int i = 12345;
-    return Arrays.asList(new Reading[]{
-        new Reading(12345L, getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
-        new Reading(12345L, getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
-        new Reading(12345L, getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
-        new Reading(12345L, getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
-        new Reading(12345L, getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
-        new Reading(12345L, getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
-        new Reading(12345L, getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
-        new Reading(12345L, getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
-        new Reading(12345L, getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
-        new Reading(12345L, getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
-        new Reading(12345L, getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
-        new Reading(12345L, getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
-        new Reading(12345L, getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
-        new Reading(12345L, getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
-        new Reading(12345L, getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
-        new Reading(12345L, getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
-        new Reading(12345L, getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
-        new Reading(12345L, getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
-        new Reading(12345L, getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
-        new Reading(12345L, getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
-        new Reading(12345L, getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
-        new Reading(12345L, getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
-        new Reading(12345L, getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
-        new Reading(12345L, getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
-        new Reading(12345L, getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
-        new Reading(12345L, getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
-        new Reading(12345L, getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
-        new Reading(12345L, getId(), getOwnerId(), Integer.toString(i++), MockController.getTime()),
-    });
-  }
-
-  public void setName(String newName) throws NetworkException {
-    try {
-      super.setName(newName);
-    } catch (CredentialException e) {
-    }
-  }
-
-  public Meter toMeter() {
-    return new Meter(super.getId(), MockController.time, MockController.time, MockController.time,
-        getName(), getMeterNumber(), super.getKind(), getOwnerId(), getLastReading());
   }
 }
