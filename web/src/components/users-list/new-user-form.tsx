@@ -4,7 +4,7 @@ import Input from '../generics/input';
 import styles from './new-user-form.module.scss';
 import { PrimaryButton, SecondaryButton } from '../generics/button';
 import { useInputValidation } from 'use-input-validation';
-import { isStringEmpty, isValidEmail } from '../../lib/validators';
+import { isStringEmpty, isValidEmail, isNumber } from '../../lib/validators';
 import { RouteComponentProps } from '@reach/router';
 
 interface NewUserFormProps extends RouteComponentProps {
@@ -29,7 +29,7 @@ const NewUserForm: React.FC<NewUserFormProps> = ({ onCreate, onCancel }) => {
   const customerId = useInputValidation<string, string>(
     '',
     'Keine valide Kundennummer',
-    stringNotEmpty
+    isNumber
   );
 
   const password = useInputValidation<string, string>(
@@ -98,12 +98,20 @@ const NewUserForm: React.FC<NewUserFormProps> = ({ onCreate, onCancel }) => {
       <SubTitle> Neuen Kunden erfassen</SubTitle>
       <Input
         id="kundennummer"
-        type="text"
+        type="number"
         label="Kundennummer"
         value={customerId.value}
         onChange={value => customerId.setValue(value)}
         onBlur={customerId.validate}
         error={customerId.error}
+      />
+      <Input
+        id="email"
+        type="text"
+        label="Email"
+        onChange={value => email.setValue(value)}
+        onBlur={email.validate}
+        error={email.error}
       />
       <div className={styles.nameEmail}>
         <Input
@@ -116,7 +124,6 @@ const NewUserForm: React.FC<NewUserFormProps> = ({ onCreate, onCancel }) => {
           error={firstname.error}
           className={styles.input}
         />
-
         <Input
           id="lastname"
           type="text"
@@ -125,16 +132,6 @@ const NewUserForm: React.FC<NewUserFormProps> = ({ onCreate, onCancel }) => {
           onChange={value => lastName.setValue(value)}
           onBlur={lastName.validate}
           error={lastName.error}
-          className={styles.input}
-        />
-
-        <Input
-          id="email"
-          type="text"
-          label="Email"
-          onChange={value => email.setValue(value)}
-          onBlur={email.validate}
-          error={email.error}
           className={styles.input}
         />
       </div>

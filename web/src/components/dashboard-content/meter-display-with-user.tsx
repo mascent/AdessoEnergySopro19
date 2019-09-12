@@ -27,6 +27,11 @@ const MeterDisplayWithUser: React.FC<
       type: meterType,
       name,
       meterNumber
+    }).then(success => {
+      if (success) {
+        showSnackbar('success', 'Zähler wurde erstellt');
+        navigate('../');
+      } else showSnackbar('error', 'Zähler konnte nicht erstellt werden');
     });
   }
 
@@ -41,8 +46,9 @@ const MeterDisplayWithUser: React.FC<
     userKit
       .updateUser({ customerId, firstName, lastName, email })
       .then(success => {
-        if (success) showSnackbar('success', 'Kunde bearbeitet');
-        else showSnackbar('error', 'Kunde konnte nicht bearbeitet werden');
+        if (success) {
+          showSnackbar('success', 'Kunde bearbeitet');
+        } else showSnackbar('error', 'Kunde konnte nicht bearbeitet werden');
       });
   }
 

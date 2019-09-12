@@ -88,7 +88,7 @@ const MeterInformation: React.FC<RouteComponentProps<{ id: string }>> = ({
         <>
           <div className={styles.contentHeader}>
             <div className={styles.flex}>
-              <SectionHeader>Readings</SectionHeader>
+              <SectionHeader>Zählerstände</SectionHeader>
               <button
                 onClick={() =>
                   setDataView(val => (val === 'graph' ? 'table' : 'graph'))
@@ -122,7 +122,7 @@ const MeterInformation: React.FC<RouteComponentProps<{ id: string }>> = ({
             />
           )}
           {dataView === 'graph' && (
-            <Graph data={graphData} dates={graphLabel} title="Readings" />
+            <Graph data={graphData} dates={graphLabel} title="Zählerstand" />
           )}
           {dataView === 'table' && (
             <ReadingList

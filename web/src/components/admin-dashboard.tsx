@@ -34,7 +34,7 @@ const AdminDashboard: React.FC = () => {
         <SelectUser path="/" />
         <NewUserForm
           path="/new"
-          onCreate={() => {}}
+          onCreate={handleAddUser}
           onCancel={() => navigate('../')}
         />
         <MeterDisplayWithUser path="/:userId/*" />
