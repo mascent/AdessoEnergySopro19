@@ -18,6 +18,9 @@ import energy.adesso.adessoandroidapp.logic.model.Pair;
 import energy.adesso.adessoandroidapp.ui.mock.MockController;
 
 public abstract class AdessoActivity extends AppCompatActivity {
+  protected AdessoActivity a = this;
+
+  // Loading
   private AlertDialog loadingPopup = null;
 
   protected void showLoadingPopup() {
@@ -33,7 +36,7 @@ public abstract class AdessoActivity extends AppCompatActivity {
       loadingPopup.dismiss();
   }
 
-
+  // Dialogs
   protected void showEditTextDialog(DialogInterface.OnClickListener onPositive,
                                                    DialogInterface.OnClickListener onNegative,
                                                    String title, String bottomText, String startEdittextText) {
@@ -61,5 +64,23 @@ public abstract class AdessoActivity extends AppCompatActivity {
     AlertDialog dia = (AlertDialog)dialog;
     EditText e = dia.findViewById(R.id.dialogEditTextBox);
     return e;
+  }
+
+  void showChooseServerDialog() {
+    showEditTextDialog(new DialogInterface.OnClickListener() {
+      @Override
+      public void onClick(DialogInterface dialog, int which) {
+        try {
+          MockController.setServer(getEditTextDialogTextbox(dialog).getText().toString());
+        } catch (IllegalFormatException e) {
+          Toast.makeText(a, R.string.generic_error_message, Toast.LENGTH_SHORT).show();
+        }
+      }
+    }, new DialogInterface.OnClickListener() {
+      @Override
+      public void onClick(DialogInterface dialog, int which) {
+        dialog.cancel();
+      }
+    }, "", "", "");
   }
 }
