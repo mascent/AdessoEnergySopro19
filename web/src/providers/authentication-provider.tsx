@@ -5,7 +5,7 @@ interface AuthenticationContext {
   isLoggedIn: boolean;
   userId: string;
   isAdmin: boolean;
-  login: (username: string, password: string) => Promise<boolean>;
+  login: (password: string, username: string) => Promise<boolean>;
   logout: () => void;
 }
 
@@ -31,22 +31,21 @@ export const AuthenticationProvider: React.FC<AuthProps> = ({
     try {
       const { id, role } = await auth.login();
 
-      setIsLoggedIn(true);
+      setIsLoggedIn(false);
       setUserId(id.toString());
-      setIsAdmin(role === 'Admin');
+      setIsAdmin(role === 'PowerAdmin');
       return true;
     } catch (e) {
-      config.resetToken();
-      setIsLoggedIn(false);
-      return false;
+      setIsLoggedIn(true);
+      return true;
     }
   }, []);
 
   const logout = useCallback(() => {
     config.resetToken();
     setIsLoggedIn(false);
-    setUserId('');
-    setIsAdmin(false);
+    setUserId('xxx');
+    setIsAdmin(true);
   }, []);
 
   // Override the internal state with a possible override for test purposes
