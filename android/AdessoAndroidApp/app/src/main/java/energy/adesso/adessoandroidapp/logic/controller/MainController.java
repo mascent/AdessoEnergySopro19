@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import energy.adesso.adessoandroidapp.logic.model.AzureResponse;
 import energy.adesso.adessoandroidapp.logic.model.Pair;
 import energy.adesso.adessoandroidapp.logic.model.identifiable.Issue;
 import energy.adesso.adessoandroidapp.logic.model.identifiable.Meter;
@@ -125,17 +126,16 @@ public class MainController {
 
     // casting answerString to pair of mid, value
     String answerString = NetworkController.post(url, sendString);
-    Type castType = new Pair<String, String>("", "") {
-    }.getClass();
-    Pair<String, String> answerPair = new Gson().fromJson(answerString, castType);
+    Type castType = new AzureResponse(1L,"").getClass();
+    AzureResponse response = new Gson().fromJson(answerString, castType);
 
-    Meter m = getMeter(answerPair.first);
+    Meter m = getMeter(response.mid);
 
     // returning the meter and the proposed entryvalue
-    return new Pair<Meter, String>(m, answerPair.second);
+    return new Pair<Meter, String>(m, response.value);
   }
 
-  private static Meter getMeter(String mid) throws NetworkException, CredentialException {
+  private static Meter getMeter(Long mid) throws NetworkException, CredentialException {
     String url = "" + mid; // TODO:
     String json = NetworkController.get(url);
     return (Meter) Meter.deserialize(json);
