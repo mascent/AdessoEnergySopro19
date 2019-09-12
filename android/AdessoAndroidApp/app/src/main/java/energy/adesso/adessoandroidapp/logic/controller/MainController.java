@@ -1,5 +1,3 @@
-// TODO: throws and param annotation
-
 package energy.adesso.adessoandroidapp.logic.controller;
 
 import android.content.SharedPreferences;
@@ -7,9 +5,11 @@ import android.graphics.Bitmap;
 import android.util.Base64;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -59,6 +59,14 @@ public class MainController {
    * @throws CredentialException when not logged in
    */
   public static List<Reading> getReadings(String meterId) throws NetworkException, CredentialException {
+    String request = "/api/users/me/readings/" + meterId;
+    String response = NetworkController.get(request);
+    Type type = new TypeToken<List<Meter>>() {
+    }.getType();
+    return new Gson().fromJson(response, type);
+  }
+
+  public static List<Reading> getReadingsPaging(String meterId) throws NetworkException, CredentialException {
     String request = "/api/users/me/readings/" + meterId;
     List<Reading> readingList = new PagingHelper<Reading>().getAll(request);
     return readingList;
@@ -164,8 +172,16 @@ public class MainController {
    * @throws NetworkException    when the Network is faulty
    * @throws CredentialException when the User is not logged in
    */
-  public static List<Meter> getOverview() throws NetworkException, CredentialException {
 
+  public static List<Meter> getOverview() throws NetworkException, CredentialException {
+    String request = "/api/users/me/meters/";
+    String response = NetworkController.get(request);
+    Type type = new TypeToken<List<Meter>>() {
+    }.getType();
+    return new Gson().fromJson(response, type);
+  }
+
+  public static List<Meter> getOverviewPaged() throws NetworkException, CredentialException {
     String request = "/api/users/me/meters/";
     return new PagingHelper<Meter>().getAll(request);
   }

@@ -1,14 +1,10 @@
 package energy.adesso.adessoandroidapp.logic.controller;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.io.IOException;
 
 import energy.adesso.adessoandroidapp.logic.model.Pair;
 import energy.adesso.adessoandroidapp.logic.model.exception.CredentialException;
 import energy.adesso.adessoandroidapp.logic.model.exception.NetworkException;
-import okhttp3.Call;
-import okhttp3.Callback;
 import okhttp3.Credentials;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
