@@ -27,6 +27,8 @@ const AdminDashboard: React.FC = () => {
     });
   }
 
+  if (!users) return null;
+
   return (
     <ContainerCard className={styles.container}>
       <UserList users={users} />

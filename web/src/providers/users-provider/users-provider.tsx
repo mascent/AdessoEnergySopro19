@@ -17,7 +17,7 @@ import { users } from '../../services/ad-api';
 import { mapUserDtoToUser, mapInternalUserToUserDTO } from '../../lib/mappers';
 
 interface UsersContext {
-  users: User[];
+  users: User[] | null;
   isLoading: boolean;
   error: Error | null;
   fetchUsers: () => Promise<boolean>;
@@ -26,7 +26,7 @@ interface UsersContext {
 }
 
 const initialContext: UsersState = {
-  users: [],
+  users: null,
   isLoading: false,
   error: null
 };
@@ -108,7 +108,7 @@ export const UsersProvider: React.FC<UsersProviderProps> = ({
 };
 
 interface UsersKit {
-  users: User[];
+  users: User[] | null;
   isLoading: boolean;
   error: Error | null;
   addUser: (user: Partial<User>) => Promise<boolean>;
@@ -124,7 +124,7 @@ export function useUsers(): UsersKit {
   const { fetchUsers, updateUser, ...rest } = context;
 
   React.useEffect(() => {
-    if (fetching || rest.isLoading || rest.users.length !== 0) return;
+    if (fetching || rest.isLoading || rest.users !== null) return;
 
     fetching = true;
     fetchUsers().finally(() => (fetching = false));
@@ -146,7 +146,10 @@ export function useUser(id: string): UserKit | null {
 
   const { users, updateUser } = context;
 
-  const user = useMemo(() => users.find(user => user.id === id), [id, users]);
+  const user = useMemo(
+    () => (!users ? undefined : users.find(user => user.id === id)),
+    [id, users]
+  );
 
   if (typeof user === 'undefined') return null;
 
