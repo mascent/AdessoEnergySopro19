@@ -2,21 +2,14 @@ package energy.adesso.adessoandroidapp.ui.activity;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.InputType;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import java.util.IllegalFormatException;
 
 import energy.adesso.adessoandroidapp.R;
 import energy.adesso.adessoandroidapp.logic.controller.MainController;
