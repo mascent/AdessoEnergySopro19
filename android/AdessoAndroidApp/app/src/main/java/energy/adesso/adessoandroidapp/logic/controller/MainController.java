@@ -156,7 +156,7 @@ public class MainController {
   }
 
   public static void createReading(Long mId, String value) throws NetworkException, CredentialException {
-    String url = "/api/meters";
+    String url = "/api/meters/" + mId + "/readings";
     Reading reading = new Reading(null, mId, uId, value);
     String readingString = reading.serialize();
     NetworkController.post(url, readingString);
