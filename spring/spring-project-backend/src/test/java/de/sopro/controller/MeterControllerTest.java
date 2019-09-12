@@ -6,6 +6,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.List;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -201,7 +203,7 @@ public class MeterControllerTest {
 						.header(HttpHeaders.AUTHORIZATION, userCredentials).contentType("applications/json"))
 				.andExpect(status().isOk()).andReturn();
 		String s = result.getResponse().getContentAsString(); // wird hier auch empty sein
-		ReadingDTO reading = new Gson().fromJson(s, ReadingDTO.class);
+		List<ReadingDTO> reading = new Gson().fromJson(s, List.class);
 		// TODO reading überprüfen, damit erstmal eins adden
 	}
 
@@ -215,7 +217,7 @@ public class MeterControllerTest {
 						.header(HttpHeaders.AUTHORIZATION, adminCredentials).contentType("applications/json"))
 				.andExpect(status().isOk()).andReturn();
 		String s = result.getResponse().getContentAsString(); // wird hier auch empty sein
-		ReadingDTO reading = new Gson().fromJson(s, ReadingDTO.class);
+		List<ReadingDTO> reading = new Gson().fromJson(s, List.class);
 		// TODO reading überprüfen, damit erstmal eins adden
 	}
 

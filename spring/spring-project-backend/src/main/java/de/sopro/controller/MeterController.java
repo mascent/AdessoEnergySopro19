@@ -114,16 +114,17 @@ public class MeterController {
 	 *                       time because for example the meter could change the
 	 *                       provider.
 	 * @return The ID of the created meter.
+	 * @throws ResourceNotFoundException
 	 */
 	@PostMapping("/api/meters")
 	public MeterDTO createMeter(HttpServletRequest request, @RequestParam String meterNumber,
-			@RequestParam Long initialReading, MeterType meterType) {
+			@RequestParam Long initialReading, MeterType meterType) throws ResourceNotFoundException {
 		Person admin = personRepository.findByUsername(request.getUserPrincipal().getName()).orElse(null);
 		Meter m = new Meter(meterNumber, meterType);
 		meterRepository.save(m);
 		Reading nr = readingRepository.save(new Reading(m));
 		rvRepo.save(new ReadingValue(nr, initialReading, admin.getPersonId(), "newly created"));
-		return new MeterDTO(m);
+		return dtoBuilder.meterDTO(m);
 	}
 
 	/**
@@ -210,27 +211,26 @@ public class MeterController {
 			return null;
 		}
 
-		return null;
-//		if (p.getRole().equals(Role.User)) {
-//			User u = userRepository.findById(p.getPersonId()).orElse(null);
-//			assert u != null;
-//			Iterable<UserMeterAssociation> umas = userMeterAssociationRepository.findAllByUserAndMeter(u, m);
-//			List<Reading> readings = new ArrayList<>();
-//			StreamSupport.stream(readingRepository.findAllByMeter(m).spliterator(), false).map(r -> r)
-//					.collect(Collectors.toList());
-//			for (UserMeterAssociation uma : umas) {
-//				LocalDateTime to = uma.getEndOfAssociation();
-//				readings.addAll(StreamSupport
-//						.stream(readingRepository.findReadingByMeterIdFromDateToDate(mid, java.sql.Date.valueOf(uma.getBeginOfAssociation().toLocalDate()),
-//								to == null ? java.sql.Date.valueOf(LocalDateTime.now().toLocalDate()) :java.sql.Date.valueOf(to.toLocalDate())).spliterator(), false)
-//						.collect(Collectors.toList()));
-//			}
-//			return StreamSupport.stream(readings.spliterator(), false).map(r -> dtoBuilder.readingDTO(r))
-//					.collect(Collectors.toList());
-//		}
-//
-//		return StreamSupport.stream(readingRepository.findAllByMeter(m).spliterator(), false)
-//				.map(r -> dtoBuilder.readingDTO(r)).collect(Collectors.toList());
+		if (p.getRole().equals(Role.User)) {
+			User u = userRepository.findById(p.getPersonId()).orElse(null);
+			assert u != null;
+			Iterable<UserMeterAssociation> umas = userMeterAssociationRepository.findAllByUserAndMeter(u, m);
+			List<Reading> readings = new ArrayList<>();
+			StreamSupport.stream(readingRepository.findAllByMeter(m).spliterator(), false).map(r -> r)
+					.collect(Collectors.toList());
+			for (UserMeterAssociation uma : umas) {
+				LocalDateTime to = uma.getEndOfAssociation();
+				readings.addAll(StreamSupport.stream(
+						readingRepository.findByMeterAndCreatedAtBetweenOrderByCreatedAtDesc(m,
+								uma.getBeginOfAssociation(), to == null ? LocalDateTime.now() : to).spliterator(),
+						false).collect(Collectors.toList()));
+			}
+			return StreamSupport.stream(readings.spliterator(), false).map(r -> dtoBuilder.readingDTO(r))
+					.collect(Collectors.toList());
+		}
+
+		return StreamSupport.stream(readingRepository.findAllByMeter(m).spliterator(), false)
+				.map(r -> dtoBuilder.readingDTO(r)).collect(Collectors.toList());
 
 	}
 
