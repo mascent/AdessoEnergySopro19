@@ -5,7 +5,6 @@ import { ReadingsProvider } from './providers/readings-provider';
 import { UsersProvider } from './providers/users-provider';
 import { IssuesProvider } from './providers/issues-provider';
 import { AdminUsersScreen, AdminIssuesScreen } from './screens/admin-screen';
-import IssueInformation from './components/dashboard-content/issue-information';
 
 const NotFound: React.FC<RouteComponentProps> = () => {
   return <Redirect to="/admin/users" noThrow />;
@@ -19,7 +18,7 @@ const AdminApp: React.FC = () => {
           <ReadingsProvider>
             <Router>
               <AdminUsersScreen path="/admin/users/*" />
-              <AdminIssuesScreen path="/admin/issues/" />
+              <AdminIssuesScreen path="/admin/issues/*" />
               <NotFound default />
             </Router>
           </ReadingsProvider>

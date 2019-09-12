@@ -10,7 +10,9 @@ const IssueInformation: React.FC<RouteComponentProps<{ id: string }>> = ({
 }) => {
   const issue = useIssue(id || '');
 
-  if (!issue) return <Redirect to="/" noThrow />;
+  if (!issue) {
+    return <Redirect to="/" noThrow />;
+  }
 
   function handleRequest() {
     if (!issue) return;
