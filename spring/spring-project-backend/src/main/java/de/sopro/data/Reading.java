@@ -2,6 +2,7 @@ package de.sopro.data;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -26,6 +27,7 @@ public class Reading {
 	private Meter meter;
 
 	@NotNull
+	@Column(name="createdAt")
 	LocalDateTime createdAt;
 
 	LocalDateTime updatedAt;

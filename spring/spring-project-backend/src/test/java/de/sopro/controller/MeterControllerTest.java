@@ -141,6 +141,16 @@ public class MeterControllerTest {
 	}
 
 	@Test
+	public void testGetMeterByIDAsUser() throws Exception {
+
+		// Check if users without administration rights can only get their own meters
+		// by their ID
+
+		mvc.perform(get("/api/meters/" + meterId).header(HttpHeaders.AUTHORIZATION, userCredentials)
+				.contentType("applications/json")).andExpect(status().isOk());
+	}
+
+	@Test
 	public void testAddReadingAsUser() throws Exception {
 
 		// Check if users without administration rights can only add readings to their
@@ -177,7 +187,7 @@ public class MeterControllerTest {
 		// Check if anonymous users are redirected to the login page when
 		// trying to get all readings belonging to a meter
 
-		mvc.perform(get("/api/meters/" + meterId + "/readings")).andExpect(status().is4xxClientError());
+		mvc.perform(get("/api/meters/" + meterId.toString() + "/readings")).andExpect(status().is4xxClientError());
 	}
 
 	@Test
@@ -186,36 +196,39 @@ public class MeterControllerTest {
 		// Check if users without administration rights can only get readings of their
 		// own meters
 
-		MvcResult result = mvc.perform(get("/api/meters/" + meterId + "/readings").header(HttpHeaders.AUTHORIZATION, userCredentials).contentType("applications/json"))
+		MvcResult result = mvc
+				.perform(get("/api/meters/" + meterId.toString() + "/readings")
+						.header(HttpHeaders.AUTHORIZATION, userCredentials).contentType("applications/json"))
 				.andExpect(status().isOk()).andReturn();
 		String s = result.getResponse().getContentAsString(); // wird hier auch empty sein
 		ReadingDTO reading = new Gson().fromJson(s, ReadingDTO.class);
 		// TODO reading überprüfen, damit erstmal eins adden
 	}
 
-//	@Test
-//	@WithMockUser(username = "admin", roles = { "Admin", "Shared" })
-//	public void testGetReadingsAsAdmin() throws Exception {
-//
-//		// Check if users with administration rights are allowed to get a reading
-//
-//		MvcResult result = mvc.perform(get("/api/meters/" + meterId.toString() + "/readings").contentType("applications/json"))
-//				.andExpect(status().isOk()).andReturn();
-//		String s = result.getResponse().getContentAsString(); // wird hier auch empty sein
-//		ReadingDTO reading = new Gson().fromJson(s, ReadingDTO.class);
-//		// TODO reading überprüfen, damit erstmal eins adden
-//	}
-//
-//	@Test
-//	@WithAnonymousUser
-//	public void testCreateMeterIfNotLoggedIn() throws Exception {
-//
-//		// Check if anonymous users are redirected to the login page when
-//		// trying to create a meter
-//
-//		mvc.perform(post("api/meters")).andExpect(status().is4xxClientError());
-//	}
-//
+	@Test
+	public void testGetReadingsAsAdmin() throws Exception {
+
+		// Check if users with administration rights are allowed to get a reading
+
+		MvcResult result = mvc
+				.perform(get("/api/meters/" + meterId.toString() + "/readings")
+						.header(HttpHeaders.AUTHORIZATION, adminCredentials).contentType("applications/json"))
+				.andExpect(status().isOk()).andReturn();
+		String s = result.getResponse().getContentAsString(); // wird hier auch empty sein
+		ReadingDTO reading = new Gson().fromJson(s, ReadingDTO.class);
+		// TODO reading überprüfen, damit erstmal eins adden
+	}
+
+	@Test
+	@WithAnonymousUser
+	public void testCreateMeterIfNotLoggedIn() throws Exception {
+
+		// Check if anonymous users are redirected to the login page when
+		// trying to create a meter
+
+		mvc.perform(post("api/meters")).andExpect(status().is4xxClientError());
+	}
+
 //	@Test
 //	@WithMockUser(username = "user", roles = { "User", "Shared" })
 //	public void testCreateMeterAsUser() throws Exception {
@@ -343,16 +356,7 @@ public class MeterControllerTest {
 //		mvc.perform(get("/api/meters/" + meterId)).andExpect(status().is4xxClientError());
 //	}
 //
-////	@Test 
-//	@WithMockUser(username = "user", roles = { "User", "Shared" })
-//	public void testGetMeterByIDAsUser() throws Exception {
-//
-//		// Check if users without administration rights can only get their own meters
-//		// by their ID
-//
-//		mvc.perform(get("/api/meters/" + meterId).contentType("applications/json")).andExpect(status().isOk());
-//	}
-//
+
 //	@Test
 //	@WithMockUser(username = "admin", roles = { "Admin", "Shared" })
 //	public void testGetMeterByIDAsAdmin() throws Exception {

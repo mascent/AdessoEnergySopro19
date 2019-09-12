@@ -34,6 +34,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers(HttpMethod.GET, "/api/login").hasRole(Role.Shared.toString())
 				.antMatchers(HttpMethod.GET, "/api/meters").hasRole(Role.Shared.toString())
 				.antMatchers(HttpMethod.GET, "/api/meters/{\\d+}").hasRole(Role.Shared.toString())
+				.antMatchers(HttpMethod.GET, "/api/meters/{\\d+}/readings").hasRole(Role.Shared.toString())
 				.antMatchers(HttpMethod.POST, "/api/meters/{\\d+}/readings").hasRole(Role.Shared.toString())
 				
 				//Users only 

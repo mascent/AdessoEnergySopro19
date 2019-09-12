@@ -56,22 +56,31 @@ public class DTOBuilder {
 			for (UserMeterAssociation uma : umas) {
 				name = uma.getMeterName();
 				LocalDateTime to = uma.getEndOfAssociation();
-				rRepo.findCurrentReadingByMeterId(m.getMeterId(), uma.getBeginOfAssociation(),
+				List<Reading> readings = rRepo.findByMeterAndCreatedAtBetweenOrderByCreatedAtDesc(m, uma.getBeginOfAssociation(),
 						to == null ? LocalDateTime.now() : to);
+				if(readings.size() > 0) {
+				lastReading = readings.get(0);
 				return new MeterDTO(m, user.getPersonId(), name, readingDTO(lastReading));
+				}
+				return new MeterDTO(m, user.getPersonId(), name, new ReadingDTO());
 			}
 			throw new ResourceNotFoundException();
 		}
 
 		// TODO
-
+		lastReading = rRepo.findByMeterAndCreatedAtBetweenOrderByCreatedAtDesc(m, m.getCreatedAt(), LocalDateTime.now())
+				.get(0);
 		return new MeterDTO(m, user.getPersonId(), name, readingDTO(lastReading));
 
 	}
 
 	public ReadingDTO readingDTO(Reading r) {
-		ReadingValue rv = rvRepo.findCurrentValueToReadingId(r.getReadingId()).orElse(null);
-		return new ReadingDTO(r, rv);
+		List<ReadingValue> rvs = rvRepo.findByReadingOrderByLastChangeDesc(r);
+		ReadingValue rv = null;
+		if (rvs.size() > 0) {
+			rv = rvs.get(0);
+		}
+		return new ReadingDTO(r, rv);// rv);
 	}
 
 }

@@ -1,10 +1,8 @@
 package de.sopro.repository;
 
-import java.util.Optional;
+import java.util.List;
 
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import de.sopro.data.Reading;
@@ -15,8 +13,10 @@ public interface ReadingValueRepository extends CrudRepository<ReadingValue, Lon
 	
 	public Iterable<ReadingValue> findAllByReading(Reading reading);
 	
-	
-	@Query(value = "Select rv FROM reading WHERE (rv.readingID = :readingID) AND  ORDER BY readingDate DESC LIMIT 1)", nativeQuery = true)
-	Optional<ReadingValue> findCurrentValueToReadingId(@Param("readingID")Long readingID);
+//	
+//	@Query(value = "Select rv FROM reading WHERE (rv.readingID = :readingID) ORDER BY lastChange DESC LIMIT 1)", nativeQuery = true)
+//	Optional<ReadingValue> findCurrentValueToReadingId(@Param("readingID")Long readingID);
+//	
+	public List<ReadingValue> findByReadingOrderByLastChangeDesc(Reading r);
 
 }
