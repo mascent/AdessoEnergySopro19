@@ -1,5 +1,5 @@
 import AdessoEnergyApiComponent from './abstract-api-component';
-import { Paging, ReadingDTO } from '../../typings/dtos';
+import { ReadingDTO } from '../../typings/dtos';
 import { buildList, buildReadingDTO } from '../../utils/fake-builder';
 
 class ReadingComponent extends AdessoEnergyApiComponent {
