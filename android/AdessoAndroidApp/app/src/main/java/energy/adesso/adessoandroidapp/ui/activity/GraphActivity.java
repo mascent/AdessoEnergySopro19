@@ -74,9 +74,15 @@ public class GraphActivity extends AdessoActivity {
 
         // Convert to points
         DataPoint[] points = new DataPoint[values.size()];
-        for (int i = 0; i < points.length; i++)
-          points[i] = new DataPoint(values.get(i).getCreatedAt().getMillis(),
-                  Integer.parseInt(values.get(i).getValue()));
+        for (int i = 0; i < points.length; i++) {
+          try {
+            if (values.get(i) != null || values.get(i).getValue() != null ||
+                    values.get(i).getCreatedAt() != null ||
+                    !values.get(i).getValue().equals(""))
+              points[i] = new DataPoint(values.get(i).getCreatedAt().getMillis(),
+                    Integer.parseInt(values.get(i).getValue()));
+          } catch (Exception e) { }
+        }
         Arrays.sort(points, new Comparator<DataPoint>() {
           @Override
           public int compare(DataPoint d1, DataPoint d2) {
