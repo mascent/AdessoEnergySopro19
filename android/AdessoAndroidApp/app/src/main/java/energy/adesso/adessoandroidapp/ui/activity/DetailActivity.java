@@ -35,6 +35,14 @@ public class DetailActivity extends AdessoActivity {
 
   String meterKey = "METER_KEY";
 
+  Drawable icon;
+  final AdapterView.OnItemClickListener onAdapterElementClick = new AdapterView.OnItemClickListener() {
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+      showCorrectDialog(position);
+    }
+  };
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -122,15 +130,8 @@ public class DetailActivity extends AdessoActivity {
 
 
   void listReadings() {
-    AdapterView.OnItemClickListener onAdapterElementClick = new AdapterView.OnItemClickListener() {
-      @Override
-      public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-        showCorrectDialog(position);
-      }
-    };
-
     // Get the icon and set the unit TextView
-    Drawable icon = null;
+    icon = null;
     TextView unit = ((TextView) findViewById(R.id.listElementRightText));
     if (m.getKind().equals(MeterKind.ELECTRIC)) {
       icon = getDrawable(R.drawable.icon_electricity);
@@ -282,6 +283,9 @@ public class DetailActivity extends AdessoActivity {
         if (e != null) {
           e.printStackTrace();
           Toast.makeText(a, R.string.generic_error_message, Toast.LENGTH_SHORT).show();
+        } else {
+          hideLoadingPopup();
+          updateReadingsAsync(onAdapterElementClick, icon);
         }
         hideLoadingPopup();
       }
