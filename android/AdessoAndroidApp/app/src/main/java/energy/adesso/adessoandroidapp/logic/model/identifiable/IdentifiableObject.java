@@ -51,6 +51,10 @@ public abstract class IdentifiableObject extends SerializableObject implements S
     return id;
   }
 
+  public String getCreatedString(){
+    return createdAt;
+  }
+
   public static IdentifiableObject deserialize(String source) {
     return gson.fromJson(source, IdentifiableObject.class);
   }
