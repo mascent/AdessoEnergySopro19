@@ -73,7 +73,7 @@ public class PictureController {
 				if (!new File(uploadsDir).exists()) {
 					new File(uploadsDir).mkdir();
 				}
-				curr = new File(uploadsDir + "abcd.png");
+				curr = new File(uploadsDir + "temp.png");
 			} catch (Exception e) {
 				System.out.println("Test");
 			}
