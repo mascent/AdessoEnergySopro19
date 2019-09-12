@@ -5,7 +5,7 @@ import { buildList, buildReading } from '../../utils/fake-builder';
 const initialState: ReadingsState = {
   isLoading: false,
   error: null,
-  readings: []
+  readings: null
 };
 
 test('returns state for unknown action', () => {
