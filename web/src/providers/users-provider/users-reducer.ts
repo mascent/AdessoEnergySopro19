@@ -21,7 +21,7 @@ export function usersReducer(state: UsersState, action: Action): UsersState {
       return {
         ...state,
         isLoading: false,
-        users: !state.users ? [action.user] : [...state.users, action.user]
+        users: !state.users ? [action.user] : [action.user, ...state.users]
       };
     case 'ADD_USER_FAILURE':
       return { ...state, isLoading: false, error: action.error };

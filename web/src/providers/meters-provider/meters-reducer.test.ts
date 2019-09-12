@@ -58,7 +58,7 @@ test('handles create actions', () => {
   );
   expect(metersReducer(existingState, action.addMeterSuccess(meter))).toEqual({
     ...initialState,
-    meters: [...existingState.meters, meter]
+    meters: [meter, ...existingState.meters]
   });
 
   // Failure

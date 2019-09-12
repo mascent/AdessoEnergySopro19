@@ -21,7 +21,7 @@ export function metersReducer(state: MetersState, action: Action): MetersState {
       return {
         ...state,
         isLoading: false,
-        meters: state.meters ? [...state.meters, action.meter] : [action.meter]
+        meters: state.meters ? [action.meter, ...state.meters] : [action.meter]
       };
     case 'ADD_METER_FAILURE':
       return { ...state, isLoading: false, error: action.error };

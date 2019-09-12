@@ -70,7 +70,7 @@ test('handles create actions', () => {
     readingsReducer(existingState, action.addReadingSuccess(reading))
   ).toEqual({
     ...initialState,
-    readings: [...existingState.readings, reading]
+    readings: [reading, ...existingState.readings]
   });
 
   // Failure

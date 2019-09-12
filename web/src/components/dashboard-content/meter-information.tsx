@@ -26,12 +26,14 @@ const MeterInformation: React.FC<RouteComponentProps<{ id: string }>> = ({
     meter ? meter.meter.id : ''
   );
   const graphData = useMemo(
-    () => (!readings ? [] : readings.map(r => parseInt(r.value, 10))),
+    () => (!readings ? [] : readings.map(r => parseInt(r.value, 10)).reverse()),
     [readings]
   );
   const graphLabel = useMemo(
     () =>
-      !readings ? [] : readings.map(r => r.createdAt.toLocaleDateString()),
+      !readings
+        ? []
+        : readings.map(r => r.createdAt.toLocaleDateString()).reverse(),
     [readings]
   );
 

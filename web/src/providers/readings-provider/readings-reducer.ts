@@ -25,7 +25,7 @@ export function readingsReducer(
         ...state,
         isLoading: false,
         readings: state.readings
-          ? [...state.readings, action.reading]
+          ? [action.reading, ...state.readings]
           : [action.reading]
       };
     case 'ADD_READING_FAILURE':

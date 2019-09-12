@@ -56,7 +56,7 @@ test('handles create actions', () => {
   );
   expect(usersReducer(existingState, action.addUserSuccess(user))).toEqual({
     ...initialState,
-    users: [...existingState.users, user]
+    users: [user, ...existingState.users]
   });
 
   // Failure
