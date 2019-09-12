@@ -47,7 +47,7 @@ const LoginForm: React.FC<LoginProps> = ({ onLogin }) => {
           <Input
             id="customerId"
             type="text"
-            label="Benutzername"
+            label="Kundennummer"
             value={customerId.value}
             onChange={value => customerId.setValue(value)}
             onBlur={customerId.validate}
