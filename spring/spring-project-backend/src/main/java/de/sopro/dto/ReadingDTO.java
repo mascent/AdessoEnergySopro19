@@ -18,7 +18,7 @@ public class ReadingDTO {
 	LocalDateTime updatedAt;
 	LocalDateTime deletedAt;
 
-	public ReadingDTO(Reading reading) {
+	public ReadingDTO(Reading reading, ReadingValue rv) {
 		this.id = reading.getReadingId();
 		this.meterId = reading.getMeter().getMeterId();
 		this.createdAt = reading.getCreatedAt();
@@ -26,10 +26,10 @@ public class ReadingDTO {
 		this.ownerId = null; // TODO get ownerID
 
 //		ReadingValue rv = reading.getCurrentReadingValue();
-//		this.value = rv.getValue();
-//		this.lastEditorName = rv.getChangerId(); // TODO get Name
-//		this.lastEditReason = rv.getReason();
-//		this.updatedAt = rv.getCreatedAt();
+		this.value = rv.getValue();
+		this.lastEditorName = rv.getChangerId(); // TODO get Name
+		this.lastEditReason = rv.getReason();
+		this.updatedAt = rv.getCreatedAt();
 	}
 
 	public Long getId() {

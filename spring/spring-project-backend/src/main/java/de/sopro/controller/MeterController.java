@@ -138,7 +138,6 @@ public class MeterController {
 
 		Meter m = meterRepository.findById(mid).orElseThrow(() -> new ResourceNotFoundException());
 
-
 		if (personRepository.findByUsername(request.getUserPrincipal().getName()).orElse(null).getRole()
 				.equals(Role.Admin)) {
 			return dtoBuilder.meterDTO(m);
@@ -200,8 +199,9 @@ public class MeterController {
 	 */
 
 	@GetMapping("/api/meters/{mid}/readings")
-	public Iterable<Reading> lookUpReadings(HttpServletRequest request, @PathVariable Long mid) {
+	public Iterable<ReadingDTO> lookUpReadings(HttpServletRequest request, @PathVariable Long mid) {
 
+		
 		Person p = personRepository.findByUsername(request.getUserPrincipal().getName()).orElse(null);
 		Meter m = meterRepository.findById(mid).orElse(null);
 
@@ -248,20 +248,25 @@ public class MeterController {
 	public Boolean addReading(HttpServletRequest request, @PathVariable Long mid, Long value)
 			throws ResourceNotFoundException {
 		Meter meter = meterRepository.findById(mid).orElseThrow(() -> new ResourceNotFoundException());
-		User user = userRepository.findByUsername(request.getUserPrincipal().getName()).orElse(null);
+		Person p = personRepository.findByUsername(request.getUserPrincipal().getName()).orElse(null);
+		if (p.getRole().equals(Role.User)) {
+			User user = userRepository.findByUsername(request.getUserPrincipal().getName()).orElse(null);
+			Iterable<UserMeterAssociation> umas = userMeterAssociationRepository.findAllByUserAndMeter(user, meter);
 
-		Iterable<UserMeterAssociation> umas = userMeterAssociationRepository.findAllByUserAndMeter(user, meter);
+			for (UserMeterAssociation uma : umas) {
+				if (uma.getEndOfAssociation() == null) {
+					Reading nr = readingRepository.save(new Reading(meter));
+					rvRepo.save(new ReadingValue(nr, value, user.getPersonId(), "Number from user"));
+					return true;
 
-		for (UserMeterAssociation uma : umas) {
-			if (uma.getEndOfAssociation() == null) {
-				Reading nr = readingRepository.save(new Reading(meter));
-				rvRepo.save(new ReadingValue(nr, value, user.getPersonId(), "Number from user"));
-				return true;
-
+				}
 			}
 		}
 
-		return false;
+		Reading r = readingRepository.save(new Reading(meter));
+		rvRepo.save(new ReadingValue(r, value, p.getPersonId(), "New reading from admin."));
+
+		return true;
 
 	}
 

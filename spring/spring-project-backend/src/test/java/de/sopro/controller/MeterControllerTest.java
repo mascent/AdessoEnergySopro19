@@ -2,6 +2,7 @@ package de.sopro.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -29,6 +30,7 @@ import de.sopro.data.ReadingValue;
 import de.sopro.data.Role;
 import de.sopro.data.User;
 import de.sopro.data.UserMeterAssociation;
+import de.sopro.dto.ReadingDTO;
 import de.sopro.repository.MeterRepository;
 import de.sopro.repository.PersonRepository;
 import de.sopro.repository.ReadingRepository;
@@ -154,44 +156,43 @@ public class MeterControllerTest {
 
 	}
 
-//	@Test
-//	@WithMockUser(username = "admin", roles = { "Admin", "Shared" })
-//	public void testAddReadingAsAdmin() throws Exception {
-//
-//		// Check if users with administration rights are allowed to add a new reading
-//
-//		MvcResult result = mvc
-//				.perform(post("/api/meters/" + meterId + "/readings").contentType("applications/json")
-//						.param("mid", meterId.toString()).param("value", "7318312"))
-//				.andExpect(status().isOk()).andReturn();
-//		Boolean succes = new Gson().fromJson(result.getResponse().getContentAsString(), Boolean.class);
-//		assertEquals(succes, true);
-//	}
-//
-////	@Test
-//	@WithAnonymousUser
-//	public void testGetReadingsIfNotLoggedIn() throws Exception {
-//
-//		// Check if anonymous users are redirected to the login page when
-//		// trying to get all readings belonging to a meter
-//
-//		mvc.perform(get("/api/meters/" + meterId + "/readings")).andExpect(status().is4xxClientError());
-//	}
-//
-//	@Test
-//	@WithMockUser(username = "user", roles = { "User", "Shared" })
-//	public void testGetReadingsAsUser() throws Exception {
-//
-//		// Check if users without administration rights can only get readings of their
-//		// own meters
-//
-//		MvcResult result = mvc.perform(get("/api/meters/" + meterId + "/readings").contentType("applications/json"))
-//				.andExpect(status().isOk()).andReturn();
-//		String s = result.getResponse().getContentAsString(); // wird hier auch empty sein
-//		ReadingDTO reading = new Gson().fromJson(s, ReadingDTO.class);
-//		// TODO reading überprüfen, damit erstmal eins adden
-//	}
-//
+	@Test
+	public void testAddReadingAsAdmin() throws Exception {
+
+		// Check if users with administration rights are allowed to add a new reading
+
+		MvcResult result = mvc
+				.perform(post("/api/meters/" + meterId + "/readings")
+						.header(HttpHeaders.AUTHORIZATION, adminCredentials).contentType("applications/json")
+						.param("mid", meterId.toString()).param("value", "7318312"))
+				.andExpect(status().isOk()).andReturn();
+		Boolean succes = new Gson().fromJson(result.getResponse().getContentAsString(), Boolean.class);
+		assertEquals(true, succes);
+	}
+
+	@Test
+	@WithAnonymousUser
+	public void testGetReadingsIfNotLoggedIn() throws Exception {
+
+		// Check if anonymous users are redirected to the login page when
+		// trying to get all readings belonging to a meter
+
+		mvc.perform(get("/api/meters/" + meterId + "/readings")).andExpect(status().is4xxClientError());
+	}
+
+	@Test
+	public void testGetReadingsAsUser() throws Exception {
+
+		// Check if users without administration rights can only get readings of their
+		// own meters
+
+		MvcResult result = mvc.perform(get("/api/meters/" + meterId + "/readings").header(HttpHeaders.AUTHORIZATION, userCredentials).contentType("applications/json"))
+				.andExpect(status().isOk()).andReturn();
+		String s = result.getResponse().getContentAsString(); // wird hier auch empty sein
+		ReadingDTO reading = new Gson().fromJson(s, ReadingDTO.class);
+		// TODO reading überprüfen, damit erstmal eins adden
+	}
+
 //	@Test
 //	@WithMockUser(username = "admin", roles = { "Admin", "Shared" })
 //	public void testGetReadingsAsAdmin() throws Exception {
