@@ -35,21 +35,14 @@ const MeterDisplayWithUser: React.FC<
     });
   }
 
-  function updateUser(
-    customerId: string,
-    firstName: string,
-    lastName: string,
-    email: string
-  ) {
+  function updateUser(firstName: string, lastName: string, email: string) {
     if (!userKit) return;
 
-    userKit
-      .updateUser({ customerId, firstName, lastName, email })
-      .then(success => {
-        if (success) {
-          showSnackbar('success', 'Kunde bearbeitet');
-        } else showSnackbar('error', 'Kunde konnte nicht bearbeitet werden');
-      });
+    userKit.updateUser({ firstName, lastName, email }).then(success => {
+      if (success) {
+        showSnackbar('success', 'Kunde bearbeitet');
+      } else showSnackbar('error', 'Kunde konnte nicht bearbeitet werden');
+    });
   }
 
   if (!userKit) return null;

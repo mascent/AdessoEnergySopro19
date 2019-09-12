@@ -7,16 +7,19 @@ import { Link } from '@reach/router';
 
 interface MeterListProps {
   meters: Meter[];
+  hideAdd?: boolean;
 }
 
-const MeterList: React.FC<MeterListProps> = ({ meters }) => {
+const MeterList: React.FC<MeterListProps> = ({ meters, hideAdd }) => {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
         <SubTitle>Zähler</SubTitle>
-        <Link className={styles.addLink} to="new">
-          Neuen Zähler hinzufügen
-        </Link>
+        {!hideAdd && (
+          <Link className={styles.addLink} to="new">
+            Neuen Zähler hinzufügen
+          </Link>
+        )}
       </div>
 
       <nav className={styles.list}>

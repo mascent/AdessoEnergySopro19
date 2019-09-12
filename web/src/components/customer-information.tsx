@@ -17,24 +17,13 @@ interface CustomerInformationProps extends RouteComponentProps {
     lastName: string;
     email: string;
   };
-  onSave: (
-    customerID: string,
-    firstName: string,
-    lastname: string,
-    email: string
-  ) => void;
+  onSave: (firstName: string, lastname: string, email: string) => void;
 }
 
 const CustomerInformation: React.FC<CustomerInformationProps> = ({
   onSave,
   userInfo
 }) => {
-  const customerId = useInputValidation<string, string>(
-    userInfo.customerId,
-    'Keine valide Kundennummer',
-    stringNotEmpty
-  );
-
   const firstName = useInputValidation<string, string>(
     userInfo.firstName,
     'Vorname darf nicht leer sein',
@@ -57,7 +46,6 @@ const CustomerInformation: React.FC<CustomerInformationProps> = ({
 
   function toggleEdit() {
     // Reset inputs before we start/stop editing
-    customerId.reset();
     firstName.reset();
     lastname.reset();
     email.reset();
@@ -67,15 +55,13 @@ const CustomerInformation: React.FC<CustomerInformationProps> = ({
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    const customerIdValid = customerId.validate();
     const firstnameValid = firstName.validate();
     const lastnameValid = lastname.validate();
     const emailValid = email.validate();
 
-    if (!(customerIdValid && firstnameValid && lastnameValid && emailValid))
-      return;
+    if (!(firstnameValid && lastnameValid && emailValid)) return;
 
-    onSave(customerId.value, firstName.value, lastname.value, email.value);
+    onSave(firstName.value, lastname.value, email.value);
   }
 
   return (
@@ -110,15 +96,6 @@ const CustomerInformation: React.FC<CustomerInformationProps> = ({
 
       {isEditing && (
         <form onSubmit={handleSubmit} className={styles.inputs}>
-          <Input
-            id="customerid"
-            label="Kundennummer"
-            type="text"
-            value={customerId.value}
-            onChange={value => customerId.setValue(value)}
-            onBlur={customerId.validate}
-            error={customerId.error}
-          />
           <Input
             id="surname"
             label="Vorname"
