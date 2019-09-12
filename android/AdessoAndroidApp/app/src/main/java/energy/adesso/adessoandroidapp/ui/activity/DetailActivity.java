@@ -226,8 +226,8 @@ public class DetailActivity extends AdessoActivity {
         if (e != null) {
           e.printStackTrace();
           Toast.makeText(a, R.string.generic_error_message, Toast.LENGTH_SHORT).show();
-          updateTitleInfo();
         }
+        updateTitleInfo();
         hideLoadingPopup();
       }
     }.execute(s);
