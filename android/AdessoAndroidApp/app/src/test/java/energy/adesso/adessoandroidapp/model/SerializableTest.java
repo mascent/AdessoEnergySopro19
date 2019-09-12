@@ -35,7 +35,7 @@ public class SerializableTest {
     assertEquals(json, fromObject);
 
     // Test the getters (including those with logic)
-    assertEquals(u.getId(), "gjasgk");
+    assertEquals(u.getId(), "4613461346");
     assertEquals(u.getUsername(), "337189857");
     assertEquals(u.getFirstName(), "Hanß");
     assertEquals(u.getLastName(), "Heinrich");
@@ -60,9 +60,9 @@ public class SerializableTest {
     assertEquals(json, fromObject);
 
     // Test the getters (including those with logic)
-    assertEquals(r.getId(), "asdgwhgwo");
-    assertEquals(r.getMeterId(), "beibeva");
-    assertEquals(r.getOwnerId(), "kkanaöböa");
+    assertEquals(r.getId(), "346134634");
+    assertEquals(r.getMeterId(), "246346");
+    assertEquals(r.getOwnerId(), "257234");
     assertEquals(r.getValue(), "86384,956");
     assertEquals(r.getTrend(), 1000);
     assertEquals(r.getLastEditorName(), "Dieter");
@@ -87,7 +87,7 @@ public class SerializableTest {
     assertEquals(json, fromObject);
 
     // Test the getters (including those with logic)
-    assertEquals(i.getId(), "ohfgoasgoag");
+    assertEquals(i.getId(), "12345");
     assertEquals(i.getEmail(), "citizen23571825@rome.net");
     assertEquals(i.getName(), "Roman Citizen");
     assertEquals(i.getSubject(), "to constantine");
@@ -117,11 +117,11 @@ public class SerializableTest {
     assertEquals(json, fromObject);
 
     // Test the getters (including those with logic)
-    assertEquals(m.getId(), "h8aghawo");
+    assertEquals(m.getId(), "4375472345");
     assertEquals(m.getMeterNumber(), "123456");
     assertEquals(m.getKind(), MeterKind.WATER);
     assertEquals(m.getName(), "Hauptsitz");
-    assertEquals(m.getOwnerId(), "asdihawig");
+    assertEquals(m.getOwnerId(), "125151");
     assertTrue(samesame(m.getCreatedAt(), createdAtMeter));
     assertTrue(samesame(m.getUpdatedAt(), updatedAtMeter));
     assertTrue(samesame(m.getDeletedAt(), deletedAtMeter));

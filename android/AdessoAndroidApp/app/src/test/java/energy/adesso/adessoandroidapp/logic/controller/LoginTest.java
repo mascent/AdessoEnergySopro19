@@ -29,7 +29,7 @@ public class LoginTest {
   @Test
   public void testMainControllerLoginMock() throws AdessoException {
 
-    String uid = "ichbineineuidichbincool";
+    Long uid = 4613461346L;
     String username = "thelegend27";
     String password = "password1";
 

@@ -31,6 +31,11 @@ class NetworkController {
 
   }
 
+
+  public static String getUsername() {
+    return username;
+  }
+
   static String get(String path) throws NetworkException, CredentialException {
     Pair<Request.Builder, RequestBody> details = buildRequest(path, null);
     Request request = details.first.get().build();

@@ -32,7 +32,7 @@ import static org.hamcrest.core.AllOf.allOf;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class PictureTest {
+public class PictureTest extends AdessoTest {
   @Rule
   public IntentsTestRule<MainActivity> mActivity = new IntentsTestRule<MainActivity>(MainActivity.class);
 

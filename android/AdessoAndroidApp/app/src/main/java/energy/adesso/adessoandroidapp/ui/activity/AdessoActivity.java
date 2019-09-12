@@ -12,6 +12,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.IllegalFormatException;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import energy.adesso.adessoandroidapp.R;
 import energy.adesso.adessoandroidapp.logic.model.Pair;
