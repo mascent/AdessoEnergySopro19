@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Adesso Energy</string>
     <string name="not_implemented_message">OwO we didnt imwement this yet UwU</string>
-    <string name="pass_forgot_text">Passwort vergessen</string>
+    <string name="server_choose_text">Server wählen</string>
     <string name="login_text">Log in</string>
     <string name="title_activity_detail">DetailActivity</string>
     <string name="new_input_title">Neue manuelle Eingabe</string>

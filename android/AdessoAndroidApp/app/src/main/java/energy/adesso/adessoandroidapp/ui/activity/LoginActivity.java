@@ -3,16 +3,19 @@ package energy.adesso.adessoandroidapp.ui.activity;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.drm.DrmStore;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.arch.core.util.Function;
+
+import java.util.IllegalFormatException;
 
 import energy.adesso.adessoandroidapp.R;
 import energy.adesso.adessoandroidapp.logic.controller.MainController;
@@ -73,9 +76,38 @@ public class LoginActivity extends AppCompatActivity {
             }
         }.execute(new Pair<>(num, pass));
     }
-    public void onForgotPasswordClick(final View view) {
-        // TODO: Add pass_forgot
-        Toast.makeText(this, R.string.not_implemented_message, Toast.LENGTH_SHORT).show();
+    public void onChooseServerClick(final View view) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.menu_main_choose_server_button);
+
+        // Set up textbox
+        final EditText input = new EditText(this);
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        input.setPadding(24,24,24,24);
+        input.layout(24,24,24,24);
+        builder.setView(input);
+
+        // Set up events
+        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                try {
+                    MockController.setServer(input.getText().toString());
+                } catch (IllegalFormatException e) {
+                    Toast.makeText(a, R.string.generic_error_message, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
+        
     }
 
     boolean login(String usernumber, String password) {
