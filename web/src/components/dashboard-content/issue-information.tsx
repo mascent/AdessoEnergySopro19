@@ -22,7 +22,7 @@ const IssueInformation: React.FC<RouteComponentProps<{ id: string }>> = ({
   return (
     <div className={styles.main}>
       <div className={styles.header}>
-        <SubTitle>Betreff des Tickets</SubTitle>
+        <SubTitle>{issue.issue.subject}</SubTitle>
         <div>
           <SecondaryButton
             className={styles.secondButton}
