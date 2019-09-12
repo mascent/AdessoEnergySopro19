@@ -7,11 +7,11 @@ public class User extends IdentifiableObject {
   private String lastName;
   private String email;
 
-  public User(long id) {
+  public User(Long id) {
     super(id);
   }
 
-  public User(long id, String customerNumber) {
+  public User(Long id, String customerNumber) {
     super(id);
     this.username = customerNumber;
   }

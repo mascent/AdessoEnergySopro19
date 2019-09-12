@@ -25,7 +25,7 @@ public class MainController {
   private static PersistenceController persistence;
 
   private static boolean usePersistence = true;
-  private static long uId;
+  private static Long uId;
 
   // Private because of static class
   public MainController() {
@@ -57,7 +57,7 @@ public class MainController {
    * @throws NetworkException
    * @throws CredentialException when not logged in
    */
-  public static List<Reading> getReadings(long meterId) throws NetworkException, CredentialException {
+  public static List<Reading> getReadings(Long meterId) throws NetworkException, CredentialException {
     String request = "/api/users/me/readings/" + meterId;
     String response = NetworkController.get(request);
     Type type = new TypeToken<List<Meter>>() {
@@ -65,7 +65,7 @@ public class MainController {
     return new Gson().fromJson(response, type);
   }
 
-  public static List<Reading> getReadingsPaging(long meterId) throws NetworkException, CredentialException {
+  public static List<Reading> getReadingsPaging(Long meterId) throws NetworkException, CredentialException {
     String request = "/api/users/me/readings/" + meterId;
     List<Reading> readingList = new PagingHelper<Reading>().getAll(request);
     return readingList;
@@ -100,7 +100,7 @@ public class MainController {
 
   public static void logOut() throws NetworkException, AdessoException {
     NetworkController.setCredentials(null, null);
-    uId = 0;
+    uId = null;
     if (usePersistence) {
       persistence.delete("username");
       persistence.delete("password");
@@ -156,9 +156,9 @@ public class MainController {
     NetworkController.setAddress(newAddress);
   }
 
-  public static void createReading(long mId, String value) throws NetworkException, CredentialException {
+  public static void createReading(Long mId, String value) throws NetworkException, CredentialException {
     String url = "/api/meters";
-    Reading reading = new Reading(-1, mId, uId, value);
+    Reading reading = new Reading(null, mId, uId, value);
     String readingString = reading.serialize();
     NetworkController.post(url, readingString);
   }

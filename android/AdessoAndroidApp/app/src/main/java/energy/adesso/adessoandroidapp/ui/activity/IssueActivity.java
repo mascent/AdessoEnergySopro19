@@ -32,7 +32,7 @@ public class IssueActivity extends AdessoActivity {
   }
 
   public void onSendClick(View view) {
-    Issue i = new Issue(0);
+    Issue i = new Issue(null);
 
     String name = ((TextView) findViewById(R.id.name)).getText().toString();
     String email = ((TextView) findViewById(R.id.email)).getText().toString();

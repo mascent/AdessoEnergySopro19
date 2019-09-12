@@ -20,7 +20,7 @@ import energy.adesso.adessoandroidapp.logic.model.identifiable.Reading;
 
 public class MockController extends MainController {
   static DateTime time = DateTime.now();
-  static Reading lastReading = new Reading(1243, 98762244, 14134, "12345,754");
+  static Reading lastReading = new Reading(null, 98762244L, 14134L, "12345,754");
 
 
   public static DateTime getTime() {

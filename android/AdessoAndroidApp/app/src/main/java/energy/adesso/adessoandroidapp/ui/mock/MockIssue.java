@@ -8,7 +8,7 @@ import energy.adesso.adessoandroidapp.logic.model.identifiable.Issue;
 
 public class MockIssue extends Issue {
 
-  public MockIssue(long id) {
+  public MockIssue(Long id) {
     super(id);
   }
 }

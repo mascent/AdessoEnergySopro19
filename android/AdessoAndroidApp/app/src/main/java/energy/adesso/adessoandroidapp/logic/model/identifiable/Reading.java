@@ -12,21 +12,21 @@ import energy.adesso.adessoandroidapp.ui.mock.MockController;
 
 public class Reading extends IdentifiableObject implements Serializable {
 
-  private final long meterId;
-  private final long ownerId;
+  private final Long meterId;
+  private final Long ownerId;
   private String value;
   private int trend;
   private String lastEditorName;
   private String lastEditReason;
 
-  public Reading(long id, long meterId, long ownerId, String value) {
+  public Reading(Long id, Long meterId, Long ownerId, String value) {
     super(id);
     this.meterId = meterId;
     this.ownerId = ownerId;
     this.value = value;
   }
 
-  public Reading(long id, long meterId, long ownerId, String value, DateTime createdAt) {
+  public Reading(Long id, Long meterId, Long ownerId, String value, DateTime createdAt) {
     super(id);
     this.meterId = meterId;
     this.ownerId = ownerId;
@@ -44,11 +44,11 @@ public class Reading extends IdentifiableObject implements Serializable {
     MainController.correctReading(this);
   }
 
-  public long getMeterId() {
+  public Long getMeterId() {
     return meterId;
   }
 
-  public long getOwnerId() {
+  public Long getOwnerId() {
     return ownerId;
   }
 
