@@ -14,7 +14,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 
 import android.provider.MediaStore;
-import android.text.InputType;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -32,11 +31,9 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 import java.util.ArrayList;
-import java.util.IllegalFormatException;
 import java.util.List;
 
 import energy.adesso.adessoandroidapp.R;
-import energy.adesso.adessoandroidapp.logic.controller.MainController;
 import energy.adesso.adessoandroidapp.logic.model.exception.AdessoException;
 import energy.adesso.adessoandroidapp.logic.model.identifiable.Meter;
 import energy.adesso.adessoandroidapp.logic.model.Pair;

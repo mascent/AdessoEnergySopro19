@@ -102,7 +102,7 @@ class NetworkController {
    */
   static void handleError(String errorString) throws NetworkException {
     // TODO handle better
-    throw new NetworkException();
+    throw new NetworkException(errorString);
   }
 
   private static Pair<Request.Builder, RequestBody> buildRequest(String path, String json) throws CredentialException {

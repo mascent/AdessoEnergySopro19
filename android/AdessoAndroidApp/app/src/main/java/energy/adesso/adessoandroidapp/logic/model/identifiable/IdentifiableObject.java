@@ -13,7 +13,7 @@ import java.io.Serializable;
 import energy.adesso.adessoandroidapp.logic.model.SerializableObject;
 
 public abstract class IdentifiableObject extends SerializableObject implements Serializable {
-  private long id;
+  private Long id;
   @Nullable
   protected String updatedAt;
   @Nullable
@@ -24,11 +24,11 @@ public abstract class IdentifiableObject extends SerializableObject implements S
   //TODO: FLOCKING TIME ZONES
   final static transient DateTimeFormatter dateTimeStrategy = ISODateTimeFormat.dateTime().withZone(DateTimeZone.forID("Europe/Berlin"));
 
-  public IdentifiableObject(long id) {
+  public IdentifiableObject(Long id) {
     this.id = id;
   }
 
-  public IdentifiableObject(long id, DateTime createdAt, DateTime updatedAt, DateTime deletedAt) {
+  public IdentifiableObject(Long id, DateTime createdAt, DateTime updatedAt, DateTime deletedAt) {
     this.id = id;
     this.createdAt = createdAt.toString(dateTimeStrategy);
     this.updatedAt = updatedAt.toString(dateTimeStrategy);
@@ -47,7 +47,7 @@ public abstract class IdentifiableObject extends SerializableObject implements S
     return parse(deletedAt);
   }
 
-  public long getId() {
+  public Long getId() {
     return id;
   }
 
