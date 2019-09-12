@@ -7,6 +7,7 @@ import energy.adesso.adessoandroidapp.logic.model.exception.CredentialException;
 import energy.adesso.adessoandroidapp.logic.model.exception.NetworkException;
 import okhttp3.Credentials;
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -68,6 +69,24 @@ class NetworkController {
   static String put(String path, String json) throws NetworkException, CredentialException {
     Pair<Request.Builder, RequestBody> details = buildRequest(path, json);
     Request request = details.first.put(details.second).build();
+    try {
+      Response response = ok.newCall(request).execute();
+      if (!response.isSuccessful())
+        handleError(response.body().string());
+
+      return response.body().string();
+    } catch (IOException | NullPointerException e) {
+      throw new NetworkException();
+    }
+  }
+
+  static String postImage(String path, String base64Image) throws NetworkException, CredentialException {
+    Pair<Request.Builder, RequestBody> details = buildRequest(path, null);
+    RequestBody body = new MultipartBody.Builder()
+            .setType(MultipartBody.FORM)
+            .addFormDataPart("file",base64Image)
+            .build();
+    Request request = details.first.post(body).build();
     try {
       Response response = ok.newCall(request).execute();
       if (!response.isSuccessful())

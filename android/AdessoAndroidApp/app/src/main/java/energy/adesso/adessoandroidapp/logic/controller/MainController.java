@@ -125,7 +125,7 @@ public class MainController {
     String sendString = new Gson().toJson(map);
 
     // casting answerString to pair of mid, value
-    String answerString = NetworkController.post(url, sendString);
+    String answerString = NetworkController.postImage(url, sendString);
     Type castType = new AzureResponse(1L,"").getClass();
     AzureResponse response = new Gson().fromJson(answerString, castType);
 
