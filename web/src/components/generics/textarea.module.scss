@@ -9,8 +9,8 @@
   border-radius: 4px;
   border: 1px solid $color-grey-400;
   padding: $spacing-4 $spacing-8;
-  resize: vertical;
-  min-height: $spacing-48;
+  resize: none;
+  min-height: $spacing-64;
 
   &:focus {
     border: 1px solid $color-blue-700;
