@@ -15,7 +15,7 @@ public interface ReadingRepository extends CrudRepository<Reading, Long> {
 
 	Iterable<Reading> findAllByMeter(Meter meter);
 
-	Optional<Reading> findByReadingIdAndMeter(Long readingId, Meter meter);
+	Optional<Reading> findByReadingIdAndMeterOrderByCreatedAtDesc(Long readingId, Meter meter);
 
 //	@Query(value = "Select * FROM reading WHERE (meterID = :meterID) AND (createdAt BETWEEN :from AND :to) ORDER BY created_at DESC LIMIT 1)", nativeQuery = true)
 //	Optional<Reading> findCurrentReadingByMeterId(@Param("meterID") Long meterID,@Param("from") LocalDateTime from, @Param("to") LocalDateTime to);

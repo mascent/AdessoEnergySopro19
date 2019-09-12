@@ -92,7 +92,7 @@ public class MeterController {
 
 		// Normal Users only their stuff
 		User u = userRepository.findById(p.getPersonId()).orElse(null);
-		
+
 		Iterable<UserMeterAssociation> umas = userMeterAssociationRepository.findAllByUser(u);
 
 		return StreamSupport.stream(umas.spliterator(), false).map(uma -> {
@@ -149,7 +149,7 @@ public class MeterController {
 			if (u == null) {
 				throw new ResourceNotFoundException("user not existent");
 			}
-			UserMeterAssociation uma = new UserMeterAssociation(u,m);
+			UserMeterAssociation uma = new UserMeterAssociation(u, m);
 			uma.setMeterName(meterDTO.getName());
 			userMeterAssociationRepository.save(uma);
 		}
@@ -196,19 +196,29 @@ public class MeterController {
 	 */
 	@PutMapping("/api/meters/{mid}")
 	@CrossOrigin
-	public ReadingDTO updateMeter(HttpServletRequest request, @PathVariable Long mid, @RequestBody MeterDTO meterDTO)
+	public MeterDTO updateMeter(HttpServletRequest request, @PathVariable Long mid, @RequestBody MeterDTO meterDTO)
 			throws ResourceNotFoundException {
-		User u = userRepository.findByUsername(request.getUserPrincipal().getName()).orElse(null);
-		assert u != null;
 
 		Meter m = meterRepository.findById(mid).orElseThrow(() -> new ResourceNotFoundException());
-		Iterable<UserMeterAssociation> umas = userMeterAssociationRepository.findAllByUserAndMeter(u, m);
-		for (UserMeterAssociation uma : umas) {
-			uma.setMeterName(meterDTO.getName());
-			userMeterAssociationRepository.save(uma);
+		Person p = personRepository.findByUsername(request.getUserPrincipal().getName()).orElse(null);
+		if (p.getRole().equals(Role.Admin)) {
+			Iterable<UserMeterAssociation> umas = userMeterAssociationRepository.findAllByMeter(m);
+			for (UserMeterAssociation uma : umas) {
+				uma.setMeterName(meterDTO.getName());
+				userMeterAssociationRepository.save(uma);
+			}
+		} else {
+			User u = userRepository.findByUsername(request.getUserPrincipal().getName()).orElse(null);
+			assert u != null;
+
+			Iterable<UserMeterAssociation> umas = userMeterAssociationRepository.findAllByUserAndMeter(u, m);
+			for (UserMeterAssociation uma : umas) {
+				uma.setMeterName(meterDTO.getName());
+				userMeterAssociationRepository.save(uma);
+			}
 		}
 
-		return null;
+		return dtoBuilder.meterDTO(m);
 	}
 
 	/**
@@ -253,7 +263,7 @@ public class MeterController {
 			assert u != null;
 			Iterable<UserMeterAssociation> umas = userMeterAssociationRepository.findAllByUserAndMeter(u, m);
 			List<Reading> readings = new ArrayList<>();
-			StreamSupport.stream(readingRepository.findAllByMeter(m).spliterator(), false).map(r -> r)
+			StreamSupport.stream(readingRepository.findByMeterOrderByCreatedAtDesc(m).spliterator(), false).map(r -> r)
 					.collect(Collectors.toList());
 			for (UserMeterAssociation uma : umas) {
 				LocalDateTime to = uma.getEndOfAssociation();
@@ -266,7 +276,7 @@ public class MeterController {
 					.collect(Collectors.toList());
 		}
 
-		return StreamSupport.stream(readingRepository.findAllByMeter(m).spliterator(), false)
+		return StreamSupport.stream(readingRepository.findByMeterOrderByCreatedAtDesc(m).spliterator(), false)
 				.map(r -> dtoBuilder.readingDTO(r)).collect(Collectors.toList());
 
 	}

@@ -40,7 +40,7 @@ public class UserMeterAssociationController {
 	@Autowired
 	DTOBuilder dtoBuilder;
 
-	@PutMapping("api/meters/{mid}/users")
+	@PutMapping("/api/meters/{mid}/users")
 	@CrossOrigin
 	public Boolean addMeterToUser(@RequestParam Long userId, @PathVariable Long mid) {
 		User u = userRepository.findById(userId).orElse(null);
