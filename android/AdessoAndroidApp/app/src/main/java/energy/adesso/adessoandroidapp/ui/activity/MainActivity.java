@@ -183,8 +183,9 @@ public class MainActivity extends AdessoActivity {
 
       @Override
       protected void onPostExecute(Pair<Meter, String> res) {
-        if (res.first == null || res.second == null) {
+        if (res == null || res.first == null || res.second == null) {
           Toast.makeText(a, R.string.generic_error_message, Toast.LENGTH_SHORT).show();
+          hideLoadingPopup();
           return;
         }
 
