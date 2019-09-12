@@ -53,7 +53,6 @@ export function buildReadingDTO(overrides?: Partial<ReadingDTO>): ReadingDTO {
   return {
     id: faker.random.number(),
     meterId: faker.random.number(),
-    ownerId: faker.random.number(),
     lastEditorName: faker.name.firstName() + ' ' + faker.name.lastName(),
     lastEditReason: faker.lorem.words(5),
     value: faker.random.number({ min: 1000000 }).toString(),

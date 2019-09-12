@@ -34,7 +34,6 @@ export interface Meter {
 export interface Reading {
   id: string;
   meterId: string;
-  ownerId: string;
   value: string;
   lastEditorName: string;
   lastEditReason: string;

@@ -17,8 +17,8 @@ const AdminDashboard: React.FC = () => {
     customerNumber: string,
     firstName: string,
     lastName: string,
-    password: string,
-    email: string
+    email: string,
+    password: string
   ) {
     addUser({ customerNumber, firstName, lastName, email, password }).then(
       success => {
