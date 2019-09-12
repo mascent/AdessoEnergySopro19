@@ -5,7 +5,7 @@ import LoginForm from './login-form';
 test('Login get Called with username and password', () => {
   const handler = jest.fn();
   const { getByLabelText, getByText } = render(<LoginForm onLogin={handler} />);
-  const username = getByLabelText('Benutzername');
+  const username = getByLabelText('Kundennummer');
   const password = getByLabelText('Passwort');
   const button = getByText('Login');
 
