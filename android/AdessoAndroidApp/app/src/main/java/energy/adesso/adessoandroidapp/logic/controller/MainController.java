@@ -6,8 +6,6 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.util.Base64;
 
-import androidx.arch.core.util.Function;
-
 import com.google.gson.Gson;
 
 import java.io.ByteArrayOutputStream;
