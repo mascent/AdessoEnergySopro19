@@ -1,5 +1,6 @@
 package de.sopro.repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.Query;
@@ -18,8 +19,9 @@ public interface UserMeterAssociationRepository extends CrudRepository<UserMeter
 
 	Iterable<UserMeterAssociation> findAllByUser(User user);
 
-	@Query(value = "Select uma FROM userMeterAssociation WHERE (uma.meterID = :meterID) AND (endOfAssociation is null)", nativeQuery = true)
-	List<UserMeterAssociation> findCurrentUserOfMeter(@Param("meterID") Long meterID);
+	//@Query(value = "Select uma FROM userMeterAssociation WHERE (uma.meterID = :meterID) AND (endOfAssociation is null)", nativeQuery = true)
+	//List<UserMeterAssociation> findCurrentUserOfMeter(@Param("meterID") Long meterID);
+	List<UserMeterAssociation> findByMeterAndEndOfAssociationIsNull(Meter meter);
 
 	// TODO create soft delte for associations
 	// void deleteByMeter(Meter meter);

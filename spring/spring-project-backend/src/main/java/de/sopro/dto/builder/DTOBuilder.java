@@ -40,7 +40,7 @@ public class DTOBuilder {
 
 	public MeterDTO meterDTO(Meter m) throws ResourceNotFoundException {
 
-		List<UserMeterAssociation> uma = umaRepo.findCurrentUserOfMeter(m.getMeterId());
+		List<UserMeterAssociation> uma = umaRepo.findByMeterAndEndOfAssociationIsNull(m);
 		User user = uma.size() > 0 ? uma.get(0).getUser() : null;
 
 		return meterDTO(m, user);
@@ -68,9 +68,9 @@ public class DTOBuilder {
 		}
 
 		// TODO
-		lastReading = rRepo.findByMeterAndCreatedAtBetweenOrderByCreatedAtDesc(m, m.getCreatedAt(), LocalDateTime.now())
+		lastReading = rRepo.findByMeterOrderByCreatedAtDesc(m)
 				.get(0);
-		return new MeterDTO(m, user.getPersonId(), name, readingDTO(lastReading));
+		return new MeterDTO(m, null, name, readingDTO(lastReading));
 
 	}
 

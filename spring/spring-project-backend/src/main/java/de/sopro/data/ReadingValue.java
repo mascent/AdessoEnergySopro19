@@ -46,6 +46,10 @@ public class ReadingValue {
 		lastChange = LocalDateTime.now();
 	}
 
+	public ReadingValue() {
+		
+	}
+	
 	public Long getReadingValueId() {
 		return readingValueId;
 	}

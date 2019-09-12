@@ -26,4 +26,6 @@ public interface ReadingRepository extends CrudRepository<Reading, Long> {
 	List<Reading> findByMeterAndCreatedAtBetweenOrderByCreatedAtDesc(Meter meter, LocalDateTime fromDate,
 			LocalDateTime toDate);
 
+	List<Reading> findByMeterOrderByCreatedAtDesc(Meter m);
+
 }
