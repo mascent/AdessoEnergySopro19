@@ -69,6 +69,12 @@ public class Reading {
 		}
 	}
 
+
+	public void update() {
+		this.updatedAt = LocalDateTime.now();
+		
+	}
+
 //	public ReadingValue getCurrentReadingValue() {
 //		LocalDateTime newestTime = getCreatedAt();
 //		ReadingValue newstValue = null;

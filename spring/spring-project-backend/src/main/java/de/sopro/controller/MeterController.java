@@ -9,6 +9,7 @@ import java.util.stream.StreamSupport;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -73,6 +74,7 @@ public class MeterController {
 	 * @return A list of meters.
 	 */
 	@GetMapping("/api/meters")
+	@CrossOrigin
 	public Iterable<MeterDTO> getMeters(HttpServletRequest request) {
 
 		Person p = personRepository.findByUsername(request.getUserPrincipal().getName()).orElse(null);
@@ -116,7 +118,8 @@ public class MeterController {
 	 * @return The ID of the created meter.
 	 * @throws ResourceNotFoundException
 	 */
-	@PostMapping("/api/meters")
+	@PostMapping(path = "/api/meters", params = { "meterNumber", "initialReading", "meterType" })
+	@CrossOrigin
 	public MeterDTO createMeter(HttpServletRequest request, @RequestParam String meterNumber,
 			@RequestParam Long initialReading, MeterType meterType) throws ResourceNotFoundException {
 		Person admin = personRepository.findByUsername(request.getUserPrincipal().getName()).orElse(null);
@@ -125,6 +128,26 @@ public class MeterController {
 		Reading nr = readingRepository.save(new Reading(m));
 		rvRepo.save(new ReadingValue(nr, initialReading, admin.getPersonId(), "newly created"));
 		return dtoBuilder.meterDTO(m);
+	}
+
+	@PostMapping(path = "/api/meters", params = { "meterDTO" })
+	@CrossOrigin
+	public MeterDTO createMeter(HttpServletRequest request, @RequestParam MeterDTO meterDTO)
+			throws ResourceNotFoundException {
+		switch (meterDTO.getType()) {
+		case "Gas":
+			return createMeter(request, meterDTO.getMeterNumber(), meterDTO.getLastReading().getValue(), MeterType.Gas);
+		case "Water":
+			return createMeter(request, meterDTO.getMeterNumber(), meterDTO.getLastReading().getValue(),
+					MeterType.Water);
+		case "Electricity":
+			return createMeter(request, meterDTO.getMeterNumber(), meterDTO.getLastReading().getValue(),
+					MeterType.Electricity);
+		default:
+			return null;
+
+		}
+
 	}
 
 	/**
@@ -137,6 +160,7 @@ public class MeterController {
 	 * @throws ResourceNotFoundException
 	 */
 	@GetMapping("/api/meters/{mid}")
+	@CrossOrigin
 	public MeterDTO getMeter(HttpServletRequest request, @PathVariable Long mid) throws ResourceNotFoundException {
 
 		Meter m = meterRepository.findById(mid).orElseThrow(() -> new ResourceNotFoundException());
@@ -161,7 +185,8 @@ public class MeterController {
 	 * @return A boolean that shows if the update was successful.
 	 * @throws ResourceNotFoundException
 	 */
-	@PutMapping("/api/meters/{mid}")
+	@PutMapping(path = "/api/meters/{mid}", params = { "meterName" })
+	@CrossOrigin
 	public ReadingDTO updateMeter(HttpServletRequest request, @PathVariable Long mid, String meterName)
 			throws ResourceNotFoundException {
 		User u = userRepository.findByUsername(request.getUserPrincipal().getName()).orElse(null);
@@ -176,6 +201,13 @@ public class MeterController {
 		return null;
 	}
 
+	@PutMapping(path = "/api/meters/{mid}", params = { "meterDTO" })
+	@CrossOrigin
+	public ReadingDTO updateMeter(HttpServletRequest request, @PathVariable Long mid, MeterDTO meterDTO)
+			throws ResourceNotFoundException {
+		return updateMeter(request, mid, meterDTO.getName());
+	}
+
 	/**
 	 * This method allows an admin to delete a meter out of the system.
 	 * 
@@ -185,6 +217,7 @@ public class MeterController {
 	 * @throws ResourceNotFoundException
 	 */
 	@DeleteMapping("/api/meters/{mid}")
+	@CrossOrigin
 	public Boolean deleteMeter(@PathVariable Long mid) throws ResourceNotFoundException {
 		Meter m = meterRepository.findById(mid).orElseThrow(() -> new ResourceNotFoundException());
 		m.delet();
@@ -202,6 +235,7 @@ public class MeterController {
 	 */
 
 	@GetMapping("/api/meters/{mid}/readings")
+	@CrossOrigin
 	public Iterable<ReadingDTO> lookUpReadings(HttpServletRequest request, @PathVariable Long mid) {
 
 		Person p = personRepository.findByUsername(request.getUserPrincipal().getName()).orElse(null);
@@ -245,8 +279,9 @@ public class MeterController {
 	 * @return A boolean that shows if the adding was successful.
 	 * @throws ResourceNotFoundException
 	 */
-	@PostMapping("/api/meters/{mid}/readings")
-	public Boolean addReading(HttpServletRequest request, @PathVariable Long mid, Long value)
+	@PostMapping(path = "/api/meters/{mid}/readings", params = { "value" })
+	@CrossOrigin
+	public Boolean addReading(HttpServletRequest request, @PathVariable Long mid, @RequestParam Long value)
 			throws ResourceNotFoundException {
 		Meter meter = meterRepository.findById(mid).orElseThrow(() -> new ResourceNotFoundException());
 		Person p = personRepository.findByUsername(request.getUserPrincipal().getName()).orElse(null);
@@ -269,6 +304,13 @@ public class MeterController {
 
 		return true;
 
+	}
+
+	@PostMapping("/api/meters/{mid}/readings")
+	@CrossOrigin
+	public Boolean addReading(HttpServletRequest request, @PathVariable Long mid, @RequestParam ReadingDTO readingDTO)
+			throws ResourceNotFoundException {
+		return addReading(request, mid, readingDTO.getValue());
 	}
 
 }

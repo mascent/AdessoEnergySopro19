@@ -121,9 +121,7 @@ public class Meter {
 		return updatedAt;
 	}
 
-	public void setUpdatedAt(LocalDateTime updatedAt) {
-		this.updatedAt = updatedAt;
-	}
+	
 
 	public int getLengthOfReading() {
 		return this.lengthOfReading;
@@ -135,6 +133,11 @@ public class Meter {
 
 	public void addReading(Long value) {
 
+	}
+
+	public void update() {
+		this.updatedAt = LocalDateTime.now();
+		
 	}
 
 

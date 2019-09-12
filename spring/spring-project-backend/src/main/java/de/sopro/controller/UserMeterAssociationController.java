@@ -30,6 +30,7 @@ public class UserMeterAssociationController {
 	MeterRepository meterRepository;
 
 	@PutMapping("api/meters/{mid}/users")
+	@CrossOrigin
 	public Boolean addMeterToUser(@RequestParam Long userId, @PathVariable Long mid) {
 		User u = userRepository.findById(userId).orElse(null);
 		if (u == null) {
