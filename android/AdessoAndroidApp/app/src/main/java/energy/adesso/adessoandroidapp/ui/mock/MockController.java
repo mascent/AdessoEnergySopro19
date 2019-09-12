@@ -42,7 +42,4 @@ public class MockController extends MainController {
     return new Pair<>(new MockMeter("Name1", "12345", MeterKind.ELECTRIC, lastReading).toMeter(), "Mocked Man");
   }
 
-  public static void sendIssue(Issue issue) {
-
-  }
 }

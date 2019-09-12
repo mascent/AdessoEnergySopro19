@@ -7,11 +7,8 @@ import energy.adesso.adessoandroidapp.logic.model.exception.NetworkException;
 import energy.adesso.adessoandroidapp.logic.model.identifiable.Issue;
 
 public class MockIssue extends Issue {
+
   public MockIssue(long id) {
     super(id);
-  }
-
-  @Override
-  public void send() throws NetworkException {
   }
 }
