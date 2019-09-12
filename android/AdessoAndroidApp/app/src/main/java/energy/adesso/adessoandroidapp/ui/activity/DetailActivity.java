@@ -67,7 +67,9 @@ public class DetailActivity extends AdessoActivity {
     showEditTextDialog(new DialogInterface.OnClickListener() {
                          @Override
                          public void onClick(DialogInterface dialog, int which) {
-                           newEntryAsync(getEditTextDialogTextbox(dialog).getText().toString());
+                           String entry = getEditTextDialogTextbox(dialog).getText().toString();
+                           entry = entry.replace(",", "");
+                           newEntryAsync(entry);
                          }
                        }, new DialogInterface.OnClickListener() {
                          @Override
@@ -210,7 +212,7 @@ public class DetailActivity extends AdessoActivity {
       protected AdessoException doInBackground(String... strs) {
         for (String s : strs) {
           try {
-            m.setName(s); // TODO: This doesn't return
+            m.setName(s);
           } catch (AdessoException e) {
             return e;
           }
@@ -276,8 +278,10 @@ public class DetailActivity extends AdessoActivity {
 
       @Override
       protected void onPostExecute(AdessoException e) {
-        e.printStackTrace();
-        Toast.makeText(a, R.string.generic_error_message, Toast.LENGTH_SHORT).show();
+        if (e != null) {
+          e.printStackTrace();
+          Toast.makeText(a, R.string.generic_error_message, Toast.LENGTH_SHORT).show();
+        }
         hideLoadingPopup();
       }
     }.execute(entry);
