@@ -2,20 +2,21 @@ package de.sopro.controller;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.Gson;
-
 import de.sopro.data.MeterType;
 import de.sopro.dto.PictureResponseDTO;
 import de.sopro.response.classify.Classifications;
@@ -33,7 +34,7 @@ import okhttp3.Response;
 import okhttp3.RequestBody;
 
 /**
- * The PictureController fetches requests containing pcitures and sends them to
+ * The PictureController fetches requests containing pictures and sends them to
  * the AzureWrapper.
  *
  */
@@ -59,27 +60,35 @@ public class PictureController {
 	 */
 
 	@PostMapping(path = "/api/picture")
-	public PictureResponseDTO analyze(@RequestParam("file") MultipartFile file) throws IOException {
+	public PictureResponseDTO analyze(@RequestParam("file") String file) throws IOException {
 
 		File curr = null;
-
+		
+		byte[] byteArray = Base64.decodeBase64(file.getBytes());
+		
+		
 		if (!file.isEmpty()) {
 			try {
-				String uploadsDir = "/uploads";
-				String realPathtoUploads = request.getServletContext().getRealPath(uploadsDir);
-				if (!new File(realPathtoUploads).exists()) {
-					new File(realPathtoUploads).mkdir();
+				String uploadsDir = "/uploads/";
+				if (!new File(uploadsDir).exists()) {
+					new File(uploadsDir).mkdir();
 				}
-				curr = new File(realPathtoUploads);
+				curr = new File(uploadsDir + "abcd.png");
 			} catch (Exception e) {
 				System.out.println("Test");
 			}
 
-			file.transferTo(curr);
+			try {
+				OutputStream stream = new FileOutputStream(curr);
+				stream.write(byteArray);
+				stream.close();
+			} catch  (Exception e){
+				// TODO: handle exception
+			}
 			BufferedImage bimb = ImageIO.read(curr);
 			
 			// check if all requirements are met
-			if ((file.getSize() < 4000000) && azureRequirements(bimb)) {
+			if ( (curr.length()< 4000000) && azureRequirements(bimb)) {
 
 				// Classification
 				HttpUrl.Builder classifyUrlBuilder = HttpUrl.parse(CLASSIFY).newBuilder();
@@ -87,7 +96,7 @@ public class PictureController {
 
 				RequestBody classifyRequestBody = new MultipartBody.Builder()
 						.setType(MultipartBody.FORM).addFormDataPart("team", TEAM).addFormDataPart("file",
-								file.getOriginalFilename(), RequestBody.create(curr, MediaType.parse("image/png")))
+								curr.getAbsolutePath(), RequestBody.create(curr, MediaType.parse("image/png")))
 						.build();
 
 				Request classifyRequest = new Request.Builder().post(classifyRequestBody).url(classifyUrl).build();
@@ -104,7 +113,7 @@ public class PictureController {
 
 				RequestBody detectionRequestBody = new MultipartBody.Builder()
 						.setType(MultipartBody.FORM).addFormDataPart("team", TEAM).addFormDataPart("file",
-								file.getOriginalFilename(), RequestBody.create(curr, MediaType.parse("image/jpeg")))
+								curr.getAbsolutePath(), RequestBody.create(curr, MediaType.parse("image/jpeg")))
 						.build();
 
 				Request detectionRequest = new Request.Builder().post(detectionRequestBody).url(detectionUrl).build();
@@ -119,7 +128,7 @@ public class PictureController {
 				String parseUrl = parseUrlBuilder.build().toString();
 
 				RequestBody parseRequestBody = new MultipartBody.Builder().addFormDataPart("file",
-						file.getOriginalFilename(), RequestBody.create(curr, MediaType.parse("image/jpeg"))).build();
+						curr.getAbsolutePath(), RequestBody.create(curr, MediaType.parse("image/jpeg"))).build();
 
 				Request parseRequest = new Request.Builder().post(parseRequestBody).url(parseUrl).build();
 
