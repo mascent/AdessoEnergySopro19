@@ -121,35 +121,21 @@ public class MainActivity extends AdessoActivity {
         showLogoutMenu();
         return true;
       case R.id.choose_server:
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(R.string.menu_main_choose_server_button);
-
-        // Set up textbox
-        final EditText input = new EditText(this);
-        input.setInputType(InputType.TYPE_CLASS_TEXT);
-        input.setPadding(24, 24, 24, 24);
-        input.layout(24, 24, 24, 24);
-        builder.setView(input);
-
-        // Set up events
-        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+        showEditTextDialog(new DialogInterface.OnClickListener() {
           @Override
           public void onClick(DialogInterface dialog, int which) {
             try {
-              MockController.setServer(input.getText().toString());
+              MockController.setServer(getEditTextDialogTextbox(dialog).getText().toString());
             } catch (IllegalFormatException e) {
               Toast.makeText(a, R.string.generic_error_message, Toast.LENGTH_SHORT).show();
             }
           }
-        });
-        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+        }, new DialogInterface.OnClickListener() {
           @Override
           public void onClick(DialogInterface dialog, int which) {
             dialog.cancel();
           }
-        });
-
-        builder.show();
+        }, "", "", "");
         return true;
       default:
         return super.onOptionsItemSelected(item);

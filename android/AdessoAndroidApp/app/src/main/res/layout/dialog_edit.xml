@@ -15,14 +15,14 @@
         android:paddingEnd="8dp">
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/dialogImageView"
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:foreground="@drawable/icon_edit"
             android:foregroundTint="@color/colorPrimaryDark" />
 
         <EditText
-            android:id="@+id/editTextBox"
+            android:id="@+id/dialogEditTextBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/lightGray"
@@ -32,7 +32,7 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/listElementBottomText"
+        android:id="@+id/dialogBottomText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center_horizontal"

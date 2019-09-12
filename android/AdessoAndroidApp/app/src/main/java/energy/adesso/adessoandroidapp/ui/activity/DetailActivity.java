@@ -7,7 +7,6 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 
@@ -20,6 +19,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.IllegalFormatException;
 import java.util.List;
 
 import energy.adesso.adessoandroidapp.R;
@@ -29,6 +29,7 @@ import energy.adesso.adessoandroidapp.logic.model.exception.AdessoException;
 import energy.adesso.adessoandroidapp.logic.model.identifiable.Meter;
 import energy.adesso.adessoandroidapp.logic.model.identifiable.Reading;
 import energy.adesso.adessoandroidapp.ui.adapter.ReadingAdapter;
+import energy.adesso.adessoandroidapp.ui.mock.MockController;
 
 public class DetailActivity extends AdessoActivity {
   DetailActivity a = this;
@@ -67,60 +68,32 @@ public class DetailActivity extends AdessoActivity {
   }
 
   public void onNewEntryClick(View view) {
-    AlertDialog.Builder builder = new AlertDialog.Builder(this);
-    builder.setTitle(R.string.new_input_title);
-
-    // Set up textbox
-    LinearLayout l = (LinearLayout) getLayoutInflater().
-        inflate(R.layout.dialog_edit, null);
-    final EditText input = (EditText) l.findViewById(R.id.editTextBox);
-    input.setText(R.string.new_input_messsage);
-    input.setInputType(InputType.TYPE_CLASS_TEXT);
-    builder.setView(l);
-
-    // Set up events
-    builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-      @Override
-      public void onClick(DialogInterface dialog, int which) {
-        newEntryAsync(input.getText().toString());
-      }
-    });
-    builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-      @Override
-      public void onClick(DialogInterface dialog, int which) {
-        dialog.cancel();
-      }
-    });
-
-    builder.show();
+    showEditTextDialog(new DialogInterface.OnClickListener() {
+                         @Override
+                         public void onClick(DialogInterface dialog, int which) {
+                           newEntryAsync(getEditTextDialogTextbox(dialog).getText().toString());
+                         }
+                       }, new DialogInterface.OnClickListener() {
+                         @Override
+                         public void onClick(DialogInterface dialog, int which) {
+                           dialog.cancel();
+                         }
+                       }, getString(R.string.new_input_title), getString(R.string.new_input_messsage),
+        "");
   }
 
   public void onEditClick(View view) {
-    AlertDialog.Builder builder = new AlertDialog.Builder(this);
-    builder.setTitle(R.string.detail_edit_name_title);
-
-    // Set up textbox
-    LinearLayout l = (LinearLayout) getLayoutInflater().
-        inflate(R.layout.dialog_edit, null);
-    final EditText input = (EditText) l.findViewById(R.id.name);
-    input.setText(m.getName());
-    builder.setView(l);
-
-    // Set up events
-    builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-      @Override
-      public void onClick(DialogInterface dialog, int which) {
-        setNameAsync(input.getText().toString());
-      }
-    });
-    builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-      @Override
-      public void onClick(DialogInterface dialog, int which) {
-        dialog.cancel();
-      }
-    });
-
-    builder.show();
+    showEditTextDialog(new DialogInterface.OnClickListener() {
+                         @Override
+                         public void onClick(DialogInterface dialog, int which) {
+                           setNameAsync(getEditTextDialogTextbox(dialog).getText().toString());
+                         }
+                       }, new DialogInterface.OnClickListener() {
+                         @Override
+                         public void onClick(DialogInterface dialog, int which) {
+                           dialog.cancel();
+                         }
+                       }, getString(R.string.detail_edit_name_title), "", m.getName());
   }
 
   public void onGraphClick(View view) {
@@ -142,9 +115,6 @@ public class DetailActivity extends AdessoActivity {
     outState.putSerializable(meterKey, m);
     super.onSaveInstanceState(outState);
   }
-
-  @Override
-  public void onRestoreInstanceState(Bundle savedInstanceState) { }
 
 
   void listReadings() {
@@ -174,33 +144,20 @@ public class DetailActivity extends AdessoActivity {
   }
 
   void showCorrectDialog(final int position) {
-    AlertDialog.Builder builder = new AlertDialog.Builder(a);
-    builder.setTitle(R.string.detail_correct_dialog_title);
-    builder.setMessage(R.string.detail_correct_dialog_desc);
-
-    // Set up textbox
-    LinearLayout l = (LinearLayout) getLayoutInflater().
-        inflate(R.layout.dialog_edit, null);
-    final EditText input = (EditText) l.findViewById(R.id.name);
-    input.setText(readings.get(position).getValue());
-    ((TextView) l.findViewById(R.id.listElementBottomText)).setText("");
-    builder.setView(l);
-
-    // Set up events
-    builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+    showEditTextDialog(new DialogInterface.OnClickListener() {
       @Override
       public void onClick(DialogInterface dialog, int which) {
-        correctReadingAsync(new Pair<Integer, String>(position, input.getText().toString()));
+        correctReadingAsync(new Pair<>(position,
+            getEditTextDialogTextbox(dialog).getText().toString()));
       }
-    });
-    builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+    }, new DialogInterface.OnClickListener() {
       @Override
       public void onClick(DialogInterface dialog, int which) {
         dialog.cancel();
       }
-    });
-
-    builder.show();
+    }, getString(R.string.detail_correct_dialog_title),
+        getString(R.string.detail_correct_dialog_desc),
+        readings.get(position).getValue());
   }
 
   void updateTitleInfo() {
