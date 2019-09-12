@@ -76,7 +76,7 @@
                 android:backgroundTint="@color/lightGray"
                 android:ems="10"
                 android:hint="@string/number_hint"
-                android:inputType="text" />
+                android:inputType="textShortMessage" />
 
             <EditText
                 android:id="@+id/pass"

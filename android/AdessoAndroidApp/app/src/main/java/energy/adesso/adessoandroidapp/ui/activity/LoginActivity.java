@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,14 +41,8 @@ public class LoginActivity extends AdessoActivity {
 
   @SuppressWarnings("ALL")
   public void onLoginClick(View view) {
-    final TextView numView = findViewById(R.id.number);
-    final TextView passView = findViewById(R.id.pass);
-
-    final String num = numView.getText().toString();
-    final String pass = passView.getText().toString();
-
-    numView.setText("");
-    passView.setText("");
+    final String num = ((TextView)findViewById(R.id.number)).getText().toString();
+    final String pass = ((TextView)findViewById(R.id.pass)).getText().toString();
 
     doLoginAsync(new Pair<>(num, pass));
   }
@@ -68,7 +63,8 @@ public class LoginActivity extends AdessoActivity {
 
   void doLoginAsync(Pair<String, String> p) {
     showLoadingPopup();
-    @SuppressLint("StaticFieldLeak") AsyncTask<Pair<String, String>, Void, Boolean> execute = new AsyncTask<Pair<String, String>, Void, Boolean>() {
+    @SuppressWarnings("unchecked") @SuppressLint("StaticFieldLeak")
+    AsyncTask<Pair<String, String>, Void, Boolean> execute = new AsyncTask<Pair<String, String>, Void, Boolean>() {
       @Override
       protected Boolean doInBackground(Pair<String, String>... p) {
         for (int i = 0; i < p.length; i++) {
@@ -81,6 +77,8 @@ public class LoginActivity extends AdessoActivity {
       @Override
       protected void onPostExecute(Boolean succ) {
         if (succ) {
+          ((TextView)findViewById(R.id.number)).setText("");
+          ((TextView)findViewById(R.id.pass)).setText("");
           startActivity(new Intent(a, MainActivity.class).
               addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK));
         } else {
