@@ -101,6 +101,11 @@ public class DetailActivity extends AdessoActivity {
     else if (m.getKind().equals(MeterKind.WATER))
       unit = getString(R.string.waterUnit);
 
+    if (readings.size() == 0) {
+      Toast.makeText(this, R.string.graph_on_empty_readings, Toast.LENGTH_SHORT).show();
+      return;
+    }
+
     startActivity(new Intent(this, GraphActivity.class).
         putExtra("readings", readings.toArray()).
         putExtra("unit", unit));
@@ -215,10 +220,12 @@ public class DetailActivity extends AdessoActivity {
 
       @Override
       protected void onPostExecute(AdessoException e) {
-        e.printStackTrace();
-        Toast.makeText(a, R.string.generic_error_message, Toast.LENGTH_SHORT).show();
-        updateTitleInfo();
-        hideLoadingPopup();
+        if (e != null) {
+          e.printStackTrace();
+          Toast.makeText(a, R.string.generic_error_message, Toast.LENGTH_SHORT).show();
+          updateTitleInfo();
+          hideLoadingPopup();
+        }
       }
     }.execute(s);
   }

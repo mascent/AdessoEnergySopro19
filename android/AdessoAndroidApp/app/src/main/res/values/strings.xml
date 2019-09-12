@@ -48,4 +48,5 @@
     <string name="loading_text">Lade Daten...</string>
     <string name="mock_username">jd172</string>
     <string name="mock_password">password</string>
+    <string name="graph_on_empty_readings">Zum Anzeigen des Graphs sind mindestens 2 Messstände notwendig</string>
 </resources>

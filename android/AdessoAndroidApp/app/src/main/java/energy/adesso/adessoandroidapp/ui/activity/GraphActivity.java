@@ -34,8 +34,10 @@ public class GraphActivity extends AdessoActivity {
     String unit = getIntent().getStringExtra("unit");
     GraphView graph = findViewById(R.id.graphView);
 
+    if (values == null || values.length == 0)
+      return;
+
     // Convert to points
-    assert values != null;
     DataPoint[] points = new DataPoint[values.length];
     for (int i = 0; i < points.length; i++)
       points[i] = new DataPoint(values[i].getCreatedAt().getMillis(),
