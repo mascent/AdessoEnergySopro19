@@ -1,3 +1,6 @@
+# Only update if needed
+application.properties
+
 # InteliJ stuff
 .idea
 .idea/
