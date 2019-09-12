@@ -42,8 +42,7 @@ public class ReadingAdapter extends ArrayAdapter<Reading> {
     ((ImageView) listElement.getChildAt(0)).setImageDrawable(icon);
 
     LinearLayout childLayout = ((LinearLayout) listElement.getChildAt(1));
-//    ((TextView) childLayout.getChildAt(0)).setText(r.getCreatedAt().toLocalDate().
-//        toString("dd.MM.yyyy"));
+    ((TextView) childLayout.getChildAt(0)).setText(r.getCreatedString());
     ((TextView) childLayout.getChildAt(1)).setText("");
     childLayout.getChildAt(1).setLayoutParams(
         new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
