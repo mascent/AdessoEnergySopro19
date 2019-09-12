@@ -13,7 +13,6 @@ interface MeterItemProps {
   name: string;
   meterNumber: string;
   date: string;
-  trend: number;
 }
 
 const MeterItem: React.FC<MeterItemProps> = ({
@@ -21,8 +20,7 @@ const MeterItem: React.FC<MeterItemProps> = ({
   type,
   name,
   meterNumber,
-  date,
-  trend
+  date
 }) => {
   return (
     <Link
@@ -44,12 +42,7 @@ const MeterItem: React.FC<MeterItemProps> = ({
         </div>
         <div className={styles.textContainer}>
           <Span>{meterNumber}</Span>
-          <Span
-            className={cx({
-              [styles.goodTrend]: trend < 0,
-              [styles.badTrend]: trend > 0
-            })}
-          >{`${trend > 0 ? `+${trend}` : trend}%`}</Span>
+          <Span>&nbsp;</Span>
         </div>
       </div>
       <Chevron className={styles.arrow} />

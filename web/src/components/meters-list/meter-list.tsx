@@ -27,7 +27,6 @@ const MeterList: React.FC<MeterListProps> = ({ meters }) => {
             type={meter.type}
             meterNumber={meter.meterNumber}
             date={meter.lastReading.createdAt.toLocaleDateString()}
-            trend={meter.lastReading.trend}
             name={meter.name}
           />
         ))}

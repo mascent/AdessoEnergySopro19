@@ -33,7 +33,6 @@ storiesOf('Dashboard Content | MeterItem', module)
         name={text('Name', 'Zählername')}
         meterNumber={text('Zählernummer', '23.2402.44')}
         date={text('Datum', '24/10/2994')}
-        trend={number('Trend', 4)}
       />
     </WithRouter>
   ));
