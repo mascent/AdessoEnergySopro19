@@ -173,7 +173,7 @@ public class MainController {
    */
 
   public static List<Meter> getOverview() throws NetworkException, CredentialException {
-    String request = "/api/users/me/meters/";
+    String request = "/api/users/me/meters";
     String response = NetworkController.get(request);
     Type type = new TypeToken<List<Meter>>() {
     }.getType();
@@ -181,7 +181,7 @@ public class MainController {
   }
 
   public static List<Meter> getOverviewPaged() throws NetworkException, CredentialException {
-    String request = "/api/users/me/meters/";
+    String request = "/api/users/me/meters";
     return new PagingHelper<Meter>().getAll(request);
   }
 
