@@ -62,6 +62,7 @@ public class LoginActivity extends AdessoActivity {
     Toast.makeText(this, R.string.not_implemented_message, Toast.LENGTH_SHORT).show();
   }
 
+
   boolean login(String usernumber, String password) {
     try {
       MockController.login(usernumber, password);

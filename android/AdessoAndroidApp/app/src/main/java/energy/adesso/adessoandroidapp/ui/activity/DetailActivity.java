@@ -243,6 +243,7 @@ public class DetailActivity extends AdessoActivity {
   }
 
   void setNameAsync(String s) {
+    showLoadingPopup();
     @SuppressLint("StaticFieldLeak") AsyncTask<String, Void, AdessoException> execute = new AsyncTask<String, Void, AdessoException>() {
       @Override
       protected AdessoException doInBackground(String... strs) {
@@ -261,12 +262,14 @@ public class DetailActivity extends AdessoActivity {
         e.printStackTrace();
         Toast.makeText(a, R.string.generic_error_message, Toast.LENGTH_SHORT).show();
         updateTitleInfo();
+        hideLoadingPopup();
       }
     }.execute(s);
   }
 
   void correctReadingAsync(Pair<Integer, String> p) {
-    AsyncTask<Pair<Integer, String>, Void, AdessoException> execute = new AsyncTask<Pair<Integer, String>, Void, AdessoException>() {
+    showLoadingPopup();
+    @SuppressLint("StaticFieldLeak") AsyncTask<Pair<Integer, String>, Void, AdessoException> execute = new AsyncTask<Pair<Integer, String>, Void, AdessoException>() {
       @Override
       protected AdessoException doInBackground(Pair<Integer, String>... ps) {
         for (Pair<Integer, String> p : ps) {
@@ -288,11 +291,13 @@ public class DetailActivity extends AdessoActivity {
           Toast.makeText(a, R.string.generic_error_message,
               Toast.LENGTH_SHORT).show();
         }
+        hideLoadingPopup();
       }
     }.execute(p);
   }
 
   void newEntryAsync(String entry) {
+    showLoadingPopup();
     @SuppressLint("StaticFieldLeak") AsyncTask<String, Void, AdessoException> execute = new AsyncTask<String, Void, AdessoException>() {
       @Override
       protected AdessoException doInBackground(String... strs) {
@@ -310,6 +315,7 @@ public class DetailActivity extends AdessoActivity {
       protected void onPostExecute(AdessoException e) {
         e.printStackTrace();
         Toast.makeText(a, R.string.generic_error_message, Toast.LENGTH_SHORT).show();
+        hideLoadingPopup();
       }
     }.execute(entry);
   }
