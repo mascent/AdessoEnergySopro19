@@ -1,0 +1,100 @@
+@import 'theme/colors';
+@import 'theme/fonts';
+@import 'theme/shadows';
+
+.snackbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px;
+  background: $color-grey-900;
+  border-radius: 4px;
+  width: 60%;
+  max-width: 500px;
+  box-shadow: $shadow-400;
+
+  &--enter {
+    opacity: 0.01;
+    box-shadow: none;
+  }
+
+  &--enter-active {
+    opacity: 1;
+    box-shadow: $shadow-400;
+    transition: all 200ms ease-in-out;
+  }
+
+  &--exit {
+    opacity: 1;
+    box-shadow: $shadow-400;
+  }
+
+  &--exit-active {
+    opacity: 0.01;
+    box-shadow: none;
+    transition: all 200ms ease-in-out;
+  }
+
+  &[data-type='error'] {
+    border-top: 5px solid $color-red-500;
+  }
+
+  &[data-type='success'] {
+    border-top: 5px solid $color-green-500;
+  }
+
+  &[data-type='info'] {
+    border-top: 5px solid $color-blue-500;
+  }
+
+  &[data-type='warning'] {
+    border-top: 5px solid $color-yellow-500;
+  }
+}
+
+.text {
+  @extend %font-paragraph;
+  margin: 0 12px 0 0;
+  color: $color-grey-050;
+}
+
+.action {
+  background: none;
+  border: none;
+  padding: none;
+  text-transform: uppercase;
+  font-weight: 500;
+  margin: 0 12px 0 0;
+
+  cursor: pointer;
+  color: $color-grey-400;
+  transition: color 200ms ease-in-out;
+
+  &:hover {
+    color: $color-grey-200;
+  }
+
+  &:focus {
+    color: $color-grey-200;
+    outline-color: $color-yellow-500;
+  }
+}
+
+.closeButton {
+  padding: 0;
+  border: none;
+  background: none;
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: color 200ms ease-in-out;
+  color: $color-grey-400;
+
+  &:hover {
+    color: $color-grey-200;
+  }
+
+  &:focus {
+    color: $color-grey-200;
+    outline-color: $color-yellow-500;
+  }
+}

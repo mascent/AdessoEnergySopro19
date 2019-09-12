@@ -1,0 +1,26 @@
+@import 'theme/spacings';
+
+.loginForm {
+  display: flex;
+  flex-direction: column;
+  max-width: $spacing-384;
+  width: 100%;
+
+  & > :first-child {
+    margin-bottom: $spacing-24;
+  }
+}
+
+.buttonForm {
+  align-self: flex-end;
+}
+
+.loginContainer {
+  display: flex;
+  align-items: center;
+}
+
+.illustrationsForm {
+  margin-right: $spacing-64;
+  max-width: $spacing-384;
+}

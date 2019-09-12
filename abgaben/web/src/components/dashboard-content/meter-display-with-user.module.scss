@@ -1,0 +1,18 @@
+@import 'theme/spacings';
+@import 'theme/colors';
+
+.container {
+  display: flex;
+  height: 100%;
+}
+
+.router {
+  width: 100%;
+}
+
+.contentContainer {
+  display: flex;
+  // justify-content: center;
+  // align-items: center;
+  flex-grow: 2;
+}

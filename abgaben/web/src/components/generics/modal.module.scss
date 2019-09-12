@@ -1,0 +1,21 @@
+@import 'theme/colors';
+@import 'theme/spacings';
+
+.modalHeader {
+  box-sizing: border-box;
+  border-bottom: 1px solid $color-grey-300;
+  margin: 0;
+  margin-bottom: $spacing-16;
+  padding-bottom: $spacing-4;
+}
+
+.modalBody {
+  max-height: 750px;
+  overflow-y: auto;
+}
+
+.modalFooter {
+  margin-top: $spacing-16;
+  display: flex;
+  justify-content: flex-end;
+}

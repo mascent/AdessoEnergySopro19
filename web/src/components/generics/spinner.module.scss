@@ -1,0 +1,38 @@
+@import 'theme/colors';
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spinner {
+  box-sizing: border-box;
+  line-height: 1;
+  border: 0.12em solid $color-grey-300;
+  border-top: 0.12em solid $color-yellow-600;
+  border-radius: 100%;
+  animation: spin 0.6s infinite linear;
+  will-change: transform;
+
+  &[data-size='small'] {
+    width: 24px;
+    height: 24px;
+    font-size: 24px;
+  }
+
+  &[data-size='medium'] {
+    width: 36px;
+    height: 36px;
+    font-size: 36px;
+  }
+
+  &[data-size='large'] {
+    width: 64px;
+    height: 64px;
+    font-size: 64px;
+  }
+}

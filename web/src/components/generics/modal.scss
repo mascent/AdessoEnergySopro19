@@ -1,0 +1,44 @@
+// The modal is styled by overriding classes provided by react-modal.
+// So this  can not be a module, otherwise the class names
+//would be hashed during compilation.
+@import 'theme/colors';
+@import 'theme/fonts';
+@import 'theme/shadows';
+
+.react-modal-content {
+  position: fixed;
+  top: 24px;
+  left: 50%;
+  right: 50%;
+  transform: translateX(-50%);
+  width: fit-content;
+  max-width: 600px;
+  height: fit-content;
+  background: $color-white;
+  padding: $spacing-24;
+  border-radius: 4px;
+  box-shadow: $shadow-500;
+  outline-color: $color-yellow-500;
+}
+
+.react-modal-overlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(black, 0.25);
+}
+
+.ReactModal__Overlay {
+  opacity: 0;
+  transition: opacity 200ms ease-in-out;
+
+  &--after-open {
+    opacity: 1;
+  }
+
+  &--before-close {
+    opacity: 0;
+  }
+}

@@ -1,0 +1,19 @@
+@import 'theme/spacings';
+
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  margin-bottom: $spacing-24;
+}
+
+.buttons {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.cancelButton {
+  margin-right: $spacing-12;
+}

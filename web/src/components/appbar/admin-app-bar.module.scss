@@ -1,0 +1,40 @@
+@import 'theme/colors';
+@import 'theme/spacings';
+@import 'theme/shadows';
+
+.adminAppBar {
+  box-sizing: border-box;
+  background-color: $color-blue-800;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: $spacing-64;
+  height: 100vh;
+  padding: $spacing-24 0;
+  box-shadow: $shadow-300;
+  z-index: 1;
+  flex-shrink: 0;
+}
+
+.logo {
+  width: 42px !important;
+  height: 42px !important;
+}
+
+.button {
+  &[data-active='true'] {
+    color: $color-grey-100;
+    background-color: $color-blue-500;
+  }
+}
+
+.topContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  & > * {
+    margin-bottom: $spacing-16;
+  }
+}
