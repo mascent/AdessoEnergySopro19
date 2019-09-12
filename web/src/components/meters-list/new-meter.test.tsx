@@ -4,7 +4,9 @@ import NewMeter from './new-meter';
 
 test('New Meter sends Informationen', () => {
   const handler = jest.fn();
-  const { getByLabelText, getByText } = render(<NewMeter onCreate={handler} />);
+  const { getByLabelText, getByText } = render(
+    <NewMeter onCancel={() => {}} onCreate={handler} />
+  );
 
   const metertype = getByLabelText('Zählertyp');
   const name = getByLabelText('Name');
@@ -14,7 +16,7 @@ test('New Meter sends Informationen', () => {
   const button = getByText('Erstellen');
 
   fireEvent.change(name, { target: { value: 'Wasserzähler' } });
-  fireEvent.change(metertype, { target: { value: 'water' } });
+  fireEvent.change(metertype, { target: { value: 'Water' } });
   fireEvent.change(meterNumber, { target: { value: '42' } });
   fireEvent.change(initialValue, { target: { value: '0' } });
 
@@ -25,7 +27,9 @@ test('New Meter sends Informationen', () => {
 
 test('New Meter sends right Informationen', () => {
   const handler = jest.fn();
-  const { getByLabelText, getByText } = render(<NewMeter onCreate={handler} />);
+  const { getByLabelText, getByText } = render(
+    <NewMeter onCancel={() => {}} onCreate={handler} />
+  );
 
   const metertype = getByLabelText('Zählertyp');
   const name = getByLabelText('Name');
@@ -35,18 +39,20 @@ test('New Meter sends right Informationen', () => {
   const button = getByText('Erstellen');
 
   fireEvent.change(name, { target: { value: 'Wasserzähler' } });
-  fireEvent.change(metertype, { target: { value: 'water' } });
+  fireEvent.change(metertype, { target: { value: 'Water' } });
   fireEvent.change(meterNumber, { target: { value: '42' } });
   fireEvent.change(initialValue, { target: { value: '0' } });
 
   fireEvent.click(button);
 
-  expect(handler).toBeCalledWith('water', 'Wasserzähler', '42', '0');
+  expect(handler).toBeCalledWith('Water', 'Wasserzähler', '42', '0');
 });
 
 test('New Meter dont send Information when Information are missing', () => {
   const handler = jest.fn();
-  const { getByLabelText, getByText } = render(<NewMeter onCreate={handler} />);
+  const { getByLabelText, getByText } = render(
+    <NewMeter onCancel={() => {}} onCreate={handler} />
+  );
 
   const metertype = getByLabelText('Zählertyp');
   const meterNumber = getByLabelText('Zählernummer');
@@ -54,7 +60,7 @@ test('New Meter dont send Information when Information are missing', () => {
 
   const button = getByText('Erstellen');
 
-  fireEvent.change(metertype, { target: { value: 'water' } });
+  fireEvent.change(metertype, { target: { value: 'Water' } });
   fireEvent.change(meterNumber, { target: { value: '42' } });
   fireEvent.change(initialValue, { target: { value: '0' } });
 
