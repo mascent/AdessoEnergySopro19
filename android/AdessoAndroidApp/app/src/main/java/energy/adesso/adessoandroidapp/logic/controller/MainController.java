@@ -82,6 +82,7 @@ public class MainController {
   public static void login(String username, String password) throws NetworkException, CredentialException {
     if (username == null || password == null)
       throw new CredentialException();
+
     // Send
     NetworkController.setCredentials(username, password);
     String reString = NetworkController.get("/api/login");
@@ -208,6 +209,9 @@ public class MainController {
   }
 
   public static boolean isLoggedIn() {
+    if (NetworkController.getUsername() == null)
+      return false;
+
     // check if persistent state and local copy are identical
     boolean meLoggedIn = persistence.load("username") != null;
     boolean netLoggedIn = NetworkController.isLoggedIn();

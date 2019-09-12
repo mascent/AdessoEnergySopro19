@@ -30,7 +30,7 @@ public class MeterAndReadingsTest {
   // @Test
   public void testMeterOperationsMock() throws AdessoException {
 
-    String uid = "ichbineineuidichbincool";
+    Long uid = 125151L;
     String username = "thelegend27";
     String password = "password1";
 

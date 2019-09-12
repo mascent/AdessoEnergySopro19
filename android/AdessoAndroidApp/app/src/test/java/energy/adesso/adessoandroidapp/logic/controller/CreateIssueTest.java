@@ -71,7 +71,7 @@ public class CreateIssueTest {
       e.printStackTrace();
     }
 
-    Issue i = new Issue(null);
+    Issue i = new Issue(12345);
     i.setEmail(email);
     i.setName(name);
     i.setSubject(subject);
@@ -132,7 +132,7 @@ public class CreateIssueTest {
       e.printStackTrace();
     }
 
-    Issue i = new Issue(null);
+    Issue i = new Issue(12345);
     i.setEmail(email);
     i.setName(name);
     i.setSubject(subject);

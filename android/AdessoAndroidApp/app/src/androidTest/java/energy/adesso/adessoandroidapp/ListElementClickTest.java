@@ -29,13 +29,13 @@ import static org.hamcrest.core.AllOf.allOf;
 import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.assertThat;
 
-public class ListElementClickTest {
+public class ListElementClickTest extends AdessoTest {
   @Rule
   public IntentsTestRule<MainActivity> mActivity = new IntentsTestRule<MainActivity>(MainActivity.class);
 
   @Test
   public void clickElec() {
-    if (hasChildren(R.id.elecList)) {
+    if (hasChildren(R.id.elecList, mActivity.getActivity())) {
       onView(allOf(
           isDescendantOfA(withId(R.id.elecList)),
           withId(1))).perform(click());
@@ -57,7 +57,7 @@ public class ListElementClickTest {
 
   @Test
   public void clickGas() {
-    if (hasChildren(R.id.GasList)) {
+    if (hasChildren(R.id.GasList, mActivity.getActivity())) {
       onView(allOf(
           isDescendantOfA(withId(R.id.GasList)),
           withId(1))).perform(click());
@@ -79,7 +79,7 @@ public class ListElementClickTest {
 
   @Test
   public void clickWater() {
-    if (hasChildren(R.id.WaterList)) {
+    if (hasChildren(R.id.WaterList, mActivity.getActivity())) {
       // click on first element of the WaterList
       onView(allOf(
           isDescendantOfA(withId(R.id.WaterList)),
@@ -101,13 +101,5 @@ public class ListElementClickTest {
               isDescendantOfA(withId(R.id.DetailListTitle)))).
           check(matches(withText(R.string.waterUnit)));
     }
-  }
-
-  private boolean hasChildren(int id) {
-    View v = null;
-    try {
-      v = ((ViewGroup)mActivity.getActivity().findViewById(id)).getChildAt(0);
-    } catch (Exception e) { }
-    return v != null;
   }
 }

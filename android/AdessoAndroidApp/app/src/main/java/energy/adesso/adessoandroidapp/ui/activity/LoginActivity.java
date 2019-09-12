@@ -27,7 +27,7 @@ public class LoginActivity extends AdessoActivity {
 
     MainController.loadSharedPreferences(getPreferences(Context.MODE_PRIVATE));
 
-    if (MockController.isLoggedIn()) {
+    if (MainController.isLoggedIn()) {
       startActivity(new Intent(this, MainActivity.class).
           addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK));
     }
@@ -60,7 +60,7 @@ public class LoginActivity extends AdessoActivity {
 
   boolean login(String usernumber, String password) {
     try {
-      MockController.login(usernumber, password);
+      MainController.login(usernumber, password);
       return true;
     } catch (AdessoException e) {
       return false;

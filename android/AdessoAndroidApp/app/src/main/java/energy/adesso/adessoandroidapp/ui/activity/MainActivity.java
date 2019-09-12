@@ -1,6 +1,7 @@
 package energy.adesso.adessoandroidapp.ui.activity;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -35,6 +36,8 @@ import java.util.List;
 
 import energy.adesso.adessoandroidapp.R;
 import energy.adesso.adessoandroidapp.logic.model.exception.AdessoException;
+import energy.adesso.adessoandroidapp.logic.model.exception.CredentialException;
+import energy.adesso.adessoandroidapp.logic.model.exception.NetworkException;
 import energy.adesso.adessoandroidapp.logic.model.identifiable.Meter;
 import energy.adesso.adessoandroidapp.logic.model.Pair;
 import energy.adesso.adessoandroidapp.ui.adapter.MeterAdapter;
@@ -292,6 +295,14 @@ public class MainActivity extends AdessoActivity {
       @Override
       protected List<Meter> doInBackground(Void... voids) {
         try {
+          if (!MainController.isLoggedIn()) {
+            // If we got here and are not logged in then we must be in a test so we have to log in using mock data
+            MainController.setUsePersistence(false);
+            MainController.loadSharedPreferences(a.getPreferences(Context.MODE_PRIVATE));
+            MainController.login(getString(R.string.mock_username), getString(R.string.mock_password));
+            // Please pretend like this doesn't exist
+          }
+
           return MockController.getOverview();
         } catch (AdessoException e) {
           e.printStackTrace();

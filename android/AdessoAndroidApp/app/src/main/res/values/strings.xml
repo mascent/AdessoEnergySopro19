@@ -46,4 +46,6 @@
     <string name="graph_toolbar_title">Verbrauchsentwicklung</string>
     <string name="graph_title">Verbrauch in </string>
     <string name="loading_text">Lade Daten...</string>
+    <string name="mock_username">jd172</string>
+    <string name="mock_password">password</string>
 </resources>
