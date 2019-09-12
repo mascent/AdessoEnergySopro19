@@ -61,7 +61,7 @@ public class MainController {
   public static List<Reading> getReadings(Long meterId) throws NetworkException, CredentialException {
     String request = "/api/meters/" + meterId + "/readings";
     String response = NetworkController.get(request);
-    Type type = new TypeToken<List<Meter>>() {
+    Type type = new TypeToken<List<Reading>>() {
     }.getType();
     return new Gson().fromJson(response, type);
   }
