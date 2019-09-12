@@ -1,14 +1,22 @@
+# Only update if needed
+application.properties
+
+# InteliJ stuff
+.idea
+.idea/
+*.iml
+*.iws
+*.eml
+
 # Eclipse
 .settings
 .settings/
 bin
 
-# vs code
-.vscode
-
 # Runtime files
 *.log
 .lock
+*.lck
 *.tmp
 
 # build directories

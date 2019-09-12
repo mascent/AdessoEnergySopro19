@@ -1,0 +1,18 @@
+pipeline{
+    agent any
+
+    tools{nodejs "node"}
+
+    stages{
+        stage('configureInstall') {
+            steps {
+                sh 'cd web && npm ci'
+            }
+        }
+        stage('test') {
+            steps {
+                sh 'cd web && npm run test:coverage'
+            }
+        }
+    }
+}

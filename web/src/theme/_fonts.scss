@@ -1,0 +1,64 @@
+@import 'theme/colors';
+@import 'theme/spacings';
+
+$fontFamily: 'Nunito', sans-serif;
+
+$font-size-14: 14px;
+$font-size-16: 16px;
+$font-size-18: 18px;
+$font-size-24: 24px;
+$font-size-36: 36px;
+
+%font-small {
+  font-family: $fontFamily;
+  font-size: $font-size-14;
+  line-height: 1.5;
+  color: $color-grey-900;
+  font-weight: 400;
+  margin: 0;
+}
+
+%font-span {
+  font-family: $fontFamily;
+  font-size: $font-size-16;
+  line-height: 1.5;
+  color: $color-grey-900;
+  font-weight: 400;
+  margin: 0;
+}
+
+%font-paragraph {
+  font-family: $fontFamily;
+  font-size: $font-size-16;
+  line-height: 1.5;
+  color: $color-grey-900;
+  font-weight: 400;
+  margin: 0;
+}
+
+%font-section-header {
+  font-family: $fontFamily;
+  font-size: $font-size-18;
+  line-height: 1.5;
+  color: $color-grey-900;
+  font-weight: 600;
+  margin: 0;
+}
+
+%font-sub-title {
+  font-family: $fontFamily;
+  font-size: $font-size-24;
+  line-height: 1.5;
+  color: $color-grey-900;
+  font-weight: 600;
+  margin: 0;
+}
+
+%font-title {
+  font-family: $fontFamily;
+  font-size: $font-size-36;
+  line-height: 1.5;
+  color: $color-grey-900;
+  font-weight: 600;
+  margin: 0;
+}

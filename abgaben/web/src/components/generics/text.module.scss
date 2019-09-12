@@ -1,0 +1,22 @@
+@import 'theme/colors';
+@import 'theme/fonts';
+
+.span {
+  @extend %font-span;
+}
+
+.paragraph {
+  @extend %font-paragraph;
+}
+
+.sectionHeader {
+  @extend %font-section-header;
+}
+
+.subTitle {
+  @extend %font-sub-title;
+}
+
+.title {
+  @extend %font-title;
+}

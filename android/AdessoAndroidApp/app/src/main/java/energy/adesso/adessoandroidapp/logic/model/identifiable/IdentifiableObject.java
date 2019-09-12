@@ -1,6 +1,8 @@
 package energy.adesso.adessoandroidapp.logic.model.identifiable;
 
 
+import android.util.Log;
+
 import androidx.annotation.Nullable;
 
 import org.joda.time.DateTime;
@@ -66,10 +68,13 @@ public abstract class IdentifiableObject extends SerializableObject implements S
   private DateTime parse(String s) {
     if (s == null || s.equals(""))
       return null;
-    else
-      s = s.substring(0, s.length()-4) + "+00:00";
+    s = s.substring(0, s.length()-4) + "+00:00";
+    try {
       return DateTime.parse(s, dateTimeStrategy);
+    } catch (Exception e) {
+      e.printStackTrace();
+      Log.println(Log.INFO, "", s);
+      return DateTime.parse(s.substring(0, s.indexOf('.'))); // TODO: Make this like better n stuff
+    }
   }
-
-
 }

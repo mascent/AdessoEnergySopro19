@@ -1,0 +1,46 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Logo of type no-text matches with snapshot 1`] = `
+<svg
+  class="logo"
+  data-testid="no-text"
+>
+  logo-drop.svg
+</svg>
+`;
+
+exports[`Logo of type text-horizontal matches with snapshot 1`] = `
+<svg
+  class="logo"
+  data-testid="text-horizontal"
+>
+  logo-text-hor.svg
+</svg>
+`;
+
+exports[`Logo of type text-horizontal-stacked matches with snapshot 1`] = `
+<svg
+  class="logo"
+  data-testid="text-horizontal-stacked"
+>
+  logo-text-stacked-hor.svg
+</svg>
+`;
+
+exports[`Logo of type text-vertical matches with snapshot 1`] = `
+<svg
+  class="logo"
+  data-testid="text-vertical"
+>
+  logo-text-ver.svg
+</svg>
+`;
+
+exports[`Logo of type with-bg matches with snapshot 1`] = `
+<svg
+  class="logo"
+  data-testid="with-bg"
+>
+  logo.svg
+</svg>
+`;

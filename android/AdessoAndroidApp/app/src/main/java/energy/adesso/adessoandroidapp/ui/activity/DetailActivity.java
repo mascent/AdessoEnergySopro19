@@ -103,13 +103,14 @@ public class DetailActivity extends AdessoActivity {
     else if (m.getKind().equals(MeterKind.WATER))
       unit = getString(R.string.waterUnit);
 
-    if (readings.size() == 0) {
+    if (readings.size() < 2) {
       Toast.makeText(this, R.string.graph_on_empty_readings, Toast.LENGTH_SHORT).show();
       return;
     }
 
     startActivity(new Intent(this, GraphActivity.class).
         putExtra("readings", readings.toArray()).
+        putExtra("meter", m).
         putExtra("unit", unit));
   }
 
@@ -225,8 +226,8 @@ public class DetailActivity extends AdessoActivity {
         if (e != null) {
           e.printStackTrace();
           Toast.makeText(a, R.string.generic_error_message, Toast.LENGTH_SHORT).show();
-          updateTitleInfo();
         }
+        updateTitleInfo();
         hideLoadingPopup();
       }
     }.execute(s);
