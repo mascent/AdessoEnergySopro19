@@ -48,6 +48,7 @@ public class IssueActivity extends AdessoActivity {
   }
 
   void sendIssueAsync(Issue i) {
+    showLoadingPopup();
     @SuppressLint("StaticFieldLeak") AsyncTask<Issue, Void, AdessoException> execute = new AsyncTask<Issue, Void, AdessoException>() {
       @Override
       protected AdessoException doInBackground(Issue... issues) {
@@ -72,6 +73,7 @@ public class IssueActivity extends AdessoActivity {
               Toast.LENGTH_SHORT).show();
         }
 
+        hideLoadingPopup();
         try {
           a.finish();
         } catch (Throwable t) { }

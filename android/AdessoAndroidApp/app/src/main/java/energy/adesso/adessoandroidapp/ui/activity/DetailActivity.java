@@ -71,35 +71,18 @@ public class DetailActivity extends AdessoActivity {
     builder.setTitle(R.string.new_input_title);
 
     // Set up textbox
-    final EditText input = new EditText(this);
+    LinearLayout l = (LinearLayout) getLayoutInflater().
+        inflate(R.layout.dialog_edit, null);
+    final EditText input = (EditText) l.findViewById(R.id.editTextBox);
+    input.setText(R.string.new_input_messsage);
     input.setInputType(InputType.TYPE_CLASS_TEXT);
-    input.setPadding(24, 24, 24, 24);
-    input.layout(24, 24, 24, 24);
-    builder.setView(input);
+    builder.setView(l);
 
     // Set up events
     builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
       @Override
       public void onClick(DialogInterface dialog, int which) {
-        @SuppressLint("StaticFieldLeak") AsyncTask<String, Void, AdessoException> execute = new AsyncTask<String, Void, AdessoException>() {
-          @Override
-          protected AdessoException doInBackground(String... strs) {
-            for (String newReading : strs) {
-              try {
-                m.createReading(newReading);
-              } catch (AdessoException e) {
-                return e;
-              }
-            }
-            return null;
-          }
-
-          @Override
-          protected void onPostExecute(AdessoException e) {
-            e.printStackTrace();
-            Toast.makeText(a, R.string.generic_error_message, Toast.LENGTH_SHORT).show();
-          }
-        }.execute(input.getText().toString());
+        newEntryAsync(input.getText().toString());
       }
     });
     builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -115,7 +98,6 @@ public class DetailActivity extends AdessoActivity {
   public void onEditClick(View view) {
     AlertDialog.Builder builder = new AlertDialog.Builder(this);
     builder.setTitle(R.string.detail_edit_name_title);
-    //builder.setMessage(R.string.detail_edit_name_text);
 
     // Set up textbox
     LinearLayout l = (LinearLayout) getLayoutInflater().
@@ -308,5 +290,27 @@ public class DetailActivity extends AdessoActivity {
         }
       }
     }.execute(p);
+  }
+
+  void newEntryAsync(String entry) {
+    @SuppressLint("StaticFieldLeak") AsyncTask<String, Void, AdessoException> execute = new AsyncTask<String, Void, AdessoException>() {
+      @Override
+      protected AdessoException doInBackground(String... strs) {
+        for (String newReading : strs) {
+          try {
+            m.createReading(newReading);
+          } catch (AdessoException e) {
+            return e;
+          }
+        }
+        return null;
+      }
+
+      @Override
+      protected void onPostExecute(AdessoException e) {
+        e.printStackTrace();
+        Toast.makeText(a, R.string.generic_error_message, Toast.LENGTH_SHORT).show();
+      }
+    }.execute(entry);
   }
 }
