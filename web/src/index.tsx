@@ -1,4 +1,4 @@
-import React, { StrictMode } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './app';
 import './index.scss';
@@ -11,16 +11,8 @@ config.init({
 });
 
 ReactDOM.render(
-  <StrictMode>
-    <AuthenticationProvider
-    // override={{
-    //   isLoggedIn: true,
-    //   userId: 'kaka',
-    //   isAdmin: true
-    // }}
-    >
-      <App />
-    </AuthenticationProvider>
-  </StrictMode>,
+  <AuthenticationProvider>
+    <App />
+  </AuthenticationProvider>,
   document.getElementById('root')
 );
