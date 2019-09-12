@@ -3,7 +3,7 @@ import { storiesOf } from '@storybook/react';
 import UserDashboard from './user-dashboard';
 import { MetersProvider } from '../providers/meters-provider';
 import { withKnobs, boolean } from '@storybook/addon-knobs';
-import { Meter } from '../typings/provider-data-interfaces';
+import { Meter, Reading } from '../typings/provider-data-interfaces';
 import { buildMeter, buildList, buildReading } from '../utils/fake-builder';
 import { WithRouter } from '../utils/with-router';
 import { AuthenticationProvider } from '../providers/authentication-provider';
