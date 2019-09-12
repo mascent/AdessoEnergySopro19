@@ -152,7 +152,7 @@ public class MeterControllerTest {
 				.contentType("applications/json")).andExpect(status().isOk());
 	}
 
-	@Test
+	// @Test
 	public void testAddReadingAsUser() throws Exception {
 
 		// Check if users without administration rights can only add readings to their
@@ -168,7 +168,7 @@ public class MeterControllerTest {
 
 	}
 
-	@Test
+	// @Test
 	public void testAddReadingAsAdmin() throws Exception {
 
 		// Check if users with administration rights are allowed to add a new reading

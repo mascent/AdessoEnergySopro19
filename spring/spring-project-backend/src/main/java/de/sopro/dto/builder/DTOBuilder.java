@@ -56,11 +56,11 @@ public class DTOBuilder {
 			for (UserMeterAssociation uma : umas) {
 				name = uma.getMeterName();
 				LocalDateTime to = uma.getEndOfAssociation();
-				List<Reading> readings = rRepo.findByMeterAndCreatedAtBetweenOrderByCreatedAtDesc(m, uma.getBeginOfAssociation(),
-						to == null ? LocalDateTime.now() : to);
-				if(readings.size() > 0) {
-				lastReading = readings.get(0);
-				return new MeterDTO(m, user.getPersonId(), name, readingDTO(lastReading));
+				List<Reading> readings = rRepo.findByMeterAndCreatedAtBetweenOrderByCreatedAtDesc(m,
+						uma.getBeginOfAssociation(), to == null ? LocalDateTime.now() : to);
+				if (readings.size() > 0) {
+					lastReading = readings.get(0);
+					return new MeterDTO(m, user.getPersonId(), name, readingDTO(lastReading));
 				}
 				return new MeterDTO(m, user.getPersonId(), name, new ReadingDTO());
 			}
@@ -68,8 +68,7 @@ public class DTOBuilder {
 		}
 
 		// TODO
-		lastReading = rRepo.findByMeterOrderByCreatedAtDesc(m)
-				.get(0);
+		lastReading = rRepo.findByMeterOrderByCreatedAtDesc(m).get(0);
 		return new MeterDTO(m, null, name, readingDTO(lastReading));
 
 	}

@@ -11,10 +11,19 @@ public class UserDTO {
 	private String firstName;
 	private String lastName;
 	private String email;
+	private String password;
+	public String getPassword() {
+		return password;
+	}
+
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
 	private LocalDateTime deletedAt;
 
+	public UserDTO() {
+		
+	}
+	
 	public UserDTO(User u) {
 		this.id = u.getPersonId();
 		this.customerNumber = u.getUsername();

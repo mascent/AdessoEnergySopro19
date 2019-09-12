@@ -8,7 +8,7 @@ public class IssueDTO {
 	private String name;
 	private String email;
 	private String subject;
-	private String  description;
+	private String  message;
 	private Long issuerId;
 	private Boolean isClosed;
 
@@ -17,11 +17,15 @@ public class IssueDTO {
 		this.name = i.getName();
 		this.email = i.getEmail();
 		this.subject = i.getSubject();
-		this.description = i.getDescription();
+		this.message = i.getMessage();
 		this.issuerId = i.getIssuerId();
 		this.isClosed = i.getCloserId() != null;
 	}
 
+	public IssueDTO() {
+		
+	}
+	
 	public Long getId() {
 		return id;
 	}
@@ -38,8 +42,8 @@ public class IssueDTO {
 		return subject;
 	}
 
-	public String getDescription() {
-		return description;
+	public String getMessage() {
+		return message;
 	}
 
 	public Long getIssuerId() {

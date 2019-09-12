@@ -34,19 +34,24 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers(HttpMethod.GET, "/api/login").hasRole(Role.Shared.toString())
 				.antMatchers(HttpMethod.GET, "/api/meters").hasRole(Role.Shared.toString())
 				.antMatchers(HttpMethod.GET, "/api/meters/{\\d+}").hasRole(Role.Shared.toString())
+				.antMatchers(HttpMethod.GET, "/api/users/{\\d+}/meters").hasRole(Role.Shared.toString())
 				.antMatchers(HttpMethod.GET, "/api/meters/{\\d+}/readings").hasRole(Role.Shared.toString())
 				.antMatchers(HttpMethod.POST, "/api/meters/{\\d+}/readings").hasRole(Role.Shared.toString())
-				
-				//Users only 
+
+				// Users only
 				.antMatchers(HttpMethod.GET, "/api/users/me").hasRole(Role.User.toString())
 				.antMatchers(HttpMethod.GET, "/api/users/me/**").hasRole(Role.User.toString())
+				.antMatchers(HttpMethod.GET, "/api/users/me/meters").hasRole(Role.User.toString())
 				.antMatchers(HttpMethod.POST, "/api/picture").hasRole(Role.User.toString())
+				.antMatchers(HttpMethod.POST, "/api/users/me/**").hasRole(Role.User.toString())
 				.antMatchers(HttpMethod.PUT, "/api/meters/{\\d+}").hasRole(Role.User.toString())
 				.antMatchers(HttpMethod.PUT, "/api/users/me/email").hasRole(Role.User.toString())
+				.antMatchers(HttpMethod.PUT, "/api/users/me/**").hasRole(Role.User.toString())
 				.antMatchers(HttpMethod.POST, "/api/issues").hasRole(Role.User.toString())
 
 				.antMatchers(HttpMethod.GET, "/api/**").hasRole(Role.Admin.toString())
 				.antMatchers(HttpMethod.POST, "/api/**").hasRole(Role.Admin.toString())
+				.antMatchers(HttpMethod.POST, "/api/meters").hasRole(Role.Admin.toString())
 				.antMatchers(HttpMethod.PUT, "/api/**").hasRole(Role.Admin.toString())
 				.antMatchers(HttpMethod.PATCH, "/api/**").hasRole(Role.Admin.toString())
 				.antMatchers(HttpMethod.DELETE, "/api/**").hasRole(Role.Admin.toString()).and().csrf().disable()

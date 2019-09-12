@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -81,8 +82,8 @@ public class ReadingController {
 	 */
 	@PutMapping(path = "api/meters/{mid}/readings/{rid}", params = {"value", "rid", "reason"})
 	@CrossOrigin
-	public Boolean updateReading(HttpServletRequest request, @PathVariable Long mid, @RequestParam Long value,
-			@PathVariable Long rid, @RequestParam String reason) {
+	public Boolean updateReading(HttpServletRequest request, @PathVariable Long mid, 
+			@PathVariable Long rid, @RequestBody ReadingDTO readingDTO) {
 		Long changerId = personRepository.findByUsername(request.getUserPrincipal().getName()).orElse(null)
 				.getPersonId();
 
@@ -100,19 +101,12 @@ public class ReadingController {
 			r.update();
 			meterRepository.save(m);
 			readingRepository.save(r);
-			ReadingValue rv = new ReadingValue(r, value, changerId, "Changed");
+			ReadingValue rv = new ReadingValue(r, readingDTO.getValue(), changerId, "Changed");
 			readingValueRepository.save(rv);
 
 		}
 
 		return false;
-	}
-
-	@PutMapping(path = "api/meters/{mid}/readings/{rid}", params = {"readingDTO"})
-	@CrossOrigin
-	public Boolean updateReading(HttpServletRequest request, @PathVariable Long mid,
-			@RequestParam ReadingDTO readingDTO) {
-		return updateReading(request, mid, readingDTO.getValue(), readingDTO.getId(), "TODO CHANGE");
 	}
 
 	/**

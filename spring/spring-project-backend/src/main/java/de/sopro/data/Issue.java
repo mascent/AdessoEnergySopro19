@@ -23,18 +23,18 @@ public class Issue {
 	private String subject;
 
 	@NotNull
-	private String description;
+	private String message;
 
 	private Long closerId;
 
 	@NotNull
 	private Long issuerId;
 
-	public Issue(String name, String email, String subject, String description, Long issuerId) {
+	public Issue(String name, String email, String subject, String message, Long issuerId) {
 		this.name = name;
 		this.email = email;
 		this.subject = subject;
-		this.description = description;
+		this.message = message;
 		this.issuerId = issuerId;
 	}
 
@@ -70,12 +70,12 @@ public class Issue {
 		this.subject = subject;
 	}
 
-	public String getDescription() {
-		return description;
+	public String getMessage() {
+		return message;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public void setMessage(String message) {
+		this.message = message;
 	}
 
 	public Long getCloserId() {

@@ -1,6 +1,5 @@
 package de.sopro.controller;
 
-import java.time.LocalDateTime;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -14,9 +13,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import de.sopro.data.Person;
 import de.sopro.data.Role;
 import de.sopro.data.User;
 import de.sopro.dto.UserDTO;
@@ -25,7 +26,6 @@ import de.sopro.repository.PersonRepository;
 import de.sopro.repository.UserMeterAssociationRepository;
 import de.sopro.repository.UserRepository;
 import de.sopro.util.exception.ResourceNotFoundException;
-import kotlin.NoWhenBranchMatchedException;
 
 /**
  * The user controller contains operations manage all requests belonging to user
@@ -77,41 +77,26 @@ public class UserController {
 	 *                       username for basic-users.
 	 * @param password       The inital password for the new user.
 	 * @return A UserDTO to represent the saved user.
+	 * @throws Exception
 	 */
-	@PostMapping(path = "/api/users", params = { "firstName", "lastName", "eMailAddress", "customerNumber",
-			"password" })
+	@PostMapping("/api/users")
 	@CrossOrigin
-	public UserDTO createUser(@RequestParam String firstName, @RequestParam String lastName,
-			@RequestParam String eMailAddress, @RequestParam String customerNumber, @RequestParam String password) {
+	public UserDTO createUser(@RequestBody UserDTO userDTO) throws Exception {
 
-		if (userRepository.findByUsername(customerNumber) != null
-				|| userRepository.findByEMailAddress(eMailAddress) != null) {
+		if (userRepository.findByUsername(userDTO.getCustomerNumber()).orElse(null) != null
+				|| userRepository.findByEMailAddress(userDTO.getEmail()).orElse(null) != null) {
 			return null;
 		}
 		User u;
 		try {
-			u = userRepository.save(new User(firstName, lastName, eMailAddress, customerNumber,
-					passwordEncoder.encode(password), Role.User));
+			u = userRepository.save(new User(userDTO.getFirstName(), userDTO.getLastName(), userDTO.getEmail(),
+					userDTO.getCustomerNumber(), passwordEncoder.encode(userDTO.getPassword()), Role.User));
 		} catch (Exception e) {
-			return null;
+			throw new Exception();
 		}
 
 		return new UserDTO(u);
 
-	}
-
-	/**
-	 * Create user using a userDTO
-	 * 
-	 * @param userDTO  The userDTO with all information needed.
-	 * @param password the password for the new user.
-	 * @return A UserDTO to represent the saved user.
-	 */
-	@PostMapping(path = "/api/users", params = { "userDTO", "password" })
-	@CrossOrigin
-	public UserDTO createUser(UserDTO userDTO, String password) {
-		return createUser(userDTO.getFirstName(), userDTO.getLastName(), userDTO.getEmail(),
-				userDTO.getCustomerNumber(), password);
 	}
 
 	/**
@@ -135,58 +120,20 @@ public class UserController {
 
 	@PutMapping("/api/users/{uid}")
 	@CrossOrigin
-	public UserDTO updateUser(@PathVariable Long uid, @RequestParam UserDTO userDTO) throws ResourceNotFoundException {
+	public UserDTO updateUser(HttpServletRequest request, @PathVariable Long uid, @RequestBody UserDTO userDTO)
+			throws Exception {
+		Person p = personRepository.findByUsername(request.getUserPrincipal().getName()).orElse(null);
 		User u = userRepository.findById(uid).orElseThrow(() -> new ResourceNotFoundException());
-		u.setEMailAddress(userDTO.getEmail());
-		u.setFirstName(userDTO.getFirstName());
-		u.setLastName(userDTO.getLastName());
+		if (p.getRole().equals(Role.Admin)) {
+			u.setEMailAddress(userDTO.getEmail());
+			u.setFirstName(userDTO.getFirstName());
+			u.setLastName(userDTO.getLastName());
+		} else if (p.getPersonId().equals(u.getPersonId())) {
+			u.setEMailAddress(userDTO.getEmail());
+		} else {
+			throw new Exception();
+		}
 		return new UserDTO(userRepository.save(u));
-	}
-
-	/**
-	 * This method allows an admin to change the surname of an existing user in the
-	 * database.
-	 * 
-	 * @param name The new surname that should be stored in the database entry of
-	 *             the specified user.
-	 * @param uid  The ID of the user whose surname should be changed.
-	 * @return A boolean that shows if the change was successful.
-	 */
-	@PutMapping("/api/users/{uid}/surname")
-	@CrossOrigin
-	public UserDTO updateUserSurname(@RequestParam String object, @RequestParam String surname,
-			@PathVariable Long uid) {
-		User u = userRepository.findById(uid).orElse(null);
-		if (u == null) {
-			return null;
-		}
-		u.setLastName(surname);
-		u.setUpdatedAt(LocalDateTime.now());
-		userRepository.save(u);
-		return new UserDTO(u);
-	}
-
-	/**
-	 * This method allows an admin to change the email address of an existing user
-	 * in the database.
-	 * 
-	 * @param name The new email address that should be saved in the database entry
-	 *             of the specified user.
-	 * @param uid  The ID of the user whose email address should be changed.
-	 * @return A UserDTO representing the updated user or {@code null} when the
-	 *         email-Address is already in the database or no such user exists.
-	 */
-	@PutMapping("/api/users/{uid}/email")
-	@CrossOrigin
-	public UserDTO updateUserEmail(@RequestParam String email, @PathVariable Long uid) {
-		User u = userRepository.findById(uid).orElse(null);
-		if (u == null || userRepository.findByEMailAddress(email) != null) {
-			return null;
-		}
-		u.setEMailAddress(email);
-		u.setUpdatedAt(LocalDateTime.now());
-		userRepository.save(u);
-		return new UserDTO(u);
 	}
 
 	@GetMapping("/api/users/me")
@@ -203,12 +150,13 @@ public class UserController {
 	 * @param email   The new eMail-Address.
 	 * @return A UserDTO representing the updated user or {@code null} when the
 	 *         email-Address is already in the database.
+	 * @throws Exception
 	 */
-	@PutMapping("/api/users/me/email")
+	@PutMapping("/api/users/me")
 	@CrossOrigin
-	public UserDTO updateOwnEmail(HttpServletRequest request, @RequestParam String email) {
+	public UserDTO updateOwnEmail(HttpServletRequest request, @RequestBody UserDTO userDTO) throws Exception {
 		User u = userRepository.findByUsername(request.getUserPrincipal().getName()).orElse(null);
-		return updateUserEmail(email, u.getPersonId());
+		return updateUser(request, u.getPersonId(), userDTO);
 	}
 
 }

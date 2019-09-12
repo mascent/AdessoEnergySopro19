@@ -1,23 +1,31 @@
 package de.sopro.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import de.sopro.data.Meter;
 import de.sopro.data.User;
 import de.sopro.data.UserMeterAssociation;
+import de.sopro.dto.MeterDTO;
+import de.sopro.dto.builder.DTOBuilder;
 import de.sopro.repository.MeterRepository;
 import de.sopro.repository.UserMeterAssociationRepository;
 import de.sopro.repository.UserRepository;
+import de.sopro.util.exception.ResourceNotFoundException;
 
-@Controller
+@RestController
 public class UserMeterAssociationController {
 
 	@Autowired
@@ -28,6 +36,9 @@ public class UserMeterAssociationController {
 
 	@Autowired
 	MeterRepository meterRepository;
+
+	@Autowired
+	DTOBuilder dtoBuilder;
 
 	@PutMapping("api/meters/{mid}/users")
 	@CrossOrigin
@@ -70,7 +81,7 @@ public class UserMeterAssociationController {
 	 *                 with himself.
 	 * @return A boolean that shows if the operation was successful.
 	 */
-	@PutMapping("api/users/{uid}/meters")
+	@PutMapping("/api/users/{uid}/meters")
 	@CrossOrigin
 	public boolean addMetersToUser(@RequestParam List<Long> meterIDs, @PathVariable Long uid) {
 
@@ -84,6 +95,29 @@ public class UserMeterAssociationController {
 
 		}
 		return false;
+
+	}
+
+	@GetMapping("/api/users/{uid}/meters")
+	@CrossOrigin
+	public Iterable<MeterDTO> getUsersMeters(@PathVariable Long uid) throws ResourceNotFoundException {
+
+		User u = userRepository.findById(uid).orElseThrow(() -> new ResourceNotFoundException());
+		return StreamSupport.stream(userMeterAssociationRepository.findAllByUser(u).spliterator(), false).map(uma -> {
+			try {
+				return dtoBuilder.meterDTO(uma.getMeter(), u);
+			} catch (ResourceNotFoundException e) {
+				return null;
+			}
+		}).filter(x -> x != null).collect(Collectors.toList());
+
+	}
+
+	@GetMapping("/api/users/me/meters")
+	@CrossOrigin
+	public Iterable<MeterDTO> getUsersMeters(HttpServletRequest request) throws ResourceNotFoundException {
+		User u = userRepository.findByUsername(request.getUserPrincipal().getName()).orElse(null);
+		return getUsersMeters(u.getPersonId());
 
 	}
 

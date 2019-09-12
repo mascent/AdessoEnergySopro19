@@ -37,11 +37,18 @@ public class UserMeterAssociation {
 		this.meterName = meter.getMeternumber();
 		beginOfAssociation = LocalDateTime.now();
 	}
-	
+
 	public UserMeterAssociation() {
-		
+
 	}
-	
+
+	public UserMeterAssociation(User u, Meter m, String name) {
+		this.user = u;
+		this.meter = m;
+		this.meterName = name;
+		beginOfAssociation = LocalDateTime.now();
+	}
+
 	public String getMeterName() {
 		return meterName;
 	}
@@ -53,8 +60,6 @@ public class UserMeterAssociation {
 	private LocalDateTime beginOfAssociation;
 
 	private LocalDateTime endOfAssociation;
-
-
 
 	public Long getId() {
 		return aId;
