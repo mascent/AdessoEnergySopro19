@@ -305,7 +305,11 @@ public class MainActivity extends AdessoActivity {
       @Override
       protected void onPostExecute(List<Meter> ms) {
         if (ms == null)
-          Toast.makeText(a, "Couldn't get meters!", Toast.LENGTH_LONG).show();
+        {
+          Toast.makeText(a, R.string.generic_error_message, Toast.LENGTH_LONG).show();
+          hideLoadingPopup();
+          a.finish();
+        }
         else {
           a.meters = ms;
           showMeters(meters);

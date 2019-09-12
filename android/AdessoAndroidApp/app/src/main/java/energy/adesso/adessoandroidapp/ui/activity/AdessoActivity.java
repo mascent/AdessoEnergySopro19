@@ -81,6 +81,6 @@ public abstract class AdessoActivity extends AppCompatActivity {
       public void onClick(DialogInterface dialog, int which) {
         dialog.cancel();
       }
-    }, "", "", "");
+    }, getString(R.string.server_choose_text), "", "");
   }
 }
