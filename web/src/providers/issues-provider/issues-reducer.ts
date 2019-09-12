@@ -2,7 +2,7 @@ import { Issue } from '../../typings/provider-data-interfaces';
 import { Action } from './issues-actions';
 
 export interface IssuesState {
-  issues: Issue[];
+  issues: Issue[] | null;
   isLoading: boolean;
   error: Error | null;
 }
@@ -10,7 +10,7 @@ export interface IssuesState {
 export function issuesReducer(state: IssuesState, action: Action): IssuesState {
   switch (action.type) {
     case 'FETCH_ISSUES_REQUEST':
-      return { ...state, isLoading: true, error: null };
+      return { ...state, isLoading: true, error: null, issues: null };
     case 'FETCH_ISSUES_SUCCESS':
       return { ...state, isLoading: false, issues: action.issues };
     case 'FETCH_ISSUES_FAILURE':
@@ -21,11 +21,12 @@ export function issuesReducer(state: IssuesState, action: Action): IssuesState {
       return {
         ...state,
         isLoading: false,
-        issues: [...state.issues, action.issue]
+        issues: state.issues ? [...state.issues, action.issue] : [action.issue]
       };
     case 'ADD_ISSUE_FAILURE':
       return { ...state, isLoading: false, error: action.error };
-    case 'UPDATE_ISSUE_REQUEST':
+    case 'UPDATE_ISSUE_REQUEST': {
+      if (!state.issues) return state;
       return {
         ...state,
         issues: state.issues.map(issue =>
@@ -37,7 +38,9 @@ export function issuesReducer(state: IssuesState, action: Action): IssuesState {
             : issue
         )
       };
-    case 'UPDATE_ISSUE_SUCCESS':
+    }
+    case 'UPDATE_ISSUE_SUCCESS': {
+      if (!state.issues) return state;
       return {
         ...state,
         issues: state.issues.map(issue =>
@@ -48,7 +51,9 @@ export function issuesReducer(state: IssuesState, action: Action): IssuesState {
             : issue
         )
       };
-    case 'UPDATE_ISSUE_FAILURE':
+    }
+    case 'UPDATE_ISSUE_FAILURE': {
+      if (!state.issues) return state;
       return {
         ...state,
         issues: state.issues.map(issue =>
@@ -64,6 +69,7 @@ export function issuesReducer(state: IssuesState, action: Action): IssuesState {
             : issue
         )
       };
+    }
     default:
       return state;
   }

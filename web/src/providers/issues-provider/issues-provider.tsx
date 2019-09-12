@@ -20,7 +20,7 @@ import {
 } from '../../lib/mappers';
 
 interface IssuesContext {
-  issues: Issue[];
+  issues: Issue[] | null;
   isLoading: boolean;
   error: Error | null;
   fetchIssues: () => Promise<boolean>;
@@ -29,7 +29,7 @@ interface IssuesContext {
 }
 
 const initialContext: IssuesState = {
-  issues: [],
+  issues: null,
   isLoading: false,
   error: null
 };
@@ -117,7 +117,7 @@ export const IssuesProvider: React.FC<IssuesProviderProps> = ({
 };
 
 interface IssuesKit {
-  issues: Issue[];
+  issues: Issue[] | null;
   isLoading: boolean;
   error: Error | null;
   addIssue: (meter: Partial<Issue>) => Promise<boolean>;
@@ -133,7 +133,8 @@ export function useIssues(): IssuesKit {
   const { fetchIssues, updateIssue, ...rest } = context;
 
   React.useEffect(() => {
-    if (fetching || rest.isLoading || rest.issues.length !== 0) return;
+    if (fetching || rest.isLoading || rest.error || rest.issues !== null)
+      return;
 
     fetching = true;
     fetchIssues().finally(() => (fetching = false));
@@ -155,10 +156,10 @@ export function useIssue(id: string): IssueKit | null {
 
   const { issues, updateIssue } = context;
 
-  const issue = useMemo(() => issues.find(issue => issue.id === id), [
-    id,
-    issues
-  ]);
+  const issue = useMemo(
+    () => (!issues ? undefined : issues.find(issue => issue.id === id)),
+    [id, issues]
+  );
 
   if (typeof issue === 'undefined') return null;
 

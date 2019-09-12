@@ -20,7 +20,7 @@ import {
 } from '../../lib/mappers';
 
 interface ReadingsContext {
-  readings: Reading[];
+  readings: Reading[] | null;
   isLoading: boolean;
   error: Error | null;
   fetchReadings: (meterId: string) => Promise<boolean>;
@@ -33,7 +33,7 @@ interface ReadingsContext {
 }
 
 const initialContext: ReadingsState = {
-  readings: [],
+  readings: null,
   isLoading: false,
   error: null
 };
@@ -140,7 +140,7 @@ export const ReadingsProvider: React.FC<ReadingsProviderProps> = ({
 };
 
 interface ReadingsKit {
-  readings: Reading[];
+  readings: Reading[] | null;
   isLoading: boolean;
   error: Error | null;
   addReading: (meterId: string, reading: Partial<Reading>) => Promise<boolean>;
@@ -165,7 +165,8 @@ export function useReadings(meterId: string): ReadingsKit {
     if (
       fetching ||
       rest.isLoading ||
-      (rest.readings.length !== 0 && meterId === lastFetched)
+      rest.error ||
+      (rest.readings !== null && meterId === lastFetched)
     )
       return;
 
@@ -190,10 +191,10 @@ export function useReading(id: string): ReadingKit | null {
 
   const { readings, updateReading } = context;
 
-  const reading = useMemo(() => readings.find(reading => reading.id === id), [
-    id,
-    readings
-  ]);
+  const reading = useMemo(
+    () => (!readings ? undefined : readings.find(reading => reading.id === id)),
+    [id, readings]
+  );
 
   if (typeof reading === 'undefined') return null;
 

@@ -10,7 +10,7 @@ export interface UsersState {
 export function usersReducer(state: UsersState, action: Action): UsersState {
   switch (action.type) {
     case 'FETCH_USERS_REQUEST':
-      return { ...state, isLoading: true, error: null };
+      return { ...state, isLoading: true, error: null, users: null };
     case 'FETCH_USERS_SUCCESS':
       return { ...state, isLoading: false, users: action.users };
     case 'FETCH_USERS_FAILURE':

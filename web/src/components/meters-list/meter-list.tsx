@@ -6,7 +6,7 @@ import MeterItem from './meter-item';
 import { Link } from '@reach/router';
 
 interface MeterListProps {
-  meters: Meter[];
+  meters: Meter[] | null;
   hideAdd?: boolean;
 }
 
@@ -22,18 +22,20 @@ const MeterList: React.FC<MeterListProps> = ({ meters, hideAdd }) => {
         )}
       </div>
 
-      <nav className={styles.list}>
-        {meters.map(meter => (
-          <MeterItem
-            key={meter.id}
-            id={meter.id}
-            type={meter.type}
-            meterNumber={meter.meterNumber}
-            date={meter.lastReading.createdAt.toLocaleDateString()}
-            name={meter.name}
-          />
-        ))}
-      </nav>
+      {meters !== null && (
+        <nav className={styles.list}>
+          {meters.map(meter => (
+            <MeterItem
+              key={meter.id}
+              id={meter.id}
+              type={meter.type}
+              meterNumber={meter.meterNumber}
+              date={meter.lastReading.createdAt.toLocaleDateString()}
+              name={meter.name}
+            />
+          ))}
+        </nav>
+      )}
     </div>
   );
 };

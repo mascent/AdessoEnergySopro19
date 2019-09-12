@@ -4,7 +4,7 @@ import { Reading } from '../../typings/provider-data-interfaces';
 import EditIcon from 'mdi-react/EditIcon';
 
 interface ReadingList {
-  readings: Reading[];
+  readings: Reading[] | null;
   canEdit?: boolean;
   onEditClick?: (id: string, value: string) => void;
 }
@@ -14,6 +14,8 @@ const ReadingList: React.FC<ReadingList> = ({
   canEdit,
   onEditClick
 }) => {
+  if (!readings) return null;
+
   return (
     <div className={styles.ofProtection}>
       <table className={styles.table}>

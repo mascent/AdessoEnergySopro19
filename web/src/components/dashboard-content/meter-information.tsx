@@ -22,11 +22,13 @@ const MeterInformation: React.FC<RouteComponentProps<{ id: string }>> = ({
   const { readings, isLoading, addReading, updateReading } = useReadings(
     meter ? meter.meter.id : ''
   );
-  const graphData = useMemo(() => readings.map(r => parseInt(r.value, 10)), [
-    readings
-  ]);
+  const graphData = useMemo(
+    () => (!readings ? [] : readings.map(r => parseInt(r.value, 10))),
+    [readings]
+  );
   const graphLabel = useMemo(
-    () => readings.map(r => r.createdAt.toLocaleDateString()),
+    () =>
+      !readings ? [] : readings.map(r => r.createdAt.toLocaleDateString()),
     [readings]
   );
 

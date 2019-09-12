@@ -5,7 +5,7 @@ import { SubTitle } from '../generics/text';
 import IssueItem from './issue-item';
 
 interface IssueListProps {
-  issues: Issue[];
+  issues: Issue[] | null;
 }
 
 const IssueList: React.FC<IssueListProps> = ({ issues }) => {
@@ -15,16 +15,18 @@ const IssueList: React.FC<IssueListProps> = ({ issues }) => {
         <SubTitle>Offene Tickets</SubTitle>
       </div>
 
-      <nav className={styles.list}>
-        {issues.map(issue => (
-          <IssueItem
-            key={issue.id}
-            id={issue.id}
-            name={issue.name}
-            subject={issue.subject}
-          />
-        ))}
-      </nav>
+      {issues !== null && (
+        <nav className={styles.list}>
+          {issues.map(issue => (
+            <IssueItem
+              key={issue.id}
+              id={issue.id}
+              name={issue.name}
+              subject={issue.subject}
+            />
+          ))}
+        </nav>
+      )}
     </div>
   );
 };

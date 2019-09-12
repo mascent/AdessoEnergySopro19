@@ -20,7 +20,7 @@ import {
 } from '../../lib/mappers';
 
 interface MetersContext {
-  meters: Meter[];
+  meters: Meter[] | null;
   isLoading: boolean;
   error: Error | null;
   fetchMeters: (userId: string) => Promise<boolean>;
@@ -29,7 +29,7 @@ interface MetersContext {
 }
 
 const initialContext: MetersState = {
-  meters: [],
+  meters: null,
   isLoading: false,
   error: null
 };
@@ -117,7 +117,7 @@ export const MetersProvider: React.FC<MetersProviderProps> = ({
 };
 
 interface MetersKit {
-  meters: Meter[];
+  meters: Meter[] | null;
   isLoading: boolean;
   error: Error | null;
   addMeter: (meter: Partial<Meter>) => Promise<boolean>;
@@ -137,7 +137,8 @@ export function useMeters(userId: string): MetersKit {
     if (
       fetching ||
       rest.isLoading ||
-      (rest.meters.length !== 0 && userId === lastFetched)
+      rest.error ||
+      (rest.meters !== null && userId === lastFetched)
     )
       return;
 
@@ -162,10 +163,10 @@ export function useMeter(id: string): MeterKit | null {
 
   const { meters, updateMeter } = context;
 
-  const meter = useMemo(() => meters.find(user => user.id === id), [
-    id,
-    meters
-  ]);
+  const meter = useMemo(
+    () => (!meters ? undefined : meters.find(user => user.id === id)),
+    [id, meters]
+  );
 
   if (typeof meter === 'undefined') return null;
 

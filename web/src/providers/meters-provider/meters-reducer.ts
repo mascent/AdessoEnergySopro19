@@ -2,7 +2,7 @@ import { Meter } from '../../typings/provider-data-interfaces';
 import { Action } from './meters-actions';
 
 export interface MetersState {
-  meters: Meter[];
+  meters: Meter[] | null;
   isLoading: boolean;
   error: Error | null;
 }
@@ -10,7 +10,7 @@ export interface MetersState {
 export function metersReducer(state: MetersState, action: Action): MetersState {
   switch (action.type) {
     case 'FETCH_METERS_REQUEST':
-      return { ...state, isLoading: true, error: null };
+      return { ...state, isLoading: true, error: null, meters: null };
     case 'FETCH_METERS_SUCCESS':
       return { ...state, isLoading: false, meters: action.meters };
     case 'FETCH_METERS_FAILURE':
@@ -21,11 +21,12 @@ export function metersReducer(state: MetersState, action: Action): MetersState {
       return {
         ...state,
         isLoading: false,
-        meters: [...state.meters, action.meter]
+        meters: state.meters ? [...state.meters, action.meter] : [action.meter]
       };
     case 'ADD_METER_FAILURE':
       return { ...state, isLoading: false, error: action.error };
-    case 'UPDATE_METER_REQUEST':
+    case 'UPDATE_METER_REQUEST': {
+      if (!state.meters) return state;
       return {
         ...state,
         meters: state.meters.map(meter =>
@@ -37,7 +38,9 @@ export function metersReducer(state: MetersState, action: Action): MetersState {
             : meter
         )
       };
-    case 'UPDATE_METER_SUCCESS':
+    }
+    case 'UPDATE_METER_SUCCESS': {
+      if (!state.meters) return state;
       return {
         ...state,
         meters: state.meters.map(meter =>
@@ -48,7 +51,9 @@ export function metersReducer(state: MetersState, action: Action): MetersState {
             : meter
         )
       };
-    case 'UPDATE_METER_FAILURE':
+    }
+    case 'UPDATE_METER_FAILURE': {
+      if (!state.meters) return state;
       return {
         ...state,
         meters: state.meters.map(meter =>
@@ -64,6 +69,7 @@ export function metersReducer(state: MetersState, action: Action): MetersState {
             : meter
         )
       };
+    }
     default:
       return state;
   }
