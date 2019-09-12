@@ -3,8 +3,10 @@
 @import 'theme/fonts';
 
 .container {
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  width: 100%;
   max-width: $spacing-384;
   padding-right: $spacing-24;
   border-right: 1px solid $color-blue-900;
