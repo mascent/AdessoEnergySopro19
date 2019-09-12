@@ -210,7 +210,7 @@ public class DetailActivity extends AdessoActivity {
       protected AdessoException doInBackground(String... strs) {
         for (String s : strs) {
           try {
-            m.setName(s);
+            m.setName(s); // TODO: This doesn't return
           } catch (AdessoException e) {
             return e;
           }
