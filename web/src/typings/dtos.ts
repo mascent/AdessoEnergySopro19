@@ -60,3 +60,19 @@ export interface IssueDTO {
   updatedAt: string | null;
   deletedAt: string | null;
 }
+
+export interface NewUser {
+  customerNumber: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+}
+
+export interface NewMeter {
+  initialValue: string;
+  ownerId: string;
+  meterNumber: string;
+  name: string;
+  type: 'water' | 'electricity' | 'gas';
+}

@@ -1,5 +1,5 @@
 import AdessoEnergyApiComponent from './abstract-api-component';
-import { UserDTO } from '../../typings/dtos';
+import { UserDTO, NewUser } from '../../typings/dtos';
 
 class UsersComponent extends AdessoEnergyApiComponent {
   public async getAllUsers(): Promise<UserDTO[]> {
@@ -12,7 +12,7 @@ class UsersComponent extends AdessoEnergyApiComponent {
     return await result.json();
   }
 
-  public async createNewUser(user: Partial<UserDTO>): Promise<UserDTO> {
+  public async createNewUser(user: NewUser): Promise<UserDTO> {
     const result = await this.post('/api/users', user);
 
     if (!result.ok) {

@@ -18,13 +18,14 @@ import {
   mapMeterDtoToMeter,
   mapInternalMeterToMeterDTO
 } from '../../lib/mappers';
+import { NewMeter } from '../../typings/dtos';
 
 interface MetersContext {
   meters: Meter[] | null;
   isLoading: boolean;
   error: Error | null;
   fetchMeters: (userId: string) => Promise<boolean>;
-  addMeter: (meter: Partial<Meter>) => Promise<boolean>;
+  addMeter: (meter: NewMeter) => Promise<boolean>;
   updateMeter: (id: string, update: Partial<Meter>) => Promise<boolean>;
 }
 
@@ -63,14 +64,12 @@ export const MetersProvider: React.FC<MetersProviderProps> = ({
     }
   }, []);
 
-  const addMeter = useCallback(async (meter: Partial<Meter>) => {
+  const addMeter = useCallback(async (meter: NewMeter) => {
     try {
       Logger.logBreadcrumb('info', 'meters-context', 'Adding meter');
       dispatch(addMeterRequest());
 
-      const res = await meters.createNewMeter(
-        mapInternalMeterToMeterDTO(meter)
-      );
+      const res = await meters.createNewMeter(meter);
       Logger.logBreadcrumb('info', 'meters-context', 'Added meter');
       dispatch(addMeterSuccess(mapMeterDtoToMeter(res)));
       return true;
@@ -120,7 +119,7 @@ interface MetersKit {
   meters: Meter[] | null;
   isLoading: boolean;
   error: Error | null;
-  addMeter: (meter: Partial<Meter>) => Promise<boolean>;
+  addMeter: (meter: NewMeter) => Promise<boolean>;
 }
 
 let fetching = false;

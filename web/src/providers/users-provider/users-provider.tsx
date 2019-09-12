@@ -15,13 +15,14 @@ import {
 } from './users-actions';
 import { users } from '../../services/ad-api';
 import { mapUserDtoToUser, mapInternalUserToUserDTO } from '../../lib/mappers';
+import { NewUser } from '../../typings/dtos';
 
 interface UsersContext {
   users: User[] | null;
   isLoading: boolean;
   error: Error | null;
   fetchUsers: () => Promise<boolean>;
-  addUser: (user: Partial<User>) => Promise<boolean>;
+  addUser: (user: NewUser) => Promise<boolean>;
   updateUser: (id: string, update: Partial<User>) => Promise<boolean>;
 }
 
@@ -60,12 +61,12 @@ export const UsersProvider: React.FC<UsersProviderProps> = ({
     }
   }, []);
 
-  const addUser = useCallback(async (user: Partial<User>) => {
+  const addUser = useCallback(async (user: NewUser) => {
     try {
       Logger.logBreadcrumb('info', 'users-context', 'Adding user');
       dispatch(addUserRequest());
 
-      const result = await users.createNewUser(mapInternalUserToUserDTO(user));
+      const result = await users.createNewUser(user);
       Logger.logBreadcrumb('info', 'users-context', 'Added user');
       dispatch(addUserSuccess(mapUserDtoToUser(result)));
       return true;
@@ -82,7 +83,8 @@ export const UsersProvider: React.FC<UsersProviderProps> = ({
       Logger.logBreadcrumb('info', 'users-context', 'Updating user');
       dispatch(updateUserRequest(id));
 
-      const result = await users.createNewUser(
+      const result = await users.updateUser(
+        id,
         mapInternalUserToUserDTO(update)
       );
       Logger.logBreadcrumb('info', 'users-context', 'Updated user');
@@ -111,7 +113,7 @@ interface UsersKit {
   users: User[] | null;
   isLoading: boolean;
   error: Error | null;
-  addUser: (user: Partial<User>) => Promise<boolean>;
+  addUser: (user: NewUser) => Promise<boolean>;
 }
 
 let fetching = false;

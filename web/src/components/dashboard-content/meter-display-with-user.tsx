@@ -23,10 +23,14 @@ const MeterDisplayWithUser: React.FC<
     meterNumber: string,
     initialValue: string
   ): void {
+    if (!userId || userId === '') return;
+
     addMeter({
       type: meterType,
       name,
-      meterNumber
+      meterNumber,
+      initialValue,
+      ownerId: userId
     }).then(success => {
       if (success) {
         showSnackbar('success', 'Zähler wurde erstellt');

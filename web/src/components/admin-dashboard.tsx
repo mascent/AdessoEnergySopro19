@@ -14,17 +14,18 @@ const AdminDashboard: React.FC = () => {
   const showSnackbar = useSnackBar();
 
   function handleAddUser(
-    customerId: string,
+    customerNumber: string,
     firstName: string,
     lastName: string,
     password: string,
     email: string
   ) {
-    // how do we get the pw in there?
-    addUser({ customerId, firstName, lastName, email }).then(success => {
-      if (success) showSnackbar('success', 'Kunde erstellt');
-      else showSnackbar('error', 'Kunde konnte nicht erstellt werden');
-    });
+    addUser({ customerNumber, firstName, lastName, email, password }).then(
+      success => {
+        if (success) showSnackbar('success', 'Kunde erstellt');
+        else showSnackbar('error', 'Kunde konnte nicht erstellt werden');
+      }
+    );
   }
 
   if (!users) return null;

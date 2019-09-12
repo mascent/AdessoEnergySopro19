@@ -1,5 +1,5 @@
 import AdessoEnergyApiComponent from './abstract-api-component';
-import { MeterDTO } from '../../typings/dtos';
+import { MeterDTO, NewMeter } from '../../typings/dtos';
 
 class MetersComponent extends AdessoEnergyApiComponent {
   public async getMetersForUser(id: string): Promise<MeterDTO[]> {
@@ -12,7 +12,7 @@ class MetersComponent extends AdessoEnergyApiComponent {
     return await result.json();
   }
 
-  public async createNewMeter(meter: Partial<MeterDTO>): Promise<MeterDTO> {
+  public async createNewMeter(meter: NewMeter): Promise<MeterDTO> {
     const result = await this.post('/api/meters', meter);
 
     if (!result.ok) {
