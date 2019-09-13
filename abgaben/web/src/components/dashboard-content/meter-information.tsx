@@ -146,6 +146,7 @@ const MeterInformation: React.FC<RouteComponentProps<{ id: string }>> = ({
           )}
           {dataView === 'table' && (
             <ReadingList
+              unit={meter.meter.type === 'Electricity' ? 'kWh' : 'm³'}
               readings={readings}
               canEdit={isAdmin && !showAddReading}
               onEditClick={(id, init) => {
