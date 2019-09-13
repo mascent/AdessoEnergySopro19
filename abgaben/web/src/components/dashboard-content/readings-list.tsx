@@ -7,12 +7,14 @@ interface ReadingList {
   readings: Reading[] | null;
   canEdit?: boolean;
   onEditClick?: (id: string, value: string) => void;
+  unit: 'kWh' | 'm³';
 }
 
 const ReadingList: React.FC<ReadingList> = ({
   readings,
   canEdit,
-  onEditClick
+  onEditClick,
+  unit
 }) => {
   if (!readings) return null;
 
@@ -22,7 +24,7 @@ const ReadingList: React.FC<ReadingList> = ({
         <thead>
           <tr>
             <th className={styles.headText}>Erfasst am</th>
-            <th className={styles.headText}>Wert in kWz</th>
+            <th className={styles.headText}>Wert in {unit}</th>
             {canEdit && <th></th>}
           </tr>
         </thead>
