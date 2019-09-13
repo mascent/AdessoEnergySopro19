@@ -11,7 +11,6 @@ storiesOf('Dashboard Content | ReadingList', module)
   .addDecorator(withKnobs)
   .add('default', () => (
     <ReadingList
-      unit="kWh"
       readings={readings}
       canEdit={boolean('Can edit', true)}
       onEditClick={action('Editing')}
