@@ -184,12 +184,14 @@ public class MainActivity extends AdessoActivity {
       @Override
       protected void onPostExecute(Pair<Meter, String> res) {
         if (res == null || res.first == null || res.second == null) {
-          Toast.makeText(a, R.string.generic_error_message, Toast.LENGTH_SHORT).show();
           hideLoadingPopup();
+          Toast.makeText(a, R.string.generic_error_message,
+                  Toast.LENGTH_SHORT).show();
           return;
         }
 
-        LinearLayout l = (LinearLayout) getLayoutInflater().inflate(R.layout.dialog_reading_check, null);
+        LinearLayout l = (LinearLayout) getLayoutInflater().inflate(R.layout.dialog_reading_check,
+                null);
         ((TextView) l.findViewById(R.id.number)).setText(res.first.getMeterNumber());
         ((TextView) l.findViewById(R.id.usage)).setText(res.second);
 
