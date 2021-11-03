@@ -69,7 +69,7 @@
     "typescript": "3.5.3",
     "uniqid": "^5.0.3",
     "use-input-validation": "^1.0.1",
-    "validator": "^11.1.0"
+    "validator": "^13.7.0"
   },
   "devDependencies": {
     "@storybook/addon-a11y": "^5.1.11",
